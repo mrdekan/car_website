@@ -16,7 +16,7 @@ namespace car_website.Data
                 {
                     _context.Cars.AddRange(new List<Car>()
                     {
-                        new Car()
+                        /*new Car()
                         {
                             Mark="Chrysler",
                             Model="300"
@@ -35,7 +35,7 @@ namespace car_website.Data
                         {
                             Mark="Chrysler",
                             Model="200"
-                        },
+                        },*/
                     });
                     _context.SaveChanges();
                 }
