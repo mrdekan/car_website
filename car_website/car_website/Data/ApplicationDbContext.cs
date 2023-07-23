@@ -1,15 +1,17 @@
 ﻿using car_website.Models;
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 
 namespace car_website.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
+        private readonly IMongoDatabase _database;
 
+        public ApplicationDbContext(IMongoDatabase database)
+        {
+            _database = database;
         }
-        public DbSet<Car> Cars { get; set; }
-        public DbSet<User> Users { get; set; }
+
+        public IMongoCollection<Car> Cars => _database.GetCollection<Car>("Cars");
     }
 }

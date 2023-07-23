@@ -58,6 +58,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.9, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.20.0, )"
             }
           },
           "imports": [

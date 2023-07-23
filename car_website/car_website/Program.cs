@@ -1,19 +1,26 @@
-using car_website.Data;
+﻿using car_website.Data;
+using car_website.Interfaces;
+using car_website.Repository;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddSingleton<IMongoClient>(sp => new MongoClient(builder.Configuration.GetConnectionString("MongoDB")));
+builder.Services.AddScoped<IMongoDatabase>(sp =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    var client = sp.GetService<IMongoClient>();
+    if (client == null)
+    {
+        throw new Exception("IMongoClient is not registered.");
+    }
+    return client.GetDatabase(builder.Configuration.GetConnectionString("DBName"));
 });
+builder.Services.AddScoped<ICarRepository, CarRepository>();
+builder.Services.AddScoped<ApplicationDbContext>();
 var app = builder.Build();
-if (args.Length == 1 && args[0].ToLower() == "seeddata")
-{
-    Seed.SeedData(app);
-}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

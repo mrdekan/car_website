@@ -1,14 +1,18 @@
 ﻿using car_website.Data.Enum;
-using System.ComponentModel.DataAnnotations;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace car_website.Models
 {
     public class Car
     {
-        [Key]
-        public int Id { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public ObjectId Id { get; set; }
         public uint Price { get; set; }
-        public Brand CarBrand { get; set; }
+        public string[] PhotosURL { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
         public Transmission CarTransmission { get; set; }
         public TypeBody Body { get; set; }
         public TypeFuel Fuel { get; set; }

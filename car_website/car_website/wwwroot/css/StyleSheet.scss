@@ -1,0 +1,10 @@
+﻿@import "nullstyle.scss";
+.wrapper {
+    margin: auto;
+    width: 50%;
+    .car-container{
+        img{
+            width: 250px;
+        }
+    }
+}

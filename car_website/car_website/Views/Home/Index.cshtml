@@ -1,6 +1,18 @@
-﻿@{
+﻿@model IEnumerable<Car>
+@{
     ViewData["Title"] = "Home Page";
 }
+<div class="wrapper">
+    @foreach(var car in Model)
+    {
+        <div class="car-container">
+            <img alt="photo" src="@car.PhotosURL[0]"/>
+            <a href="#" class="car-container-title">@car.Brand @car.Model</a>
+        </div>
+    }
+</div>
+
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>

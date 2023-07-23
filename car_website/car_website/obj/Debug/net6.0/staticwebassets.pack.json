@@ -5,6 +5,22 @@
       "PackagePath": "staticwebassets\\car_website.bundle.scp.css"
     },
     {
+      "Id": "F:\\code\\ASP.NET Core\\car_website\\car_website\\car_website\\wwwroot\\css\\StyleSheet.css",
+      "PackagePath": "staticwebassets\\css\\StyleSheet.css"
+    },
+    {
+      "Id": "F:\\code\\ASP.NET Core\\car_website\\car_website\\car_website\\wwwroot\\css\\StyleSheet.min.css",
+      "PackagePath": "staticwebassets\\css\\StyleSheet.min.css"
+    },
+    {
+      "Id": "F:\\code\\ASP.NET Core\\car_website\\car_website\\car_website\\wwwroot\\css\\StyleSheet.scss",
+      "PackagePath": "staticwebassets\\css\\StyleSheet.scss"
+    },
+    {
+      "Id": "F:\\code\\ASP.NET Core\\car_website\\car_website\\car_website\\wwwroot\\css\\nullstyle.scss",
+      "PackagePath": "staticwebassets\\css\\nullstyle.scss"
+    },
+    {
       "Id": "F:\\code\\ASP.NET Core\\car_website\\car_website\\car_website\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

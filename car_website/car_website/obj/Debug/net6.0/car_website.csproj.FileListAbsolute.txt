@@ -85,3 +85,16 @@ F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\runtim
 F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 F:\code\ASP.NET Core\car_website\car_website\car_website\obj\Debug\net6.0\car_website.csproj.CopyComplete
+F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\AWSSDK.Core.dll
+F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\AWSSDK.SecurityToken.dll
+F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\DnsClient.dll
+F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\MongoDB.Bson.dll
+F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\MongoDB.Driver.dll
+F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\MongoDB.Driver.Core.dll
+F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\MongoDB.Libmongocrypt.dll
+F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\SharpCompress.dll
+F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\Snappier.dll
+F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\ZstdSharp.dll
+F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\runtimes\linux\native\libmongocrypt.so
+F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\runtimes\osx\native\libmongocrypt.dylib
+F:\code\ASP.NET Core\car_website\car_website\car_website\bin\Debug\net6.0\runtimes\win\native\mongocrypt.dll

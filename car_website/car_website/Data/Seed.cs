@@ -1,10 +1,8 @@
-﻿using car_website.Models;
-
-namespace car_website.Data
+﻿namespace car_website.Data
 {
     public class Seed
     {
-        public static void SeedData(IApplicationBuilder applicationBuilder)
+        /*public static void SeedData(IApplicationBuilder applicationBuilder)
         {
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
@@ -35,11 +33,11 @@ namespace car_website.Data
                         {
                             Mark="Chrysler",
                             Model="200"
-                        },*/
+                        },
                     });
                     _context.SaveChanges();
                 }
             }
-        }
+        }*/
     }
 }
