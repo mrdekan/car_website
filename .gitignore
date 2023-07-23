@@ -4,4 +4,4 @@
 # Ignore all files in the specified folder
 /car_website/car_website/bin/*
 #vs folder
-/car_website/vs/*
+/car_website/.vs/*
