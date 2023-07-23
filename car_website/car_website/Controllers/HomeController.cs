@@ -32,7 +32,7 @@ namespace car_website.Controllers
                 Driveline = TypeDriveline.AWD,
                 CarColor = Color.Grey,
                 Year = 2017,
-                City = "Chernihiv",
+                Description = "Lorem ipsum",
                 EngineCapacity = 3.6f
             };
             cars.Add(chrysler);
@@ -40,7 +40,8 @@ namespace car_website.Controllers
             cars.Add(chrysler);
             cars.Add(chrysler);
             cars.Add(chrysler);
-            //_carRepository.Add(chrysler);
+            //Uncomment to add new car on launch
+            //await _carRepository.Add(chrysler);
             var carsList = await _carRepository.GetAll();
             return View(carsList);
         }

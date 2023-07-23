@@ -19,9 +19,10 @@ namespace car_website.Models
         public TypeDriveline Driveline { get; set; }
         public Color CarColor { get; set; }
         public uint Year { get; set; }
-        public string City { get; set; }
+        public string Description { get; set; }
         public float EngineCapacity { get; set; }
-
+        public string VIN { get; set; }
+        public CarOptions[] Options { get; set; }
         //public string Mark { get; set; }
     }
 }
