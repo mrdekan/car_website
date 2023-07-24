@@ -1,9 +1,19 @@
-﻿@model IEnumerable<Car>
+﻿@model IEnumerable<string>
 @{
     ViewData["Title"] = "Home Page";
 }
 <div class="wrapper">
-    <button id="refresh_cars">Apply</button>
+    <select name="brand-select" id="brand-select">
+        <option value="Any">Усі</option>
+        @foreach(var str in Model)
+        {
+            <option value=@str>@str</option>
+        }
+    </select>
+    <select name="model-select" id="model-select">
+        <option value="Any">Усі</option>
+    </select>
+    <button id="refresh_cars">Пошук</button>
     <div id="carList"></div>
 </div>
 

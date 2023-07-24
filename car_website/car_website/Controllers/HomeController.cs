@@ -14,10 +14,12 @@ namespace car_website.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ICarRepository _carRepository;
         private readonly CurrencyUpdater _currencyUpdater;
-        public HomeController(ILogger<HomeController> logger, ICarRepository carRepository, CurrencyUpdater currencyUpdater)
+        private readonly IBrandRepository _brandRepository;
+        public HomeController(ILogger<HomeController> logger, ICarRepository carRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater)
         {
             _logger = logger;
             _carRepository = carRepository;
+            _brandRepository = brandRepository;
             _currencyUpdater = currencyUpdater;
         }
 
@@ -25,18 +27,18 @@ namespace car_website.Controllers
         {
             Car chrysler = new Car()
             {
-                Price = 17000,
-                PhotosURL = new string[] { "https://cdn2.riastatic.com/photosnew/auto/photo/chrysler_300-s__479844882hd.webp" },
+                Price = 8150,
+                PhotosURL = new string[] { "https://cdn2.riastatic.com/photosnew/auto/photo/chrysler_300-c__506304512hd.webp" },
                 Brand = "Chrysler",
-                Model = "300S",
+                Model = "300",
                 CarTransmission = Transmission.Automatic,
                 Body = TypeBody.Sedan,
-                Fuel = TypeFuel.Gasoline,
-                Driveline = TypeDriveline.AWD,
-                CarColor = Color.Grey,
-                Year = 2017,
+                Fuel = TypeFuel.GasAndGasoline,
+                Driveline = TypeDriveline.Rear,
+                CarColor = Color.Black,
+                Year = 2007,
                 Description = "Lorem ipsum",
-                EngineCapacity = 3.6f
+                EngineCapacity = 2.74f
             };
             Car polestar = new Car()
             {
@@ -54,15 +56,19 @@ namespace car_website.Controllers
                 EngineCapacity = 2.0f
             };
             //Uncomment to add new car on launch
-            //await _carRepository.Add(polestar);
-            return View();
+            //await _carRepository.Add(chrysler);
+            Brand pol = new Brand();
+            pol.Name = "Polestar";
+            pol.Models = new string[] { "1", "2", "Other" };
+            //await _brandRepository.Add(pol);
+            return View(await _brandRepository.GetAll());
         }
         public async Task<ActionResult<IEnumerable<Car>>> GetCars([FromBody] CarFilterModel filter, int page = 1, int perPage = 10)
         {
             IEnumerable<Car> filteredCars = await _carRepository.GetAll();
-            if (!filter.Brand.IsNullOrEmpty())
+            if (!filter.Brand.IsNullOrEmpty() && filter.Brand != "Any")
                 filteredCars = filteredCars.Where(car => car.Brand == filter.Brand);
-            if (!filter.Model.IsNullOrEmpty())
+            if (!filter.Model.IsNullOrEmpty() && filter.Model != "Any")
                 filteredCars = filteredCars.Where(car => car.Model == filter.Model);
             if (filter.Body != 0)
                 filteredCars = filteredCars.Where(car => car.Body == filter.Body);
@@ -90,6 +96,12 @@ namespace car_website.Controllers
             filteredCars = filteredCars.Skip(skip).Take(perPage);
             var carsRes = filteredCars.Select(car => new CarViewModel(car, _currencyUpdater)).ToList();
             return Ok(new { Cars = carsRes });
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<string>>> GetModels(string brand)
+        {
+            var models = await _brandRepository.GetByName(brand);
+            return Ok(new { Models = models.Models });
         }
         public IActionResult Privacy()
         {

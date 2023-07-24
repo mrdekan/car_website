@@ -20,6 +20,7 @@ builder.Services.AddScoped<IMongoDatabase>(sp =>
     return client.GetDatabase(builder.Configuration.GetConnectionString("DBName"));
 });
 builder.Services.AddScoped<ICarRepository, CarRepository>();
+builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddSingleton<CurrencyUpdater>();
 builder.Services.AddHostedService<CurrencyUpdateService>();
 builder.Services.AddScoped<ApplicationDbContext>();

@@ -18,5 +18,9 @@ namespace car_website.Controllers
             var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
             return View(car);
         }
+        public ActionResult Create()
+        {
+            return View();
+        }
     }
 }

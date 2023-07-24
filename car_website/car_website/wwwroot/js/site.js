@@ -1,21 +1,39 @@
 ﻿const apply_button = document.getElementById("refresh_cars");
-
+const brand_select = document.getElementById("brand-select");
+const model_select = document.getElementById("model-select");
 
 
 apply_button.onclick = () => applyFilter();
+brand_select.addEventListener('change', function () {
+    if (brand_select.value == "Any")
+        model_select.innerHTML = '<option value="Any">Усі</option>';
+    else
+        getModelsOfMark();
+});
 
 
-
+//getModelsOfMark();
 updateCars();
 
 
 
 //Ajax requests
+function getModelsOfMark() {
+    fetch(`/home/GetModels?brand=${brand_select.value}`)
+        .then(response => response.json())
+        .then(data => {
+            model_select.innerHTML = '<option value="Any">Усі</option>';
+            data.models.forEach(model => {
+                model_select.innerHTML += `<option value=${model}>${model}</option>`;
+            });
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
 function applyFilter() {
     const filters = {
         body: 0,
-        brand: "",
-        model: "",
+        brand: brand_select.value,
+        model: model_select.value,
         minYear: 0,
         maxYear: 0,
         minPrice: 0,
@@ -52,7 +70,7 @@ function applyFilter() {
                 carList.innerHTML += block;
             });
         })
-        .catch(error => console.error("Произошла ошибка при получении данных:", error));
+        .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function updateCars() {
     const filters = {
@@ -95,5 +113,5 @@ function updateCars() {
                 carList.innerHTML += block;
             });
         })
-        .catch(error => console.error("Произошла ошибка при получении данных:", error));
+        .catch(error => console.error("An error occurred while retrieving data:", error));
 }

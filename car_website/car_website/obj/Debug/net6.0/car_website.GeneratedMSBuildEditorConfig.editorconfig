@@ -16,6 +16,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = F:\code\ASP.NET Core\car_website\car_website\car_website
 build_property._RazorSourceGeneratorDebug = 
 
+[F:/code/ASP.NET Core/car_website/car_website/car_website/Views/Car/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FyXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [F:/code/ASP.NET Core/car_website/car_website/car_website/Views/Car/Detail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FyXERldGFpbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,13 @@
+﻿@using car_website.ViewModels;
+@model CreateCarViewModel
+
+<div class="create-wrapper">
+    <form method="post" asp-action="Create" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="Brand">Name</label>
+            <input asp-for="Brand" class="form-control" placeholder="Enter title">
+            <span asp-validation-for="Brand" class="text-danger"></span>
+        </div>
+        <button type="submit" class="sell-button">Опублікувати оголошення</button>
+    </form>
+</div>
