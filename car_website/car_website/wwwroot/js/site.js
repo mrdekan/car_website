@@ -1,7 +1,9 @@
 ﻿const apply_button = document.getElementById("refresh_cars");
 const brand_select = document.getElementById("brand-select");
 const model_select = document.getElementById("model-select");
-
+const body_Type_select = document.getElementById("bodyType_select");
+const year_min_select = document.getElementById("year_min-select");
+const year_max_select = document.getElementById("year_max-select");
 
 apply_button.onclick = () => applyFilter();
 brand_select.addEventListener('change', function () {
@@ -31,11 +33,11 @@ function getModelsOfMark() {
 }
 function applyFilter() {
     const filters = {
-        body: 0,
+        body: Number(body_Type_select.value),
         brand: brand_select.value,
         model: model_select.value,
-        minYear: 0,
-        maxYear: 0,
+        minYear: Number(year_min_select.value),
+        maxYear: Number(year_max_select.value),
         minPrice: 0,
         maxPrice: 0,
         carTransmission: 0,
@@ -44,7 +46,6 @@ function applyFilter() {
         minEngineCapacity: 0,
         maxEngineCapacity: 0
     };
-
     fetch(`/home/GetCars`, {
         method: "POST",
         headers: {
