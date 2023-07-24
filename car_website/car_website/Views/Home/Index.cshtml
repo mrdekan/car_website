@@ -4,6 +4,20 @@
 }
 <div class="wrapper">
     <div class="filters">
+        <label>Тип кузова</label>
+        <select name="bodyType_select" id="bodyType_select">
+            <option value="0">Усі</option>
+            <option value="1">Седан</option>
+            <option value="2">Позашляховик</option>
+            <option value="3">Мінівен</option>
+            <option value="4">Хетчбек</option>
+            <option value="5">Універсал</option>
+            <option value="6">Купе</option>
+            <option value="7">Кабріолет</option>
+            <option value="8">Пікап</option>
+            <option value="9">Ліфтбек</option>
+            <option value="10">Фастбек</option>
+        </select>
         <label>Марка</label>
         <select name="brand-select" id="brand-select">
             <option value="Any">Усі</option>
@@ -16,6 +30,28 @@
         <select name="model-select" id="model-select">
             <option value="Any">Усі</option>
         </select>
+        <label>Рік</label>
+        <div class="year_select">
+            <select name="year_min-select" id="year_min-select">
+                <option value="0">Будь-який</option>
+                @for (int i = DateTime.Now.Year; i >= 1900; i--)
+                {
+                    <option value=@i>@i</option>
+                }
+            </select>
+            <select name="year_max-select" id="year_max-select">
+                <option value="0">Будь-який</option>
+                @for (int i = DateTime.Now.Year; i >= 1900; i--)
+                {
+                    <option value=@i>@i</option>
+                }
+            </select>
+        </div>
+        <label>Ціна ($)</label>
+        <div class="price_input">
+            <input type="number" maxlength="10" id="price_max-input" />
+            <input type="number" maxlength="10" id="price_max-input" />
+        </div>
         <button id="refresh_cars">Пошук</button>
     </div>
     <div id="carList" class="carList"></div>
