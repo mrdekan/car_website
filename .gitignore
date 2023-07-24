@@ -5,3 +5,6 @@
 /car_website/car_website/bin/*
 #vs folder
 /car_website/.vs/*
+#obj folder
+/car_website/car_website/obj/*
+*.dll
