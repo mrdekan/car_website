@@ -1,13 +1,32 @@
-﻿@using car_website.ViewModels;
-@model CreateCarViewModel
+﻿@model CarCreationPageViewModel
+@using car_website.ViewModels;
 
 <div class="create-wrapper">
     <form method="post" asp-action="Create" enctype="multipart/form-data">
         <div class="form-group">
-            <label asp-for="Brand">Name</label>
-            <input asp-for="Brand" class="form-control" placeholder="Enter title">
-            <span asp-validation-for="Brand" class="text-danger"></span>
+            <label asp-for="CreateCarViewModel.Photo1">Image</label>
+            <input asp-for="CreateCarViewModel.Photo1" type="file" class="form-control" placeholder="Select an image">
+            <span asp-validation-for="CreateCarViewModel.Photo1" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CreateCarViewModel.Brand">Brand</label>
+            <select asp-for="CreateCarViewModel.Brand" id="brand-select">
+                <option value="Any">Не обрано</option>
+                @foreach (var str in Model.CarBrands)
+                {
+                    <option value=@str>@str</option>
+                }
+            </select>
+            <span asp-validation-for="CreateCarViewModel.Brand" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CreateCarViewModel.Model">Model</label>
+            <select asp-for="CreateCarViewModel.Model" id="model-select">
+                <option value="Any">Не обрано</option>
+            </select>
+            <span asp-validation-for="CreateCarViewModel.Model" class="text-danger"></span>
         </div>
         <button type="submit" class="sell-button">Опублікувати оголошення</button>
     </form>
 </div>
+<script src="~/js/creationCarPage.js" asp-append-version="true"></script>

@@ -4,6 +4,7 @@
 }
 <div class="wrapper">
     <div class="filters">
+        <a asp-controller="Car" asp-action="Create">Create</a>
         <label>Тип кузова</label>
         <select name="bodyType_select" id="bodyType_select">
             <option value="0">Усі</option>
@@ -49,8 +50,8 @@
         </div>
         <label>Ціна ($)</label>
         <div class="price_input">
-            <input type="number" maxlength="10" id="price_max-input" />
-            <input type="number" maxlength="10" id="price_max-input" />
+            <input type="number" maxlength="9" id="price_min-input" placeholder="Від" />
+            <input type="number" maxlength="9" id="price_max-input" placeholder="До"/>
         </div>
         <button id="refresh_cars">Пошук</button>
     </div>
@@ -63,3 +64,4 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+<script src="~/js/mainPage.js" asp-append-version="true"></script>

@@ -1,11 +1,9 @@
 ﻿using car_website.Data;
 using car_website.Interfaces;
-using car_website.Models;
 using car_website.Repository;
 using car_website.Services;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -22,10 +20,9 @@ builder.Services.AddScoped<IMongoDatabase>(sp =>
 });
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddSingleton<CurrencyUpdater>();
 builder.Services.AddHostedService<CurrencyUpdateService>();
-var imagekitConfig = builder.Configuration.GetSection("Imagekit").Get<ImagekitSettings>();
-builder.Services.AddImagekit(imagekitConfig);
 builder.Services.AddScoped<ApplicationDbContext>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -48,21 +45,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
-
-
-/*
-@foreach (var car in Model)
-    {
-        <div class="car-container">
-            <div class="car-container-image-wrap">
-            <img alt="photo" src="@car.PhotosURL[0]" />
-            </div>
-            <div class="car-container-info">
-                <a asp-controller="Car" asp-action="Detail" asp-route-id=@car.Id.ToString() class="car-container-title">@car.Brand @car.Model</a>
-                <p>@car.Description</p>
-            </div>
-        </div>
-    }
-
-*/

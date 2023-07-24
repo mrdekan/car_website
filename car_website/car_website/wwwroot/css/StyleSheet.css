@@ -92,6 +92,11 @@ body {
   padding: 5px 17px;
   margin-right: 60px;
 }
+.wrapper .filters .price_input {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
 .wrapper .carList {
   display: flex;
   flex-direction: column;
@@ -119,4 +124,10 @@ body {
 .wrapper .car-container .car-container-info a {
   color: black;
   font-size: 32px;
+}
+
+header {
+  height: 50px;
+  width: 100%;
+  background-color: #415939;
 }

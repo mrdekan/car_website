@@ -9,11 +9,11 @@ namespace car_website.ViewModels
         [Range(1, 999999, ErrorMessage = "Некоректне значення")]
         public uint Price { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
-        public string Photo1 { get; set; }
-        public string? Photo2 { get; set; }
-        public string? Photo3 { get; set; }
-        public string? Photo4 { get; set; }
-        public string? Photo5 { get; set; }
+        public IFormFile Photo1 { get; set; }
+        public IFormFile? Photo2 { get; set; }
+        public IFormFile? Photo3 { get; set; }
+        public IFormFile? Photo4 { get; set; }
+        public IFormFile? Photo5 { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         public string Brand { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
@@ -29,5 +29,6 @@ namespace car_website.ViewModels
         [Required(ErrorMessage = "Обов'язкове поле")]
         public string VIN { get; set; }
         public CarOptions[] Options { get; set; }
+        //public IFormFile Photo { get; set; }
     }
 }

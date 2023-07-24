@@ -1,4 +1,5 @@
 ﻿using car_website.Data.Enum;
+using car_website.ViewModels;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -6,6 +7,27 @@ namespace car_website.Models
 {
     public class Car
     {
+        public Car()
+        {
+
+        }
+        public Car(CreateCarViewModel carVM, List<string> urlPhotos)
+        {
+            Price = carVM.Price;
+            PhotosURL = urlPhotos.ToArray();
+            Brand = carVM.Brand;
+            Model = carVM.Model;
+            CarTransmission = carVM.CarTransmission;
+            Body = carVM.Body;
+            Fuel = carVM.Fuel;
+            Driveline = carVM.Driveline;
+            CarColor = carVM.CarColor;
+            Year = carVM.Year;
+            Description = carVM.Description ?? "";
+            EngineCapacity = carVM.EngineCapacity;
+            VIN = carVM.VIN;
+            Options = carVM.Options;
+        }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
