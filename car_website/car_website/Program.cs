@@ -1,5 +1,6 @@
 ﻿using car_website.Data;
 using car_website.Interfaces;
+using car_website.Models;
 using car_website.Repository;
 using car_website.Services;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,8 @@ builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddSingleton<CurrencyUpdater>();
 builder.Services.AddHostedService<CurrencyUpdateService>();
+var imagekitConfig = builder.Configuration.GetSection("Imagekit").Get<ImagekitSettings>();
+builder.Services.AddImagekit(imagekitConfig);
 builder.Services.AddScoped<ApplicationDbContext>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
