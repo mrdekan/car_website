@@ -1,5 +1,6 @@
 ﻿using car_website.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace car_website.Controllers
 {
@@ -14,8 +15,8 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {
-            //var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
-            return View();
+            var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
+            return View(car);
         }
     }
 }

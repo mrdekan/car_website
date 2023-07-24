@@ -2,6 +2,7 @@
 {
     public enum Transmission
     {
+        Any,
         Mechanics,
         Automatic
     }

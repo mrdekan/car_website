@@ -1,6 +1,7 @@
 ﻿using car_website.Data;
 using car_website.Interfaces;
 using car_website.Repository;
+using car_website.Services;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 
@@ -19,6 +20,8 @@ builder.Services.AddScoped<IMongoDatabase>(sp =>
     return client.GetDatabase(builder.Configuration.GetConnectionString("DBName"));
 });
 builder.Services.AddScoped<ICarRepository, CarRepository>();
+builder.Services.AddSingleton<CurrencyUpdater>();
+builder.Services.AddHostedService<CurrencyUpdateService>();
 builder.Services.AddScoped<ApplicationDbContext>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.

@@ -2,6 +2,7 @@
 {
     public enum TypeFuel
     {
+        Any,
         Gas,
         GasAndGasoline,
         Gasoline,

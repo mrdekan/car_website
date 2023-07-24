@@ -2,6 +2,7 @@
 {
     public enum TypeDriveline
     {
+        Any,
         Front,
         Rear,
         AWD

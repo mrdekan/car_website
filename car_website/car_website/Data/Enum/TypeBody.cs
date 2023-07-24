@@ -2,6 +2,7 @@
 {
     public enum TypeBody
     {
+        Any,
         Sedan,
         SUV,
         Minivan,
