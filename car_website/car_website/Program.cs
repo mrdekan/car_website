@@ -41,3 +41,21 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+
+
+/*
+@foreach (var car in Model)
+    {
+        <div class="car-container">
+            <div class="car-container-image-wrap">
+            <img alt="photo" src="@car.PhotosURL[0]" />
+            </div>
+            <div class="car-container-info">
+                <a asp-controller="Car" asp-action="Detail" asp-route-id=@car.Id.ToString() class="car-container-title">@car.Brand @car.Model</a>
+                <p>@car.Description</p>
+            </div>
+        </div>
+    }
+
+*/

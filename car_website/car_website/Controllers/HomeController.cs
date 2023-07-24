@@ -42,10 +42,26 @@ namespace car_website.Controllers
             cars.Add(chrysler);
             //Uncomment to add new car on launch
             //await _carRepository.Add(chrysler);
-            var carsList = await _carRepository.GetAll();
-            return View(carsList);
+            //var carsList = await _carRepository.GetAll();
+            return View();
         }
+        public async Task<ActionResult<IEnumerable<Car>>> GetCars(string filter, int page = 1, int perPage = 10)
+        {
+            // Пример фильтрации по имени машины
+            IEnumerable<Car> filteredCars = await _carRepository.GetAll();
+            /*if (!string.IsNullOrEmpty(filter))
+            {
+                filteredCars = cars.Where(car => car.Name.Contains(filter, StringComparison.OrdinalIgnoreCase));
+            }
+            */
+            // Пример пагинации
+            int totalItems = filteredCars.Count();
+            //int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
+            int skip = (page - 1) * perPage;
+            filteredCars = filteredCars.Skip(skip).Take(perPage);
 
+            return Ok(new { Cars = filteredCars });
+        }
         public IActionResult Privacy()
         {
             return View();
