@@ -3,12 +3,9 @@ using MongoDB.Bson;
 
 namespace car_website.Interfaces
 {
-    public interface ICarRepository
+    public interface ICarRepository : IBaseRepository<Car>
     {
         Task<IEnumerable<Car>> GetAll();
         Task<Car> GetByIdAsync(ObjectId id);
-        Task Add(Car car);
-        Task Update(Car car);
-        Task Delete(Car car);
     }
 }
