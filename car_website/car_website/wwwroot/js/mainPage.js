@@ -6,14 +6,55 @@ const year_min_select = document.getElementById("year_min-select");
 const year_max_select = document.getElementById("year_max-select");
 const price_max_input = document.getElementById("price_max-input");
 const price_min_input = document.getElementById("price_min-input");
-console.log(brand_select);
+const race_max_input = document.getElementById("race_max-input");
+const race_min_input = document.getElementById("race_min-input");
 
+
+
+console.log(brand_select);
+price_max_input.addEventListener('input', function (event) {
+    const maxLength = parseInt(event.target.getAttribute('maxlength'));
+    let currentValue = event.target.value;
+    currentValue = currentValue.replace(/[^\d]/g, '');
+    if (currentValue.length > maxLength) {
+        currentValue = currentValue.slice(0, maxLength);
+    }
+    event.target.value = currentValue;
+});
+price_min_input.addEventListener('input', function (event) {
+    const maxLength = parseInt(event.target.getAttribute('maxlength'));
+    let currentValue = event.target.value;
+    currentValue = currentValue.replace(/[^\d]/g, '');
+    if (currentValue.length > maxLength) {
+        currentValue = currentValue.slice(0, maxLength);
+    }
+    event.target.value = currentValue;
+});
+race_max_input.addEventListener('input', function (event) {
+    const maxLength = parseInt(event.target.getAttribute('maxlength'));
+    let currentValue = event.target.value;
+    currentValue = currentValue.replace(/[^\d]/g, '');
+    if (currentValue.length > maxLength) {
+        currentValue = currentValue.slice(0, maxLength);
+    }
+    event.target.value = currentValue;
+});
+race_min_input.addEventListener('input', function (event) {
+    const maxLength = parseInt(event.target.getAttribute('maxlength'));
+    let currentValue = event.target.value;
+    currentValue = currentValue.replace(/[^\d]/g, '');
+    if (currentValue.length > maxLength) {
+        currentValue = currentValue.slice(0, maxLength);
+    }
+    event.target.value = currentValue;
+});
 apply_button.onclick = () => applyFilter();
 brand_select.addEventListener('change', function () {
     if (brand_select.value == "Any")
         model_select.innerHTML = '<option value="Any">Усі</option>';
-    else
+    else { 
         getModelsOfMark();
+    }
 });
 
 
@@ -28,6 +69,7 @@ function getModelsOfMark() {
         .then(response => response.json())
         .then(data => {
             model_select.innerHTML = '<option value="Any">Усі</option>';
+            console.log(data);
             data.models.forEach(model => {
                 model_select.innerHTML += `<option value=${model}>${model}</option>`;
             });

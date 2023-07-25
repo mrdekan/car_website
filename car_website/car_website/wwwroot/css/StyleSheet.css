@@ -73,6 +73,16 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: inherit;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 /*--------------------*/
 body {
   background-color: white;
@@ -130,4 +140,32 @@ header {
   height: 50px;
   width: 100%;
   background-color: #415939;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header .header_right {
+  display: flex;
+  margin: 0 25px 0 0;
+}
+header .header_right-button {
+  padding: 7px 10px 7px 32px;
+  border-radius: 20px;
+  background-color: #56744D;
+  color: white;
+  transition: 0.2s;
+}
+header .header_right-button:hover {
+  background-color: #5D864F;
+  transition: 0.2s;
+}
+header .header_right-button::before {
+  content: "";
+  background: url("../img/white_avatar.svg");
+  display: block;
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  background-size: 20px 20px;
+  margin: -4px -24px;
 }
