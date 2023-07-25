@@ -21,6 +21,7 @@ builder.Services.AddScoped<IMongoDatabase>(sp =>
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<CurrencyUpdater>();
 builder.Services.AddHostedService<CurrencyUpdateService>();
 builder.Services.AddScoped<ApplicationDbContext>();
