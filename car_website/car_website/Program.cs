@@ -20,12 +20,16 @@ builder.Services.AddScoped<IMongoDatabase>(sp =>
 });
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddSingleton<CurrencyUpdater>();
 builder.Services.AddHostedService<CurrencyUpdateService>();
 builder.Services.AddScoped<ApplicationDbContext>();
+/*builder.Services.AddIdentity<User, IdentityRole>()
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();*/
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -41,6 +45,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",

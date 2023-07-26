@@ -4,34 +4,37 @@
     <form method="post" asp-action="Register" enctype="multipart/form-data">
         <div class="form-group">
             <label asp-for="Name">Ім'я</label>
-            <input asp-for="Name" type="text" class="form-control" placeholder="Select an image">
+            <input asp-for="Name" type="text" class="form-control" placeholder="Іван">
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Surname">Прізвище</label>
-            <input asp-for="Surname" type="text" class="form-control" placeholder="Select an image">
+            <input asp-for="Surname" type="text" class="form-control" placeholder="Іванов">
             <span asp-validation-for="Surname" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="PhoneNumber">Номер телефону</label>
-            <input asp-for="PhoneNumber" type="text" class="form-control" placeholder="Select an image">
+            <input asp-for="PhoneNumber" type="text" class="form-control" placeholder="+380012345678">
             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Email">Ел. пошта</label>
-            <input asp-for="Email" type="text" class="form-control" placeholder="Select an image">
+            <input asp-for="Email" type="text" class="form-control" placeholder="example@example.com">
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Password">Пароль</label>
-            <input asp-for="Password" type="password" class="form-control" placeholder="Select an image">
+            <input asp-for="Password" type="password" class="form-control" placeholder="Пароль" id="pass">
+            <input type="checkbox" id="pass_show"/>
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="ConfirmPassword">Підтвердіть пароль</label>
-            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Select an image">
+            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Підтвердіть пароль" id="confirmpass">
+            <input type="checkbox" id="confirmpass_show"/>
             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
         </div>
         <button type="submit" class="sell-button">Зареєструватись</button>
     </form>
 </div>
+<script src="~/js/registerPage.js" asp-append-version="true"></script>

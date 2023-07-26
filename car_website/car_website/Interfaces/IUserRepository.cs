@@ -1,6 +1,11 @@
-﻿namespace car_website.Interfaces
+﻿using car_website.Models;
+using MongoDB.Bson;
+
+namespace car_website.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<User>
     {
+        Task<IEnumerable<User>> GetAll();
+        Task<User> GetByIdAsync(ObjectId id);
     }
 }

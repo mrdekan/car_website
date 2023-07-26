@@ -1,12 +1,13 @@
 ﻿using car_website.Data.Enum;
 using car_website.Interfaces;
 using car_website.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace car_website.Models
 {
-    public class User
+    public class User : IdentityUser
     {
         public User()
         {

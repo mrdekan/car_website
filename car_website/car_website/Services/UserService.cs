@@ -11,5 +11,6 @@ namespace car_website.Services
             return hashedPassword;
         }
         public bool VerifyPassword(string password, string hashedPassword) => BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+
     }
 }

@@ -22,11 +22,11 @@ namespace car_website.Repository
         }
         public async Task<Brand> GetByName(string name)
         {
-            return await _dbContext.Brands.Find(car => car.Name == name).FirstOrDefaultAsync();
+            return await _dbContext.Brands.Find(brand => brand.Name == name).FirstOrDefaultAsync();
         }
         public async Task<Brand> GetByIdAsync(ObjectId id)
         {
-            return await _dbContext.Brands.Find(car => car.Id == id).FirstOrDefaultAsync();
+            return await _dbContext.Brands.Find(brand => brand.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task Add(Brand brand)
@@ -36,13 +36,13 @@ namespace car_website.Repository
 
         public async Task Update(Brand brand)
         {
-            var filter = Builders<Brand>.Filter.Eq(c => c.Id, brand.Id);
+            var filter = Builders<Brand>.Filter.Eq(b => b.Id, brand.Id);
             await _dbContext.Brands.ReplaceOneAsync(filter, brand);
         }
 
         public async Task Delete(Brand brand)
         {
-            var filter = Builders<Brand>.Filter.Eq(c => c.Id, brand.Id);
+            var filter = Builders<Brand>.Filter.Eq(b => b.Id, brand.Id);
             await _dbContext.Brands.DeleteOneAsync(filter);
         }
     }
