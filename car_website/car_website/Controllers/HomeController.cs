@@ -65,7 +65,8 @@ namespace car_website.Controllers
             pol.Name = "Polestar";
             pol.Models = new string[] { "1", "2", "Other" };
             //await _brandRepository.Add(pol);
-            return View(await _brandRepository.GetAll());
+            var brands = await _brandRepository.GetAll();
+            return View(brands.OrderBy(brand => brand));
         }
         public async Task<ActionResult<IEnumerable<Car>>> GetCars([FromBody] CarFilterModel filter, int page = 1, int perPage = 10)
         {
