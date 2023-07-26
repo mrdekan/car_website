@@ -7,9 +7,11 @@ namespace car_website.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IEmailService _emailService;
+        public UserController(IUserService userService, IEmailService emailService)
         {
             _userService = userService;
+            _emailService = emailService;
         }
         public async Task<IActionResult> Register()
         {
