@@ -25,6 +25,10 @@ namespace car_website.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
+            //HttpContext.Session.SetString("UserId", "a");
+            //var userId = HttpContext.Session.GetString("UserId");
+            //HttpContext.Response.Cookies.Append("test", "some text");
+            //var test = HttpContext.Request.Cookies["test"];
             Car chrysler = new Car()
             {
                 Price = 8150,

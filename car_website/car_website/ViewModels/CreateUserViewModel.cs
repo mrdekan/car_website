@@ -13,7 +13,7 @@ namespace car_website.ViewModels
         [DataType(DataType.PhoneNumber, ErrorMessage = "Уведіть коректний номер телефону")]
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
-        [DataType(DataType.EmailAddress, ErrorMessage = "Уведіть коректний адрес ел. пошти")]
+        [EmailAddress(ErrorMessage = "Уведіть коректний адрес ел. пошти")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [DataType(DataType.Password)]

@@ -11,10 +11,22 @@
 <body>
     <header>
         <div class="header_left">
-            </div>
+        </div>
         <div class="header_center"></div>
         <div class="header_right">
-            <a asp-controller="User" asp-action="Register" class="header_right-button" id="header_right-button">Вхід</a>
+            @{
+                var userId = ViewContext.HttpContext.Request.Cookies["UserId"];
+                var userName = ViewContext.HttpContext.Request.Cookies["UserName"];
+            }
+
+            @if (!string.IsNullOrEmpty(userId))
+            {
+                <a asp-controller="User" asp-action="Detail" asp-route-id=@userId class="header_right-button" id="header_right-button">@userName</a>
+            }
+            else
+            {
+                <a asp-controller="User" asp-action="Register" class="header_right-button" id="header_right-button">Вхід</a>
+            }
         </div>
         @*
         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">нічаво</a>

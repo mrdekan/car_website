@@ -1,4 +1,5 @@
 ﻿using car_website.Interfaces;
+using car_website.Models;
 
 namespace car_website.Services
 {
@@ -11,6 +12,7 @@ namespace car_website.Services
             return hashedPassword;
         }
         public bool VerifyPassword(string password, string hashedPassword) => BCrypt.Net.BCrypt.Verify(password, hashedPassword);
-
+        public string GenerateEmailConfirmationToken() => Guid.NewGuid().ToString();
+        public bool ConfirmEmailAsync(User user, string token) => user.ConfirmationToken == token;
     }
 }

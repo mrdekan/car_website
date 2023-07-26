@@ -19,7 +19,7 @@ namespace car_website.Services
             var apiKey = sendGridSettings["ApiKey"];
 
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("roadstar.che@gmail.com", "RoadStar"); // Replace with your info
+            var from = new EmailAddress("roadstar.che@gmail.com", "RoadStar");
             var to = new EmailAddress(email);
             var msg = MailHelper.CreateSingleEmail(from, to, subject, message, message);
 

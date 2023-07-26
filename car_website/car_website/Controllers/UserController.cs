@@ -1,6 +1,8 @@
 ﻿using car_website.Interfaces;
+using car_website.Models;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace car_website.Controllers
 {
@@ -8,26 +10,105 @@ namespace car_website.Controllers
     {
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
-        public UserController(IUserService userService, IEmailService emailService)
+        private readonly IUserRepository _userRepository;
+        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository)
         {
             _userService = userService;
             _emailService = emailService;
+            _userRepository = userRepository;
         }
-        public async Task<IActionResult> Register()
+        public IActionResult Login()
+        {
+            return View();
+        }
+        public IActionResult Logout()
+        {
+            //HttpContext.Response.Cookies.Append("UserId", "");
+            HttpContext.Response.Cookies.Delete("UserId");
+            HttpContext.Response.Cookies.Delete("UserName");
+            return RedirectToAction("Index", "Home");
+        }
+        public async Task<IActionResult> Detail(string id)
+        {
+            var user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
+            return View(user);
+        }
+        public IActionResult Register()
         {
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> Register(CreateUserViewModel userVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(userVM);
+                User newUser = new User(userVM, _userService, _userService.GenerateEmailConfirmationToken());
+                await _userRepository.Add(newUser);
+                var verificationLink = Url.Action("VerifyEmail", "User",
+                    new { userId = newUser.Id.ToString(), token = newUser.ConfirmationToken }, Request.Scheme);
+                var message = $"Будь ласка, щоб підтвердити ел. пошту перейдіть за посиланням: {verificationLink}";
+                await _emailService.SendEmailAsync(newUser.Email, "Підтвердження пошти", message);
+                //HttpContext.Session.SetString("UserId", newUser.Id.ToString());
+                HttpContext.Response.Cookies.Append("UserId", newUser.Id.ToString());
+                HttpContext.Response.Cookies.Append("UserName", newUser.Name.ToString());
+                ViewBag.CurrentUser = newUser;
+                return RedirectToAction("RegistrationSuccess");
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return View(userVM);
             }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel loginVM)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await _userRepository.GetByEmailAsync(loginVM.Email);
+                if (user != null && _userService.VerifyPassword(loginVM.Password, user.Password))
+                {
+                    ViewBag.CurrentUser = user;
+                    HttpContext.Response.Cookies.Append("UserId", user.Id.ToString());
+                    HttpContext.Response.Cookies.Append("UserName", user.Name.ToString());
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("Email", "Неправильна почта або пароль");
+                return View(loginVM);
+            }
+            else
+            {
+                return View(loginVM);
+            }
+        }
+        public async Task<IActionResult> VerifyEmail(string userId, string token)
+        {
+            var user = await _userRepository.GetByIdAsync(ObjectId.Parse(userId));
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            var result = _userService.ConfirmEmailAsync(user, token);
+
+            if (result)
+            {
+                user.EmailConfirmed = true;
+                user.ConfirmationToken = "";
+                await _userRepository.Update(user);
+                return View("EmailConfirmationSuccess");
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+        public IActionResult RegistrationSuccess()
+        {
+            return View();
+        }
+        public IActionResult EmailConfirmationSuccess()
+        {
+            return View();
         }
     }
 }
