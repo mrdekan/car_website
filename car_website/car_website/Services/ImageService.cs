@@ -4,17 +4,17 @@ namespace car_website.Services
 {
     public class ImageService : IImageService
     {
-        private readonly string _storagePath;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ImageService(IConfiguration configuration)
+        public ImageService(IWebHostEnvironment webHostEnvironment)
         {
-            _storagePath = configuration["PhotoStoragePath"];
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<string> UploadPhotoAsync(IFormFile photo)
         {
             var photoName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
-            var filePath = Path.Combine(_storagePath, photoName);
+            var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Photos", photoName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
@@ -26,11 +26,8 @@ namespace car_website.Services
 
         public Task<string> GetPhotoUrlAsync(string photoName)
         {
-            var filePath = Path.Combine(_storagePath, photoName);
-            if (!File.Exists(filePath))
-                return Task.FromResult<string>(null);
-
-            return Task.FromResult(filePath);
+            var photoUrl = Path.Combine("/Photos", photoName);
+            return Task.FromResult(photoUrl);
         }
     }
 }
