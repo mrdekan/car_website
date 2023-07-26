@@ -58,12 +58,38 @@
             <input type="number" maxlength="3" id="race_min-input" placeholder="Від" />
             <input type="number" maxlength="3" id="race_max-input" placeholder="До" />
         </div>
+        <label>Коробка передач</label>
+        <select name="transmission-select" id="transmission-select">
+            <option value="0">Будь-яка</option>
+            <option value="1">Механіка</option>
+            <option value="2">Автоматична</option>
+        </select>
+        <label>Паливо</label>
+        <select name="fuel-select" id="fuel-select">
+            <option value="0">Будь-яке</option>
+            <option value="3">Бензин</option>
+            <option value="4">Дизель</option>
+            <option value="1">Газ</option>
+            <option value="2">Газ/бензин</option>
+            <option value="5">Гібрид</option>
+            <option value="6">Електро</option>
+        </select>
+        <label>Тип приводу</label>
+        <select name="driveline-select" id="driveline-select">
+            <option value="0">Будь-який</option>
+            <option value="1">Передній</option>
+            <option value="2">Задній</option>
+            <option value="3">Повний</option>
+        </select>
+        <label>Об’єм двигуна (л.)</label>
+        <div class="engineVolume-input">
+            <input type="number" maxlength="3" id="engineVolume_min-input" placeholder="Від" />
+            <input type="number" maxlength="3" id="engineVolume_max-input" placeholder="До" />
+        </div>
         <button id="refresh_cars">Пошук</button>
     </div>
     <div id="carList" class="carList"></div>
 </div>
-
-
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
