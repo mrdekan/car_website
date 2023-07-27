@@ -15,14 +15,40 @@ body {
         display: flex;
         flex-direction: column;
         gap: 5px;
-        min-width: 300px;
+        max-width: 300px;
         padding: 5px 17px;
-        margin-right: 60px;
+        margin: 0 60px 0 100px;
+
+        select {
+            max-width: 200px;
+            border-radius: 8px;
+            padding: 5px;
+            color:gray;
+        }
+
+        input {
+            max-width: 80px;
+            border-radius: 8px;
+            padding: 5px 8px;
+        }
 
         .price_input {
             display: flex;
             width: 100%;
             justify-content: space-between;
+        }
+
+        .year_select {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+
+            select {
+                width: 80px;
+            }
+        }
+        label{
+            font-size:16px;
         }
     }
 
@@ -152,4 +178,54 @@ header {
 .title{
     font-weight: 700;
     font-size: 28px;
+}
+.car-container-info-parameters-row-race::before {
+    content: "";
+    background: url('../img/race.svg');
+    display: block;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    background-size: 20px 20px;
+    margin: 0px -30px;
+}
+.car-container-info-parameters-row-fuel::before {
+    content: "";
+    background: url('../img/fuel.svg');
+    display: block;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    background-size: 20px 20px;
+    margin: 0px -30px;
+}
+.car-container-info-parameters-row-transmission::before {
+    content: "";
+    background: url('../img/transmission.svg');
+    display: block;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    background-size: 20px 20px;
+    margin: 0px -30px;
+}
+.car-container-info-parameters-row-driveline::before {
+    content: "";
+    background: url('../img/transmission.svg');
+    display: block;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    background-size: 20px 20px;
+    margin: 0px -30px;
+}
+.car-container-info-parameters-row-vin::before {
+    content: "";
+    background: url('../img/vin.svg');
+    display: block;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    background-size: 20px 20px;
+    margin: 0px -30px;
 }

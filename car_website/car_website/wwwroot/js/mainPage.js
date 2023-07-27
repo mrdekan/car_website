@@ -136,15 +136,15 @@ function applyFilter() {
                                         <div class="car-container-info-all">
                                             <div class="car-container-info-parameters">
                                                 <div class="car-container-info-parameters-row">
-                                                    <p>${car.mileage} тис. км</p>
-                                                    <p>${fuelName(car.fuel)}, ${car.engineCapacity} л.</p>
+                                                    <p class="car-container-info-parameters-row-race">${car.mileage} тис. км</p>
+                                                    <p class="car-container-info-parameters-row-fuel">${fuelName(car.fuel)}, ${car.engineCapacity} л.</p>
                                                 </div>
                                                 <div class="car-container-info-parameters-row">
-                                                    <p>${transmissionName(car.carTransmission)}</p>
-                                                    <p>${drivelineName(car.driveline)}</p>
+                                                    <p class="car-container-info-parameters-row-transmission">${transmissionName(car.carTransmission)}</p>
+                                                    <p class="car-container-info-parameters-row-driveline">${drivelineName(car.driveline)}</p>
                                                 </div>
                                                 <div class="car-container-info-parameters-row">
-                                                    <p>${car.vin}</p>
+                                                    <p class="car-container-info-parameters-row-vin">${car.vin}</p>
                                                 </div>
                                             </div>
                                             <div class="car-container-info-price">
