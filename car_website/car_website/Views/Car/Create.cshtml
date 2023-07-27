@@ -4,7 +4,7 @@
 <div class="create-wrapper">
     <form method="post" asp-action="Create" enctype="multipart/form-data">
         <div class="form-group">
-            <label asp-for="CreateCarViewModel.Photo1">Image</label>
+            <label asp-for="CreateCarViewModel.Photo1">Фото</label>
             <input asp-for="CreateCarViewModel.Photo1" type="file" class="form-control" placeholder="Select an image">
             <span asp-validation-for="CreateCarViewModel.Photo1" class="text-danger"></span>
         </div>
@@ -20,12 +20,27 @@
             <span asp-validation-for="CreateCarViewModel.Brand" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="CreateCarViewModel.Model">Model</label>
+            <label asp-for="CreateCarViewModel.Model">Модель</label>
             <select asp-for="CreateCarViewModel.Model" id="model-select">
                 <option value="Any">Не обрано</option>
             </select>
             <span asp-validation-for="CreateCarViewModel.Model" class="text-danger"></span>
         </div>
+        <div id="other-brand">
+            <div class="form-group">
+                <label asp-for="CreateCarViewModel.OtherBrandName">Ваша марка</label>
+                <input asp-for="CreateCarViewModel.OtherBrandName"/>
+                <span asp-validation-for="CreateCarViewModel.OtherBrandName" class="text-danger"></span>
+            </div>
+        </div>
+        <div id="other-model">
+            <div class="form-group">
+                <label asp-for="CreateCarViewModel.OtherModelName">Ваша марка</label>
+                <input asp-for="CreateCarViewModel.OtherModelName"/>
+                <span asp-validation-for="CreateCarViewModel.OtherModelName" class="text-danger"></span>
+            </div>
+        </div>
+
         <button type="submit" class="sell-button">Опублікувати оголошення</button>
     </form>
 </div>

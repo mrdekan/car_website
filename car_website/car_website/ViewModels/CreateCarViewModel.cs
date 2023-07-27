@@ -8,7 +8,7 @@ namespace car_website.ViewModels
         [Required(ErrorMessage = "Обов'язкове поле")]
         [Range(1, 999999, ErrorMessage = "Некоректне значення")]
         public uint Price { get; set; }
-        [Range(1, 999999, ErrorMessage = "Некоректне значення")]
+        [Range(0, 999, ErrorMessage = "Некоректне значення")]
         public uint Mileage { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile Photo1 { get; set; }
@@ -26,11 +26,18 @@ namespace car_website.ViewModels
         public TypeDriveline Driveline { get; set; }
         public Color CarColor { get; set; }
         public uint Year { get; set; }
+        [MaxLength(200, ErrorMessage = "Не більше 200 символів")]
         public string? Description { get; set; }
+        [Required(ErrorMessage = "Обов'язкове поле")]
         public float EngineCapacity { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         public string VIN { get; set; }
         public CarOptions[] Options { get; set; }
+        public bool OtherBrand { get; set; }
+        [MaxLength(20, ErrorMessage = "Занадто довга назва")]
+        public string OtherBrandName { get; set; }
+        [MaxLength(20, ErrorMessage = "Занадто довга назва")]
+        public string OtherModelName { get; set; }
         //public IFormFile Photo { get; set; }
     }
 }
