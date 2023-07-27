@@ -28,6 +28,7 @@ namespace car_website.Models
             VIN = carVM.VIN;
             Options = carVM.Options;
             Mileage = carVM.Mileage;
+            OtherBrand = carVM.OtherBrand;
         }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -47,6 +48,7 @@ namespace car_website.Models
         public string VIN { get; set; }
         public CarOptions[] Options { get; set; }
         public uint Mileage { get; set; }
+        public bool OtherBrand { get; set; }
         //public string Mark { get; set; }
     }
 }

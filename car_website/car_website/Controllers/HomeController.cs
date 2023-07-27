@@ -129,8 +129,13 @@ namespace car_website.Controllers
         {
             IEnumerable<Car> filteredCars = await _carRepository.GetAll();
             if (!filter.Brand.IsNullOrEmpty() && filter.Brand != "Any")
-                filteredCars = filteredCars.Where(car => car.Brand == filter.Brand);
-            if (!filter.Model.IsNullOrEmpty() && filter.Model != "Any")
+            {
+                if (filter.Brand != "Інше")
+                    filteredCars = filteredCars.Where(car => car.Brand == filter.Brand);
+                else
+                    filteredCars = filteredCars.Where(car => car.OtherBrand == true);
+            }
+            if (!filter.Model.IsNullOrEmpty() && filter.Model != "Any" && filter.Brand != "Інше")
                 filteredCars = filteredCars.Where(car => car.Model == filter.Model);
             if (filter.Body != 0)
                 filteredCars = filteredCars.Where(car => car.Body == filter.Body);
