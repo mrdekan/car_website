@@ -1,4 +1,5 @@
-﻿const apply_button = document.getElementById("refresh_cars");
+﻿//#region constants
+const apply_button = document.getElementById("refresh_cars");
 const brand_select = document.getElementById("brand-select");
 const model_select = document.getElementById("model-select");
 const body_Type_select = document.getElementById("bodyType_select");
@@ -13,8 +14,9 @@ const fuel_select = document.getElementById("fuel-select");
 const driveline_select = document.getElementById("driveline-select");
 const engineVolume_min_input = document.getElementById("engineVolume_min-input");
 const engineVolume_max_input = document.getElementById("engineVolume_max-input");
+//#endregion
 
-console.log(brand_select);
+//#region input fields settings
 engineVolume_min_input.addEventListener('input', function (event) {
     const maxLength = parseInt(event.target.getAttribute('maxlength'));
     let currentValue = event.target.value;
@@ -77,14 +79,11 @@ brand_select.addEventListener('change', function () {
         getModelsOfMark();
     }
 });
+//#endregion
 
+applyFilter();
 
-//getModelsOfMark();
-updateCars();
-
-
-
-//Ajax requests
+//#region Ajax requests
 function getModelsOfMark() {
     fetch(`/home/GetModels?brand=${brand_select.value}`)
         .then(response => response.json())
@@ -110,7 +109,9 @@ function applyFilter() {
         fuel: Number(fuel_select.value),
         driveLine: Number(driveline_select.value),
         minEngineCapacity: Number(engineVolume_min_input.value),
-        maxEngineCapacity: Number(engineVolume_max_input.value)
+        maxEngineCapacity: Number(engineVolume_max_input.value),
+        minMileage: Number(race_min_input.value),
+        maxMileage: Number(race_max_input.value)
     };
     fetch(`/home/GetCars`, {
         method: "POST",
@@ -132,6 +133,25 @@ function applyFilter() {
                                     </div>
                                     <div class="car-container-info">
                                         <a asp-controller="Car" asp-action="Detail" asp-route-id="${car.id}" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
+                                        <div class="car-container-info-all">
+                                            <div class="car-container-info-parameters">
+                                                <div class="car-container-info-parameters-row">
+                                                    <p>${car.mileage} тис. км</p>
+                                                    <p>${fuelName(car.fuel)}, ${car.engineCapacity} л.</p>
+                                                </div>
+                                                <div class="car-container-info-parameters-row">
+                                                    <p>${transmissionName(car.carTransmission)}</p>
+                                                    <p>${drivelineName(car.driveline)}</p>
+                                                </div>
+                                                <div class="car-container-info-parameters-row">
+                                                    <p>${car.vin}</p>
+                                                </div>
+                                            </div>
+                                            <div class="car-container-info-price">
+                                                <p class="car-container-info-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
+                                                <p class="car-container-info-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>`;
                 carList.innerHTML += block;
@@ -139,46 +159,56 @@ function applyFilter() {
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
-function updateCars() {
-    const filters = {
-        body: 0,
-        brand: "",
-        model: "",
-        minYear: 0,
-        maxYear: 0,
-        minPrice: 0,
-        maxPrice: 0,
-        carTransmission: 0,
-        fuel: 0,
-        driveLine: 0,
-        minEngineCapacity: 0,
-        maxEngineCapacity: 0
-    };
+//#endregion
 
-    fetch(`/home/GetCars`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(filters)
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            const carList = document.getElementById("carList");
-            carList.innerHTML = ""; //Clean up the old list
-            //Form a block for each machine
-            data.cars.forEach(car => {
-                const block = `<div class="car-container">
-                                    <div class="car-container-image-wrap">
-                                        <img alt="photo" src="${car.photosURL[0]}" />
-                                    </div>
-                                    <div class="car-container-info">
-                                        <a asp-controller="Car" asp-action="Detail" asp-route-id="${car.id}" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
-                                    </div>
-                                </div>`;
-                carList.innerHTML += block;
-            });
-        })
-        .catch(error => console.error("An error occurred while retrieving data:", error));
+//#region info displaying
+
+function fuelName(id) {
+    switch (id) {
+        case 1: {
+            return "Газ";
+        }
+        case 2: {
+            return "Газ/Бензин";
+        }
+        case 3: {
+            return "Бензин";
+        }
+        case 4: {
+            return "Дизель";
+        }
+        case 5: {
+            return "Гібрид";
+        }
+        case 16: {
+            return "Електро";
+        }
+    }
 }
+function transmissionName(id) {
+    switch (id) {
+        case 1: {
+            return "Механічна";
+        }
+        case 2: {
+            return "Автомат";
+        }
+    }
+}
+function drivelineName(id) {
+    switch (id) {
+        case 1: {
+            return "Передній";
+        }
+        case 2: {
+            return "Задній";
+        }
+        case 3: {
+            return "Повний";
+        }
+    }
+}
+function formatNumberWithThousandsSeparator(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+//#endregion

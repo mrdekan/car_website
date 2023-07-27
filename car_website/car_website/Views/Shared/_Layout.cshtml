@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - car_website</title>
+    <title>@ViewData["Title"] - RoadStar</title>
     <!--<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="~/css/StyleSheet.css" asp-append-version="true" />
     <!--<link rel="stylesheet" href="~/car_website.styles.css" asp-append-version="true" />-->
@@ -15,13 +15,13 @@
         <div class="header_center"></div>
         <div class="header_right">
             @{
-                var userId = ViewContext.HttpContext.Request.Cookies["UserId"];
-                var userName = ViewContext.HttpContext.Request.Cookies["UserName"];
+                var userId = ViewContext.HttpContext.Session.GetString("UserId");
+                //var userName = ViewContext.HttpContext.Request.Cookies["UserName"];
             }
 
             @if (!string.IsNullOrEmpty(userId))
             {
-                <a asp-controller="User" asp-action="Detail" asp-route-id=@userId class="header_right-button" id="header_right-button">@userName</a>
+                <a asp-controller="User" asp-action="Detail" asp-route-id=@userId class="header_right-button" id="header_right-button">Кабінет</a>
             }
             else
             {

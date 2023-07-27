@@ -8,6 +8,8 @@ namespace car_website.ViewModels
         [Required(ErrorMessage = "Обов'язкове поле")]
         [Range(1, 999999, ErrorMessage = "Некоректне значення")]
         public uint Price { get; set; }
+        [Range(1, 999999, ErrorMessage = "Некоректне значення")]
+        public uint Mileage { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile Photo1 { get; set; }
         public IFormFile? Photo2 { get; set; }

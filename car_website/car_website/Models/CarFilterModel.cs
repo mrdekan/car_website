@@ -16,6 +16,8 @@ namespace car_website.Models
         public TypeDriveline Driveline { get; set; }
         public float MinEngineCapacity { get; set; }
         public float MaxEngineCapacity { get; set; }
+        public uint MinMileage { get; set; }
+        public uint MaxMileage { get; set; }
 
     }
 }

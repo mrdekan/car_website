@@ -24,9 +24,11 @@ namespace car_website.ViewModels
             EngineCapacity = car.EngineCapacity;
             VIN = car.VIN;
             Options = car.Options;
+            Mileage = car.Mileage;
         }
         public string Id { get; set; }
         public uint Price { get; set; }
+        public uint Mileage { get; set; }
         public uint PriceUAH { get; set; }
         public string[] PhotosURL { get; set; }
         public string Brand { get; set; }

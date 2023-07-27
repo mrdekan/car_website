@@ -116,9 +116,9 @@ body {
   background-color: #F6F6F6;
   display: flex;
   padding: 30px;
-  min-width: 960px;
+  width: 960px;
 }
-.wrapper .car-container .car-container-image-wrap {
+.wrapper .car-container-image-wrap {
   width: 300px;
   height: 200px;
   overflow: hidden;
@@ -128,12 +128,55 @@ body {
   height: 100%;
   object-fit: cover;
 }
-.wrapper .car-container .car-container-info {
+.wrapper .car-container-info {
   padding-left: 30px;
 }
-.wrapper .car-container .car-container-info a {
+.wrapper .car-container-info a {
   color: black;
   font-size: 32px;
+}
+.wrapper .car-container-info-all {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.wrapper .car-container-info-price {
+  position: absolute;
+  margin: -24px 0 0 480px;
+  width: fit-content;
+}
+.wrapper .car-container-info-price-USD {
+  font-size: 26px;
+  color: white;
+  background-color: #415939;
+  padding: 4px 0;
+  text-align: center;
+  border-radius: 0 10px 0 10px;
+  min-width: 115px;
+}
+.wrapper .car-container-info-price-UAH {
+  font-size: 18px;
+  color: white;
+  background-color: #537049;
+  border-radius: 0 10px 0 10px;
+  padding: 5px 0px;
+  min-width: 135px;
+  max-width: fit-content;
+  text-align: center;
+  white-space: nowrap;
+  margin-left: 20%;
+}
+.wrapper .car-container-info-parameters {
+  margin: 20px 0 0 34px;
+}
+.wrapper .car-container-info-parameters-row {
+  margin-top: 20px;
+  display: flex;
+  gap: 117px;
+}
+.wrapper .car-container-info-parameters-row p {
+  font-size: 20px;
+  min-width: 107px;
 }
 
 header {
@@ -168,4 +211,9 @@ header .header_right-button::before {
   width: 20px;
   background-size: 20px 20px;
   margin: -4px -24px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 28px;
 }

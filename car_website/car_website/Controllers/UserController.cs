@@ -24,8 +24,9 @@ namespace car_website.Controllers
         public IActionResult Logout()
         {
             //HttpContext.Response.Cookies.Append("UserId", "");
-            HttpContext.Response.Cookies.Delete("UserId");
-            HttpContext.Response.Cookies.Delete("UserName");
+            //HttpContext.Response.Cookies.Delete("UserId");
+            //HttpContext.Response.Cookies.Delete("UserName");
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
         public async Task<IActionResult> Detail(string id)
@@ -48,9 +49,9 @@ namespace car_website.Controllers
                     new { userId = newUser.Id.ToString(), token = newUser.ConfirmationToken }, Request.Scheme);
                 var message = $"Будь ласка, щоб підтвердити ел. пошту перейдіть за посиланням: {verificationLink}";
                 await _emailService.SendEmailAsync(newUser.Email, "Підтвердження пошти", message);
-                //HttpContext.Session.SetString("UserId", newUser.Id.ToString());
-                HttpContext.Response.Cookies.Append("UserId", newUser.Id.ToString());
-                HttpContext.Response.Cookies.Append("UserName", newUser.Name.ToString());
+                HttpContext.Session.SetString("UserId", newUser.Id.ToString());
+                //HttpContext.Response.Cookies.Append("UserId", newUser.Id.ToString());
+                //HttpContext.Response.Cookies.Append("UserName", newUser.Name.ToString());
                 ViewBag.CurrentUser = newUser;
                 return RedirectToAction("RegistrationSuccess");
             }
@@ -68,8 +69,9 @@ namespace car_website.Controllers
                 if (user != null && _userService.VerifyPassword(loginVM.Password, user.Password))
                 {
                     ViewBag.CurrentUser = user;
-                    HttpContext.Response.Cookies.Append("UserId", user.Id.ToString());
-                    HttpContext.Response.Cookies.Append("UserName", user.Name.ToString());
+                    HttpContext.Session.SetString("UserId", user.Id.ToString());
+                    //HttpContext.Response.Cookies.Append("UserId", user.Id.ToString());
+                    //HttpContext.Response.Cookies.Append("UserName", user.Name.ToString());
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("Email", "Неправильна почта або пароль");

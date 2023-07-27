@@ -17,9 +17,10 @@ body {
         min-width: 300px;
         padding: 5px 17px;
         margin-right: 60px;
-        .price_input{
+
+        .price_input {
             display: flex;
-            width:100%;
+            width: 100%;
             justify-content: space-between;
         }
     }
@@ -34,9 +35,9 @@ body {
         background-color: #F6F6F6;
         display: flex;
         padding: 30px;
-        min-width: 960px;
+        width: 960px;
 
-        .car-container-image-wrap {
+        &-image-wrap {
             width: 300px;
             height: 200px;
             overflow: hidden;
@@ -48,12 +49,64 @@ body {
             object-fit: cover;
         }
 
-        .car-container-info {
+        &-info {
             padding-left: 30px;
 
             a {
                 color: black;
                 font-size: 32px;
+            }
+
+            &-all {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            &-price {
+                position: absolute;
+                margin: -24px 0 0 480px;
+                width: fit-content;
+
+                &-USD {
+                    font-size: 26px;
+                    color: white;
+                    background-color: #415939;
+                    padding: 4px 0;
+                    text-align: center;
+                    border-radius: 0 10px 0 10px;
+                    min-width: 115px;
+                }
+
+                &-UAH {
+                    font-size: 18px;
+                    color: white;
+                    background-color: #537049;
+                    border-radius: 0 10px 0 10px;
+                    padding: 5px 0px;
+                    min-width: 135px;
+                    max-width: fit-content;
+                    text-align: center;
+                    white-space: nowrap;
+                    margin-left: 20%;
+                    //margin-right: -50%;
+                    //max-width: fit-content;
+                }
+            }
+
+            &-parameters {
+                margin: 20px 0 0 34px;
+
+                &-row {
+                    margin-top: 20px;
+                    display: flex;
+                    gap: 117px;
+
+                    p {
+                        font-size: 20px;
+                        min-width: 107px;
+                    }
+                }
             }
         }
     }
@@ -94,4 +147,8 @@ header {
             }
         }
     }
+}
+.title{
+    font-weight: 700;
+    font-size: 28px;
 }

@@ -27,6 +27,7 @@ namespace car_website.Models
             EngineCapacity = carVM.EngineCapacity;
             VIN = carVM.VIN;
             Options = carVM.Options;
+            Mileage = carVM.Mileage;
         }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -45,6 +46,7 @@ namespace car_website.Models
         public float EngineCapacity { get; set; }
         public string VIN { get; set; }
         public CarOptions[] Options { get; set; }
+        public uint Mileage { get; set; }
         //public string Mark { get; set; }
     }
 }

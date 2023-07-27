@@ -42,7 +42,24 @@ namespace car_website.Controllers
                 CarColor = Color.Black,
                 Year = 2007,
                 Description = "Lorem ipsum",
-                EngineCapacity = 2.74f
+                EngineCapacity = 2.74f,
+                Mileage = 140
+            };
+            Car chryslerNew = new Car()
+            {
+                Price = 17000,
+                PhotosURL = new string[] { "https://cdn3.riastatic.com/photosnew/auto/photo/chrysler_300-c__506095608hd.webp" },
+                Brand = "Chrysler",
+                Model = "300S",
+                CarTransmission = Transmission.Automatic,
+                Body = TypeBody.Sedan,
+                Fuel = TypeFuel.Gasoline,
+                Driveline = TypeDriveline.AWD,
+                CarColor = Color.Grey,
+                Year = 2017,
+                Description = "Lorem ipsum",
+                EngineCapacity = 3.6f,
+                Mileage = 85
             };
             Car polestar = new Car()
             {
@@ -57,13 +74,53 @@ namespace car_website.Controllers
                 CarColor = Color.White,
                 Year = 2021,
                 Description = "Lorem ipsum",
-                EngineCapacity = 2.0f
+                EngineCapacity = 2.0f,
+                Mileage = 0
+            };
+            Car supra = new Car()
+            {
+                Price = 45000,
+                PhotosURL = new string[] { "https://img.classistatic.de/api/v1/mo-prod/images/94/94faae14-a801-401f-b441-46298ec43626?rule=mo-1024.jpg" },
+                Brand = "Toyota",
+                Model = "Supra",
+                CarTransmission = Transmission.Mechanics,
+                Body = TypeBody.Coupe,
+                Fuel = TypeFuel.Gasoline,
+                Driveline = TypeDriveline.Rear,
+                CarColor = Color.White,
+                Year = 1995,
+                Description = "Lorem ipsum",
+                EngineCapacity = 3.0f,
+                Mileage = 180
             };
             //Uncomment to add new car on launch
             //await _carRepository.Add(chrysler);
+            //await _carRepository.Add(chryslerNew);
+            //await _carRepository.Add(polestar);
+            //await _carRepository.Add(supra);
             Brand pol = new Brand();
-            pol.Name = "Polestar";
-            pol.Models = new string[] { "1", "2", "Other" };
+            pol.Name = "Toyota";
+            pol.Models = new string[] { "Corolla",
+    "Camry",
+    "Prius",
+    "RAV4",
+    "Highlander",
+    "4Runner",
+    "LandCruiser",
+    "Tacoma",
+    "Tundra",
+    "Sienna",
+    "Sequoia",
+    "C-HR",
+    "Venza",
+    "Supra",
+    "Yaris",
+    "Avalon",
+    "Mirai",
+    "GR86",
+    "GRSupra",
+    "FJ Cruiser",
+ "Інше" };
             //await _brandRepository.Add(pol);
             var brands = await _brandRepository.GetAll();
             return View(brands.OrderBy(brand => brand));
@@ -95,6 +152,10 @@ namespace car_website.Controllers
                 filteredCars = filteredCars.Where(car => car.EngineCapacity >= filter.MinEngineCapacity);
             if (filter.MaxEngineCapacity != 0)
                 filteredCars = filteredCars.Where(car => car.EngineCapacity <= filter.MaxEngineCapacity);
+            if (filter.MinMileage != 0)
+                filteredCars = filteredCars.Where(car => car.Mileage >= filter.MinMileage);
+            if (filter.MaxMileage != 0)
+                filteredCars = filteredCars.Where(car => car.Mileage <= filter.MaxMileage);
             int totalItems = filteredCars.Count();
             int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
             int skip = (page - 1) * perPage;
