@@ -84,6 +84,86 @@ input[type=number] {
 }
 
 /*--------------------*/
+.login-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 10%;
+  background-color: #D0E0CA;
+}
+.login-wrapper form {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 40px;
+  border-radius: 40px;
+  border: 2px solid #D4D4D4;
+  background-color: white;
+}
+.login-wrapper form input[type=text] {
+  width: 100%;
+  font-size: 16px;
+  padding: 9px 12px;
+  background-color: white;
+  border: 2px solid #D4D4D4;
+  border-radius: 6px;
+}
+.login-wrapper form input[type=password] {
+  width: 100%;
+  font-size: 16px;
+  padding: 9px 12px;
+  background-color: white;
+  border: 2px solid #D4D4D4;
+  border-radius: 6px;
+}
+.login-wrapper form input::placeholder {
+  color: #B3B3B3;
+}
+.login-wrapper form input[type=checkbox] {
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+  margin-left: 4px;
+}
+.login-wrapper form label {
+  display: block;
+  margin: 2px 0 2px 0;
+  font-size: 18px;
+}
+.login-wrapper form .showpass {
+  margin: 7px 0 0 0;
+  display: flex;
+}
+.login-wrapper form button {
+  padding: 9px 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  background-color: #56744D;
+  color: white;
+  transition: 0.2s;
+  margin: 5px 0;
+}
+.login-wrapper form button:hover {
+  background-color: #5D864F;
+  transition: 0.2s;
+}
+.login-wrapper form .log-reg-change {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.login-wrapper form a {
+  color: black;
+  text-decoration: underline;
+}
+
+.text-danger {
+  color: red;
+}
+
 body {
   background-color: white;
   font-family: "Roboto", sans-serif;

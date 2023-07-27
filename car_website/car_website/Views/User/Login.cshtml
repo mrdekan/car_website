@@ -1,6 +1,6 @@
 ﻿@using car_website.ViewModels
 @model LoginViewModel
-<div class="register-wrapper">
+<div class="login-wrapper">
     <form method="post" asp-action="Login" enctype="multipart/form-data">
         <div class="form-group">
             <label asp-for="Email">Ел. пошта</label>
@@ -10,11 +10,14 @@
         <div class="form-group">
             <label asp-for="Password">Пароль</label>
             <input asp-for="Password" type="password" class="form-control" placeholder="Пароль" id="pass">
-            <input type="checkbox" id="pass_show"/>
             <span asp-validation-for="Password" class="text-danger"></span>
+            <div class="showpass">
+                <span>Показати пароль? </span>
+                <input type="checkbox" id="pass_show"/>
+            </div>
         </div>
         <button type="submit" class="sell-button">Увійти</button>
+    <div class="log-reg-change"><p>Немає аккаунту? <a asp-controller="User" asp-action="Register">Зареєструватись</a></p></div>
     </form>
-    <span>Немає аккаунту? <a asp-controller="User" asp-action="Register">Зареєструватись</a></span>
 </div>
 <script src="~/js/loginPage.js" asp-append-version="true"></script>
