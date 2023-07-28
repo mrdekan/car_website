@@ -1,4 +1,5 @@
-﻿/*null*/
+﻿@charset "UTF-8";
+/*null*/
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap");
 * {
   padding: 0;
@@ -170,7 +171,7 @@ body {
 }
 
 .wrapper {
-  margin: auto;
+  margin: 50px;
   display: flex;
 }
 .wrapper .filters {
@@ -291,6 +292,30 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+header .header_left {
+  width: 250px;
+  height: 80px;
+  background-color: #F3EFCA; /* Цвет фона, здесь используется синий */
+  transform: skewX(-20deg); /* Угол наклона в градусах (может быть положительным или отрицательным) */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+header .header_left::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -30px; /* Измените это значение, чтобы регулировать наклон параллелограмма */
+  width: 130px; /* Увеличиваем ширину, чтобы учесть прямой угол */
+  height: 100%;
+  background-color: inherit;
+}
+header .header_left h1 {
+  position: absolute;
+  z-index: 5;
+  margin: 34px 0 0 125px;
+  color: black;
+  font-size: 26px;
+  font-weight: 700;
 }
 header .header_right {
   display: flex;
