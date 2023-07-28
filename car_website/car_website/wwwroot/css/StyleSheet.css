@@ -188,6 +188,9 @@ body {
   padding: 5px;
   color: gray;
 }
+.wrapper .filters select option:hover {
+  background-color: #415939;
+}
 .wrapper .filters input {
   max-width: 80px;
   border-radius: 8px;

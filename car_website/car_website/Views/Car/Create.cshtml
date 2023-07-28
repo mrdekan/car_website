@@ -12,7 +12,7 @@
         <div class="form-group">
             <label asp-for="CreateCarViewModel.Brand">Brand</label>
             <select asp-for="CreateCarViewModel.Brand" id="brand-select">
-                <option value="Any">Не обрано</option>
+                <option value="Any">--Оберіть--</option>
                 @foreach (var str in Model.CarBrands)
                 {
                     <option value=@str>@str</option>
@@ -23,7 +23,7 @@
         <div class="form-group">
             <label asp-for="CreateCarViewModel.Model">Модель</label>
             <select asp-for="CreateCarViewModel.Model" id="model-select">
-                <option value="Any">Не обрано</option>
+                <option value="Any">--Оберіть--</option>
             </select>
             <span asp-validation-for="CreateCarViewModel.Model" class="text-danger"></span>
         </div>
@@ -43,25 +43,73 @@
         </div>
         <div class="form-group">
 		    <label asp-for="CreateCarViewModel.CarTransmission">Трансмісія</label>
-		    <select asp-for="CreateCarViewModel.CarTransmission" class="form-select" asp-items="@Html.GetEnumSelectList<Transmission>()">
-		    	<option>--Оберіть--</option>
+		    <select asp-for="CreateCarViewModel.CarTransmission" class="form-select">
+		    	<option value="0">--Оберіть--</option>
+                <option value="1">Механіка</option>
+                <option value="2">Автоматична</option>
 		    </select>
 		    <span asp-validation-for="CreateCarViewModel.CarTransmission" class="text-danger"></span>
 	    </div>
         <div class="form-group">
 		    <label asp-for="CreateCarViewModel.Body">Тип кузову</label>
-		    <select asp-for="CreateCarViewModel.Body" class="form-select" asp-items="@Html.GetEnumSelectList<TypeBody>()">
-		    	<option>--Оберіть--</option>
+		    <select asp-for="CreateCarViewModel.Body" class="form-select">
+		    	<option value="0">--Оберіть--</option>
+                <option value="1">Седан</option>
+                <option value="2">Позашляховик</option>
+                <option value="3">Мінівен</option>
+                <option value="4">Хетчбек</option>
+                <option value="5">Універсал</option>
+                <option value="6">Купе</option>
+                <option value="7">Кабріолет</option>
+                <option value="8">Пікап</option>
+                <option value="9">Ліфтбек</option>
+                <option value="10">Фастбек</option>
 		    </select>
 		    <span asp-validation-for="CreateCarViewModel.Body" class="text-danger"></span>
 	    </div>
         <div class="form-group">
 		    <label asp-for="CreateCarViewModel.Fuel">Тип палива</label>
-		    <select asp-for="CreateCarViewModel.Fuel" class="form-select" asp-items="@Html.GetEnumSelectList<TypeFuel>()">
-		    	<option>--Оберіть--</option>
+		    <select asp-for="CreateCarViewModel.Fuel" class="form-select">
+		    	<option value="0">--Оберіть--</option>
+                <option value="3">Бензин</option>
+                <option value="4">Дизель</option>
+                <option value="1">Газ</option>
+                <option value="2">Газ/бензин</option>
+                <option value="5">Гібрид</option>
+                <option value="6">Електро</option>
 		    </select>
 		    <span asp-validation-for="CreateCarViewModel.Fuel" class="text-danger"></span>
 	    </div>
+        <div class="form-group">
+		    <label asp-for="CreateCarViewModel.Driveline">Тип приводу</label>
+		    <select asp-for="CreateCarViewModel.Driveline" class="form-select">
+		    	<option value="0">--Оберіть--</option>
+                <option value="1">Передній</option>
+                <option value="2">Задній</option>
+                <option value="3">Повний</option>
+		    </select>
+		    <span asp-validation-for="CreateCarViewModel.Driveline" class="text-danger"></span>
+	    </div>
+        <div class="form-group">
+		    <label asp-for="CreateCarViewModel.CarColor">Колір</label>
+		    <select asp-for="CreateCarViewModel.CarColor" class="form-select">
+		    	<option value="0">--Оберіть--</option>
+                <option value="1">Передній</option>
+                <option value="2">Задній</option>
+                <option value="3">Повний</option>
+		    </select>
+		    <span asp-validation-for="CreateCarViewModel.CarColor" class="text-danger"></span>
+	    </div>
+
+
+        <div id="other-model">
+            <div class="form-group">
+                <label asp-for="CreateCarViewModel.Description">Додатковий опис</label>
+                <textarea id="description" asp-for="CreateCarViewModel.Description" maxlength="200" style="resize: none;"></textarea>
+                <span id="descriptionLength">0/200</span>
+                <span asp-validation-for="CreateCarViewModel.Description" class="text-danger"></span>
+            </div>
+        </div>
         <button type="submit" class="sell-button">Опублікувати оголошення</button>
     </form>
 </div>

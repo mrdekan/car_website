@@ -1,5 +1,32 @@
 ﻿const brand_select = document.getElementById("brand-select");
 const model_select = document.getElementById("model-select");
+const descriptionLength = document.getElementById("descriptionLength");
+const description = document.getElementById("description");
+const allSelects = document.querySelectorAll('select');
+
+
+
+
+
+allSelects.forEach(select => {
+    select.addEventListener('change', function () {
+        const options = Array.from(this.options);
+        const optionToRemove = options.find(option => option.text === '--Оберіть--');
+        if (optionToRemove && !optionToRemove.selected) {
+            optionToRemove.remove();
+        }
+    });
+});
+
+description.addEventListener('input', function (event) {
+    const maxLength = parseInt(event.target.getAttribute('maxlength'));
+    let currentValue = event.target.value;
+    if (currentValue.length > maxLength) {
+        currentValue = currentValue.slice(0, maxLength);
+    }
+    event.target.value = currentValue;
+    descriptionLength.innerHTML = `${currentValue.length}/${maxLength}`;
+});
 
 brand_select.addEventListener('change', function () {
     if (brand_select.value == "Any")

@@ -23,7 +23,11 @@ body {
             max-width: 200px;
             border-radius: 8px;
             padding: 5px;
-            color:gray;
+            color: gray;
+        }
+
+        select option:hover {
+            background-color: #415939;
         }
 
         input {
@@ -47,8 +51,9 @@ body {
                 width: 80px;
             }
         }
-        label{
-            font-size:16px;
+
+        label {
+            font-size: 16px;
         }
     }
 
