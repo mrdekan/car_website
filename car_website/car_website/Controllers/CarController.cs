@@ -29,38 +29,48 @@ namespace car_website.Controllers
             return View(new CarCreationPageViewModel() { CarBrands = brands.ToList(), CreateCarViewModel = new CreateCarViewModel() });
         }
         [HttpPost]
-        public async Task<IActionResult> Create(CreateCarViewModel newCar)
+        public async Task<IActionResult> Create(CarCreationPageViewModel carVM)
         {
-            if (newCar.Photo1 == null || newCar.Photo1.Length == 0)
-                return BadRequest("No photo uploaded.");
+            if (ModelState.IsValid)
+            {
+                var newCar = carVM.CreateCarViewModel;
+                if (newCar.Photo1 == null || newCar.Photo1.Length == 0)
+                    return BadRequest("No photo uploaded.");
 
-            var photoName = await _imageService.UploadPhotoAsync(newCar.Photo1);
-            List<string> photosNames = new List<string> { photoName };
-            if (newCar.Photo2 != null)
-            {
-                photoName = await _imageService.UploadPhotoAsync(newCar.Photo2);
-                photosNames.Add(photoName);
+                var photoName = await _imageService.UploadPhotoAsync(newCar.Photo1);
+                List<string> photosNames = new List<string> { photoName };
+                if (newCar.Photo2 != null)
+                {
+                    photoName = await _imageService.UploadPhotoAsync(newCar.Photo2);
+                    photosNames.Add(photoName);
+                }
+                if (newCar.Photo3 != null)
+                {
+                    photoName = await _imageService.UploadPhotoAsync(newCar.Photo3);
+                    photosNames.Add(photoName);
+                }
+                if (newCar.Photo4 != null)
+                {
+                    photoName = await _imageService.UploadPhotoAsync(newCar.Photo4);
+                    photosNames.Add(photoName);
+                }
+                if (newCar.Photo5 != null)
+                {
+                    photoName = await _imageService.UploadPhotoAsync(newCar.Photo5);
+                    photosNames.Add(photoName);
+                }
+                var photosUrl = photosNames.Select(photo => _imageService.GetPhotoUrlAsync(photo));
+                var photoUrlsArray = await Task.WhenAll(photosUrl);
+                Car car = new Car(newCar, photoUrlsArray.ToList());
+                await _carRepository.Add(car);
+                return RedirectToAction("Index", "Home");
             }
-            if (newCar.Photo3 != null)
+            else
             {
-                photoName = await _imageService.UploadPhotoAsync(newCar.Photo3);
-                photosNames.Add(photoName);
+                var brands = await _brandRepository.GetAll();
+                carVM.CarBrands = brands.ToList();
+                return View(carVM);
             }
-            if (newCar.Photo4 != null)
-            {
-                photoName = await _imageService.UploadPhotoAsync(newCar.Photo4);
-                photosNames.Add(photoName);
-            }
-            if (newCar.Photo5 != null)
-            {
-                photoName = await _imageService.UploadPhotoAsync(newCar.Photo5);
-                photosNames.Add(photoName);
-            }
-            var photosUrl = photosNames.Select(photo => _imageService.GetPhotoUrlAsync(photo));
-            var photoUrlsArray = await Task.WhenAll(photosUrl);
-            Car car = new Car(newCar, photoUrlsArray.ToList());
-            await _carRepository.Add(car);
-            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -20,10 +20,15 @@ namespace car_website.ViewModels
         public string Brand { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         public string Model { get; set; }
+        [Range(1, 100, ErrorMessage = "Оберіть значення")]
         public Transmission CarTransmission { get; set; }
+        [Range(1, 100, ErrorMessage = "Оберіть значення")]
         public TypeBody Body { get; set; }
+        [Range(1, 100, ErrorMessage = "Оберіть значення")]
         public TypeFuel Fuel { get; set; }
+        [Range(1, 100, ErrorMessage = "Оберіть значення")]
         public TypeDriveline Driveline { get; set; }
+        [Range(1, 100, ErrorMessage = "Оберіть значення")]
         public Color CarColor { get; set; }
         public uint Year { get; set; }
         [MaxLength(200, ErrorMessage = "Не більше 200 символів")]
