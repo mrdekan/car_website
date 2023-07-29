@@ -2,7 +2,28 @@
 {
     public enum CarOptions
     {
+        FogLights,
+        RainSensor,
+        AirConditioner,
+        CentralLock,
+        SeatHeating,
+        LightSensor,
+        AlarmSystem,
+        LeatherInterior,
+        CruiseControl,
+        GPSNavigation,
+        PowerSteering,
+        SecondSetOfTires,
+        ServiceBook,
+        ElectricMirrors,
+        LEDLights,
+        ParkingSensors,
         ABS,
-        ESP
+        TintedWindows,
+        PowerWindows,
+        AirSuspension,
+        ESP,
+        CarAudioSystem,
+        AlloyWheels
     }
 }

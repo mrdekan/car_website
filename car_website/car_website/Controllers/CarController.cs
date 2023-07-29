@@ -31,13 +31,15 @@ namespace car_website.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CarCreationPageViewModel carVM)
         {
+            var newCar = carVM.CreateCarViewModel;
+            Car car = new Car(newCar, new List<string>());
             if (ModelState.IsValid)
             {
-                var newCar = carVM.CreateCarViewModel;
-                if (newCar.Photo1 == null || newCar.Photo1.Length == 0)
-                    return BadRequest("No photo uploaded.");
 
-                var photoName = await _imageService.UploadPhotoAsync(newCar.Photo1);
+                /*if (newCar.Photo1 == null || newCar.Photo1.Length == 0)
+                    return BadRequest("No photo uploaded.");*/
+
+                /*var photoName = await _imageService.UploadPhotoAsync(newCar.Photo1);
                 List<string> photosNames = new List<string> { photoName };
                 if (newCar.Photo2 != null)
                 {
@@ -58,11 +60,11 @@ namespace car_website.Controllers
                 {
                     photoName = await _imageService.UploadPhotoAsync(newCar.Photo5);
                     photosNames.Add(photoName);
-                }
-                var photosUrl = photosNames.Select(photo => _imageService.GetPhotoUrlAsync(photo));
-                var photoUrlsArray = await Task.WhenAll(photosUrl);
-                Car car = new Car(newCar, photoUrlsArray.ToList());
-                await _carRepository.Add(car);
+                }*/
+                //var photosUrl = photosNames.Select(photo => _imageService.GetPhotoUrlAsync(photo));
+                //var photoUrlsArray = await Task.WhenAll(photosUrl);
+                //Car car = new Car(newCar, photoUrlsArray.ToList());
+                //await _carRepository.Add(car);
                 return RedirectToAction("Index", "Home");
             }
             else

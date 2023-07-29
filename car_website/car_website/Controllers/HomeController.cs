@@ -136,7 +136,12 @@ namespace car_website.Controllers
                     filteredCars = filteredCars.Where(car => car.OtherBrand == true);
             }
             if (!filter.Model.IsNullOrEmpty() && filter.Model != "Any" && filter.Brand != "Інше")
-                filteredCars = filteredCars.Where(car => car.Model == filter.Model);
+            {
+                if (filter.Model != "Інше")
+                    filteredCars = filteredCars.Where(car => car.Model == filter.Model);
+                else
+                    filteredCars = filteredCars.Where(car => car.OtherModel == true);
+            }
             if (filter.Body != 0)
                 filteredCars = filteredCars.Where(car => car.Body == filter.Body);
             if (filter.MinYear != 0)

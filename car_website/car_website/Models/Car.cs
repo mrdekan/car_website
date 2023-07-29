@@ -28,7 +28,13 @@ namespace car_website.Models
             VIN = carVM.VIN;
             Options = carVM.Options;
             Mileage = carVM.Mileage;
-            OtherBrand = carVM.OtherBrand;
+            Options = carVM.Features.GetType()
+            .GetProperties()
+            .Where(prop => prop.PropertyType == typeof(bool) && (bool)prop.GetValue(carVM.Features))
+            .Select(prop => (CarOptions)Enum.Parse(typeof(CarOptions), prop.Name))
+            .ToArray();
+            OtherBrand = carVM.OtherBrandName != null;
+            OtherModel = carVM.OtherModelName != null;
         }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -49,6 +55,7 @@ namespace car_website.Models
         public CarOptions[] Options { get; set; }
         public uint Mileage { get; set; }
         public bool OtherBrand { get; set; }
+        public bool OtherModel { get; set; }
         //public string Mark { get; set; }
     }
 }
