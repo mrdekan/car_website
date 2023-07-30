@@ -82,6 +82,8 @@ brand_select.addEventListener('change', function () {
 //#endregion
 
 applyFilter();
+if (brand_select.value!="Any")
+getModelsOfMark()
 
 //#region Ajax requests
 function getModelsOfMark() {
@@ -91,7 +93,7 @@ function getModelsOfMark() {
             model_select.innerHTML = '<option value="Any">Усі</option>';
             console.log(data);
             data.models.forEach(model => {
-                model_select.innerHTML += `<option value=${model}>${model}</option>`;
+                model_select.innerHTML += `<option value=${model.replace(' ','_')}>${model}</option>`;
             });
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));

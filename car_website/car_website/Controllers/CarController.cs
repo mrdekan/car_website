@@ -31,11 +31,14 @@ namespace car_website.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CarCreationPageViewModel carVM)
         {
-            var newCar = carVM.CreateCarViewModel;
-            Car car = new Car(newCar, new List<string>());
             if (ModelState.IsValid)
             {
+                var newCar = carVM.CreateCarViewModel;
+                var photoName = await _imageService.UploadPhotoAsync(newCar.Photo1);
+                List<string> photosNames = new List<string> { photoName };
+                Car car = new Car(newCar, photosNames);
 
+                await _carRepository.Add(car);
                 /*if (newCar.Photo1 == null || newCar.Photo1.Length == 0)
                     return BadRequest("No photo uploaded.");*/
 
@@ -69,6 +72,18 @@ namespace car_website.Controllers
             }
             else
             {
+                foreach (var key in ModelState.Keys)
+                {
+                    var state = ModelState[key];
+                    if (state.Errors.Count > 0)
+                    {
+                        foreach (var error in state.Errors)
+                        {
+                            var errorMessage = error.ErrorMessage;
+                            // Здесь можно добавить вывод errorMessage в лог или консоль
+                        }
+                    }
+                }
                 var brands = await _brandRepository.GetAll();
                 carVM.CarBrands = brands.ToList();
                 return View(carVM);

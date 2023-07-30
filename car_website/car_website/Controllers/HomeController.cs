@@ -138,7 +138,7 @@ namespace car_website.Controllers
             if (!filter.Model.IsNullOrEmpty() && filter.Model != "Any" && filter.Brand != "Інше")
             {
                 if (filter.Model != "Інше")
-                    filteredCars = filteredCars.Where(car => car.Model == filter.Model);
+                    filteredCars = filteredCars.Where(car => car.Model == filter.Model?.Replace('_', ' '));
                 else
                     filteredCars = filteredCars.Where(car => car.OtherModel == true);
             }

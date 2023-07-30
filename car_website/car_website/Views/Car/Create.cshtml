@@ -101,17 +101,17 @@
             <label asp-for="CreateCarViewModel.CarColor">Колір</label>
             <select asp-for="CreateCarViewModel.CarColor" class="form-select">
                 <option value="-1">--Оберіть--</option>
-                <option value="1">Бежевий</option>
-                <option value="2">Чорний</option>
-                <option value="3">Синій</option>
-                <option value="4">Коричневий</option>
-                <option value="5">Зелений</option>
-                <option value="6">Сірий</option>
-                <option value="7">Помаранчевий</option>
-                <option value="8">Фіолетовий</option>
-                <option value="9">Червоний</option>
-                <option value="10">Білий</option>
-                <option value="11">Жовтий</option>
+                <option value="0">Бежевий</option>
+                <option value="1">Чорний</option>
+                <option value="2">Синій</option>
+                <option value="3">Коричневий</option>
+                <option value="4">Зелений</option>
+                <option value="5">Сірий</option>
+                <option value="6">Помаранчевий</option>
+                <option value="7">Фіолетовий</option>
+                <option value="8">Червоний</option>
+                <option value="9">Білий</option>
+                <option value="10">Жовтий</option>
             </select>
             <span asp-validation-for="CreateCarViewModel.CarColor" class="text-danger"></span>
         </div>
@@ -127,7 +127,7 @@
         </div>
         <div class="form-group">
             <label asp-for="CreateCarViewModel.EngineCapacity">Об'єм двигуна</label>
-            <input asp-for="CreateCarViewModel.EngineCapacity" type="number" />
+            <input asp-for="CreateCarViewModel.EngineCapacity"/>
             <span asp-validation-for="CreateCarViewModel.EngineCapacity" class="text-danger"></span>
         </div>
         <div class="form-group">

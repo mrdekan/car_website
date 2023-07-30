@@ -16,7 +16,7 @@ namespace car_website.Models
             Price = carVM.Price;
             PhotosURL = urlPhotos.ToArray();
             Brand = carVM.Brand;
-            Model = carVM.Model;
+            Model = carVM.Model.Replace('_', ' ');
             CarTransmission = carVM.CarTransmission;
             Body = carVM.Body;
             Fuel = carVM.Fuel;
@@ -26,7 +26,6 @@ namespace car_website.Models
             Description = carVM.Description ?? "";
             EngineCapacity = carVM.EngineCapacity;
             VIN = carVM.VIN;
-            Options = carVM.Options;
             Mileage = carVM.Mileage;
             Options = carVM.Features.GetType()
             .GetProperties()

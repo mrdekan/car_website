@@ -39,7 +39,6 @@ namespace car_website.ViewModels
         public float EngineCapacity { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         public string VIN { get; set; }
-        public CarOptions[] Options { get; set; }
         //public bool OtherBrand { get; set; }
         [MaxLength(20, ErrorMessage = "Занадто довга назва")]
         public string? OtherBrandName { get; set; }
