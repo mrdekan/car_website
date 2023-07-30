@@ -8,8 +8,8 @@ const year_max_select = document.getElementById("year_max-select");
 const price_max_input = document.getElementById("price_max-input");
 const price_min_input = document.getElementById("price_min-input");
 const race_max_input = document.getElementById("race_max-input");
-const race_min_input = document.getElementById("race_min-input"); 
-const transmission_select = document.getElementById("transmission-select"); 
+const race_min_input = document.getElementById("race_min-input");
+const transmission_select = document.getElementById("transmission-select");
 const fuel_select = document.getElementById("fuel-select");
 const driveline_select = document.getElementById("driveline-select");
 const engineVolume_min_input = document.getElementById("engineVolume_min-input");
@@ -82,8 +82,8 @@ brand_select.addEventListener('change', function () {
 //#endregion
 
 applyFilter();
-if (brand_select.value!="Any")
-getModelsOfMark()
+if (brand_select.value != "Any")
+    getModelsOfMark()
 
 //#region Ajax requests
 function getModelsOfMark() {
@@ -93,7 +93,7 @@ function getModelsOfMark() {
             model_select.innerHTML = '<option value="Any">Усі</option>';
             console.log(data);
             data.models.forEach(model => {
-                model_select.innerHTML += `<option value=${model.replace(' ','_')}>${model}</option>`;
+                model_select.innerHTML += `<option value=${model.replace(' ', '_')}>${model}</option>`;
             });
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
@@ -155,6 +155,7 @@ function applyFilter() {
                                             </div>
                                         </div>
                                     </div>
+                                    <button id="like_cars"> <img alt="#" src="../img/heart.svg" /> </button>
                                 </div>`;
                 carList.innerHTML += block;
             });

@@ -77,6 +77,23 @@ namespace car_website.Controllers
                 EngineCapacity = 2.0f,
                 Mileage = 0
             };
+            Car Gladiator = new Car()
+            {
+                Price = 48000,
+                PhotosURL = new string[] { "https://cdn1.riastatic.com/photosnew/auto/photo/jeep_gladiator__500223286hd.webp" },
+                Brand = "Jeep",
+                Model = "Gladiator",
+                CarTransmission = Transmission.Automatic,
+                Body = TypeBody.SUV,
+                Fuel = TypeFuel.Gasoline,
+                Driveline = TypeDriveline.AWD,
+                CarColor = Color.Black,
+                Year = 2019,
+                Description = "Lorem ipsum",
+                EngineCapacity = 3.6f,
+                Mileage = 15,
+                //VIN = 1C6JJTAG5LL120319
+            };
             Car supra = new Car()
             {
                 Price = 45000,
@@ -93,11 +110,13 @@ namespace car_website.Controllers
                 EngineCapacity = 3.0f,
                 Mileage = 180
             };
+
             //Uncomment to add new car on launch
             //await _carRepository.Add(chrysler);
             //await _carRepository.Add(chryslerNew);
             //await _carRepository.Add(polestar);
             //await _carRepository.Add(supra);
+            //await _carRepository.Add(Gladiator);
             Brand pol = new Brand();
             pol.Name = "Toyota";
             pol.Models = new string[] { "Corolla",

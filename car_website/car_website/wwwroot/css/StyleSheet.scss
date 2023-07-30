@@ -73,6 +73,13 @@ body {
         padding: 30px;
         width: 960px;
 
+        button {
+            width: 40px;
+            height: 40px;
+            background-color: #F6F6F6;
+            margin:20px 0 0 20px;
+        }
+
         &-image-wrap {
             width: 300px;
             height: 200px;
