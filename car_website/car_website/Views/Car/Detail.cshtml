@@ -1,3 +1,8 @@
 ﻿@model Car
+@{
+    ViewData["Title"] = Model.Brand + " " + Model.Model;
+}
 <h2 class="title">@Model.Brand @Model.Model @Model.Year</h2>
-<img src="@Model.PhotosURL[0]" alt="photo" height="400"/>
+@foreach(var photo in Model.PhotosURL){
+    <img src="@photo" alt="photo" height="400" />
+}

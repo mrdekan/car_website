@@ -20,8 +20,8 @@ namespace car_website.Services
             {
                 await photo.CopyToAsync(stream);
             }
-
-            return photoName;
+            string res = await GetPhotoUrlAsync(photoName);
+            return res;
         }
 
         public Task<string> GetPhotoUrlAsync(string photoName)

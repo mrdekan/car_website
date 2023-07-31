@@ -1,7 +1,9 @@
 ﻿@model CarCreationPageViewModel
 @using car_website.Data.Enum
 @using car_website.ViewModels;
-
+@{
+    ViewData["Title"] = "Опублікувати оголошення";
+}
 <div class="create-wrapper" style="margin: 50px">
     <form method="post" asp-action="Create" enctype="multipart/form-data">
         <div id="photos-select">

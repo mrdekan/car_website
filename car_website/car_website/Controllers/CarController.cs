@@ -2,6 +2,7 @@
 using car_website.Models;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson;
 
 namespace car_website.Controllers
@@ -25,6 +26,10 @@ namespace car_website.Controllers
         }
         public async Task<IActionResult> Create()
         {
+            if (HttpContext.Session.GetString("UserId").IsNullOrEmpty())
+            {
+                return RedirectToAction("Register", "User");
+            }
             var brands = await _brandRepository.GetAll();
             return View(new CarCreationPageViewModel() { CarBrands = brands.ToList(), CreateCarViewModel = new CreateCarViewModel() });
         }
@@ -34,8 +39,16 @@ namespace car_website.Controllers
             if (ModelState.IsValid)
             {
                 var newCar = carVM.CreateCarViewModel;
-                var photoName = await _imageService.UploadPhotoAsync(newCar.Photo1);
-                List<string> photosNames = new List<string> { photoName };
+                List<string> photosNames = new List<string>();
+                List<IFormFile> photos = new List<IFormFile>() { newCar.Photo1, newCar.Photo2, newCar.Photo3, newCar.Photo4, newCar.Photo5 };
+                photos = photos.Where(photo => photo != null).ToList();
+                foreach (var photo in photos)
+                {
+                    var photoName = await _imageService.UploadPhotoAsync(photo);
+                    photosNames.Add(photoName);
+                }
+
+                //photosNames = new List<string> { photoName };
                 Car car = new Car(newCar, photosNames);
 
                 await _carRepository.Add(car);
