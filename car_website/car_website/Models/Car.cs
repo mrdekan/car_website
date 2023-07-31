@@ -55,6 +55,7 @@ namespace car_website.Models
         public uint Mileage { get; set; }
         public bool OtherBrand { get; set; }
         public bool OtherModel { get; set; }
+        public string SellerEmail { get; set; }
         //public string Mark { get; set; }
     }
 }
