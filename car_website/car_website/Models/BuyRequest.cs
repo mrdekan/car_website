@@ -8,7 +8,7 @@ namespace car_website.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
-        public string BuyerEmail { get; set; }
-        public ObjectId Car { get; set; }
+        public string BuyerId { get; set; }
+        public string CarId { get; set; }
     }
 }

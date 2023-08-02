@@ -1,6 +1,13 @@
 ﻿@model User
 @{
     ViewData["Title"] = "Кабінет";
+    var role = ViewContext.HttpContext.Session.GetInt32("UserRole");
 }
+<div class="profile_wrapper" style="margin: 50px">
 <p>@Model.Name @Model.SurName</p>
+@if(role == 1 || role == 2)
+{
+    <a asp-controller="Admin" asp-action="Panel">Панель керування</a>
+}
 <a asp-controller="User" asp-action="Logout">Вийти</a>
+</div>

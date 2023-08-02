@@ -6,3 +6,6 @@
 @foreach(var photo in Model.PhotosURL){
     <img src="@photo" alt="photo" height="400" />
 }
+@if (!string.IsNullOrEmpty(ViewContext.HttpContext.Session.GetString("UserId"))){
+    <a href=@Url.Action("BuyRequest", "Car" , new { carId=Model.Id.ToString(), userId=ViewContext.HttpContext.Session.GetString("UserId")});>Зв'язатись з менеджером</a>
+}

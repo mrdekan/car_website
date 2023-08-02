@@ -23,9 +23,6 @@ namespace car_website.Controllers
         }
         public IActionResult Logout()
         {
-            //HttpContext.Response.Cookies.Append("UserId", "");
-            //HttpContext.Response.Cookies.Delete("UserId");
-            //HttpContext.Response.Cookies.Delete("UserName");
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
@@ -50,8 +47,7 @@ namespace car_website.Controllers
                 var message = $"Будь ласка, щоб підтвердити ел. пошту перейдіть за посиланням: {verificationLink}";
                 await _emailService.SendEmailAsync(newUser.Email, "Підтвердження пошти", message);
                 HttpContext.Session.SetString("UserId", newUser.Id.ToString());
-                //HttpContext.Response.Cookies.Append("UserId", newUser.Id.ToString());
-                //HttpContext.Response.Cookies.Append("UserName", newUser.Name.ToString());
+                HttpContext.Session.SetInt32("UserRole", (int)newUser.Role);
                 ViewBag.CurrentUser = newUser;
                 return RedirectToAction("RegistrationSuccess");
             }
@@ -70,8 +66,7 @@ namespace car_website.Controllers
                 {
                     ViewBag.CurrentUser = user;
                     HttpContext.Session.SetString("UserId", user.Id.ToString());
-                    //HttpContext.Response.Cookies.Append("UserId", user.Id.ToString());
-                    //HttpContext.Response.Cookies.Append("UserName", user.Name.ToString());
+                    HttpContext.Session.SetInt32("UserRole", (int)user.Role);
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("Email", "Неправильна почта або пароль");

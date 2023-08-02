@@ -11,7 +11,7 @@ namespace car_website.Models
         {
 
         }
-        public Car(CreateCarViewModel carVM, List<string> urlPhotos)
+        public Car(CreateCarViewModel carVM, List<string> urlPhotos, string sellerId)
         {
             Price = carVM.Price;
             PhotosURL = urlPhotos.ToArray();
@@ -34,6 +34,7 @@ namespace car_website.Models
             .ToArray();
             OtherBrand = carVM.OtherBrandName != null;
             OtherModel = carVM.OtherModelName != null;
+            SellerId = sellerId;
         }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -55,7 +56,7 @@ namespace car_website.Models
         public uint Mileage { get; set; }
         public bool OtherBrand { get; set; }
         public bool OtherModel { get; set; }
-        public string SellerEmail { get; set; }
+        public string SellerId { get; set; }
         //public string Mark { get; set; }
     }
 }
