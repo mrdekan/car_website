@@ -24,7 +24,7 @@
             <option value="Any">Усі</option>
             @foreach (var str in Model)
             {
-                <option value=@str>@str</option>
+                    <option value=@str>@str</option>
             }
         </select>
         <label>Модель</label>
@@ -37,14 +37,14 @@
                 <option value="0">Від</option>
                 @for (int i = DateTime.Now.Year; i >= 1900; i--)
                 {
-                    <option value=@i>@i</option>
+                        <option value=@i>@i</option>
                 }
             </select>
             <select name="year_max-select" id="year_max-select">
                 <option value="0">До</option>
                 @for (int i = DateTime.Now.Year; i >= 1900; i--)
                 {
-                    <option value=@i>@i</option>
+                        <option value=@i>@i</option>
                 }
             </select>
         </div>
@@ -95,3 +95,5 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 <script src="~/js/mainPage.js" asp-append-version="true"></script>
+
+

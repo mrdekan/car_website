@@ -67,49 +67,25 @@ body {
         gap: 20px;
     }
 
-    .car-container {
-        background-color: #F6F6F6;
+    .car {
         display: flex;
-        padding: 30px;
-        width: 960px;
+        justify-content: space-between;
+        background-color: #F6F6F6;
+        align-items: end;
+        max-width: 890px;
 
-        button {
-            width: 40px;
-            height: 40px;
-            background-color: #F6F6F6;
-            margin:20px 0 0 20px;
-        }
 
-        &-image-wrap {
-            width: 300px;
-            height: 200px;
-            overflow: hidden;
-        }
-
-        img {
-            width: 100%;
+        &_container-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: end;
             height: 100%;
-            object-fit: cover;
-        }
-
-        &-info {
-            padding-left: 30px;
-
-            a {
-                color: black;
-                font-size: 32px;
-            }
-
-            &-all {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-            }
 
             &-price {
-                position: absolute;
-                margin: -24px 0 0 480px;
-                width: fit-content;
+                margin: 30px 0 0 20px;
+                //position: absolute;
+                // width: fit-content;
 
                 &-USD {
                     font-size: 26px;
@@ -136,25 +112,67 @@ body {
                     //max-width: fit-content;
                 }
             }
+        }
 
-            &-parameters {
-                margin: 20px 0 0 34px;
+        button {
+            width: 40px;
+            height: 40px;
+            background-color: #F6F6F6;
+            margin: 0px 73px 26px 0px;
+        }
 
-                &-row {
-                    margin-top: 20px;
+        &_container {
+            display: flex;
+            margin: 30px;
+            min-width: 720px;
+
+            &-image-wrap {
+                width: 300px;
+                height: 200px;
+                overflow: hidden;
+            }
+
+            img {
+                width: 300px;
+                height: 200px;
+                object-fit: cover;
+            }
+
+            &-info {
+                padding-left: 30px;
+                //min-width: 400px;
+
+                a {
+                    color: black;
+                    font-size: 32px;
+                }
+
+                &-all {
                     display: flex;
-                    gap: 117px;
+                    flex-direction: row;
+                    justify-content: space-between;
+                }
 
-                    p {
-                        font-size: 20px;
-                        min-width: 107px;
+
+
+                &-parameters {
+                    margin: 30px 0 0 34px;
+
+                    &-row {
+                        margin-top: 20px;
+                        display: flex;
+                        gap: 70px;
+
+                        p {
+                            font-size: 20px;
+                            min-width: 107px;
+                        }
                     }
                 }
             }
         }
     }
 }
-
 header {
     height: 50px;
     width: 100%;
@@ -225,7 +243,7 @@ header {
     font-size: 28px;
 }
 
-.car-container-info-parameters-row-race::before {
+.car_container-info-parameters-row-race::before {
     content: "";
     background: url('../img/race.svg');
     display: block;
@@ -236,7 +254,7 @@ header {
     margin: 0px -30px;
 }
 
-.car-container-info-parameters-row-fuel::before {
+.car_container-info-parameters-row-fuel::before {
     content: "";
     background: url('../img/fuel.svg');
     display: block;
@@ -247,7 +265,7 @@ header {
     margin: 0px -30px;
 }
 
-.car-container-info-parameters-row-transmission::before {
+.car_container-info-parameters-row-transmission::before {
     content: "";
     background: url('../img/transmission.svg');
     display: block;
@@ -258,7 +276,7 @@ header {
     margin: 0px -30px;
 }
 
-.car-container-info-parameters-row-driveline::before {
+.car_container-info-parameters-row-driveline::before {
     content: "";
     background: url('../img/transmission.svg');
     display: block;
@@ -269,7 +287,7 @@ header {
     margin: 0px -30px;
 }
 
-.car-container-info-parameters-row-vin::before {
+.car_container-info-parameters-row-vin::before {
     content: "";
     background: url('../img/vin.svg');
     display: block;

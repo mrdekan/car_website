@@ -129,33 +129,34 @@ function applyFilter() {
             carList.innerHTML = ""; //Clean up the old list
             //Form a block for each machine
             data.cars.forEach(car => {
-                const block = `<div class="car-container">
-                                    <div class="car-container-image-wrap">
-                                        <img alt="photo" src="${car.photosURL[0]}" />
-                                    </div>
-                                    <div class="car-container-info">
+                const block = `<div class="car">
+                                  <div class="car_container">
+                                        <img  alt="photo" src="${car.photosURL[0]}" />
+                                    <div class="car_container-info">
                                         <a asp-controller="Car" asp-action="Detail" asp-route-id="${car.id}" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
-                                        <div class="car-container-info-all">
-                                            <div class="car-container-info-parameters">
-                                                <div class="car-container-info-parameters-row">
-                                                    <p class="car-container-info-parameters-row-race">${car.mileage} тис. км</p>
-                                                    <p class="car-container-info-parameters-row-fuel">${fuelName(car.fuel)}, ${car.engineCapacity} л.</p>
+                                            <div class="car_container-info-parameters">
+                                                <div class="car_container-info-parameters-row">
+                                                    <p class="car_container-info-parameters-row-race">${car.mileage} тис. км</p>
+                                                    <p class="car_container-info-parameters-row-fuel">${fuelName(car.fuel)}, ${car.engineCapacity} л.</p>
                                                 </div>
-                                                <div class="car-container-info-parameters-row">
-                                                    <p class="car-container-info-parameters-row-transmission">${transmissionName(car.carTransmission)}</p>
-                                                    <p class="car-container-info-parameters-row-driveline">${drivelineName(car.driveline)}</p>
+                                                <div class="car_container-info-parameters-row">
+                                                    <p class="car_container-info-parameters-row-transmission">${transmissionName(car.carTransmission)}</p>
+                                                    <p class="car_container-info-parameters-row-driveline">${drivelineName(car.driveline)}</p>
                                                 </div>
-                                                <div class="car-container-info-parameters-row">
-                                                    <p class="car-container-info-parameters-row-vin">${car.vin}</p>
+                                                <div class="car_container-info-parameters-row">
+                                                    <p class="car_container-info-parameters-row-vin">${car.vin}</p>
                                                 </div>
                                             </div>
-                                            <div class="car-container-info-price">
-                                                <p class="car-container-info-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
-                                                <p class="car-container-info-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
-                                            </div>
+                                            
                                         </div>
                                     </div>
-                                    <button id="like_cars"> <img alt="#" src="../img/heart.svg" /> </button>
+                                    <div class="car_container-right">
+                                    <div class="car_container-right-price">
+                                                <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
+                                                <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
+                                            </div>
+                                  <button id="like_cars"> <img alt="#" src="../img/heart.svg" /> </button>
+                                  </div>
                                 </div>`;
                 carList.innerHTML += block;
             });
