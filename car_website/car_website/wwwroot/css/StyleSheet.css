@@ -210,8 +210,9 @@ body {
 }
 
 .wrapper {
-  margin: 50px;
+  margin: 50px 0;
   display: flex;
+  justify-content: center;
 }
 .wrapper .filters {
   background-color: #F3EFCA;
@@ -221,6 +222,12 @@ body {
   max-width: 300px;
   padding: 5px 17px;
   margin: 0 60px 0 100px;
+}
+.wrapper .filters a {
+  padding: 7px 10px 7px 32px;
+  border-radius: 20px;
+  background-color: #56744D;
+  color: black;
 }
 .wrapper .filters select {
   max-width: 200px;
@@ -271,6 +278,28 @@ body {
   align-items: end;
   height: 100%;
 }
+.wrapper .car_container-right-like input:checked ~ .car_container-right-span {
+  background-image: url("/img/heart-checked.svg");
+}
+.wrapper .car_container-right-like {
+  margin: 0px 72px 66px 0px;
+  align-self: center;
+}
+.wrapper .car_container-right-span {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  background-image: url("/img/heart.svg");
+  display: block;
+  z-index: 2;
+}
+.wrapper .car_container-right-like-cars {
+  position: absolute;
+  display: block;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 9;
+}
 .wrapper .car_container-right-price {
   margin: 30px 0 0 20px;
 }
@@ -295,11 +324,10 @@ body {
   white-space: nowrap;
   margin-left: 20%;
 }
-.wrapper .car button {
+.wrapper .car input {
   width: 40px;
   height: 40px;
   background-color: #F6F6F6;
-  margin: 0px 73px 26px 0px;
 }
 .wrapper .car_container {
   display: flex;

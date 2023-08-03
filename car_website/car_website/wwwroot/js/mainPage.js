@@ -19,7 +19,7 @@ let likeButtons = document.getElementsByClassName("like_cars");
 
 
 function updateLikeButtons() {
-    likeButtons = document.getElementsByClassName("like_cars");
+    likeButtons = document.getElementsByClassName("car_container-right-like-cars");
     Array.from(likeButtons).forEach(like => {
         like.addEventListener('change', function (event) {
             fetch(`/car/like?carId=${event.target.getAttribute('carId')}&isLiked=${like.checked}`)
@@ -172,7 +172,10 @@ function applyFilter() {
                                                 <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
                                                 <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
                                             </div>
-                                  <input type="checkbox" class="like_cars" carId="${car.id}" ${car.liked?"checked":""}/>
+                                  <div class="car_container-right-like">
+                                  <input type="checkbox" class="car_container-right-like-cars" carId="${car.id}" ${car.liked ? "checked" : ""}/>
+                                  <span class="car_container-right-span"></span>
+                                  </div>
                                   </div>
                                 </div>`;
                 carList.innerHTML += block;

@@ -7,13 +7,16 @@ body {
     background-color: white;
     font-family: 'Roboto', sans-serif;
 }
-.dont_display{
-    display:none;
+
+.dont_display {
+    display: none;
 }
+
 .wrapper {
-    margin: 50px;
+    margin: 50px 0;
     //width: 50%;
     display: flex;
+    justify-content: center;
 
     .filters {
         background-color: #F3EFCA;
@@ -23,6 +26,13 @@ body {
         max-width: 300px;
         padding: 5px 17px;
         margin: 0 60px 0 100px;
+
+        a {
+            padding: 7px 10px 7px 32px;
+            border-radius: 20px;
+            background-color: #56744D;
+            color: black;
+        }
 
         select {
             max-width: 200px;
@@ -83,6 +93,32 @@ body {
             align-items: end;
             height: 100%;
 
+            &-like input:checked ~ .car_container-right-span {
+                background-image: url("/img/heart-checked.svg");
+            }
+
+            &-like {
+                margin: 0px 72px 66px 0px;
+                align-self: center;
+            }
+
+            &-span {
+                position: absolute;
+                height: 40px;
+                width: 40px;
+                background-image: url("/img/heart.svg");
+                display: block;
+                z-index: 2;
+            }
+
+            &-like-cars {
+                position: absolute;
+                display: block;
+                opacity: 0;
+                cursor: pointer;
+                z-index: 9;
+            }
+
             &-price {
                 margin: 30px 0 0 20px;
                 //position: absolute;
@@ -115,11 +151,10 @@ body {
             }
         }
 
-        button {
+        input {
             width: 40px;
             height: 40px;
             background-color: #F6F6F6;
-            margin: 0px 73px 26px 0px;
         }
 
         &_container {
@@ -174,6 +209,7 @@ body {
         }
     }
 }
+
 header {
     height: 50px;
     width: 100%;
