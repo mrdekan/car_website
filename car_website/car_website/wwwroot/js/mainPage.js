@@ -14,7 +14,24 @@ const fuel_select = document.getElementById("fuel-select");
 const driveline_select = document.getElementById("driveline-select");
 const engineVolume_min_input = document.getElementById("engineVolume_min-input");
 const engineVolume_max_input = document.getElementById("engineVolume_max-input");
+let likeButtons = document.getElementsByClassName("like_cars");
 //#endregion
+
+
+function updateLikeButtons() {
+    likeButtons = document.getElementsByClassName("like_cars");
+    Array.from(likeButtons).forEach(like => {
+        like.addEventListener('change', function (event) {
+            fetch(`/car/like?carId=${event.target.getAttribute('carId')}&isLiked=${like.checked}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    
+                })
+                .catch(error => console.error("An error occurred while retrieving data:", error));
+        });
+    });
+}
 
 //#region input fields settings
 engineVolume_min_input.addEventListener('input', function (event) {
@@ -155,14 +172,20 @@ function applyFilter() {
                                                 <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
                                                 <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
                                             </div>
-                                  <button id="like_cars"> <img alt="#" src="../img/heart.svg" /> </button>
+                                  <input type="checkbox" class="like_cars" carId="${car.id}" ${car.liked?"checked":""}/>
                                   </div>
                                 </div>`;
                 carList.innerHTML += block;
             });
+            
+            updateLikeButtons();
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
+//<img alt="#" src="../img/heart.svg" /> </button>
+
+
+
 //#endregion
 
 //#region info displaying

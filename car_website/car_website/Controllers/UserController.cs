@@ -28,6 +28,8 @@ namespace car_website.Controllers
         }
         public async Task<IActionResult> Detail(string id)
         {
+            if (HttpContext.Session.GetString("UserId") != id || HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return RedirectToAction("Index", "Home");
             var user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
             return View(user);
         }

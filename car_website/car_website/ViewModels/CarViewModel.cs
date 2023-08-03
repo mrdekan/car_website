@@ -6,7 +6,7 @@ namespace car_website.ViewModels
 {
     public class CarViewModel
     {
-        public CarViewModel(Car car, CurrencyUpdater currencyUpdater)
+        public CarViewModel(Car car, CurrencyUpdater currencyUpdater, bool liked)
         {
             Id = car.Id.ToString();
             Price = car.Price;
@@ -25,6 +25,7 @@ namespace car_website.ViewModels
             VIN = car.VIN;
             Options = car.Options;
             Mileage = car.Mileage;
+            Liked = liked;
         }
         public string Id { get; set; }
         public uint Price { get; set; }
@@ -43,5 +44,6 @@ namespace car_website.ViewModels
         public float EngineCapacity { get; set; }
         public string VIN { get; set; }
         public CarOptions[] Options { get; set; }
+        public bool Liked { get; set; }
     }
 }

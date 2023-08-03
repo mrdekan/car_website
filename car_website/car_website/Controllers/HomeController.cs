@@ -5,6 +5,7 @@ using car_website.Services;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson;
 using System.Diagnostics;
 
 namespace car_website.Controllers
@@ -15,20 +16,18 @@ namespace car_website.Controllers
         private readonly ICarRepository _carRepository;
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly IBrandRepository _brandRepository;
-        public HomeController(ILogger<HomeController> logger, ICarRepository carRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater)
+        private readonly IUserRepository _userRepository;
+        public HomeController(ILogger<HomeController> logger, ICarRepository carRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, IUserRepository userRepository)
         {
             _logger = logger;
             _carRepository = carRepository;
             _brandRepository = brandRepository;
             _currencyUpdater = currencyUpdater;
+            _userRepository = userRepository;
         }
 
         public async Task<IActionResult> IndexAsync()
         {
-            //HttpContext.Session.SetString("UserId", "a");
-            //var userId = HttpContext.Session.GetString("UserId");
-            //HttpContext.Response.Cookies.Append("test", "some text");
-            //var test = HttpContext.Request.Cookies["test"];
             Car chrysler = new Car()
             {
                 Price = 8150,
@@ -189,7 +188,10 @@ namespace car_website.Controllers
             int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
             int skip = (page - 1) * perPage;
             filteredCars = filteredCars.Skip(skip).Take(perPage);
-            var carsRes = filteredCars.Select(car => new CarViewModel(car, _currencyUpdater)).ToList();
+            User user = null;
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+                user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("UserId")));
+            var carsRes = filteredCars.Select(car => new CarViewModel(car, _currencyUpdater, user != null && user.Favorites.Contains(car.Id))).ToList();
             return Ok(new { Cars = carsRes });
         }
         [HttpGet]

@@ -13,12 +13,15 @@ namespace car_website.Controllers
         private readonly IImageService _imageService;
         private readonly IBrandRepository _brandRepository;
         private readonly IUserRepository _userRepository;
-        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository)
+        private readonly IBuyRequestRepository _buyRequestRepository;
+
+        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
             _brandRepository = brandRepository;
             _userRepository = userRepository;
+            _buyRequestRepository = buyRequestRepository;
         }
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
@@ -26,15 +29,24 @@ namespace car_website.Controllers
             var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
             return View(car);
         }
-        public async Task<IActionResult> BuyRequest([FromRoute] string carId, [FromRoute] string userId)
+        //public async Task<IActionResult> BuyRequest([FromRoute] string carId, [FromRoute] string userId)
+        public async Task<IActionResult> BuyRequest(string carId, string userId)
         {
-            var user = await _userRepository.GetByIdAsync(ObjectId.Parse(userId));
-            var car = await _carRepository.GetByIdAsync(ObjectId.Parse(carId));
-            BuyRequest buyRequest = new BuyRequest()
+            try
             {
-                BuyerId = userId,
-                CarId = carId,
-            };
+                var user = await _userRepository.GetByIdAsync(ObjectId.Parse(userId));
+                var car = await _carRepository.GetByIdAsync(ObjectId.Parse(carId));
+                BuyRequest buyRequest = new BuyRequest()
+                {
+                    BuyerId = userId,
+                    CarId = carId,
+                };
+                await _buyRequestRepository.Add(buyRequest);
+            }
+            catch
+            {
+
+            }
             return RedirectToAction("Index", "Home");
         }
         public async Task<IActionResult> Create()
@@ -70,6 +82,29 @@ namespace car_website.Controllers
                 carVM.CarBrands = brands.ToList();
                 return View(carVM);
             }
+        }
+        [HttpGet]
+        public async Task<ActionResult<bool>> Like(string carId, bool isLiked)
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+                return Ok(new { Success = false });
+            User user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("UserId")));
+            Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(carId));
+            if (user != null && car != null)
+            {
+                if (isLiked)
+                {
+                    user.Favorites.Add(ObjectId.Parse(carId));
+                    await _userRepository.Update(user);
+                }
+                else if (!isLiked && user.Favorites.Contains(ObjectId.Parse(carId)))
+                {
+                    user.Favorites.Remove(ObjectId.Parse(carId));
+                    await _userRepository.Update(user);
+                }
+                return Ok(new { Success = true });
+            }
+            return Ok(new { Success = false });
         }
     }
 }

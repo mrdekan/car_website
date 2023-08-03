@@ -165,6 +165,41 @@ input[type=number] {
   color: red;
 }
 
+.requests {
+  margin: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.requests .buy-request {
+  display: flex;
+  gap: 30px;
+}
+.requests .buy-request a {
+  display: block;
+  color: black;
+  margin: 0 0 7px;
+  font-size: 20px;
+}
+.requests .buy-request h3 {
+  margin-bottom: 15px;
+}
+.requests .buy-request p {
+  font-size: 16px;
+  color: #3D3D3D;
+}
+.requests .buy-request_car {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.requests .buy-request_car img {
+  width: 160px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
 body {
   background-color: white;
   font-family: "Roboto", sans-serif;
