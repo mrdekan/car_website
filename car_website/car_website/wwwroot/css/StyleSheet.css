@@ -200,6 +200,16 @@ input[type=number] {
   border-radius: 15px;
 }
 
+.waiting-car img {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+}
+.waiting-car a {
+  color: black;
+  font-size: 26px;
+}
+
 body {
   background-color: white;
   font-family: "Roboto", sans-serif;

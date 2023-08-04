@@ -11,12 +11,15 @@ namespace car_website.Controllers
         private readonly ICarRepository _carRepository;
         private readonly IUserRepository _userRepository;
         private readonly IBuyRequestRepository _buyRequestRepository;
-
-        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository)
+        private readonly IWaitingCarsRepository _waitingCarsRepository;
+        private readonly IBrandRepository _brandRepository;
+        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository)
         {
             _carRepository = carRepository;
             _userRepository = userRepository;
             _buyRequestRepository = buyRequestRepository;
+            _waitingCarsRepository = waitingCarsRepository;
+            _brandRepository = brandRepository;
         }
         public IActionResult Panel()
         {
@@ -40,6 +43,45 @@ namespace car_website.Controllers
                 list.Add(new BuyRequestViewModel(car, buyer, seller));
             }
             return View(list);
+        }
+        public async Task<IActionResult> WaitingCars()
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return RedirectToAction("Index", "Home");
+            var waitingCars = await _waitingCarsRepository.GetAll();
+            return View(waitingCars);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ApproveCar(string id)
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return RedirectToAction("Index", "Home");
+            ObjectId objId;
+            WaitingCar car;
+            if (ObjectId.TryParse(id, out objId))
+            {
+                car = await _waitingCarsRepository.GetByIdAsync(objId);
+                if (car != null)
+                {
+                    await _waitingCarsRepository.Delete(car);
+                    await _carRepository.Add(car.Car);
+                    if (car.OtherBrand)
+                    {
+                        Brand newBrand = new Brand() { Name = car.Car.Brand, Models = new List<string>() };
+                        await _brandRepository.Add(newBrand);
+                    }
+                    if (car.OtherModel)
+                    {
+                        Brand brand = await _brandRepository.GetByName(car.Car.Brand);
+                        if (brand != null)
+                        {
+                            brand.Models.Add(car.Car.Model);
+                            await _brandRepository.Update(brand);
+                        }
+                    }
+                }
+            }
+            return RedirectToAction("WaitingCars");
         }
         private async Task<User> GetUser(List<User> users, string id)
         {

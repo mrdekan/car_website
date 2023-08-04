@@ -1,4 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Панель керування";
 }
-<a asp-controller="Admin" asp-action="BuyRequests" style="margin: 50px; display: block">Запити на покупку</a>
+<div style="margin: 50px; display: block">
+<a asp-controller="Admin" asp-action="BuyRequests">Запити на покупку</a>
+<a asp-controller="Admin" asp-action="WaitingCars">Авто на перевірку</a>
+</div>

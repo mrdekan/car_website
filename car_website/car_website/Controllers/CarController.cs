@@ -14,19 +14,27 @@ namespace car_website.Controllers
         private readonly IBrandRepository _brandRepository;
         private readonly IUserRepository _userRepository;
         private readonly IBuyRequestRepository _buyRequestRepository;
+        private readonly IWaitingCarsRepository _waitingCarsRepository;
 
-        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository)
+        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
             _brandRepository = brandRepository;
             _userRepository = userRepository;
             _buyRequestRepository = buyRequestRepository;
+            _waitingCarsRepository = waitingCarsRepository;
         }
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {
             var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
+            return View(car);
+        }
+        [HttpGet]
+        public async Task<IActionResult> WaitingCarDetail(string id)
+        {
+            var car = await _waitingCarsRepository.GetByIdAsync(ObjectId.Parse(id));
             return View(car);
         }
         //public async Task<IActionResult> BuyRequest([FromRoute] string carId, [FromRoute] string userId)
@@ -59,7 +67,8 @@ namespace car_website.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CarCreationPageViewModel carVM)
         {
-            if (HttpContext.Session.GetString("UserId").IsNullOrEmpty())
+            string userId = HttpContext.Session.GetString("UserId") ?? "";
+            if (userId.IsNullOrEmpty())
                 return RedirectToAction("Register", "User");
             if (ModelState.IsValid)
             {
@@ -72,8 +81,10 @@ namespace car_website.Controllers
                     var photoName = await _imageService.UploadPhotoAsync(photo);
                     photosNames.Add(photoName);
                 }
-                Car car = new Car(newCar, photosNames, HttpContext.Session.GetString("UserId") ?? "");
-                await _carRepository.Add(car);
+                Car car = new Car(newCar, photosNames, userId);
+                WaitingCar waitingCar = new WaitingCar(car, newCar.OtherModelName == null, newCar.OtherBrandName == null);
+                //await _carRepository.Add(car);
+                await _waitingCarsRepository.Add(waitingCar);
                 return RedirectToAction("Index", "Home");
             }
             else

@@ -1,7 +1,22 @@
 ﻿
 
-getFavorites();
+if (document.getElementById("favList")!=null)
+    getFavorites();
 
+function updateLikeButtons() {
+    likeButtons = document.getElementsByClassName("car_container-right-like-cars");
+    Array.from(likeButtons).forEach(like => {
+        like.addEventListener('change', function (event) {
+            fetch(`/car/like?carId=${event.target.getAttribute('carId')}&isLiked=${like.checked}`)
+                .then(response => response.json())
+                .then(data => {
+                    //console.log(data);
+                    if (data.success == false) like.checked = !like.checked;
+                })
+                .catch(error => console.error("An error occurred while retrieving data:", error));
+        });
+    });
+}
 //#region Ajax requests
 function getFavorites() {
     fetch(`/User/GetFavoriteCars`)
@@ -46,7 +61,7 @@ function getFavorites() {
                                 </div>`;
                 favList.innerHTML += block;
             });
-            //pdateLikeButtons();
+            updateLikeButtons();
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }

@@ -118,7 +118,7 @@ namespace car_website.Controllers
             //await _carRepository.Add(Gladiator);
             Brand pol = new Brand();
             pol.Name = "Toyota";
-            pol.Models = new string[] { "Corolla",
+            /*pol.Models = new string[] { "Corolla",
     "Camry",
     "Prius",
     "RAV4",
@@ -138,7 +138,7 @@ namespace car_website.Controllers
     "GR86",
     "GRSupra",
     "FJ Cruiser",
- "Інше" };
+ "Інше" };*/
             //await _brandRepository.Add(pol);
             var brands = await _brandRepository.GetAll();
             return View(brands.OrderBy(brand => brand));
@@ -147,19 +147,9 @@ namespace car_website.Controllers
         {
             IEnumerable<Car> filteredCars = await _carRepository.GetAll();
             if (!filter.Brand.IsNullOrEmpty() && filter.Brand != "Any")
-            {
-                if (filter.Brand != "Інше")
-                    filteredCars = filteredCars.Where(car => car.Brand == filter.Brand);
-                else
-                    filteredCars = filteredCars.Where(car => car.OtherBrand == true);
-            }
+                filteredCars = filteredCars.Where(car => car.Brand == filter.Brand);
             if (!filter.Model.IsNullOrEmpty() && filter.Model != "Any" && filter.Brand != "Інше")
-            {
-                if (filter.Model != "Інше")
-                    filteredCars = filteredCars.Where(car => car.Model == filter.Model?.Replace('_', ' '));
-                else
-                    filteredCars = filteredCars.Where(car => car.OtherModel == true);
-            }
+                filteredCars = filteredCars.Where(car => car.Model == filter.Model?.Replace('_', ' '));
             if (filter.Body != 0)
                 filteredCars = filteredCars.Where(car => car.Body == filter.Body);
             if (filter.MinYear != 0)

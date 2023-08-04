@@ -9,6 +9,6 @@ namespace car_website.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
         public string Name { get; set; }
-        public string[] Models { get; set; }
+        public List<string> Models { get; set; }
     }
 }

@@ -25,8 +25,8 @@ function updateLikeButtons() {
             fetch(`/car/like?carId=${event.target.getAttribute('carId')}&isLiked=${like.checked}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
-                    
+                    //console.log(data);
+                    if (data.success == false) like.checked = !like.checked;
                 })
                 .catch(error => console.error("An error occurred while retrieving data:", error));
         });

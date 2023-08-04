@@ -1,0 +1,10 @@
+﻿@model WaitingCar
+@{
+    ViewData["Title"] = Model.Car.Brand + " " + Model.Car.Model;
+}
+<h2 class="title">@Model.Car.Brand @Model.Car.Model @Model.Car.Year</h2>
+@foreach (var photo in Model.Car.PhotosURL)
+{
+    <img src="@photo" alt="photo" height="400" />
+}
+<a asp-controller="Admin" asp-action="ApproveCar" asp-route-id=@Model.Id.ToString()>Підтвердити</a>
