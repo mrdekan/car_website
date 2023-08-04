@@ -219,6 +219,25 @@ body {
   margin: 50px 0;
   display: flex;
   justify-content: center;
+  gap: 50px;
+}
+.wrapper .filters_before {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 300px;
+  padding: 5px 17px;
+}
+.wrapper .filters_before p {
+  font-weight: 700;
+}
+.wrapper .filters_before a {
+  padding: 7px 0;
+  border-radius: 3px;
+  background-color: #415939;
+  color: white;
+  text-align: center;
+  font-size: 16px;
 }
 .wrapper .filters {
   background-color: #F3EFCA;
@@ -226,14 +245,8 @@ body {
   flex-direction: column;
   gap: 5px;
   max-width: 300px;
-  padding: 5px 17px;
-  margin: 0 60px 0 100px;
-}
-.wrapper .filters a {
-  padding: 7px 10px 7px 32px;
-  border-radius: 20px;
-  background-color: #56744D;
-  color: black;
+  padding: 10px 17px;
+  border-radius: 3px;
 }
 .wrapper .filters select {
   max-width: 200px;
@@ -264,6 +277,23 @@ body {
 }
 .wrapper .filters label {
   font-size: 16px;
+}
+.wrapper .filters button {
+  padding: 6px 0;
+  border-radius: 3px;
+  background-color: #415939;
+  color: white;
+  text-align: center;
+  margin: 5px 0;
+  font-size: 16px;
+  max-height: 30px;
+}
+.wrapper .filters #clear_filters {
+  border: 2px solid #415939;
+  background-color: #F3EFCA;
+  font-size: 14px;
+  color: #415939;
+  font-weight: 700;
 }
 .wrapper .car {
   display: flex;
