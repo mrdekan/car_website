@@ -7,5 +7,6 @@ namespace car_website.Interfaces
     {
         Task<IEnumerable<Car>> GetAll();
         Task<Car> GetByIdAsync(ObjectId id);
+        Task<IEnumerable<Car>> GetByIdListAsync(IEnumerable<ObjectId> ids);
     }
 }

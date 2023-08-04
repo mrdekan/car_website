@@ -209,6 +209,12 @@ body {
   display: none;
 }
 
+.carList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .wrapper {
   margin: 50px 0;
   display: flex;
@@ -258,11 +264,6 @@ body {
 }
 .wrapper .filters label {
   font-size: 16px;
-}
-.wrapper .carList {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
 .wrapper .car {
   display: flex;

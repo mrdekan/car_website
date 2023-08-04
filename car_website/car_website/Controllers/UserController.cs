@@ -1,5 +1,6 @@
 ﻿using car_website.Interfaces;
 using car_website.Models;
+using car_website.Services;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -11,11 +12,15 @@ namespace car_website.Controllers
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
         private readonly IUserRepository _userRepository;
-        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository)
+        private readonly CurrencyUpdater _currencyUpdater;
+        private readonly ICarRepository _carRepository;
+        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository, CurrencyUpdater currencyUpdater, ICarRepository carRepository)
         {
             _userService = userService;
             _emailService = emailService;
             _userRepository = userRepository;
+            _currencyUpdater = currencyUpdater;
+            _carRepository = carRepository;
         }
         public IActionResult Login()
         {
@@ -28,7 +33,7 @@ namespace car_website.Controllers
         }
         public async Task<IActionResult> Detail(string id)
         {
-            if (HttpContext.Session.GetString("UserId") != id || HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+            if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
                 return RedirectToAction("Index", "Home");
             var user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
             return View(user);
@@ -108,6 +113,28 @@ namespace car_website.Controllers
         public IActionResult EmailConfirmationSuccess()
         {
             return View();
+        }
+
+        public async Task<ActionResult<IEnumerable<Car>>> GetFavoriteCars()
+        {
+            User user = await GetCurrentUser();
+            if (user == null)
+                return Ok(new { Success = false, Favorites = new List<Car>() });
+            IEnumerable<Car> favoriteCars = await _carRepository.GetByIdListAsync(user.Favorites);
+            var carsRes = favoriteCars.Select(car => new CarViewModel(car, _currencyUpdater, true)).ToList();
+            return Ok(new { Cars = carsRes });
+        }
+        private async Task<User> GetCurrentUser()
+        {
+            User user = null;
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                ObjectId id;
+                bool parsed = ObjectId.TryParse(HttpContext.Session.GetString("UserId"), out id);
+                if (parsed)
+                    user = await _userRepository.GetByIdAsync(id);
+            }
+            return user;
         }
     }
 }
