@@ -1,0 +1,27 @@
+﻿.slider {
+    height: 400px;
+    width: 600px;
+    overflow: hidden;
+    &_element {
+        height: 400px;
+        width: 600px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &-image {
+            height: 400px;
+            z-index: 2;
+            position: absolute;
+            //left: 50%;
+            //transform: translateX(50%);
+        }
+
+        &-background {
+            width: 100%;
+            object-fit: cover;
+            filter: blur(0.5rem);
+        }
+    }
+}

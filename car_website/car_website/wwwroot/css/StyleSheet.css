@@ -210,6 +210,30 @@ input[type=number] {
   font-size: 26px;
 }
 
+.slider {
+  height: 400px;
+  width: 600px;
+  overflow: hidden;
+}
+.slider_element {
+  height: 400px;
+  width: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slider_element-image {
+  height: 400px;
+  z-index: 2;
+  position: absolute;
+}
+.slider_element-background {
+  width: 100%;
+  object-fit: cover;
+  filter: blur(0.5rem);
+}
+
 body {
   background-color: white;
   font-family: "Roboto", sans-serif;

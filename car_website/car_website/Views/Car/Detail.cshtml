@@ -3,9 +3,16 @@
     ViewData["Title"] = Model.Brand + " " + Model.Model;
 }
 <h2 class="title">@Model.Brand @Model.Model @Model.Year</h2>
-@foreach(var photo in Model.PhotosURL){
-    <img src="@photo" alt="photo" height="400" />
-}
-@if (!string.IsNullOrEmpty(ViewContext.HttpContext.Session.GetString("UserId"))){
+<div class="slider">
+    @foreach (var photo in Model.PhotosURL)
+    {
+        <div class="slider_element">
+            <img src="@photo" class="slider_element-image" alt="photo" />
+            <img src="@photo" class="slider_element-background" alt="photo"/>
+        </div>
+    }
+</div>
+@if (!string.IsNullOrEmpty(ViewContext.HttpContext.Session.GetString("UserId")))
+{
     <a href=@Url.Action("BuyRequest", "Car" , new { carId=Model.Id.ToString(), userId=ViewContext.HttpContext.Session.GetString("UserId")})>Зв'язатись з менеджером</a>
 }
