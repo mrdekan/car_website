@@ -82,7 +82,7 @@ namespace car_website.Controllers
                     photosNames.Add(photoName);
                 }
                 Car car = new Car(newCar, photosNames, userId);
-                WaitingCar waitingCar = new WaitingCar(car, newCar.OtherModelName == null, newCar.OtherBrandName == null);
+                WaitingCar waitingCar = new WaitingCar(car, !newCar.OtherModelName.IsNullOrEmpty(), !newCar.OtherBrandName.IsNullOrEmpty());
                 //await _carRepository.Add(car);
                 await _waitingCarsRepository.Add(waitingCar);
                 return RedirectToAction("Index", "Home");

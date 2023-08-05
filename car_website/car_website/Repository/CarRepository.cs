@@ -46,5 +46,10 @@ namespace car_website.Repository
         {
             return await _dbContext.Cars.Find(car => ids.Contains(car.Id)).ToListAsync();
         }
+
+        public async Task<long> GetCount()
+        {
+            return _dbContext.Cars.CountDocuments(Builders<Car>.Filter.Empty);
+        }
     }
 }

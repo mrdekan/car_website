@@ -1,10 +1,11 @@
-﻿@model IEnumerable<string>
+﻿@using car_website.ViewModels;
+@model IndexPageViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
 <div class="wrapper">
     <div class="filters_before">
-        <p>Авто в продажі :</p>
+        <p>Авто в продажі : @Model.CarsCount</p>
         <a asp-controller="Car" asp-action="Create">Продати авто</a>
 
         <div class="filters">
@@ -25,7 +26,7 @@
             <label>Марка</label>
             <select name="brand-select" id="brand-select">
                 <option value="Any">Усі</option>
-                @foreach (var str in Model)
+                @foreach (var str in Model.Brands)
                 {
                     <option value=@str>@str</option>
                 }

@@ -141,7 +141,14 @@ namespace car_website.Controllers
  "Інше" };*/
             //await _brandRepository.Add(pol);
             var brands = await _brandRepository.GetAll();
-            return View(brands.OrderBy(brand => brand));
+            brands = brands.OrderBy(brand => brand);
+            var carsCount = await _carRepository.GetCount();
+            IndexPageViewModel vm = new IndexPageViewModel()
+            {
+                Brands = brands.ToList(),
+                CarsCount = carsCount
+            };
+            return View(vm);
         }
         public async Task<ActionResult<IEnumerable<Car>>> GetCars([FromBody] CarFilterModel filter, int page = 1, int perPage = 10)
         {
