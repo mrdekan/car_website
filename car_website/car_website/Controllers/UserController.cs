@@ -139,7 +139,7 @@ namespace car_website.Controllers
         {
             try
             {
-                if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 || HttpContext.Session.GetInt32("UserRole") != 2)
+                if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
                     return Ok(new { Success = false, Cars = new List<Car>() });
                 User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
                 IEnumerable<WaitingCar> cars = await _waitingCarsRepository.GetByIdListAsync(user.CarWithoutConfirmation);
@@ -156,7 +156,7 @@ namespace car_website.Controllers
         {
             try
             {
-                if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 || HttpContext.Session.GetInt32("UserRole") != 2)
+                if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
                     return Ok(new { Success = false, Cars = new List<Car>() });
                 User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
                 IEnumerable<Car> cars = await _carRepository.GetByIdListAsync(user.CarsForSell);
