@@ -234,6 +234,73 @@ input[type=number] {
   filter: blur(0.5rem);
 }
 
+.profile_info {
+  width: 90%;
+  margin: 25px auto;
+}
+.profile_info h2 {
+  font-size: 28px;
+}
+.profile_info h3 {
+  margin: 5px 0;
+  font-size: 20px;
+  color: #5b5b5b;
+}
+.profile_info a {
+  padding: 7px 0;
+  border-radius: 3px;
+  background-color: #415939;
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  display: block;
+  width: 160px;
+  margin: 4px 0;
+  transition: 0.3s;
+}
+.profile_info a:hover {
+  background-color: #4b6742;
+  transition: 0.2s;
+}
+.profile_pages {
+  width: 90%;
+  margin: 15px auto;
+}
+.profile_pages_buttons {
+  display: flex;
+  justify-content: space-around;
+}
+.profile_pages label {
+  font-size: 20px;
+  color: #969696;
+  cursor: pointer;
+  width: 100%;
+  padding: 10px 0;
+  display: block;
+  text-align: center;
+  transition: 0.22s;
+  /*&:hover {
+      padding: 7px 0 13px;
+      transition: 0.22s;
+  }*/
+}
+.profile_pages .radio {
+  width: 100%;
+}
+.profile_pages .radio input[type=radio] {
+  display: none;
+}
+.profile_pages .radio input[type=radio]:checked + label {
+  color: black;
+  transition: 0.22s;
+}
+
+.line-separator {
+  background-color: #969696;
+  width: 100%;
+  height: 2px;
+}
+
 body {
   background-color: white;
   font-family: "Roboto", sans-serif;
@@ -272,6 +339,11 @@ body {
   color: white;
   text-align: center;
   font-size: 16px;
+  transition: 0.3s;
+}
+.wrapper .filters_before a:hover {
+  background-color: #4b6742;
+  transition: 0.2s;
 }
 .wrapper .filters {
   background-color: #F3EFCA;
@@ -321,6 +393,11 @@ body {
   margin: 5px 0;
   font-size: 16px;
   max-height: 30px;
+  transition: 0.3s;
+}
+.wrapper .filters button:hover {
+  background-color: #4b6742;
+  transition: 0.2s;
 }
 .wrapper .filters #clear_filters {
   border: 2px solid #415939;

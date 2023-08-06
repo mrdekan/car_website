@@ -12,6 +12,7 @@
         Violet,
         Red,
         White,
-        Yellow
+        Yellow,
+        Any
     }
 }

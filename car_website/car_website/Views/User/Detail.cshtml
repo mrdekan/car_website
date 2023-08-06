@@ -5,19 +5,47 @@
     bool isSelfAccount = Model.Id.ToString() == ViewContext.HttpContext.Session.GetString("UserId");
     bool isAdmin = role == 1 || role == 2;
 }
-<div class="wrapper" style="margin: 50px">
-    <p>@Model.Name @Model.SurName</p>
-    @if (isAdmin && isSelfAccount)
-    {
-        <a asp-controller="Admin" asp-action="Panel">Панель керування</a>
-    }
-    @if (isSelfAccount)
-    {
-        <a asp-controller="User" asp-action="Logout">Вийти</a>
-    }
-    @if (isSelfAccount)
-    {
-        <div id="favList" class="carList"></div>
-    }
+<div class="profile">
+    <div class="profile_info">
+        <h2>@Model.Name @Model.SurName</h2>
+        <h3>@Model.PhoneNumber</h3>
+        @if (isAdmin && isSelfAccount)
+        {
+            <a asp-controller="Admin" asp-action="Panel">Панель керування</a>
+        }
+        @if (isSelfAccount)
+        {
+            <a asp-controller="User" asp-action="Logout">Вийти</a>
+        }
+    </div>
+    <div class="profile_pages">
+        <div class="profile_pages_buttons">
+            <div class="radio">
+                <input type="radio" id="for-sell"
+                       name="page" value="for-sell" checked>
+                <label for="for-sell">Авто у продажі</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="waiting"
+                       name="page" value="waiting">
+                <label for="waiting">Очікують на модерацію</label>
+            </div>
+            @if (isSelfAccount)
+            {
+                <div class="radio">
+                    <input type="radio" id="favorite"
+                           name="page" value="favorite">
+                    <label for="favorite">Обрані авто</label>
+                </div>
+            }
+        </div>
+        <div class="line-separator"></div>
+    </div>
+    <div class="wrapper" style="margin: 50px">
+        @if (isSelfAccount)
+        {
+            <div id="favList" class="carList"></div>
+        }
+    </div>
 </div>
 <script src="~/js/profilePage.js" asp-append-version="true"></script>

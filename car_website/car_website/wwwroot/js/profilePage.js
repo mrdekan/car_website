@@ -31,7 +31,7 @@ function getFavorites() {
                                   <div class="car_container">
                                         <img  alt="photo" src="${car.photosURL[0]}" />
                                     <div class="car_container-info">
-                                        <a asp-controller="Car" asp-action="Detail" asp-route-id="${car.id}" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
+                                        <a href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
                                             <div class="car_container-info-parameters">
                                                 <div class="car_container-info-parameters-row">
                                                     <p class="car_container-info-parameters-row-race">${car.mileage} тис. км</p>

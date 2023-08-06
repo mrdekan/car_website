@@ -16,8 +16,6 @@ const engineVolume_min_input = document.getElementById("engineVolume_min-input")
 const engineVolume_max_input = document.getElementById("engineVolume_max-input");
 let likeButtons = document.getElementsByClassName("like_cars");
 //#endregion
-
-
 function updateLikeButtons() {
     likeButtons = document.getElementsByClassName("car_container-right-like-cars");
     Array.from(likeButtons).forEach(like => {
@@ -150,7 +148,7 @@ function applyFilter() {
                                   <div class="car_container">
                                         <img  alt="photo" src="${car.photosURL[0]}" />
                                     <div class="car_container-info">
-                                        <a asp-controller="Car" asp-action="Detail" asp-route-id="${car.id}" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
+                                        <a href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
                                             <div class="car_container-info-parameters">
                                                 <div class="car_container-info-parameters-row">
                                                     <p class="car_container-info-parameters-row-race">${car.mileage} тис. км</p>

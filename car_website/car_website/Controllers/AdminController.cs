@@ -65,6 +65,10 @@ namespace car_website.Controllers
                 {
                     await _waitingCarsRepository.Delete(car);
                     await _carRepository.Add(car.Car);
+                    var seller = await _userRepository.GetByIdAsync(ObjectId.Parse(car.Car.SellerId));
+                    seller.CarsForSell.Add(car.Car.Id);
+                    seller.CarWithoutConfirmation.Remove(car.Car.Id);
+                    await _userRepository.Update(seller);
                     if (car.OtherBrand)
                     {
                         Brand newBrand = new Brand() { Name = car.Car.Brand, Models = new List<string>() };

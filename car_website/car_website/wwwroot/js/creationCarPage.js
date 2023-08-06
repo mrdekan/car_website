@@ -8,7 +8,6 @@ const addPhotoButton = document.getElementById("addPhotoButton");
 
 
 let photoCount = 1;
-
 addPhotoButton.addEventListener('click', () => {
     if (photoCount < 5) {
         photoCount++;
@@ -20,7 +19,7 @@ addPhotoButton.addEventListener('click', () => {
 allSelects.forEach(select => {
     select.addEventListener('change', function () {
         const options = Array.from(this.options);
-        const optionToRemove = options.find(option => option.text === '--Оберіть--');
+        const optionToRemove = options.find(option => option.text === 'Не обрано');
         if (optionToRemove && !optionToRemove.selected) {
             optionToRemove.remove();
         }
@@ -48,7 +47,10 @@ function getModelsOfMark() {
     fetch(`/home/GetModels?brand=${brand_select.value}`)
         .then(response => response.json())
         .then(data => {
-            model_select.innerHTML = '<option value="Any">Не обрано</option>';
+            if (brand_select.value!="Інше")
+                model_select.innerHTML = '<option value="Any">Не обрано</option>';
+            else
+                model_select.innerHTML = '';
             data.models.forEach(model => {
                 model_select.innerHTML += `<option value=${model}>${model}</option>`;
             });

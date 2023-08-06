@@ -2,6 +2,7 @@
 @import "LoginAndRegister.scss";
 @import "Admin.scss";
 @import "CarDetail.scss";
+@import "Profile.scss";
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
 
 body {
@@ -42,6 +43,12 @@ body {
             color: white;
             text-align: center;
             font-size: 16px;
+            transition: 0.3s;
+
+            &:hover {
+                background-color: #4b6742;
+                transition: 0.2s;
+            }
         }
     }
 
@@ -101,6 +108,12 @@ body {
             margin: 5px 0;
             font-size: 16px;
             max-height: 30px;
+            transition: 0.3s;
+
+            &:hover {
+                background-color: #4b6742;
+                transition: 0.2s;
+            }
         }
 
         #clear_filters {
@@ -108,7 +121,7 @@ body {
             background-color: #F3EFCA;
             font-size: 14px;
             color: #415939;
-            font-weight:700;
+            font-weight: 700;
         }
     }
 

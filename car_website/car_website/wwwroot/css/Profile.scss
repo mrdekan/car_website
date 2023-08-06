@@ -1,0 +1,79 @@
+﻿.profile {
+    &_info {
+        width: 90%;
+        margin: 25px auto;
+
+        h2 {
+            font-size: 28px;
+        }
+
+        h3 {
+            margin: 5px 0;
+            font-size: 20px;
+            color: #5b5b5b;
+        }
+
+        a {
+            padding: 7px 0;
+            border-radius: 3px;
+            background-color: #415939;
+            color: white;
+            text-align: center;
+            font-size: 16px;
+            display: block;
+            width: 160px;
+            margin: 4px 0;
+            transition: 0.3s;
+
+            &:hover {
+                background-color: #4b6742;
+                transition: 0.2s;
+            }
+        }
+    }
+
+    &_pages {
+        width: 90%;
+        margin: 15px auto;
+
+        &_buttons {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        label {
+            font-size: 20px;
+            color: #969696;
+            cursor: pointer;
+            width: 100%;
+            padding: 10px 0;
+            display: block;
+            text-align: center;
+            transition: 0.22s;
+
+            /*&:hover {
+                padding: 7px 0 13px;
+                transition: 0.22s;
+            }*/
+        }
+
+        .radio {
+            width: 100%;
+
+            input[type="radio"] {
+                display: none;
+            }
+
+            input[type="radio"]:checked + label {
+                color: black;
+                transition: 0.22s;
+            }
+        }
+    }
+}
+
+.line-separator {
+    background-color: #969696;
+    width: 100%;
+    height: 2px;
+}
