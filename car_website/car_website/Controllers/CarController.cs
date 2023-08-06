@@ -84,7 +84,13 @@ namespace car_website.Controllers
                 Car car = new Car(newCar, photosNames, userId);
                 WaitingCar waitingCar = new WaitingCar(car, !newCar.OtherModelName.IsNullOrEmpty(), !newCar.OtherBrandName.IsNullOrEmpty());
                 //await _carRepository.Add(car);
-                await _waitingCarsRepository.Add(waitingCar);
+                User user = await GetCurrentUser();
+                if (user != null)
+                {
+                    await _waitingCarsRepository.Add(waitingCar);
+                    user.CarWithoutConfirmation.Add(waitingCar.Id);
+                    await _userRepository.Update(user);
+                }
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -116,6 +122,18 @@ namespace car_website.Controllers
                 return Ok(new { Success = true });
             }
             return Ok(new { Success = false });
+        }
+        private async Task<User> GetCurrentUser()
+        {
+            User user = null;
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                ObjectId id;
+                bool parsed = ObjectId.TryParse(HttpContext.Session.GetString("UserId"), out id);
+                if (parsed)
+                    user = await _userRepository.GetByIdAsync(id);
+            }
+            return user;
         }
     }
 }

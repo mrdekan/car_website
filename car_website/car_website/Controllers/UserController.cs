@@ -14,13 +14,16 @@ namespace car_website.Controllers
         private readonly IUserRepository _userRepository;
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly ICarRepository _carRepository;
-        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository, CurrencyUpdater currencyUpdater, ICarRepository carRepository)
+        private readonly IWaitingCarsRepository _waitingCarsRepository;
+
+        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository, CurrencyUpdater currencyUpdater, ICarRepository carRepository, IWaitingCarsRepository waitingCarsRepository)
         {
             _userService = userService;
             _emailService = emailService;
             _userRepository = userRepository;
             _currencyUpdater = currencyUpdater;
             _carRepository = carRepository;
+            _waitingCarsRepository = waitingCarsRepository;
         }
         public IActionResult Login()
         {
@@ -117,12 +120,53 @@ namespace car_website.Controllers
 
         public async Task<ActionResult<IEnumerable<Car>>> GetFavoriteCars()
         {
-            User user = await GetCurrentUser();
-            if (user == null)
-                return Ok(new { Success = false, Favorites = new List<Car>() });
-            IEnumerable<Car> favoriteCars = await _carRepository.GetByIdListAsync(user.Favorites);
-            var carsRes = favoriteCars.Select(car => new CarViewModel(car, _currencyUpdater, true)).ToList();
-            return Ok(new { Cars = carsRes });
+            try
+            {
+                User user = await GetCurrentUser();
+                if (user == null)
+                    return Ok(new { Success = false, Cars = new List<Car>() });
+                IEnumerable<Car> favoriteCars = await _carRepository.GetByIdListAsync(user.Favorites);
+                var carsRes = favoriteCars.Select(car => new CarViewModel(car, _currencyUpdater, true)).ToList();
+                return Ok(new { Success = true, Cars = carsRes });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Success = false, Cars = new List<Car>() });
+            }
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Car>>> GetWaiting(string id)
+        {
+            try
+            {
+                if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 || HttpContext.Session.GetInt32("UserRole") != 2)
+                    return Ok(new { Success = false, Cars = new List<Car>() });
+                User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
+                IEnumerable<WaitingCar> cars = await _waitingCarsRepository.GetByIdListAsync(user.CarWithoutConfirmation);
+                var carsRes = cars.Select(car => new WaitingCarViewModel() { Car = new CarViewModel(car.Car, _currencyUpdater, false), Id = car.Id.ToString() }).ToList();
+                return Ok(new { Success = true, Cars = carsRes });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Success = false, Cars = new List<Car>() });
+            }
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Car>>> GetCars(string id)
+        {
+            try
+            {
+                if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 || HttpContext.Session.GetInt32("UserRole") != 2)
+                    return Ok(new { Success = false, Cars = new List<Car>() });
+                User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
+                IEnumerable<Car> cars = await _carRepository.GetByIdListAsync(user.CarsForSell);
+                var carsRes = cars.Select(car => new CarViewModel(car, _currencyUpdater, user.Favorites.Contains(car.Id))).ToList();
+                return Ok(new { Success = true, Cars = carsRes });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Success = false, Cars = new List<Car>() });
+            }
         }
         private async Task<User> GetCurrentUser()
         {

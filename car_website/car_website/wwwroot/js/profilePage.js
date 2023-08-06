@@ -1,8 +1,50 @@
-﻿
+﻿const radioButtons = document.querySelectorAll('input[name="page"]');
+let cars;
+let waitingCars;
+let favCars;
 
-if (document.getElementById("favList")!=null)
-    getFavorites();
+var selectedRadioButton;
+window.addEventListener('load', function () {
+    radioButtons.forEach(function (radio) {
+        if (radio.checked) {
+            selectedRadioButton = radio;
+            updateCarsList(selectedRadioButton);
+        }
+    });
+})
 
+function handleRadioChange(event) {
+    updateCarsList(event.target);
+}
+function updateCarsList(target) {
+    if (target.id == "waiting") {
+        if (waitingCars == null)
+            getWaiting();
+        else {
+            SetCarsFromData(waitingCars, true);
+            updateLikeButtons();
+        }
+    }
+    else if (target.id == "favorite") {
+        if (favCars == null)
+            getFavorites();
+        else {
+            SetCarsFromData(favCars);
+            updateLikeButtons();
+        }
+    }
+    else if (target.id == "for-sell") {
+        if (cars == null)
+            getCars();
+        else {
+            SetCarsFromData(cars);
+            updateLikeButtons();
+        }
+    }
+}
+radioButtons.forEach(function (radio) {
+    radio.addEventListener('change', handleRadioChange);
+});
 function updateLikeButtons() {
     likeButtons = document.getElementsByClassName("car_container-right-like-cars");
     Array.from(likeButtons).forEach(like => {
@@ -10,7 +52,6 @@ function updateLikeButtons() {
             fetch(`/car/like?carId=${event.target.getAttribute('carId')}&isLiked=${like.checked}`)
                 .then(response => response.json())
                 .then(data => {
-                    //console.log(data);
                     if (data.success == false) like.checked = !like.checked;
                 })
                 .catch(error => console.error("An error occurred while retrieving data:", error));
@@ -22,11 +63,48 @@ function getFavorites() {
     fetch(`/User/GetFavoriteCars`)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            const favList = document.getElementById("favList");
-            favList.innerHTML = ""; //Clean up the old list
-            //Form a block for each machine
-            data.cars.forEach(car => {
+            favCars = data;
+            SetCarsFromData(favCars);
+            updateLikeButtons();
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
+function getWaiting() {
+    var url = new URL(window.location.href);
+    var pathSegments = url.pathname.split('/');
+    var userId = pathSegments[pathSegments.length - 1];
+    fetch(`/User/GetWaiting?id=${userId}`)
+        .then(response => response.json())
+        .then(data => {
+            waitingCars = data;
+            SetCarsFromData(waitingCars, true);
+            updateLikeButtons();
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
+function getCars() {
+    var url = new URL(window.location.href);
+    var pathSegments = url.pathname.split('/');
+    var userId = pathSegments[pathSegments.length - 1];
+    fetch(`/User/GetCars?id=${userId}`)
+        .then(response => response.json())
+        .then(data => {
+            cars = data;
+            SetCarsFromData(cars);
+            updateLikeButtons();
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
+//#endregion
+
+
+//#region info displaying
+function SetCarsFromData(data, waitingCarsList = false) {
+    const favList = document.getElementById("cars-list");
+    if (data != null && data.cars.length != 0 && data.success == true) {
+        favList.innerHTML = "";
+        data.cars.forEach(car => {
+            if (!waitingCarsList) {
                 const block = `<div class="car">
                                   <div class="car_container">
                                         <img  alt="photo" src="${car.photosURL[0]}" />
@@ -54,22 +132,54 @@ function getFavorites() {
                                                 <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
                                             </div>
                                   <div class="car_container-right-like">
-                                  <input type="checkbox" class="car_container-right-like-cars" carId="${car.id}" checked/>
+                                  <input type="checkbox" class="car_container-right-like-cars" carId="${car.id}" carId="${car.id}" ${car.liked ? "checked" : ""}/>
                                   <span class="car_container-right-span"></span>
                                   </div>
                                   </div>
                                 </div>`;
                 favList.innerHTML += block;
-            });
-            updateLikeButtons();
-        })
-        .catch(error => console.error("An error occurred while retrieving data:", error));
+            }
+            else {
+                const block = `<div class="car">
+                                  <div class="car_container">
+                                        <img  alt="photo" src="${car.car.photosURL[0]}" />
+                                    <div class="car_container-info">
+                                        <a href="/Car/WaitingCarDetail/${car.id}">${car.car.brand} ${car.car.model} ${car.car.year}</a>
+                                            <div class="car_container-info-parameters">
+                                                <div class="car_container-info-parameters-row">
+                                                    <p class="car_container-info-parameters-row-race">${car.car.mileage} тис. км</p>
+                                                    <p class="car_container-info-parameters-row-fuel">${fuelName(car.car.fuel)}, ${car.car.engineCapacity} л.</p>
+                                                </div>
+                                                <div class="car_container-info-parameters-row">
+                                                    <p class="car_container-info-parameters-row-transmission">${transmissionName(car.car.carTransmission)}</p>
+                                                    <p class="car_container-info-parameters-row-driveline">${drivelineName(car.car.driveline)}</p>
+                                                </div>
+                                                <div class="car_container-info-parameters-row">
+                                                    <p class="car_container-info-parameters-row-vin">${car.car.vin}</p>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="car_container-right">
+                                    <div class="car_container-right-price">
+                                                <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.car.price)} $</p>
+                                                <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.car.priceUAH)} грн</p>
+                                            </div>
+                                  </div>
+                                  </div>
+                                </div>`;
+                favList.innerHTML += block;
+            }
+        });
+    }
+    else if (data.success == false) {
+        favList.innerHTML = `<h3 class="warning-text">Щось пішло не так</h3>`;
+    }
+    else {
+        favList.innerHTML = `<h3 class="warning-text">Тут ще нічого не має</h3>`;
+    }
 }
-//#endregion
-
-
-//#region info displaying
-
 function fuelName(id) {
     switch (id) {
         case 1: {
