@@ -1,5 +1,4 @@
-﻿using car_website.Data.Enum;
-using car_website.Interfaces;
+﻿using car_website.Interfaces;
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
@@ -11,6 +10,7 @@ namespace car_website.Controllers
 {
     public class HomeController : Controller
     {
+        #region Services & ctor
         private readonly ILogger<HomeController> _logger;
         private readonly ICarRepository _carRepository;
         private readonly CurrencyUpdater _currencyUpdater;
@@ -24,97 +24,9 @@ namespace car_website.Controllers
             _currencyUpdater = currencyUpdater;
             _userRepository = userRepository;
         }
-
+        #endregion
         public async Task<IActionResult> IndexAsync()
         {
-            Car chrysler = new Car()
-            {
-                Price = 8150,
-                PhotosURL = new string[] { "https://cdn2.riastatic.com/photosnew/auto/photo/chrysler_300-c__506304512hd.webp" },
-                Brand = "Chrysler",
-                Model = "300",
-                CarTransmission = Transmission.Automatic,
-                Body = TypeBody.Sedan,
-                Fuel = TypeFuel.GasAndGasoline,
-                Driveline = TypeDriveline.Rear,
-                CarColor = Color.Black,
-                Year = 2007,
-                Description = "Lorem ipsum",
-                EngineCapacity = 2.74f,
-                Mileage = 140
-            };
-            Car chryslerNew = new Car()
-            {
-                Price = 17000,
-                PhotosURL = new string[] { "https://cdn3.riastatic.com/photosnew/auto/photo/chrysler_300-c__506095608hd.webp" },
-                Brand = "Chrysler",
-                Model = "300S",
-                CarTransmission = Transmission.Automatic,
-                Body = TypeBody.Sedan,
-                Fuel = TypeFuel.Gasoline,
-                Driveline = TypeDriveline.AWD,
-                CarColor = Color.Grey,
-                Year = 2017,
-                Description = "Lorem ipsum",
-                EngineCapacity = 3.6f,
-                Mileage = 85
-            };
-            Car polestar = new Car()
-            {
-                Price = 172258,
-                PhotosURL = new string[] { "https://nextcar.ua/images/thumbnails/1200/675/detailed/440/28_1gfs-hh.jpg.jpg" },
-                Brand = "Polestar",
-                Model = "1",
-                CarTransmission = Transmission.Automatic,
-                Body = TypeBody.Coupe,
-                Fuel = TypeFuel.Hybrid,
-                Driveline = TypeDriveline.AWD,
-                CarColor = Color.White,
-                Year = 2021,
-                Description = "Lorem ipsum",
-                EngineCapacity = 2.0f,
-                Mileage = 0
-            };
-            Car Gladiator = new Car()
-            {
-                Price = 48000,
-                PhotosURL = new string[] { "https://cdn1.riastatic.com/photosnew/auto/photo/jeep_gladiator__500223286hd.webp" },
-                Brand = "Jeep",
-                Model = "Gladiator",
-                CarTransmission = Transmission.Automatic,
-                Body = TypeBody.SUV,
-                Fuel = TypeFuel.Gasoline,
-                Driveline = TypeDriveline.AWD,
-                CarColor = Color.Black,
-                Year = 2019,
-                Description = "Lorem ipsum",
-                EngineCapacity = 3.6f,
-                Mileage = 15,
-                //VIN = 1C6JJTAG5LL120319
-            };
-            Car supra = new Car()
-            {
-                Price = 45000,
-                PhotosURL = new string[] { "https://img.classistatic.de/api/v1/mo-prod/images/94/94faae14-a801-401f-b441-46298ec43626?rule=mo-1024.jpg" },
-                Brand = "Toyota",
-                Model = "Supra",
-                CarTransmission = Transmission.Mechanics,
-                Body = TypeBody.Coupe,
-                Fuel = TypeFuel.Gasoline,
-                Driveline = TypeDriveline.Rear,
-                CarColor = Color.White,
-                Year = 1995,
-                Description = "Lorem ipsum",
-                EngineCapacity = 3.0f,
-                Mileage = 180
-            };
-
-            //Uncomment to add new car on launch
-            //await _carRepository.Add(chrysler);
-            //await _carRepository.Add(chryslerNew);
-            //await _carRepository.Add(polestar);
-            //await _carRepository.Add(supra);
-            //await _carRepository.Add(Gladiator);
             /*Brand pol = new Brand();
             pol.Name = "Jeep";
             pol.Models = new List<string>() { "Wrangler",

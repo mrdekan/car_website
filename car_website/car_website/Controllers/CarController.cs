@@ -8,13 +8,13 @@ namespace car_website.Controllers
 {
     public class CarController : Controller
     {
+        #region Services & ctor
         private readonly ICarRepository _carRepository;
         private readonly IImageService _imageService;
         private readonly IBrandRepository _brandRepository;
         private readonly IUserRepository _userRepository;
         private readonly IBuyRequestRepository _buyRequestRepository;
         private readonly IWaitingCarsRepository _waitingCarsRepository;
-
         public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository)
         {
             _carRepository = carRepository;
@@ -24,6 +24,7 @@ namespace car_website.Controllers
             _buyRequestRepository = buyRequestRepository;
             _waitingCarsRepository = waitingCarsRepository;
         }
+        #endregion
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {
@@ -36,7 +37,6 @@ namespace car_website.Controllers
             var car = await _waitingCarsRepository.GetByIdAsync(ObjectId.Parse(id));
             return View(car);
         }
-        //public async Task<IActionResult> BuyRequest([FromRoute] string carId, [FromRoute] string userId)
         public async Task<IActionResult> BuyRequest(string carId, string userId)
         {
             try

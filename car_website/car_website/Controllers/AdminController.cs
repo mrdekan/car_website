@@ -8,6 +8,7 @@ namespace car_website.Controllers
 {
     public class AdminController : Controller
     {
+        #region Services & ctor
         private readonly ICarRepository _carRepository;
         private readonly IUserRepository _userRepository;
         private readonly IBuyRequestRepository _buyRequestRepository;
@@ -21,6 +22,7 @@ namespace car_website.Controllers
             _waitingCarsRepository = waitingCarsRepository;
             _brandRepository = brandRepository;
         }
+        #endregion
         public IActionResult Panel()
         {
             if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
@@ -31,7 +33,9 @@ namespace car_website.Controllers
         {
             if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
                 return RedirectToAction("Index", "Home");
-            //Any one time logic
+
+            //Any one time logic for devs
+
             return RedirectToAction("Panel");
         }
         public async Task<IActionResult> BuyRequests()

@@ -9,6 +9,7 @@ namespace car_website.Controllers
 {
     public class UserController : Controller
     {
+        #region Services & ctor
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
         private readonly IUserRepository _userRepository;
@@ -25,6 +26,15 @@ namespace car_website.Controllers
             _carRepository = carRepository;
             _waitingCarsRepository = waitingCarsRepository;
         }
+        #endregion
+        public async Task<IActionResult> Detail(string id)
+        {
+            if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return RedirectToAction("Index", "Home");
+            var user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
+            return View(user);
+        }
+        #region Login & Registration
         public IActionResult Login()
         {
             return View();
@@ -33,13 +43,6 @@ namespace car_website.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
-        }
-        public async Task<IActionResult> Detail(string id)
-        {
-            if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
-                return RedirectToAction("Index", "Home");
-            var user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
-            return View(user);
         }
         public IActionResult Register()
         {
@@ -117,7 +120,8 @@ namespace car_website.Controllers
         {
             return View();
         }
-
+        #endregion
+        #region GetUserInfo
         public async Task<ActionResult<IEnumerable<Car>>> GetFavoriteCars()
         {
             try
@@ -181,5 +185,6 @@ namespace car_website.Controllers
             }
             return user;
         }
+        #endregion
     }
 }
