@@ -23,19 +23,19 @@
             <div class="radio">
                 <input type="radio" id="for-sell"
                        name="page" value="for-sell" checked>
-                <label for="for-sell">Авто у продажі</label>
+                <label for="for-sell">Авто у продажі (@Model.CarsForSell.Count)</label>
             </div>
             <div class="radio">
                 <input type="radio" id="waiting"
                        name="page" value="waiting">
-                <label for="waiting">Очікують на модерацію</label>
+                <label for="waiting">Очікують на модерацію (@Model.CarWithoutConfirmation.Count)</label>
             </div>
             @if (isSelfAccount)
             {
                 <div class="radio">
                     <input type="radio" id="favorite"
                            name="page" value="favorite">
-                    <label for="favorite">Обрані авто</label>
+                    <label for="favorite">Обрані авто (@Model.Favorites.Count)</label>
                 </div>
             }
         </div>
