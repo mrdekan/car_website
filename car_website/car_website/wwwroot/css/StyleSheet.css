@@ -279,6 +279,7 @@ input[type=number] {
   display: block;
   text-align: center;
   transition: 0.22s;
+  user-select: none;
   /*&:hover {
       padding: 7px 0 13px;
       transition: 0.22s;
@@ -299,6 +300,14 @@ input[type=number] {
   background-color: #969696;
   width: 100%;
   height: 2px;
+}
+.line-separator #line {
+  height: 3px;
+  border-radius: 0 0 4px 4px;
+  background-color: black;
+  width: 30%;
+  position: absolute;
+  transition: transform 0.22s ease;
 }
 
 body {
@@ -405,6 +414,11 @@ body {
   font-size: 14px;
   color: #415939;
   font-weight: 700;
+  transition: 0.2s;
+}
+.wrapper .filters #clear_filters:hover {
+  transition: 0.2s;
+  background-color: #f7f4d9;
 }
 .wrapper .car {
   display: flex;

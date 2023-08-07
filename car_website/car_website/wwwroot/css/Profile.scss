@@ -50,7 +50,7 @@
             display: block;
             text-align: center;
             transition: 0.22s;
-
+            user-select: none;
             /*&:hover {
                 padding: 7px 0 13px;
                 transition: 0.22s;
@@ -76,4 +76,13 @@
     background-color: #969696;
     width: 100%;
     height: 2px;
+
+    #line {
+        height: 3px;
+        border-radius: 0 0 4px 4px;
+        background-color: black;
+        width: 30%;
+        position: absolute;
+        transition: transform 0.22s ease;
+    }
 }

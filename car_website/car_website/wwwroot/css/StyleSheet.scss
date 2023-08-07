@@ -122,6 +122,12 @@ body {
             font-size: 14px;
             color: #415939;
             font-weight: 700;
+            transition: 0.2s;
+
+            &:hover {
+                transition: 0.2s;
+                background-color: #f7f4d9;
+            }
         }
     }
 

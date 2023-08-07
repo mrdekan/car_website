@@ -1,18 +1,35 @@
 ﻿const radioButtons = document.querySelectorAll('input[name="page"]');
+const pageUnderline = document.getElementById('line');
 let cars;
 let waitingCars;
 let favCars;
-
+let offset;
 var selectedRadioButton;
 window.addEventListener('load', function () {
+    let i = 0;
+    let selectedIndex;
     radioButtons.forEach(function (radio) {
         if (radio.checked) {
             selectedRadioButton = radio;
             updateCarsList(selectedRadioButton);
+            selectedIndex = i;
         }
+        i++;
     });
+    pageUnderline.style.width = `${90 / radioButtons.length}%`;
+    offset = radioButtons.length == 3 ? 200 : 100;
+    //pageUnderline.style.transition = "0s";
+    let percent = selectedIndex * (offset / (radioButtons.length - 1));
+    console.log(selectedIndex);
+    pageUnderline.style.transform = `translateX(${percent}%)`;
+    //pageUnderline.style.transition = "transform 0.22s ease";
 })
-
+radioButtons.forEach((radio, index) => {
+    radio.addEventListener('change', () => {
+        const percent = index * (offset / (radioButtons.length - 1));
+        pageUnderline.style.transform = `translateX(${percent}%)`;
+    });
+});
 function handleRadioChange(event) {
     updateCarsList(event.target);
 }

@@ -108,6 +108,7 @@ function getModelsOfMark() {
             model_select.innerHTML = '<option value="Any">Усі</option>';
             console.log(data);
             data.models.forEach(model => {
+                if(model!='Інше')
                 model_select.innerHTML += `<option value=${model.replace(' ', '_')}>${model}</option>`;
             });
         })

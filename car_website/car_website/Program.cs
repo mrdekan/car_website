@@ -2,7 +2,6 @@
 using car_website.Interfaces;
 using car_website.Repository;
 using car_website.Services;
-using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 var builder = WebApplication.CreateBuilder(args);
 

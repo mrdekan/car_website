@@ -159,8 +159,9 @@ namespace car_website.Controllers
                 if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
                     return Ok(new { Success = false, Cars = new List<Car>() });
                 User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
+                User currentUser = await GetCurrentUser();
                 IEnumerable<Car> cars = await _carRepository.GetByIdListAsync(user.CarsForSell);
-                var carsRes = cars.Select(car => new CarViewModel(car, _currencyUpdater, user.Favorites.Contains(car.Id))).ToList();
+                var carsRes = cars.Select(car => new CarViewModel(car, _currencyUpdater, currentUser.Favorites.Contains(car.Id))).ToList();
                 return Ok(new { Success = true, Cars = carsRes });
             }
             catch (Exception ex)

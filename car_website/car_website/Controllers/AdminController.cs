@@ -27,6 +27,13 @@ namespace car_website.Controllers
                 return RedirectToAction("Index", "Home");
             return View();
         }
+        public async Task<IActionResult> AdminAction()
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return RedirectToAction("Index", "Home");
+            //Any one time logic
+            return RedirectToAction("Panel");
+        }
         public async Task<IActionResult> BuyRequests()
         {
             if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
@@ -71,7 +78,7 @@ namespace car_website.Controllers
                     await _userRepository.Update(seller);
                     if (car.OtherBrand)
                     {
-                        Brand newBrand = new Brand() { Name = car.Car.Brand, Models = new List<string>() };
+                        Brand newBrand = new Brand() { Name = car.Car.Brand, Models = new List<string>() { "Інше" } };
                         await _brandRepository.Add(newBrand);
                     }
                     if (car.OtherModel)
@@ -104,6 +111,18 @@ namespace car_website.Controllers
             var car = await _carRepository.GetByIdAsync(carId);
             cars.Add(car);
             return car;
+        }
+        private async Task<User> GetCurrentUser()
+        {
+            User user = null;
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                ObjectId id;
+                bool parsed = ObjectId.TryParse(HttpContext.Session.GetString("UserId"), out id);
+                if (parsed)
+                    user = await _userRepository.GetByIdAsync(id);
+            }
+            return user;
         }
     }
 }

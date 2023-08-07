@@ -2,7 +2,6 @@
 using car_website.Models;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson;
 
 namespace car_website.Controllers
@@ -59,7 +58,7 @@ namespace car_website.Controllers
         }
         public async Task<IActionResult> Create()
         {
-            if (HttpContext.Session.GetString("UserId").IsNullOrEmpty())
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
                 return RedirectToAction("Register", "User");
             var brands = await _brandRepository.GetAll();
             return View(new CarCreationPageViewModel() { CarBrands = brands.ToList(), CreateCarViewModel = new CreateCarViewModel() });
@@ -68,7 +67,7 @@ namespace car_website.Controllers
         public async Task<IActionResult> Create(CarCreationPageViewModel carVM)
         {
             string userId = HttpContext.Session.GetString("UserId") ?? "";
-            if (userId.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(userId))
                 return RedirectToAction("Register", "User");
             if (ModelState.IsValid)
             {
@@ -82,7 +81,7 @@ namespace car_website.Controllers
                     photosNames.Add(photoName);
                 }
                 Car car = new Car(newCar, photosNames, userId);
-                WaitingCar waitingCar = new WaitingCar(car, !newCar.OtherModelName.IsNullOrEmpty(), !newCar.OtherBrandName.IsNullOrEmpty());
+                WaitingCar waitingCar = new WaitingCar(car, !string.IsNullOrEmpty(newCar.OtherModelName), !string.IsNullOrEmpty(newCar.OtherBrandName));
                 //await _carRepository.Add(car);
                 User user = await GetCurrentUser();
                 if (user != null)

@@ -4,7 +4,6 @@ using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson;
 using System.Diagnostics;
 
@@ -116,29 +115,15 @@ namespace car_website.Controllers
             //await _carRepository.Add(polestar);
             //await _carRepository.Add(supra);
             //await _carRepository.Add(Gladiator);
-            Brand pol = new Brand();
-            pol.Name = "Toyota";
-            /*pol.Models = new string[] { "Corolla",
-    "Camry",
-    "Prius",
-    "RAV4",
-    "Highlander",
-    "4Runner",
-    "LandCruiser",
-    "Tacoma",
-    "Tundra",
-    "Sienna",
-    "Sequoia",
-    "C-HR",
-    "Venza",
-    "Supra",
-    "Yaris",
-    "Avalon",
-    "Mirai",
-    "GR86",
-    "GRSupra",
-    "FJ Cruiser",
- "Інше" };*/
+            /*Brand pol = new Brand();
+            pol.Name = "Jeep";
+            pol.Models = new List<string>() { "Wrangler",
+                "Grand_Cherokee",
+                "Cherokee",
+                "Compass",
+                "Renegade",
+                "Gladiator",
+            "Інше" };*/
             //await _brandRepository.Add(pol);
             var brands = await _brandRepository.GetAll();
             brands = brands.OrderBy(brand => brand);
@@ -153,9 +138,9 @@ namespace car_website.Controllers
         public async Task<ActionResult<IEnumerable<Car>>> GetCars([FromBody] CarFilterModel filter, int page = 1, int perPage = 10)
         {
             IEnumerable<Car> filteredCars = await _carRepository.GetAll();
-            if (!filter.Brand.IsNullOrEmpty() && filter.Brand != "Any")
+            if (!string.IsNullOrEmpty(filter.Brand) && filter.Brand != "Any")
                 filteredCars = filteredCars.Where(car => car.Brand == filter.Brand);
-            if (!filter.Model.IsNullOrEmpty() && filter.Model != "Any" && filter.Brand != "Інше")
+            if (!string.IsNullOrEmpty(filter.Model) && filter.Model != "Any" && filter.Brand != "Інше")
                 filteredCars = filteredCars.Where(car => car.Model == filter.Model?.Replace('_', ' '));
             if (filter.Body != 0)
                 filteredCars = filteredCars.Where(car => car.Body == filter.Body);
