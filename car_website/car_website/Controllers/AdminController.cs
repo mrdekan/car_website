@@ -38,6 +38,31 @@ namespace car_website.Controllers
 
             return RedirectToAction("Panel");
         }
+        public IActionResult Users()
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return RedirectToAction("Index", "Home");
+            return View();
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserViewModel>>> GetUsers(int page = 1, int perPage = 20)
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return Ok(new { Success = false, Users = new List<UserViewModel>(), Pages = 0 });
+            try
+            {
+                var users = await _userRepository.GetAll();
+                int totalItems = users.Count();
+                int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
+                int skip = (page - 1) * perPage;
+                users = users.Skip(skip).Take(perPage);
+                return Ok(new { Success = true, Users = users.Select(el => new UserViewModel(el)).ToList(), Pages = totalPages });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Success = false, Users = new List<UserViewModel>(), Pages = 0 });
+            }
+        }
         public async Task<IActionResult> BuyRequests()
         {
             if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)

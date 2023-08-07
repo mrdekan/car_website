@@ -4,6 +4,7 @@
 <div style="margin: 50px; display: block">
     <a asp-controller="Admin" asp-action="BuyRequests">Запити на покупку</a>
     <a asp-controller="Admin" asp-action="WaitingCars">Авто на перевірку</a>
+    <a asp-controller="Admin" asp-action="Users">Користувачі</a>
     @if (ViewContext.HttpContext.Session.GetInt32("UserRole") == 2)
     {
         <a asp-controller="Admin" asp-action="AdminAction">AdminAction</a>

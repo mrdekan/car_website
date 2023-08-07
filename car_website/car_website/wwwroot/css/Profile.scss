@@ -65,7 +65,7 @@
             }
 
             input[type="radio"]:checked + label {
-                color: black;
+                color: #595959;
                 transition: 0.22s;
             }
         }
@@ -80,9 +80,53 @@
     #line {
         height: 3px;
         border-radius: 0 0 4px 4px;
-        background-color: black;
+        background-color: #595959;
         width: 30%;
         position: absolute;
         transition: transform 0.22s ease;
+    }
+}
+#for-sell:checked + label span::before {
+    background-image: url('../img/car.svg');
+}
+#for-sell-label {
+    span::before {
+        content: "";
+        background: url('../img/car-inactive.svg');
+        position: absolute;
+        height: 26px;
+        width: 26px;
+        background-size: 26px 26px;
+        margin: -4px 0 0 -35px;
+    }
+}
+
+#waiting:checked + label span::before {
+    background-image: url('../img/time.svg');
+}
+
+#waiting-label {
+    span::before {
+        content: "";
+        background: url('../img/time-inactive.svg');
+        position: absolute;
+        height: 26px;
+        width: 26px;
+        background-size: 26px 26px;
+        margin: -4px 0 0 -34px;
+    }
+}
+#favorite:checked + label span::before {
+    background-image: url('../img/heart-gray.svg');
+}
+#favorite-label {
+    span::before {
+        content: "";
+        background: url('../img/heart-inactive.svg');
+        position: absolute;
+        height: 26px;
+        width: 26px;
+        background-size: 26px 26px;
+        margin: -4px 0 0 -32px;
     }
 }
