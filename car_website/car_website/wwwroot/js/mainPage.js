@@ -14,7 +14,8 @@ const fuel_select = document.getElementById("fuel-select");
 const driveline_select = document.getElementById("driveline-select");
 const engineVolume_min_input = document.getElementById("engineVolume_min-input");
 const engineVolume_max_input = document.getElementById("engineVolume_max-input");
-let likeButtons = document.getElementsByClassName("like_cars");
+const clear_filters = document.getElementById("clear_filters");
+let likeButtons = document.getElementsByClassName("like_cars"); 
 //#endregion
 function updateLikeButtons() {
     likeButtons = document.getElementsByClassName("car_container-right-like-cars");
@@ -30,7 +31,26 @@ function updateLikeButtons() {
         });
     });
 }
-
+function clearFilters() {
+    engineVolume_max_input.value = "";
+    engineVolume_min_input.value = "";
+    price_max_input.value = "";
+    price_min_input.value = "";
+    race_max_input.value = "";
+    race_min_input.value = "";
+    body_Type_select.value = 0;
+    brand_select.value = "Any";
+    driveline_select.value = 0;
+    fuel_select.value = 0;
+    model_select.value = "Any";
+    transmission_select.value = 0;
+    year_max_select.value = 0;
+    year_min_select.value = 0;
+}
+clear_filters.addEventListener("click", () => {
+    clearFilters();
+    applyFilter();
+});
 //#region input fields settings
 engineVolume_min_input.addEventListener('input', function (event) {
     const maxLength = parseInt(event.target.getAttribute('maxlength'));

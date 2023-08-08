@@ -443,9 +443,8 @@ body {
 }
 
 .wrapper {
-  margin: 50px 0;
+  margin: 50px 0 0 14%;
   display: flex;
-  justify-content: center;
   gap: 50px;
 }
 .wrapper .filters_before {
