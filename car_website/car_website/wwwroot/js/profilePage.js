@@ -23,7 +23,7 @@ window.addEventListener('load', function () {
     console.log(selectedIndex);
     pageUnderline.style.transform = `translateX(${percent}%)`;
     //pageUnderline.style.transition = "transform 0.22s ease";
-})
+});
 radioButtons.forEach((radio, index) => {
     radio.addEventListener('change', () => {
         const percent = index * (offset / (radioButtons.length - 1));

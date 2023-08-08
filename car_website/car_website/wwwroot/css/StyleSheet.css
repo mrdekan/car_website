@@ -233,6 +233,58 @@ input[type=number] {
   font-size: 16px;
 }
 
+.admin {
+  display: flex;
+}
+.admin_left {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+.admin_left label {
+  font-size: 20px;
+  color: #969696;
+  cursor: pointer;
+  width: 100%;
+  padding: 10px 0;
+  display: block;
+  transition: 0.22s;
+  user-select: none;
+}
+.admin_left label::before {
+  content: "";
+  background-color: #415939;
+  position: absolute;
+  height: 40px;
+  width: 21%;
+  background-size: 26px 26px;
+  margin: -9px 0 0 -25%;
+  z-index: -1;
+  border-radius: 0 10px 10px 0;
+}
+.admin_left .radio {
+  width: 100%;
+}
+.admin_left .radio input[type=radio] {
+  display: none;
+}
+.admin_left .radio input[type=radio]:checked + label {
+  color: white;
+  transition: 0.22s;
+}
+.admin_left .radio input[type=radio]:checked + label::before {
+  margin: -9px 0 0 -10px;
+  transition: 0.3s;
+}
+.admin_right {
+  padding: 10px 2%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .slider {
   height: 400px;
   width: 600px;

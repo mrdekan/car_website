@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Панель керування";
 }
-<div style="margin: 50px; display: block">
+<div style="margin: 50px">
     <a asp-controller="Admin" asp-action="BuyRequests">Запити на покупку</a>
     <a asp-controller="Admin" asp-action="WaitingCars">Авто на перевірку</a>
     <a asp-controller="Admin" asp-action="Users">Користувачі</a>
@@ -10,3 +10,32 @@
         <a asp-controller="Admin" asp-action="AdminAction">AdminAction</a>
     }
 </div>
+<div class="admin">
+    <div class="admin_left">
+        <div class="admin_left-buttons">
+            <div class="radio">
+                <input type="radio" id="buyRequests"
+                       name="action" value="buyRequests" checked>
+                <label for="buyRequests" id="buyRequests-label">Запити на покупку</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="waitingCars"
+                       name="action" value="waitingCars">
+                <label for="waitingCars" id="waitingCars-label">Авто на перевірку</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="users"
+                       name="action" value="users">
+                <label for="users" id="users-label">Користувачі</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="brands"
+                       name="action" value="brands">
+                <label for="brands" id="brands-label">Марки і моделі</label>
+            </div>
+        </div>
+    </div>
+    <div class="admin_right" id="container">
+    </div>
+</div>
+<script src="~/js/adminPanelPage.js" asp-append-version="true"></script>
