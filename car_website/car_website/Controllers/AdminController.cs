@@ -35,7 +35,9 @@ namespace car_website.Controllers
                 return RedirectToAction("Index", "Home");
 
             //Any one time logic for devs
-
+            User user = await GetCurrentUser();
+            user.CarWithoutConfirmation.Clear();
+            await _userRepository.Update(user);
             return RedirectToAction("Panel");
         }
         public IActionResult Users()
@@ -103,7 +105,7 @@ namespace car_website.Controllers
                     await _carRepository.Add(car.Car);
                     var seller = await _userRepository.GetByIdAsync(ObjectId.Parse(car.Car.SellerId));
                     seller.CarsForSell.Add(car.Car.Id);
-                    seller.CarWithoutConfirmation.Remove(car.Car.Id);
+                    seller.CarWithoutConfirmation.Remove(car.Id);
                     await _userRepository.Update(seller);
                     if (car.OtherBrand)
                     {
