@@ -84,6 +84,7 @@ body {
             display: flex;
             width: 100%;
             justify-content: space-between;
+            flex-wrap: nowrap;
         }
 
         .year_select {
@@ -101,7 +102,7 @@ body {
         }
 
         button {
-            padding: 6px 0;
+            //padding: 6px 0;
             border-radius: 3px;
             background-color: #415939;
             color: white;
@@ -109,6 +110,7 @@ body {
             margin: 5px 0;
             font-size: 16px;
             max-height: 30px;
+            line-height: 30px;
             transition: 0.3s;
 
             &:hover {
@@ -132,7 +134,11 @@ body {
         }
     }
 
-
+    &_right{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
     .car {
         display: flex;
@@ -393,4 +399,39 @@ header {
 .warning-text{
     font-size: 18px;
     color: #595959;
+}
+.pages_buttons {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+
+    &-space {
+        display: block;
+        width: 32px;
+        height: 32px;
+        line-height: 35px;
+        font-size: 20px;
+        text-align: center;
+        color: #969696;
+        user-select:none;
+    }
+
+    button {
+        font-size: 18px;
+        background-color: white;
+        outline: 1px solid #969696;
+        color: #969696;
+        width: 32px;
+        height: 32px;
+        text-align: center;
+        line-height: 32px;
+        cursor: pointer;
+    }
+
+    .selected {
+        font-weight: 700;
+        outline: 2px solid #595959;
+        color: #595959;
+        font-size: 20px;
+    }
 }

@@ -499,6 +499,7 @@ body {
   display: flex;
   width: 100%;
   justify-content: space-between;
+  flex-wrap: nowrap;
 }
 .wrapper .filters .year_select {
   display: flex;
@@ -512,7 +513,6 @@ body {
   font-size: 16px;
 }
 .wrapper .filters button {
-  padding: 6px 0;
   border-radius: 3px;
   background-color: #415939;
   color: white;
@@ -520,6 +520,7 @@ body {
   margin: 5px 0;
   font-size: 16px;
   max-height: 30px;
+  line-height: 30px;
   transition: 0.3s;
 }
 .wrapper .filters button:hover {
@@ -537,6 +538,11 @@ body {
 .wrapper .filters #clear_filters:hover {
   transition: 0.2s;
   background-color: #f7f4d9;
+}
+.wrapper_right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .wrapper .car {
   display: flex;
@@ -764,4 +770,37 @@ header .header_right-button::before {
 .warning-text {
   font-size: 18px;
   color: #595959;
+}
+
+.pages_buttons {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+.pages_buttons-space {
+  display: block;
+  width: 32px;
+  height: 32px;
+  line-height: 35px;
+  font-size: 20px;
+  text-align: center;
+  color: #969696;
+  user-select: none;
+}
+.pages_buttons button {
+  font-size: 18px;
+  background-color: white;
+  outline: 1px solid #969696;
+  color: #969696;
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  line-height: 32px;
+  cursor: pointer;
+}
+.pages_buttons .selected {
+  font-weight: 700;
+  outline: 2px solid #595959;
+  color: #595959;
+  font-size: 20px;
 }

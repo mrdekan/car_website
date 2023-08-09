@@ -18,6 +18,7 @@ namespace car_website.Models
         public float MaxEngineCapacity { get; set; }
         public uint MinMileage { get; set; }
         public uint MaxMileage { get; set; }
+        public int Page { get; set; }
 
     }
 }

@@ -15,7 +15,9 @@ const driveline_select = document.getElementById("driveline-select");
 const engineVolume_min_input = document.getElementById("engineVolume_min-input");
 const engineVolume_max_input = document.getElementById("engineVolume_max-input");
 const clear_filters = document.getElementById("clear_filters");
-let likeButtons = document.getElementsByClassName("like_cars"); 
+const pages_buttons_containers = document.getElementsByClassName("pages_buttons");
+let likeButtons = document.getElementsByClassName("like_cars");
+let carsPage = 1;
 //#endregion
 function updateLikeButtons() {
     likeButtons = document.getElementsByClassName("car_container-right-like-cars");
@@ -29,6 +31,52 @@ function updateLikeButtons() {
                 })
                 .catch(error => console.error("An error occurred while retrieving data:", error));
         });
+    });
+}
+function updatePagesButtons(number) {
+    Array.from(pages_buttons_containers).forEach(buttons_container => {
+        buttons_container.innerHTML = "";
+        if (number > 1) {
+            if (number > 7) {
+                if (carsPage >= 5 && number - carsPage > 4) {
+                    buttons_container.innerHTML += `<button ${1 === carsPage ? 'class="selected"' : ''} page="${1}"">${1}</button>`;
+                    buttons_container.innerHTML += `<p class="pages_buttons-space">...</p>`;
+                    for (let i = carsPage - 1; i <= (number > carsPage + 4 ? carsPage + 2 : number); i++) {
+                        buttons_container.innerHTML += `<button ${i === carsPage ? 'class="selected"' : ''} page="${i}"">${i}</button>`;
+                    }
+                    if (number > carsPage + 4) {
+                        buttons_container.innerHTML += `<p class="pages_buttons-space">...</p>`;
+                        buttons_container.innerHTML += `<button ${number === carsPage ? 'class="selected"' : ''} page="${number}"">${number}</button>`;
+                    }
+                }
+                else if (carsPage <= 4) {
+                    for (let i = 1; i <= 6; i++) {
+                        buttons_container.innerHTML += `<button ${i === carsPage ? 'class="selected"' : ''} page="${i}"">${i}</button>`;
+                    }
+                    buttons_container.innerHTML += `<p class="pages_buttons-space">...</p>`;
+                    buttons_container.innerHTML += `<button ${number === carsPage ? 'class="selected"' : ''} page="${number}"">${number}</button>`;
+                }
+                else if (number - carsPage <= 4) {
+                    buttons_container.innerHTML += `<button ${1 === carsPage ? 'class="selected"' : ''} page="${1}"">${1}</button>`;
+                    buttons_container.innerHTML += `<p class="pages_buttons-space">...</p>`;
+                    for (let i = number - 5; i <= number; i++) {
+                        buttons_container.innerHTML += `<button ${i === carsPage ? 'class="selected"' : ''} page="${i}"">${i}</button>`;
+                    }
+                }
+            }
+            else {
+                for (let i = 1; i <= number; i++) {
+                    buttons_container.innerHTML += `<button ${i === carsPage ? 'class="selected"' : ''} page="${i}"">${i}</button>`;
+                }
+            }
+            Array.from(buttons_container.children).forEach(button => {
+                if (button.tagName === 'BUTTON') {
+                    button.addEventListener('click', () => {
+                        applyFilter(+button.getAttribute("page"));
+                    });
+                }
+            });
+        }
     });
 }
 function clearFilters() {
@@ -46,6 +94,7 @@ function clearFilters() {
     transmission_select.value = 0;
     year_max_select.value = 0;
     year_min_select.value = 0;
+    model_select.innerHTML = '<option value="Any">Усі</option>';
 }
 clear_filters.addEventListener("click", () => {
     clearFilters();
@@ -55,7 +104,7 @@ clear_filters.addEventListener("click", () => {
 engineVolume_min_input.addEventListener('input', function (event) {
     const maxLength = parseInt(event.target.getAttribute('maxlength'));
     let currentValue = event.target.value;
-    currentValue = currentValue.replace(/[^\d.,]/g, ''); // Updated regular expression to include dots and commas
+    currentValue = currentValue.replace(/[^\d.,]/g, '');
     if (currentValue.length > maxLength) {
         currentValue = currentValue.slice(0, maxLength);
     }
@@ -64,7 +113,7 @@ engineVolume_min_input.addEventListener('input', function (event) {
 engineVolume_max_input.addEventListener('input', function (event) {
     const maxLength = parseInt(event.target.getAttribute('maxlength'));
     let currentValue = event.target.value;
-    currentValue = currentValue.replace(/[^\d.,]/g, ''); // Updated regular expression to include dots and commas
+    currentValue = currentValue.replace(/[^\d.,]/g, '');
     if (currentValue.length > maxLength) {
         currentValue = currentValue.slice(0, maxLength);
     }
@@ -126,15 +175,14 @@ function getModelsOfMark() {
         .then(response => response.json())
         .then(data => {
             model_select.innerHTML = '<option value="Any">Усі</option>';
-            console.log(data);
             data.models.forEach(model => {
-                if(model!='Інше')
-                model_select.innerHTML += `<option value=${model.replace(' ', '_')}>${model}</option>`;
+                if (model != 'Інше')
+                    model_select.innerHTML += `<option value=${model.replace(' ', '_')}>${model}</option>`;
             });
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
-function applyFilter() {
+function applyFilter(page = 1) {
     const filters = {
         body: Number(body_Type_select.value),
         brand: brand_select.value,
@@ -149,7 +197,8 @@ function applyFilter() {
         minEngineCapacity: Number(engineVolume_min_input.value),
         maxEngineCapacity: Number(engineVolume_max_input.value),
         minMileage: Number(race_min_input.value),
-        maxMileage: Number(race_max_input.value)
+        maxMileage: Number(race_max_input.value),
+        page: page,
     };
     fetch(`/home/GetCars`, {
         method: "POST",
@@ -160,12 +209,15 @@ function applyFilter() {
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            const carList = document.getElementById("carList");
-            carList.innerHTML = ""; //Clean up the old list
-            //Form a block for each machine
-            data.cars.forEach(car => {
-                const block = `<div class="car">
+            //console.log(data);
+            if (data.success == true != null) {
+                carsPage = data.page;
+                updatePagesButtons(data.pages);
+                const carList = document.getElementById("carList");
+                carList.innerHTML = ""; //Clean up the old list
+                //Form a block for each machine
+                data.cars.forEach(car => {
+                    const block = `<div class="car">
                                   <div class="car_container">
                                         <img  alt="photo" src="${car.photosURL[0]}" />
                                     <div class="car_container-info">
@@ -197,10 +249,13 @@ function applyFilter() {
                                   </div>
                                   </div>
                                 </div>`;
-                carList.innerHTML += block;
-            });
-            
-            updateLikeButtons();
+                    carList.innerHTML += block;
+                });
+                updateLikeButtons();
+            }
+            else {
+                carList.innerHTML = `<h3 class="warning-text">Щось пішло не так</h3>`;
+            }
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
