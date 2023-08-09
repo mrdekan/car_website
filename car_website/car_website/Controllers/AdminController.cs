@@ -1,5 +1,6 @@
 ﻿using car_website.Interfaces;
 using car_website.Models;
+using car_website.Services;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -14,13 +15,15 @@ namespace car_website.Controllers
         private readonly IBuyRequestRepository _buyRequestRepository;
         private readonly IWaitingCarsRepository _waitingCarsRepository;
         private readonly IBrandRepository _brandRepository;
-        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository)
+        private readonly CurrencyUpdater _currencyUpdater;
+        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater)
         {
             _carRepository = carRepository;
             _userRepository = userRepository;
             _buyRequestRepository = buyRequestRepository;
             _waitingCarsRepository = waitingCarsRepository;
             _brandRepository = brandRepository;
+            _currencyUpdater = currencyUpdater;
         }
         #endregion
         public IActionResult Panel()
@@ -31,63 +34,12 @@ namespace car_website.Controllers
         }
         public async Task<IActionResult> AdminAction()
         {
-            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+            if (HttpContext.Session.GetInt32("UserRole") != 2)
                 return RedirectToAction("Index", "Home");
 
             //Any one time logic for devs
-            User user = await GetCurrentUser();
-            user.CarWithoutConfirmation.Clear();
-            await _userRepository.Update(user);
+
             return RedirectToAction("Panel");
-        }
-        public IActionResult Users()
-        {
-            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
-                return RedirectToAction("Index", "Home");
-            return View();
-        }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserViewModel>>> GetUsers(int page = 1, int perPage = 20)
-        {
-            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
-                return Ok(new { Success = false, Users = new List<UserViewModel>(), Pages = 0 });
-            try
-            {
-                var users = await _userRepository.GetAll();
-                int totalItems = users.Count();
-                int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
-                int skip = (page - 1) * perPage;
-                users = users.Skip(skip).Take(perPage);
-                return Ok(new { Success = true, Users = users.Select(el => new UserViewModel(el)).ToList(), Pages = totalPages });
-            }
-            catch (Exception ex)
-            {
-                return Ok(new { Success = false, Users = new List<UserViewModel>(), Pages = 0 });
-            }
-        }
-        public async Task<IActionResult> BuyRequests()
-        {
-            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
-                return RedirectToAction("Index", "Home");
-            var requests = await _buyRequestRepository.GetAll();
-            List<User> usersCache = new List<User>();
-            List<Car> carsCache = new List<Car>();
-            List<BuyRequestViewModel> list = new List<BuyRequestViewModel>();
-            foreach (var request in requests)
-            {
-                var buyer = await GetUser(usersCache, request.BuyerId);
-                var car = await GetCar(carsCache, request.CarId);
-                var seller = await GetUser(usersCache, car.SellerId);
-                list.Add(new BuyRequestViewModel(car, buyer, seller));
-            }
-            return View(list);
-        }
-        public async Task<IActionResult> WaitingCars()
-        {
-            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
-                return RedirectToAction("Index", "Home");
-            var waitingCars = await _waitingCarsRepository.GetAll();
-            return View(waitingCars);
         }
         [HttpGet]
         public async Task<IActionResult> ApproveCar(string id)
@@ -123,7 +75,7 @@ namespace car_website.Controllers
                     }
                 }
             }
-            return RedirectToAction("WaitingCars");
+            return RedirectToAction("Panel");
         }
         private async Task<User> GetUser(List<User> users, string id)
         {
@@ -155,5 +107,76 @@ namespace car_website.Controllers
             }
             return user;
         }
+        #region Ajax responses
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserViewModel>>> GetUsers(int page = 1, int perPage = 20)
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return Ok(new { Success = false, Type = "Users", Users = new List<UserViewModel>(), Pages = 0, Page = 0 });
+            try
+            {
+                var users = await _userRepository.GetAll();
+                int totalItems = users.Count();
+                int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
+                int skip = (page - 1) * perPage;
+                users = users.Skip(skip).Take(perPage);
+                return Ok(new { Success = true, Type = "Users", Users = users.Select(el => new UserViewModel(el)).ToList(), Pages = totalPages, Page = page });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Success = false, Type = "Users", Users = new List<UserViewModel>(), Pages = 0, Page = 0 });
+            }
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<WaitingCar>>> GetWaitingCars(int page = 1, int perPage = 20)
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return Ok(new { Success = false, Type = "WaitingCars", Cars = new List<WaitingCar>(), Pages = 0, Page = 0 });
+            try
+            {
+                var cars = await _waitingCarsRepository.GetAll();
+                cars = cars.Where(el => el.Rejected == false).ToList();
+                int totalItems = cars.Count();
+                int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
+                int skip = (page - 1) * perPage;
+                cars = cars.Skip(skip).Take(perPage);
+                var carsRes = cars.Select(car => new WaitingCarViewModel() { Car = new CarViewModel(car.Car, _currencyUpdater, false), Id = car.Id.ToString() }).ToList();
+                return Ok(new { Success = true, Type = "WaitingCars", Cars = carsRes, Pages = totalPages, Page = page });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Success = false, Type = "WaitingCars", Cars = new List<WaitingCar>(), Pages = 0, Page = 0 });
+            }
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<BuyRequest>>> GetBuyRequests(int page = 1, int perPage = 20)
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return Ok(new { Success = false, Type = "BuyRequests", Requests = new List<WaitingCar>(), Pages = 0, Page = 0 });
+            try
+            {
+                var requests = await _buyRequestRepository.GetAll();
+                List<User> usersCache = new List<User>();
+                List<Car> carsCache = new List<Car>();
+                List<BuyRequestViewModel> list = new List<BuyRequestViewModel>();
+                foreach (var request in requests)
+                {
+                    var buyer = await GetUser(usersCache, request.BuyerId);
+                    var car = await GetCar(carsCache, request.CarId);
+                    var seller = await GetUser(usersCache, car.SellerId);
+                    list.Add(new BuyRequestViewModel(car, buyer, seller));
+                }
+                int totalItems = list.Count();
+                int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
+                int skip = (page - 1) * perPage;
+                list = list.Skip(skip).Take(perPage).ToList();
+                return Ok(new { Success = true, Type = "BuyRequests", Requests = list, Pages = totalPages, Page = page });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Success = false, Type = "BuyRequests", Requests = new List<WaitingCar>(), Pages = 0, Page = 0 });
+            }
+        }
+        #endregion
     }
 }

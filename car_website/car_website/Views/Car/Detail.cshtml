@@ -16,3 +16,6 @@
 {
     <a href=@Url.Action("BuyRequest", "Car" , new { carId=Model.Id.ToString(), userId=ViewContext.HttpContext.Session.GetString("UserId")})>Зв'язатись з менеджером</a>
 }
+@if(!string.IsNullOrEmpty(Model.Description)){
+    <p>@Model.Description</p>
+}

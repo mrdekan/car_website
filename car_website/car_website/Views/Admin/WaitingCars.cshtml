@@ -1,7 +1,0 @@
-﻿@model IEnumerable<WaitingCar>
-@foreach(var car in Model){
-    <div class="waiting-car">
-        <img src=@car.Car.PhotosURL[0] alt="photo">
-        <a asp-controller="Car" asp-action="WaitingCarDetail" asp-route-id=@car.Id.ToString()>@car.Car.Brand @car.Car.Model @car.Car.Year</a>
-    </div>
-}

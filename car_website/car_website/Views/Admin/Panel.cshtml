@@ -2,9 +2,6 @@
     ViewData["Title"] = "Панель керування";
 }
 <div style="margin: 50px">
-    <a asp-controller="Admin" asp-action="BuyRequests">Запити на покупку</a>
-    <a asp-controller="Admin" asp-action="WaitingCars">Авто на перевірку</a>
-    <a asp-controller="Admin" asp-action="Users">Користувачі</a>
     @if (ViewContext.HttpContext.Session.GetInt32("UserRole") == 2)
     {
         <a asp-controller="Admin" asp-action="AdminAction">AdminAction</a>
@@ -35,7 +32,10 @@
             </div>
         </div>
     </div>
-    <div class="admin_right" id="container">
+    <div class="admin_right" >
+        <div class="wrapper">
+            <div id="container" class="carList"></div>
+        </div>
     </div>
 </div>
 <script src="~/js/adminPanelPage.js" asp-append-version="true"></script>

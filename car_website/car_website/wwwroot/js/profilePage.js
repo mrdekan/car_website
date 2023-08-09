@@ -194,7 +194,7 @@ function SetCarsFromData(data, waitingCarsList = false) {
         favList.innerHTML = `<h3 class="warning-text">Щось пішло не так</h3>`;
     }
     else {
-        favList.innerHTML = `<h3 class="warning-text">Тут ще нічого не має</h3>`;
+        favList.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
     }
 }
 function fuelName(id) {
