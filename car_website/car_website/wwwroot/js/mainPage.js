@@ -210,7 +210,7 @@ function applyFilter(page = 1) {
         .then(response => response.json())
         .then(data => {
             //console.log(data);
-            if (data.success == true != null) {
+            if (data != null && data.success == true) {
                 carsPage = data.page;
                 updatePagesButtons(data.pages);
                 const carList = document.getElementById("carList");

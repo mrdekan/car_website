@@ -365,6 +365,11 @@ input[type=number] {
   color: #595959;
   transition: 0.22s;
 }
+.profile_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .line-separator {
   background-color: #969696;
@@ -797,10 +802,17 @@ header .header_right-button::before {
   text-align: center;
   line-height: 32px;
   cursor: pointer;
+  user-select: none;
+}
+.pages_buttons button:hover {
+  outline: 2px solid #969696;
 }
 .pages_buttons .selected {
   font-weight: 700;
   outline: 2px solid #595959;
   color: #595959;
   font-size: 20px;
+}
+.pages_buttons .selected:hover {
+  outline: 2px solid #595959;
 }
