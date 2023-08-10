@@ -9,6 +9,9 @@ namespace car_website.Controllers
 {
     public class UserController : Controller
     {
+        private const byte CARS_PER_PAGE = 10;
+        private const byte WAITING_CARS_PER_PAGE = 5;
+        private const byte FAV_CARS_PER_PAGE = 10;
         #region Services & ctor
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
@@ -123,7 +126,7 @@ namespace car_website.Controllers
         #endregion
         #region GetUserInfo
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Car>>> GetFavoriteCars(int page, int perPage = 10)
+        public async Task<ActionResult<IEnumerable<Car>>> GetFavoriteCars(int page, int perPage = FAV_CARS_PER_PAGE)
         {
             try
             {
@@ -144,7 +147,7 @@ namespace car_website.Controllers
             }
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Car>>> GetWaiting(string id, int page, int perPage = 5)
+        public async Task<ActionResult<IEnumerable<Car>>> GetWaiting(string id, int page, int perPage = WAITING_CARS_PER_PAGE)
         {
             try
             {
@@ -165,7 +168,7 @@ namespace car_website.Controllers
             }
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Car>>> GetCars(string id, int page, int perPage = 10)
+        public async Task<ActionResult<IEnumerable<Car>>> GetCars(string id, int page, int perPage = CARS_PER_PAGE)
         {
             try
             {

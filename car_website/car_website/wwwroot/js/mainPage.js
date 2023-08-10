@@ -37,7 +37,7 @@ function updatePagesButtons(number) {
     Array.from(pages_buttons_containers).forEach(buttons_container => {
         buttons_container.innerHTML = "";
         if (number > 1) {
-            if (number > 7) {
+            if (number > 8) {
                 if (carsPage >= 5 && number - carsPage > 4) {
                     buttons_container.innerHTML += `<button ${1 === carsPage ? 'class="selected"' : ''} page="${1}"">${1}</button>`;
                     buttons_container.innerHTML += `<p class="pages_buttons-space">...</p>`;

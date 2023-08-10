@@ -10,6 +10,7 @@ namespace car_website.Controllers
 {
     public class HomeController : Controller
     {
+        private const byte CARS_PER_PAGE = 1;
         #region Services & ctor
         private readonly ILogger<HomeController> _logger;
         private readonly ICarRepository _carRepository;
@@ -47,7 +48,7 @@ namespace car_website.Controllers
             };
             return View(vm);
         }
-        public async Task<ActionResult<IEnumerable<Car>>> GetCars([FromBody] CarFilterModel filter, int perPage = 1)
+        public async Task<ActionResult<IEnumerable<Car>>> GetCars([FromBody] CarFilterModel filter, int perPage = CARS_PER_PAGE)
         {
             try
             {
