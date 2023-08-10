@@ -13,11 +13,13 @@ body {
 .dont_display {
     display: none;
 }
+
 .carList {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
+
 .wrapper {
     margin: 50px 0 0 0;
     //width: 50%;
@@ -134,142 +136,158 @@ body {
         }
     }
 
-    &_right{
+    &_right {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
+}
 
-    .car {
+.car {
+    display: flex;
+    justify-content: space-between;
+    background-color: #F6F6F6;
+    align-items: end;
+    max-width: 890px;
+
+
+    &_container-right {
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
-        background-color: #F6F6F6;
         align-items: end;
-        max-width: 890px;
+        height: 100%;
 
-
-        &_container-right {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: end;
-            height: 100%;
-
-            &-like input:checked ~ .car_container-right-span {
-                background-image: url("/img/heart-checked.svg");
-            }
-
-            &-like {
-                margin: 0px 72px 66px 0px;
-                align-self: center;
-            }
-
-            &-span {
-                position: absolute;
-                height: 40px;
-                width: 40px;
-                background-image: url("/img/heart.svg");
-                display: block;
-                z-index: 2;
-            }
-
-            &-like-cars {
-                position: absolute;
-                display: block;
-                opacity: 0;
-                cursor: pointer;
-                z-index: 9;
-            }
-
-            &-price {
-                margin: 30px 0 0 20px;
-                //position: absolute;
-                // width: fit-content;
-
-                &-USD {
-                    font-size: 26px;
-                    color: white;
-                    background-color: #415939;
-                    padding: 4px 0;
-                    text-align: center;
-                    border-radius: 0 10px 0 10px;
-                    min-width: 115px;
-                }
-
-                &-UAH {
-                    font-size: 18px;
-                    color: white;
-                    background-color: #537049;
-                    border-radius: 0 10px 0 10px;
-                    padding: 5px 0px;
-                    min-width: 135px;
-                    max-width: fit-content;
-                    text-align: center;
-                    white-space: nowrap;
-                    margin-left: 20%;
-                    //margin-right: -50%;
-                    //max-width: fit-content;
-                }
-            }
+        &-like input:checked ~ .car_container-right-span {
+            background-image: url("/img/heart-checked.svg");
         }
 
-        input {
-            width: 40px;
+        &-like {
+            margin: 0px 72px 66px 0px;
+            align-self: center;
+        }
+
+        &-span {
+            position: absolute;
             height: 40px;
-            background-color: #F6F6F6;
+            width: 40px;
+            background-image: url("/img/heart.svg");
+            display: block;
+            z-index: 2;
         }
 
-        &_container {
-            display: flex;
-            margin: 30px;
-            min-width: 720px;
+        &-like-cars {
+            position: absolute;
+            display: block;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 9;
+        }
 
-            &-image-wrap {
-                width: 300px;
-                height: 200px;
-                overflow: hidden;
+        &-price {
+            margin: 30px 0 0 20px;
+            //position: absolute;
+            // width: fit-content;
+            &.onDetail {
+                margin: 0;
             }
 
-            img {
-                width: 300px;
-                height: 200px;
-                object-fit: cover;
+            &-USD {
+                font-size: 26px;
+                color: white;
+                background-color: #415939;
+                padding: 4px 0;
+                text-align: center;
+                border-radius: 0 10px 0 10px;
+                min-width: 115px;
             }
 
-            &-info {
-                padding-left: 30px;
-                //min-width: 400px;
-
-                a {
-                    color: black;
-                    font-size: 32px;
-                }
-
-                &-all {
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                }
-
-
-
-                &-parameters {
-                    margin: 30px 0 0 34px;
-
-                    &-row {
-                        margin-top: 20px;
-                        display: flex;
-                        gap: 70px;
-
-                        p {
-                            font-size: 20px;
-                            min-width: 107px;
-                        }
-                    }
-                }
+            &-UAH {
+                font-size: 18px;
+                color: white;
+                background-color: #537049;
+                border-radius: 0 10px 0 10px;
+                padding: 5px 0px;
+                min-width: 135px;
+                max-width: fit-content;
+                text-align: center;
+                white-space: nowrap;
+                margin-left: 20%;
+                //margin-right: -50%;
+                //max-width: fit-content;
             }
         }
     }
+
+    input {
+        width: 40px;
+        height: 40px;
+        background-color: #F6F6F6;
+    }
+
+    &_container {
+        display: flex;
+        margin: 30px;
+        min-width: 720px;
+
+        &-image-wrap {
+            width: 300px;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        img {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        &-info {
+            padding-left: 30px;
+            //min-width: 400px;
+
+            a {
+                color: black;
+                font-size: 32px;
+            }
+
+            &-all {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+
+
+            &-parameters {
+                margin: 30px 0 0 34px;
+
+                &-row {
+                    margin-top: 20px;
+                    display: flex;
+                    gap: 70px;
+
+                    p {
+                        font-size: 20px;
+                        min-width: 107px;
+                    }
+
+                    &.onDetail {
+                        gap: 250px;
+                    }
+                }
+
+                &.onDetail {
+                    //width: 540px;
+                    //display: flex;
+                    //flex-direction: column;
+                    //justify-content: center;
+                    margin: 30px 0 0 30px;
+                
+            }
+        }
+    }
+}
 }
 
 header {
@@ -337,10 +355,7 @@ header {
     }
 }
 
-.title {
-    font-weight: 700;
-    font-size: 28px;
-}
+
 
 .car_container-info-parameters-row-race::before {
     content: "";
@@ -396,10 +411,12 @@ header {
     background-size: 20px 20px;
     margin: 0px -30px;
 }
-.warning-text{
+
+.warning-text {
     font-size: 18px;
     color: #595959;
 }
+
 .pages_buttons {
     display: flex;
     gap: 10px;
@@ -438,6 +455,7 @@ header {
         outline: 2px solid #595959;
         color: #595959;
         font-size: 20px;
+
         &:hover {
             outline: 2px solid #595959;
         }

@@ -1,7 +1,52 @@
-﻿.slider {
+﻿@import "nullstyle.scss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
+
+.title {
+    font-weight: 700;
+    font-size: 28px;
+    //text-decoration:underline;
+    border-bottom:2px solid black;
+    line-height:1.1;
+    margin-bottom:20px;
+    text-align:center;
+}
+.wrapper_carDetail-before {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+.wrapper_carDetail {
+    width: 600px;
+}
+.priceBuy {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+    width: 600px;
+
+
+    &_buy {
+        height: fit-content;
+        font-size:16px;
+        padding: 7px 15px;
+        border-radius: 3px;
+        background-color: #415939;
+        color: white;
+    }
+}
+.slider {
     height: 400px;
     width: 600px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    
+
     &_element {
         height: 400px;
         width: 600px;
