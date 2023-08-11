@@ -1,6 +1,6 @@
 ﻿.profile {
     &_info {
-        width: 90%;
+        width: 66%;
         margin: 25px auto;
 
         h2 {
@@ -33,7 +33,7 @@
     }
 
     &_pages {
-        width: 90%;
+        width: 66%;
         margin: 15px auto;
 
         &_buttons {
@@ -71,7 +71,7 @@
         }
     }
 
-    &_content{
+    &_content {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -92,11 +92,13 @@
         transition: transform 0.22s ease;
     }
 }
-#for-sell:checked + label span::before {
+
+#for-sell:checked + label .label_span::before {
     background-image: url('../img/car.svg');
 }
+
 #for-sell-label {
-    span::before {
+    .label_span::before {
         content: "";
         background: url('../img/car-inactive.svg');
         position: absolute;
@@ -107,12 +109,12 @@
     }
 }
 
-#waiting:checked + label span::before {
+#waiting:checked + label .label_span::before {
     background-image: url('../img/time.svg');
 }
 
 #waiting-label {
-    span::before {
+    .label_span::before {
         content: "";
         background: url('../img/time-inactive.svg');
         position: absolute;
@@ -122,11 +124,13 @@
         margin: -4px 0 0 -34px;
     }
 }
-#favorite:checked + label span::before {
+
+#favorite:checked + label .label_span::before {
     background-image: url('../img/heart-gray.svg');
 }
+
 #favorite-label {
-    span::before {
+    .label_span::before {
         content: "";
         background: url('../img/heart-inactive.svg');
         position: absolute;
@@ -136,8 +140,25 @@
         margin: -4px 0 0 -32px;
     }
 }
-.profile_content{
+
+.profile_content {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+@media (max-width: 1024px) {
+    .label_counter {
+        display: none;
+    }
+}
+@media (max-width: 768px) {
+    .profile {
+        &_info {
+            width: 100%;
+        }
+        &_pages {
+            width: 100%;
+        }
+        
+    }
 }

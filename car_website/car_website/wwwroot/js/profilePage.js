@@ -1,7 +1,7 @@
 ﻿const radioButtons = document.querySelectorAll('input[name="page"]');
 const pageUnderline = document.getElementById('line');
 const pages_buttons_containers = document.getElementsByClassName("pages_buttons");
-
+const pages_profile = document.getElementById("pages-profile");
 let cars;
 let carsPage = 1;
 let waitingCars;
@@ -9,8 +9,8 @@ let waitingCarsPage = 1;
 let favCars;
 let favCarsPage = 1;
 let offset;
-var selectedRadioButton;
-
+let selectedRadioButton;
+let selectedRadioIndex;
 function updatePagesButtons(number) {
     Array.from(pages_buttons_containers).forEach(buttons_container => {
         buttons_container.innerHTML = "";
@@ -75,14 +75,28 @@ window.addEventListener('load', function () {
         }
         i++;
     });
-    pageUnderline.style.width = `${90 / radioButtons.length}%`;
+    selectedRadioIndex = selectedIndex;
+    var computedStyle = getComputedStyle(pages_profile);
+    var width = computedStyle.getPropertyValue('width');
+    pageUnderline.style.width = `${Math.round(parseFloat(width) / window.innerWidth * 100) / radioButtons.length}%`;
     offset = radioButtons.length == 3 ? 200 : 100;
-    //pageUnderline.style.transition = "0s";
     let percent = selectedIndex * (offset / (radioButtons.length - 1));
-    //console.log(selectedIndex);
     pageUnderline.style.transform = `translateX(${percent}%)`;
-    //pageUnderline.style.transition = "transform 0.22s ease";
 });
+var mediaQuery = window.matchMedia('(max-width: 768px)');
+function handleMediaChange(mediaQuery) {
+    let num;
+    if (mediaQuery.matches)
+        num = 100;
+    else
+        num = 66;
+    pageUnderline.style.width = `${num / radioButtons.length}%`;
+    offset = radioButtons.length == 3 ? 200 : 100;
+    let percent = selectedRadioIndex * (offset / (radioButtons.length - 1));
+    pageUnderline.style.transform = `translateX(${percent}%)`;
+}
+mediaQuery.addListener(handleMediaChange);
+handleMediaChange(mediaQuery);
 radioButtons.forEach((radio, index) => {
     radio.addEventListener('change', () => {
         const percent = index * (offset / (radioButtons.length - 1));
@@ -95,6 +109,7 @@ function handleRadioChange(event) {
 }
 function updateCarsList(target, page = 1) {
     if (target.id == "waiting") {
+        selectedRadioIndex = 1;
         waitingCarsPage = page;
         if (waitingCars == null || waitingCars.page != waitingCarsPage)
             getWaiting();
@@ -105,6 +120,7 @@ function updateCarsList(target, page = 1) {
         }
     }
     else if (target.id == "favorite") {
+        selectedRadioIndex = 2;
         favCarsPage = page;
         if (favCars == null || favCars.page != favCarsPage)
             getFavorites();
@@ -115,6 +131,7 @@ function updateCarsList(target, page = 1) {
         }
     }
     else if (target.id == "for-sell") {
+        selectedRadioIndex = 0;
         carsPage = page;
         if (cars == null || cars.page != carsPage)
             getCars();

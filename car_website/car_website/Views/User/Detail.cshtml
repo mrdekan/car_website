@@ -18,24 +18,27 @@
             <a asp-controller="User" asp-action="Logout">Вийти</a>
         }
     </div>
-    <div class="profile_pages">
+    <div class="profile_pages" id="pages-profile">
         <div class="profile_pages_buttons">
             <div class="radio">
                 <input type="radio" id="for-sell"
                        name="page" value="for-sell" checked>
-                <label for="for-sell" id="for-sell-label"><span>Авто у продажі (@Model.CarsForSell.Count)</span></label>
+                <label for="for-sell" id="for-sell-label"><span class="label_span">Авто у продажі<span class="label_counter"> (@Model.CarsForSell.Count)</span></span></label>
             </div>
             <div class="radio">
                 <input type="radio" id="waiting"
                        name="page" value="waiting">
-                <label for="waiting" id="waiting-label"><span>Очікують на модерацію (@Model.CarWithoutConfirmation.Count)</span></label>
+                <label for="waiting" id="waiting-label"><span class="label_span">Очікують на модерацію<span class="label_counter"> (@Model.CarWithoutConfirmation.Count)</span></span></label>
             </div>
             @if (isSelfAccount)
             {
                 <div class="radio">
                     <input type="radio" id="favorite"
                            name="page" value="favorite">
-                    <label for="favorite" id="favorite-label"><span>Обрані авто (@Model.Favorites.Count)</span></label>
+                    <label for="favorite" id="favorite-label">
+                        <span class="label_span">Обрані авто<span class="label_counter"> (@Model.Favorites.Count)</span></span>
+
+                </label>
                 </div>
             }
         </div>

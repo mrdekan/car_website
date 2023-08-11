@@ -431,7 +431,7 @@ input[type=number] {
 }
 
 .profile_info {
-  width: 90%;
+  width: 66%;
   margin: 25px auto;
 }
 .profile_info h2 {
@@ -459,7 +459,7 @@ input[type=number] {
   transition: 0.2s;
 }
 .profile_pages {
-  width: 90%;
+  width: 66%;
   margin: 15px auto;
 }
 .profile_pages_buttons {
@@ -511,11 +511,11 @@ input[type=number] {
   transition: transform 0.22s ease;
 }
 
-#for-sell:checked + label span::before {
+#for-sell:checked + label .label_span::before {
   background-image: url("../img/car.svg");
 }
 
-#for-sell-label span::before {
+#for-sell-label .label_span::before {
   content: "";
   background: url("../img/car-inactive.svg");
   position: absolute;
@@ -525,11 +525,11 @@ input[type=number] {
   margin: -4px 0 0 -35px;
 }
 
-#waiting:checked + label span::before {
+#waiting:checked + label .label_span::before {
   background-image: url("../img/time.svg");
 }
 
-#waiting-label span::before {
+#waiting-label .label_span::before {
   content: "";
   background: url("../img/time-inactive.svg");
   position: absolute;
@@ -539,11 +539,11 @@ input[type=number] {
   margin: -4px 0 0 -34px;
 }
 
-#favorite:checked + label span::before {
+#favorite:checked + label .label_span::before {
   background-image: url("../img/heart-gray.svg");
 }
 
-#favorite-label span::before {
+#favorite-label .label_span::before {
   content: "";
   background: url("../img/heart-inactive.svg");
   position: absolute;
@@ -559,6 +559,19 @@ input[type=number] {
   justify-content: center;
 }
 
+@media (max-width: 1024px) {
+  .label_counter {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .profile_info {
+    width: 100%;
+  }
+  .profile_pages {
+    width: 100%;
+  }
+}
 body {
   background-color: white;
   font-family: "Roboto", sans-serif;

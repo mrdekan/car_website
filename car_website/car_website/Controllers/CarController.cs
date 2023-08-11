@@ -1,5 +1,6 @@
 ﻿using car_website.Interfaces;
 using car_website.Models;
+using car_website.Services;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -15,7 +16,8 @@ namespace car_website.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IBuyRequestRepository _buyRequestRepository;
         private readonly IWaitingCarsRepository _waitingCarsRepository;
-        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository)
+        private readonly CurrencyUpdater _currencyUpdater;
+        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -23,13 +25,14 @@ namespace car_website.Controllers
             _userRepository = userRepository;
             _buyRequestRepository = buyRequestRepository;
             _waitingCarsRepository = waitingCarsRepository;
+            _currencyUpdater = currencyUpdater;
         }
         #endregion
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {
             var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
-            return View(car);
+            return View(new CarDetailViewModel(car, _currencyUpdater));
         }
         [HttpGet]
         public async Task<IActionResult> WaitingCarDetail(string id)

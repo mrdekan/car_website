@@ -10,7 +10,7 @@ namespace car_website.Controllers
 {
     public class HomeController : Controller
     {
-        private const byte CARS_PER_PAGE = 1;
+        private const byte CARS_PER_PAGE = 3;
         #region Services & ctor
         private readonly ILogger<HomeController> _logger;
         private readonly ICarRepository _carRepository;
