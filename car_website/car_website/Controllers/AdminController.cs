@@ -36,7 +36,11 @@ namespace car_website.Controllers
         {
             if (HttpContext.Session.GetInt32("UserRole") != 2)
                 return RedirectToAction("Index", "Home");
-
+            var cars = await _carRepository.GetAll();
+            foreach (var car in cars)
+            {
+                await _carRepository.Update(car);
+            }
             //Any one time logic for devs
 
             return RedirectToAction("Panel");

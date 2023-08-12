@@ -8,6 +8,7 @@
 body {
     background-color: white;
     font-family: 'Roboto', sans-serif;
+    position: relative;
 }
 
 .dont_display {
@@ -292,7 +293,7 @@ body {
 
 header {
     height: 50px;
-    width: 100%;
+    width: calc(100% + 0px);
     background-color: #415939;
     display: flex;
     justify-content: space-between;
@@ -460,4 +461,20 @@ header {
             outline: 2px solid #595959;
         }
     }
+}
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(0, 0, 0, 0);
+    height: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: #969696;
+    border-radius: 10px;
+
+    &:hover {
+        background: #818181;
+    }
+}
+.pb-3 {
+    padding: 0 calc(10px - (100vw - 100%)) 0 0;
 }

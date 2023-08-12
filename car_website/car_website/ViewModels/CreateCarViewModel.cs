@@ -45,5 +45,6 @@ namespace car_website.ViewModels
         [MaxLength(20, ErrorMessage = "Занадто довга назва")]
         public string? OtherModelName { get; set; }
         public CarFeatures Features { get; set; } = new CarFeatures();
+        public string? VideoURL { get; set; }
     }
 }

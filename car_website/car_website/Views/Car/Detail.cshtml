@@ -4,43 +4,44 @@
     ViewData["Title"] = Model.Brand + " " + Model.Model;
 }
 <div class="wrapper_carDetail-before">
-<div class="wrapper_carDetail">
-    <h2 class="title">@Model.Brand @Model.Model @Model.Year</h2>
-<div class="slider">
-    @foreach (var photo in Model.PhotosURL)
-    {
-        <div class="slider_element">
-            <img src="@photo" class="slider_element-image" alt="photo" />
-            <img src="@photo" class="slider_element-background" alt="photo"/>
+    <div class="wrapper_carDetail">
+        <h2 class="title">@Model.Brand @Model.Model @Model.Year</h2>
+        <div class="slider">
+            @foreach (var photo in Model.PhotosURL)
+            {
+                <div class="slider_element">
+                    <img src="@photo" class="slider_element-image" alt="photo" />
+                    <img src="@photo" class="slider_element-background" alt="photo" />
+                </div>
+            }
         </div>
-    }   
-</div>
-    <div class="priceBuy">
-        <div class="car_container-right-price onDetail">
-            <p class="car_container-right-price-USD">@Model.Price $</p>
-            <p class="car_container-right-price-UAH">≈ @Model.PriceUAH грн</p>
+        <div class="priceBuy">
+            <div class="car_container-right-price onDetail">
+                <p class="car_container-right-price-USD">@Model.Price $</p>
+                <p class="car_container-right-price-UAH">≈ @Model.PriceUAH грн</p>
+            </div>
+            <button class="priceBuy_buy">Запит на покупку</button>
         </div>
-        <button class="priceBuy_buy">Запит на покупку</button>
+        <div class="car_container-info-parameters onDetail">
+            <div class="car_container-info-parameters-row onDetail">
+                <p class="car_container-info-parameters-row-race">@Model.Mileage тис. км</p>
+                <p class="car_container-info-parameters-row-fuel">@Model.Fuel, @Model.EngineCapacity л.</p>
+            </div>
+            <div class="car_container-info-parameters-row onDetail">
+                <p class="car_container-info-parameters-row-transmission">@Model.CarTransmission</p>
+                <p class="car_container-info-parameters-row-driveline">@Model.Driveline</p>
+            </div>
+            <div class="car_container-info-parameters-row">
+                <p class="car_container-info-parameters-row-vin">@Model.VIN</p>
+            </div>
+        </div>
+        @if (!string.IsNullOrEmpty(ViewContext.HttpContext.Session.GetString("UserId")))
+        {
+            <a href=@Url.Action("BuyRequest", "Car" , new { carId=Model.Id.ToString(), userId=ViewContext.HttpContext.Session.GetString("UserId")})>Зв'язатись з менеджером</a>
+        }
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <p>@Model.Description</p>
+        }
     </div>
-    <div class="car_container-info-parameters onDetail">
-        <div class="car_container-info-parameters-row onDetail">
-            <p class="car_container-info-parameters-row-race">@Model.Mileage тис. км</p>
-            <p class="car_container-info-parameters-row-fuel">@Model.Fuel, @Model.EngineCapacity л.</p>
-        </div>
-        <div class="car_container-info-parameters-row onDetail">
-            <p class="car_container-info-parameters-row-transmission">@Model.CarTransmission</p>
-            <p class="car_container-info-parameters-row-driveline">@Model.Driveline</p>
-        </div>
-        <div class="car_container-info-parameters-row">
-            <p class="car_container-info-parameters-row-vin">@Model.VIN</p>
-        </div>
-    </div>
-@if (!string.IsNullOrEmpty(ViewContext.HttpContext.Session.GetString("UserId")))
-{
-    <a href=@Url.Action("BuyRequest", "Car" , new { carId=Model.Id.ToString(), userId=ViewContext.HttpContext.Session.GetString("UserId")})>Зв'язатись з менеджером</a>
-}
-@if(!string.IsNullOrEmpty(Model.Description)){
-    <p>@Model.Description</p>
-}
-</div>
 </div>

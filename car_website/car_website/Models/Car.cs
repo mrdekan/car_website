@@ -39,6 +39,7 @@ namespace car_website.Models
             //OtherBrand = carVM.OtherBrandName != null;
             //OtherModel = carVM.OtherModelName != null;
             SellerId = sellerId;
+            VideoURL = carVM.VideoURL;
         }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -59,6 +60,7 @@ namespace car_website.Models
         public CarOptions[] Options { get; set; }
         public uint Mileage { get; set; }
         public string SellerId { get; set; }
+        public string? VideoURL { get; set; }
         //public string Mark { get; set; }
     }
 }

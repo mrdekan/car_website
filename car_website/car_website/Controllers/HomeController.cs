@@ -17,13 +17,15 @@ namespace car_website.Controllers
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly IBrandRepository _brandRepository;
         private readonly IUserRepository _userRepository;
-        public HomeController(ILogger<HomeController> logger, ICarRepository carRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, IUserRepository userRepository)
+        private readonly IConfiguration _configuration;
+        public HomeController(ILogger<HomeController> logger, ICarRepository carRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, IUserRepository userRepository, IConfiguration configuration)
         {
             _logger = logger;
             _carRepository = carRepository;
             _brandRepository = brandRepository;
             _currencyUpdater = currencyUpdater;
             _userRepository = userRepository;
+            _configuration = configuration;
         }
         #endregion
         public async Task<IActionResult> IndexAsync()
@@ -46,6 +48,11 @@ namespace car_website.Controllers
                 Brands = brands.ToList(),
                 CarsCount = carsCount
             };
+
+
+
+
+
             return View(vm);
         }
         public async Task<ActionResult<IEnumerable<Car>>> GetCars([FromBody] CarFilterModel filter, int perPage = CARS_PER_PAGE)

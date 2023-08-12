@@ -19,10 +19,15 @@
         </div>
         <button type="button" id="addPhotoButton">Додати ще фото</button>
         <div class="form-group">
+            <label asp-for="CreateCarViewModel.VideoURL">Посилання на відео з оглядом на YouTube</label>
+            <input asp-for="CreateCarViewModel.VideoURL" />
+            <span asp-validation-for="CreateCarViewModel.VideoURL" class="text-danger"></span>
+        </div>
+        <div class="form-group">
             <label asp-for="CreateCarViewModel.Brand">Марка</label>
             <select asp-for="CreateCarViewModel.Brand" id="brand-select">
                 <option value="Any">Не обрано</option>
-                @foreach (var str in Model.CarBrands??new List<string>())
+                @foreach (var str in Model.CarBrands ?? new List<string>())
                 {
                     <option value=@str>@str</option>
                 }
@@ -101,7 +106,7 @@
         </div>
         <div class="form-group">
             <label asp-for="CreateCarViewModel.CarColor">Колір</label>
-            <select asp-for="CreateCarViewModel.CarColor" class="form-select" >
+            <select asp-for="CreateCarViewModel.CarColor" class="form-select">
                 <option value="0">Бежевий</option>
                 <option value="1">Чорний</option>
                 <option value="2">Синій</option>
@@ -129,7 +134,7 @@
         </div>
         <div class="form-group">
             <label asp-for="CreateCarViewModel.EngineCapacity">Об'єм двигуна</label>
-            <input asp-for="CreateCarViewModel.EngineCapacity"/>
+            <input asp-for="CreateCarViewModel.EngineCapacity" />
             <span asp-validation-for="CreateCarViewModel.EngineCapacity" class="text-danger"></span>
         </div>
         <div class="form-group">

@@ -4,6 +4,8 @@ using car_website.Services;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using Newtonsoft.Json;
+using System.Web;
 
 namespace car_website.Controllers
 {
@@ -17,7 +19,8 @@ namespace car_website.Controllers
         private readonly IBuyRequestRepository _buyRequestRepository;
         private readonly IWaitingCarsRepository _waitingCarsRepository;
         private readonly CurrencyUpdater _currencyUpdater;
-        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater)
+        private readonly IConfiguration _configuration;
+        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -26,6 +29,7 @@ namespace car_website.Controllers
             _buyRequestRepository = buyRequestRepository;
             _waitingCarsRepository = waitingCarsRepository;
             _currencyUpdater = currencyUpdater;
+            _configuration = configuration;
         }
         #endregion
         [HttpGet]
@@ -74,6 +78,30 @@ namespace car_website.Controllers
                 return RedirectToAction("Register", "User");
             if (ModelState.IsValid)
             {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.GetAsync($"https://www.googleapis.com/youtube/v3/videos?id={GetVideoIdFromUrl(carVM.CreateCarViewModel.VideoURL ?? "")}&key={_configuration.GetSection("GoogleApiSettings")["ApiKey"]}&part=snippet");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string responseBody = await response.Content.ReadAsStringAsync();
+                        var videoDetails = JsonConvert.DeserializeObject<VideoDetailsResponse>(responseBody);
+                        if (videoDetails == null || videoDetails.Items.Length <= 0)
+                        {
+                            var brands = await _brandRepository.GetAll();
+                            carVM.CarBrands = brands.ToList();
+                            ModelState.AddModelError("VideoURL", "Відео не знайдено");
+                            return View(carVM);
+                        }
+                    }
+                    else
+                    {
+                        var brands = await _brandRepository.GetAll();
+                        carVM.CarBrands = brands.ToList();
+                        ModelState.AddModelError("VideoURL", "Відео не знайдено");
+                        return View(carVM);
+                    }
+                }
+
                 var newCar = carVM.CreateCarViewModel;
                 List<string> photosNames = new List<string>();
                 List<IFormFile> photos = new List<IFormFile>() { newCar.Photo1, newCar.Photo2, newCar.Photo3, newCar.Photo4, newCar.Photo5 };
@@ -137,5 +165,35 @@ namespace car_website.Controllers
             }
             return user;
         }
+        private string GetVideoIdFromUrl(string url)
+        {
+            try
+            {
+                Uri uri = new Uri(url);
+                string queryString = uri.Query;
+                var queryParameters = HttpUtility.ParseQueryString(queryString);
+                string videoId = queryParameters["v"];
+                return videoId;
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
+    }
+    internal class VideoDetailsResponse
+    {
+        public VideoSnippet[] Items { get; set; }
+    }
+
+    internal class VideoSnippet
+    {
+        public SnippetDetails Snippet { get; set; }
+    }
+
+    internal class SnippetDetails
+    {
+        public string Title { get; set; }
+        public string ChannelTitle { get; set; }
     }
 }
