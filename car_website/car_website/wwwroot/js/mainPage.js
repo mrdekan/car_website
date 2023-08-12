@@ -223,17 +223,17 @@ function applyFilter(page = 1) {
                                     <div class="car_container-info">
                                         <a href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
                                             <div class="car_container-info-parameters">
-                                                <div class="car_container-info-parameters-row">
-                                                    <p class="car_container-info-parameters-row-race">${car.mileage} тис. км</p>
-                                                    <p class="car_container-info-parameters-row-fuel">${fuelName(car.fuel)}, ${car.engineCapacity} л.</p>
-                                                </div>
-                                                <div class="car_container-info-parameters-row">
-                                                    <p class="car_container-info-parameters-row-transmission">${transmissionName(car.carTransmission)}</p>
-                                                    <p class="car_container-info-parameters-row-driveline">${drivelineName(car.driveline)}</p>
-                                                </div>
-                                                <div class="car_container-info-parameters-row">
-                                                    <p class="car_container-info-parameters-row-vin">${car.vin}</p>
-                                                </div>
+                                                <div class="car_container-info-parameters-column">
+                                                    <p class="car_container-info-parameters-column-race">${car.mileage} тис. км</p>
+                                                    <p class="car_container-info-parameters-column-transmission">${transmissionName(car.carTransmission)}</p>
+                                                    <p class="car_container-info-parameters-column-vin">${car.vin}</p>
+                                                
+                                                    </div>
+                                                <div class="car_container-info-parameters-column">
+                                                    <p class="car_container-info-parameters-column-fuel">${fuelName(car.fuel)}, ${car.engineCapacity} л.</p>
+                                                    <p class="car_container-info-parameters-column-driveline">${drivelineName(car.driveline)}</p>
+                                                    
+                                                    </div>
                                             </div>
                                             
                                         </div>

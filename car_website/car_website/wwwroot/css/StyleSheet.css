@@ -420,7 +420,8 @@ input[type=number] {
   justify-content: center;
 }
 .slider_element-image {
-  height: 400px;
+  max-width: 600px;
+  max-height: 400px;
   z-index: 2;
   position: absolute;
 }
@@ -428,6 +429,12 @@ input[type=number] {
   width: 100%;
   object-fit: cover;
   filter: blur(0.5rem);
+}
+
+.car_description {
+  border-top: 2px solid black;
+  padding-top: 20px;
+  margin: 20px 0;
 }
 
 .profile_info {
@@ -575,7 +582,6 @@ input[type=number] {
 body {
   background-color: white;
   font-family: "Roboto", sans-serif;
-  position: relative;
 }
 
 .dont_display {
@@ -782,23 +788,22 @@ body {
 }
 .car_container-info-all {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
 }
 .car_container-info-parameters {
   margin: 30px 0 0 34px;
-}
-.car_container-info-parameters-row {
-  margin-top: 20px;
+  justify-content: space-around;
   display: flex;
-  gap: 70px;
 }
-.car_container-info-parameters-row p {
+.car_container-info-parameters-column {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.car_container-info-parameters-column p {
   font-size: 20px;
   min-width: 107px;
-}
-.car_container-info-parameters-row.onDetail {
-  gap: 250px;
 }
 .car_container-info-parameters.onDetail {
   margin: 30px 0 0 30px;
@@ -806,7 +811,7 @@ body {
 
 header {
   height: 50px;
-  width: calc(100% + 0px);
+  width: 100%;
   background-color: #415939;
   display: flex;
   justify-content: space-between;
@@ -862,7 +867,7 @@ header .header_right-button::before {
   margin: -4px -24px;
 }
 
-.car_container-info-parameters-row-race::before {
+.car_container-info-parameters-column-race::before {
   content: "";
   background: url("../img/race.svg");
   display: block;
@@ -873,7 +878,7 @@ header .header_right-button::before {
   margin: 0px -30px;
 }
 
-.car_container-info-parameters-row-fuel::before {
+.car_container-info-parameters-column-fuel::before {
   content: "";
   background: url("../img/fuel.svg");
   display: block;
@@ -884,7 +889,7 @@ header .header_right-button::before {
   margin: 0px -30px;
 }
 
-.car_container-info-parameters-row-transmission::before {
+.car_container-info-parameters-column-transmission::before {
   content: "";
   background: url("../img/transmission.svg");
   display: block;
@@ -895,7 +900,7 @@ header .header_right-button::before {
   margin: 0px -30px;
 }
 
-.car_container-info-parameters-row-driveline::before {
+.car_container-info-parameters-column-driveline::before {
   content: "";
   background: url("../img/transmission.svg");
   display: block;
@@ -906,7 +911,7 @@ header .header_right-button::before {
   margin: 0px -30px;
 }
 
-.car_container-info-parameters-row-vin::before {
+.car_container-info-parameters-column-vin::before {
   content: "";
   background: url("../img/vin.svg");
   display: block;

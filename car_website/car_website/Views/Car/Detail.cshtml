@@ -23,25 +23,24 @@
             <button class="priceBuy_buy">Запит на покупку</button>
         </div>
         <div class="car_container-info-parameters onDetail">
-            <div class="car_container-info-parameters-row onDetail">
-                <p class="car_container-info-parameters-row-race">@Model.Mileage тис. км</p>
-                <p class="car_container-info-parameters-row-fuel">@Model.Fuel, @Model.EngineCapacity л.</p>
+            <div class="car_container-info-parameters-column onDetail">
+                <p class="car_container-info-parameters-column-race">@Model.Mileage тис. км</p>
+                <p class="car_container-info-parameters-column-transmission">@Model.CarTransmission</p>
+
+                <p class="car_container-info-parameters-column-vin">@Model.VIN</p>
+
             </div>
-            <div class="car_container-info-parameters-row onDetail">
-                <p class="car_container-info-parameters-row-transmission">@Model.CarTransmission</p>
-                <p class="car_container-info-parameters-row-driveline">@Model.Driveline</p>
-            </div>
-            <div class="car_container-info-parameters-row">
-                <p class="car_container-info-parameters-row-vin">@Model.VIN</p>
+            <div class="car_container-info-parameters-column onDetail">
+                <p class="car_container-info-parameters-column-driveline">@Model.Driveline</p>
+                <p class="car_container-info-parameters-column-fuel">@Model.Fuel @Model.EngineCapacity л.</p>
+
             </div>
         </div>
-        @if (!string.IsNullOrEmpty(ViewContext.HttpContext.Session.GetString("UserId")))
-        {
-            <a href=@Url.Action("BuyRequest", "Car" , new { carId=Model.Id.ToString(), userId=ViewContext.HttpContext.Session.GetString("UserId")})>Зв'язатись з менеджером</a>
-        }
-        @if (!string.IsNullOrEmpty(Model.Description))
-        {
-            <p>@Model.Description</p>
-        }
+        <div class="car_description">
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <p>@Model.Description</p>
+            }
+        </div>
     </div>
 </div>

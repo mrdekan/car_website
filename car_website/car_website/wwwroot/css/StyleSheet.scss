@@ -8,7 +8,6 @@
 body {
     background-color: white;
     font-family: 'Roboto', sans-serif;
-    position: relative;
 }
 
 .dont_display {
@@ -254,7 +253,7 @@ body {
 
             &-all {
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
                 justify-content: space-between;
             }
 
@@ -262,11 +261,14 @@ body {
 
             &-parameters {
                 margin: 30px 0 0 34px;
-
-                &-row {
-                    margin-top: 20px;
+                justify-content: space-around;
+                display: flex;
+                //flex-direction:revert;
+                &-column {
+                    //margin-top: 20px;
                     display: flex;
-                    gap: 70px;
+                    flex-direction: column;
+                    gap: 30px;
 
                     p {
                         font-size: 20px;
@@ -274,7 +276,7 @@ body {
                     }
 
                     &.onDetail {
-                        gap: 250px;
+                        //gap: 250px;
                     }
                 }
 
@@ -284,16 +286,15 @@ body {
                     //flex-direction: column;
                     //justify-content: center;
                     margin: 30px 0 0 30px;
-                
+                }
             }
         }
     }
 }
-}
 
 header {
     height: 50px;
-    width: calc(100% + 0px);
+    width: 100%;
     background-color: #415939;
     display: flex;
     justify-content: space-between;
@@ -358,7 +359,7 @@ header {
 
 
 
-.car_container-info-parameters-row-race::before {
+.car_container-info-parameters-column-race::before {
     content: "";
     background: url('../img/race.svg');
     display: block;
@@ -369,7 +370,7 @@ header {
     margin: 0px -30px;
 }
 
-.car_container-info-parameters-row-fuel::before {
+.car_container-info-parameters-column-fuel::before {
     content: "";
     background: url('../img/fuel.svg');
     display: block;
@@ -380,7 +381,7 @@ header {
     margin: 0px -30px;
 }
 
-.car_container-info-parameters-row-transmission::before {
+.car_container-info-parameters-column-transmission::before {
     content: "";
     background: url('../img/transmission.svg');
     display: block;
@@ -391,7 +392,7 @@ header {
     margin: 0px -30px;
 }
 
-.car_container-info-parameters-row-driveline::before {
+.car_container-info-parameters-column-driveline::before {
     content: "";
     background: url('../img/transmission.svg');
     display: block;
@@ -402,7 +403,7 @@ header {
     margin: 0px -30px;
 }
 
-.car_container-info-parameters-row-vin::before {
+.car_container-info-parameters-column-vin::before {
     content: "";
     background: url('../img/vin.svg');
     display: block;
@@ -467,6 +468,7 @@ header {
     background-color: rgba(0, 0, 0, 0);
     height: 10px;
 }
+
 ::-webkit-scrollbar-thumb {
     background: #969696;
     border-radius: 10px;
@@ -475,6 +477,7 @@ header {
         background: #818181;
     }
 }
+
 .pb-3 {
     padding: 0 calc(10px - (100vw - 100%)) 0 0;
 }
