@@ -78,9 +78,11 @@ window.addEventListener('load', function () {
     selectedRadioIndex = selectedIndex;
     var computedStyle = getComputedStyle(pages_profile);
     var width = computedStyle.getPropertyValue('width');
-    pageUnderline.style.width = `${Math.round(parseFloat(width) / window.innerWidth * 100) / radioButtons.length}%`;
-    offset = radioButtons.length == 3 ? 200 : 100;
+    //pageUnderline.style.width = `${Math.round(parseFloat(width) / window.innerWidth * 100) / radioButtons.length}%`;
+    pageUnderline.style.width = `${radioButtons.length==4?16.5:22}%`;
+    offset = radioButtons.length == 4 ? 300 : 200;
     let percent = selectedIndex * (offset / (radioButtons.length - 1));
+    console.log(percent)
     pageUnderline.style.transform = `translateX(${percent}%)`;
 });
 var mediaQuery = window.matchMedia('(max-width: 768px)');
@@ -91,7 +93,8 @@ function handleMediaChange(mediaQuery) {
     else
         num = 66;
     pageUnderline.style.width = `${num / radioButtons.length}%`;
-    offset = radioButtons.length == 3 ? 200 : 100;
+    offset = radioButtons.length == 4 ? 300 : 200;
+    console.log(selectedRadioIndex)
     let percent = selectedRadioIndex * (offset / (radioButtons.length - 1));
     pageUnderline.style.transform = `translateX(${percent}%)`;
 }
@@ -99,6 +102,7 @@ mediaQuery.addListener(handleMediaChange);
 handleMediaChange(mediaQuery);
 radioButtons.forEach((radio, index) => {
     radio.addEventListener('change', () => {
+        offset = radioButtons.length == 4 ? 300 : 200;
         const percent = index * (offset / (radioButtons.length - 1));
         selectedRadioButton = radio;
         pageUnderline.style.transform = `translateX(${percent}%)`;
@@ -120,7 +124,7 @@ function updateCarsList(target, page = 1) {
         }
     }
     else if (target.id == "favorite") {
-        selectedRadioIndex = 2;
+        selectedRadioIndex = 3;
         favCarsPage = page;
         if (favCars == null || favCars.page != favCarsPage)
             getFavorites();
@@ -140,6 +144,9 @@ function updateCarsList(target, page = 1) {
             updateLikeButtons();
             updatePagesButtons(cars.pages);
         }
+    }
+    else if (target.id == "requests") {
+        selectedRadioIndex = 2;
     }
 }
 radioButtons.forEach(function (radio) {

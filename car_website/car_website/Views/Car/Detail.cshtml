@@ -36,14 +36,14 @@
 
             </div>
         </div>
-        <div class="car_description">
-            @if (!string.IsNullOrEmpty(Model.Description))
-            {
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <div class="car_description">
                 <p>@Model.Description</p>
-            }
-        </div>
+            </div>
+        }
+        <h4>Вас може зацікавити:</h4>
         <div class="car_similar" id="similar-cars" carId="@Model.Id">
-
         </div>
     </div>
 </div>

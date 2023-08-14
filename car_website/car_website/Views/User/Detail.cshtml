@@ -30,6 +30,11 @@
                        name="page" value="waiting">
                 <label for="waiting" id="waiting-label"><span class="label_span">Очікують на модерацію<span class="label_counter"> (@Model.CarWithoutConfirmation.Count)</span></span></label>
             </div>
+            <div class="radio">
+                <input type="radio" id="requests"
+                       name="page" value="requests">
+                <label for="requests" id="requests-label"><span class="label_span">Запити на покупку<span class="label_counter"> (@Model.CarWithoutConfirmation.Count)</span></span></label>
+            </div>
             @if (isSelfAccount)
             {
                 <div class="radio">

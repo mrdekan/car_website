@@ -431,10 +431,19 @@ input[type=number] {
   filter: blur(0.5rem);
 }
 
+h4 {
+  border-top: 2px solid black;
+  margin: 20px 0 15px;
+  padding-top: 20px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
 .car_description {
   border-top: 2px solid black;
   padding-top: 20px;
-  margin: 20px 0;
+  margin: 20px 0 0;
+  font-size: 16px;
 }
 .car_similar {
   width: 100%;

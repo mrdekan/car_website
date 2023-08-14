@@ -15,7 +15,7 @@ function getSimilarCars() {
                         <a href="/Car/Detail/${car.id}">${car.info}</a>
                         <img alt="photo" src="${car.photoURL}">
                         <p>${car.price} $</p>
-                        <p>${car.priceUAH} грн</p>
+                        <p>≈ ${car.priceUAH} грн</p>
                     </div>`;
                 });
             }
