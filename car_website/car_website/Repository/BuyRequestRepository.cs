@@ -41,5 +41,9 @@ namespace car_website.Repository
             var filter = Builders<BuyRequest>.Filter.Eq(r => r.Id, request.Id);
             await _dbContext.BuyRequests.DeleteOneAsync(filter);
         }
+        public async Task<IEnumerable<BuyRequest>> GetByIdListAsync(IEnumerable<ObjectId> ids)
+        {
+            return await _dbContext.BuyRequests.Find(request => ids.Contains(request.Id)).ToListAsync();
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace car_website.Controllers
     {
         private const byte CARS_PER_PAGE = 10;
         private const byte WAITING_CARS_PER_PAGE = 5;
+        private const byte BUY_REQUESTS_PER_PAGE = 5;
         private const byte FAV_CARS_PER_PAGE = 10;
         #region Services & ctor
         private readonly IUserService _userService;
@@ -19,8 +20,9 @@ namespace car_website.Controllers
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly ICarRepository _carRepository;
         private readonly IWaitingCarsRepository _waitingCarsRepository;
+        private readonly IBuyRequestRepository _buyRequestRepository;
 
-        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository, CurrencyUpdater currencyUpdater, ICarRepository carRepository, IWaitingCarsRepository waitingCarsRepository)
+        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository, CurrencyUpdater currencyUpdater, ICarRepository carRepository, IWaitingCarsRepository waitingCarsRepository, IBuyRequestRepository buyRequestRepository)
         {
             _userService = userService;
             _emailService = emailService;
@@ -28,6 +30,7 @@ namespace car_website.Controllers
             _currencyUpdater = currencyUpdater;
             _carRepository = carRepository;
             _waitingCarsRepository = waitingCarsRepository;
+            _buyRequestRepository = buyRequestRepository;
         }
         #endregion
         public async Task<IActionResult> Detail(string id)
@@ -161,6 +164,28 @@ namespace car_website.Controllers
                 cars = cars.Skip(skip).Take(perPage);
                 var carsRes = cars.Select(car => new WaitingCarViewModel() { Car = new CarViewModel(car.Car, _currencyUpdater, false), Id = car.Id.ToString() }).ToList();
                 return Ok(new { Success = true, Cars = carsRes, Pages = totalPages, Page = page });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Success = false, Cars = new List<Car>(), Pages = 0, Page = 0 });
+            }
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Car>>> GetBuyRequests(string id, int page, int perPage = BUY_REQUESTS_PER_PAGE)
+        {
+            try
+            {
+                if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                    return Ok(new { Success = false, Cars = new List<Car>(), Pages = 0, Page = 0 });
+                User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
+                IEnumerable<BuyRequest> requests = await _buyRequestRepository.GetByIdListAsync(user.SendedBuyRequest);
+                int totalItems = requests.Count();
+                int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
+                int skip = (page - 1) * perPage;
+                requests = requests.Skip(skip).Take(perPage);
+                var carsIds = requests.Select(obj => ObjectId.Parse(obj.CarId)).ToList();
+                var carsRes = await _carRepository.GetByIdListAsync(carsIds);
+                return Ok(new { Success = true, Cars = carsRes.Select(car => new CarViewModel(car, _currencyUpdater, user.Favorites.Contains(car.Id))).ToList(), Pages = totalPages, Page = page });
             }
             catch (Exception ex)
             {

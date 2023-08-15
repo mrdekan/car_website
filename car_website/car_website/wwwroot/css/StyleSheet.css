@@ -468,6 +468,37 @@ h4 {
   object-fit: cover;
 }
 
+.buy-request-result-info {
+  border: 2px solid #415939;
+  background-color: #D0E0CA;
+  border-radius: 10px;
+  padding: 2%;
+}
+.buy-request-result-info p {
+  color: #415939;
+  font-size: 16px;
+}
+.buy-request-result-info-title {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.buy-request-result-error {
+  border: 2px solid #db3d5f;
+  background-color: #f7dfe5;
+  border-radius: 10px;
+  padding: 2%;
+}
+.buy-request-result-error p {
+  color: #db3d5f;
+  font-size: 16px;
+}
+.buy-request-result-error-title {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
 .profile_info {
   width: 66%;
   margin: 25px auto;
@@ -1006,7 +1037,6 @@ header .header_right-button::before {
 
 ::-webkit-scrollbar-thumb {
   background: #969696;
-  border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #818181;

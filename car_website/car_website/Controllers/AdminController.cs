@@ -36,11 +36,22 @@ namespace car_website.Controllers
         {
             if (HttpContext.Session.GetInt32("UserRole") != 2)
                 return RedirectToAction("Index", "Home");
-            var cars = await _carRepository.GetAll();
+            /*var cars = await _carRepository.GetAll();
             foreach (var car in cars)
             {
                 await _carRepository.Update(car);
-            }
+            }*/
+            /*var users = await _userRepository.GetAll();
+            foreach (var user in users)
+            {
+                await _userRepository.Update(user);
+            }*/
+            /*var buyRequests = await _buyRequestRepository.GetAll();
+            foreach (var buyRequest in buyRequests)
+            {
+                await _buyRequestRepository.Delete(buyRequest);
+            }*/
+
             //Any one time logic for devs
 
             return RedirectToAction("Panel");

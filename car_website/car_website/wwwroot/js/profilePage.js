@@ -6,6 +6,8 @@ let cars;
 let carsPage = 1;
 let waitingCars;
 let waitingCarsPage = 1;
+let buyRequests;
+let buyRequestsPage = 1;
 let favCars;
 let favCarsPage = 1;
 let offset;
@@ -112,6 +114,7 @@ function handleRadioChange(event) {
     updateCarsList(event.target);
 }
 function updateCarsList(target, page = 1) {
+    console.log(target)
     if (target.id == "waiting") {
         selectedRadioIndex = 1;
         waitingCarsPage = page;
@@ -147,6 +150,14 @@ function updateCarsList(target, page = 1) {
     }
     else if (target.id == "requests") {
         selectedRadioIndex = 2;
+        buyRequestsPage = page;
+        if (buyRequests == null || buyRequests.page != buyRequestsPage)
+            getBuyRequests();
+        else {
+            SetCarsFromData(buyRequests);
+            updateLikeButtons();
+            updatePagesButtons(buyRequests.pages);
+        }
     }
 }
 radioButtons.forEach(function (radio) {
@@ -167,14 +178,28 @@ function updateLikeButtons() {
 }
 //#region Ajax requests
 function getFavorites() {
-    //console.log(page);
-    fetch(`/User/GetFavoriteCars?page=${favCarsPage}`)
+    fetch(`/User/GetFavoriteCars?page=${buyRequestsPage}`)
         .then(response => response.json())
         .then(data => {
             if (data != null && data.success == true) {
                 favCars = data;
-                //favCarsPage = data.page;
                 SetCarsFromData(favCars);
+                updateLikeButtons();
+                updatePagesButtons(data.pages);
+            }
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
+function getBuyRequests() {
+    var url = new URL(window.location.href);
+    var pathSegments = url.pathname.split('/');
+    var userId = pathSegments[pathSegments.length - 1];
+    fetch(`/User/GetBuyRequests?id=${userId}&page=${favCarsPage}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data != null && data.success == true) {
+                buyRequests = data;
+                SetCarsFromData(buyRequests);
                 updateLikeButtons();
                 updatePagesButtons(data.pages);
             }
@@ -190,7 +215,6 @@ function getWaiting() {
         .then(data => {
             if (data != null && data.success == true) {
                 waitingCars = data;
-                //waitingCarsPage = data.page;
                 SetCarsFromData(waitingCars, true);
                 updateLikeButtons();
                 updatePagesButtons(data.pages);
@@ -207,8 +231,6 @@ function getCars() {
         .then(data => {
             if (data != null && data.success == true) {
                 cars = data;
-                console.log(data);
-                //carsPage = data.page;
                 SetCarsFromData(cars);
                 updateLikeButtons();
                 updatePagesButtons(data.pages);

@@ -116,3 +116,40 @@ h4 {
         }
     }
 }
+.buy-request-result {
+    &-info {
+        border: 2px solid #415939;
+        background-color: #D0E0CA;
+        border-radius: 10px;
+        padding: 2%;
+
+        p {
+            color: #415939;
+            font-size: 16px;
+        }
+
+        &-title {
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+    }
+
+    &-error {
+        border: 2px solid #db3d5f;
+        background-color: #f7dfe5;
+        border-radius: 10px;
+        padding: 2%;
+
+        p {
+            color: #db3d5f;
+            font-size: 16px;
+        }
+
+        &-title {
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+    }
+}

@@ -105,24 +105,32 @@ namespace car_website.Controllers
             var car = await _waitingCarsRepository.GetByIdAsync(ObjectId.Parse(id));
             return View(car);
         }
-        public async Task<IActionResult> BuyRequest(string carId, string userId)
+        //SuccessCode == 0 --> some error
+        //SuccessCode == 1 --> success
+        //SuccessCode == 2 --> user not logged in
+        [HttpGet]
+        public async Task<ActionResult<byte>> BuyRequest(string id)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+                Ok(new { SuccessCode = 2 });
             try
             {
-                var user = await _userRepository.GetByIdAsync(ObjectId.Parse(userId));
-                var car = await _carRepository.GetByIdAsync(ObjectId.Parse(carId));
+                var user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("UserId")));
+                var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
                 BuyRequest buyRequest = new BuyRequest()
                 {
-                    BuyerId = userId,
-                    CarId = carId,
+                    BuyerId = user.Id.ToString(),
+                    CarId = id,
                 };
                 await _buyRequestRepository.Add(buyRequest);
+                user.SendedBuyRequest.Add(buyRequest.Id);
+                await _userRepository.Update(user);
             }
             catch
             {
-
+                return Ok(new { SuccessCode = 0 });
             }
-            return RedirectToAction("Index", "Home");
+            return Ok(new { SuccessCode = 1 });
         }
         public async Task<IActionResult> Create()
         {

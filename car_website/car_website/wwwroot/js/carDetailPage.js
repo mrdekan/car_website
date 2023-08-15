@@ -1,8 +1,12 @@
 ﻿const similarCarsBlock = document.getElementById('similar-cars');
+const buyButton = document.getElementById('buy-car');
+const buyResult = document.getElementById('buy-request-result');
 getSimilarCars();
 
 
-
+buyButton.addEventListener('click', () => {
+    buyRequest();
+});
 //#region Ajax requests
 function getSimilarCars() {
     fetch(`/Car/FindSimilarCars/${similarCarsBlock.getAttribute('carId')}`)
@@ -20,6 +24,28 @@ function getSimilarCars() {
                 });
             }
             
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
+function buyRequest() {
+    fetch(`/Car/BuyRequest/${buyButton.getAttribute('carId')}`)
+        .then(response => response.json())
+        .then(data => {
+            //successCode == 0 --> some error
+            //successCode == 1 --> success
+            //successCode == 2 --> user not logged in
+            if (data != null && data.successCode == 1) {
+                buyResult.innerHTML += `<div class="buy-request-result-info">
+                    <p class="buy-request-result-info-title">Дякуємо за ваш запит!</p>
+                    <p>Наш менеджер зв'яжеться з вами найближчим часом для надання додаткової інформації та обговорення деталей.</p>
+                </div>`;
+            }
+            else if (data == null || data.successCode == 0) {
+                buyResult.innerHTML += `<div class="buy-request-result-error">
+                    <p class="buy-request-result-error-title">Вибачте за незручності. Сталася помилка.</p>
+                    <p>Будь ласка, оновіть сторінку або спробуйте пізніше.</p>
+                </div>`;
+            }
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
