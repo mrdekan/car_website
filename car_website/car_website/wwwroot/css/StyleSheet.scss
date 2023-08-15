@@ -272,7 +272,7 @@ body {
 
                     p {
                         font-size: 20px;
-                        min-width: 107px;
+                       // min-width: 107px;
                     }
 
                     &.onDetail {
@@ -324,6 +324,7 @@ header {
             color: black;
             font-size: 26px;
             font-weight: 700;
+            user-select:none;
         }
     }
 

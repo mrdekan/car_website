@@ -865,7 +865,6 @@ body {
 }
 .car_container-info-parameters-column p {
   font-size: 20px;
-  min-width: 107px;
 }
 .car_container-info-parameters.onDetail {
   margin: 30px 0 0 30px;
@@ -902,6 +901,7 @@ header .header_left h1 {
   color: black;
   font-size: 26px;
   font-weight: 700;
+  user-select: none;
 }
 header .header_right {
   display: flex;

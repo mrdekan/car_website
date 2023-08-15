@@ -26,14 +26,15 @@
         <div class="car_container-info-parameters onDetail">
             <div class="car_container-info-parameters-column onDetail">
                 <p class="car_container-info-parameters-column-race">@Model.Mileage тис. км</p>
-                <p class="car_container-info-parameters-column-transmission">@Model.CarTransmission</p>
+                <p class="car_container-info-parameters-column-fuel">@Model.Fuel @Model.EngineCapacity л.</p>
 
                 <p class="car_container-info-parameters-column-vin">@Model.VIN</p>
 
             </div>
             <div class="car_container-info-parameters-column onDetail">
+                <p class="car_container-info-parameters-column-transmission">@Model.CarTransmission</p>
+
                 <p class="car_container-info-parameters-column-driveline">@Model.Driveline</p>
-                <p class="car_container-info-parameters-column-fuel">@Model.Fuel @Model.EngineCapacity л.</p>
 
             </div>
         </div>
