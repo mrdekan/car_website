@@ -48,11 +48,6 @@ namespace car_website.Controllers
                 Brands = brands.ToList(),
                 CarsCount = carsCount
             };
-
-
-
-
-
             return View(vm);
         }
         public async Task<ActionResult<IEnumerable<Car>>> GetCars([FromBody] CarFilterModel filter, int perPage = CARS_PER_PAGE)
@@ -114,7 +109,6 @@ namespace car_website.Controllers
         {
             return View();
         }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

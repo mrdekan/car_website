@@ -75,6 +75,28 @@ namespace car_website.Controllers
                 return View(userVM);
             }
         }
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel passVM)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await _userRepository.GetByEmailAsync(passVM.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError("Email", "Обліковий запис з вказаною електронною адресою не знайдено.");
+                    return View(passVM);
+                }
+                var verificationLink = Url.Action("NewPassword", "User",
+                    new { userId = user.Id.ToString(), token = user.ConfirmationToken }, Request.Scheme);
+                var message = $"Щоб змінити пароль, будь ласка, скористайтеся цим посиланням: {verificationLink}.\nЯкщо у вас є сумніви стосовно цієї дії, рекомендуємо утриматися від переходу за посиланням.";
+                await _emailService.SendEmailAsync(user.Email, "Зміна пароля", message);
+            }
+            return View(passVM);
+        }
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginVM)
         {
@@ -96,6 +118,59 @@ namespace car_website.Controllers
                 return View(loginVM);
             }
         }
+        public async Task<IActionResult> NewPassword(string userId, string token)
+        {
+            var user = await _userRepository.GetByIdAsync(ObjectId.Parse(userId));
+
+            if (user == null || user.ConfirmationToken != token)
+            {
+                return BadRequest();
+            }
+            HttpContext.Session.SetString("ResetPasswordId", user.Id.ToString());
+            return View();
+        }
+        public async Task<IActionResult> ChangePasswordFromProfile()
+        {
+            var user = await GetCurrentUser();
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("NewPassword", new { userId = user.Id.ToString(), token = user.ConfirmationToken });
+        }
+        [HttpPost]
+        public async Task<IActionResult> NewPassword(NewPasswordViewModel newPassVM)
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("ResetPasswordId")))
+                return RedirectToAction("Index", "Home");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("ResetPasswordId")));
+                    user.Password = _userService.HashPassword(newPassVM.Password);
+                    await _userRepository.Update(user);
+                    string userId = HttpContext.Session.GetString("UserId") ?? "";
+                    int role = HttpContext.Session.GetInt32("UserRole") ?? 0;
+                    HttpContext.Session.Clear();
+                    if (userId != "")
+                    {
+                        HttpContext.Session.SetString("UserId", userId);
+                        HttpContext.Session.SetInt32("UserRole", role);
+                        return RedirectToAction("Detail", new { id = userId });
+                    }
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    return View(newPassVM);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
         public async Task<IActionResult> VerifyEmail(string userId, string token)
         {
             var user = await _userRepository.GetByIdAsync(ObjectId.Parse(userId));
@@ -109,7 +184,7 @@ namespace car_website.Controllers
             if (result)
             {
                 user.EmailConfirmed = true;
-                user.ConfirmationToken = "";
+                //user.ConfirmationToken = "";
                 await _userRepository.Update(user);
                 return View("EmailConfirmationSuccess");
             }
@@ -123,6 +198,10 @@ namespace car_website.Controllers
             return View();
         }
         public IActionResult EmailConfirmationSuccess()
+        {
+            return View();
+        }
+        public IActionResult ResetPasswordInfo()
         {
             return View();
         }
