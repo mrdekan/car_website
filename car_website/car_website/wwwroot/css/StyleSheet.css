@@ -894,7 +894,7 @@ header .header_left::before {
   height: 100%;
   background-color: inherit;
 }
-header .header_left h1 {
+header .header_left a {
   position: absolute;
   z-index: 5;
   margin: 34px 0 0 125px;
