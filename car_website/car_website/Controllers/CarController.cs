@@ -37,7 +37,14 @@ namespace car_website.Controllers
         {
             var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
             //var similarCars = await FindSimilarCars(car);
-            return View(new CarDetailViewModel(car, _currencyUpdater));
+            var user = await GetCurrentUser();
+            bool requested = false;
+            if (user != null)
+            {
+                var request = await _buyRequestRepository.GetByBuyerAndCarAsync(user.Id.ToString(), id);
+                if (request != null) requested = true;
+            }
+            return View(new CarDetailViewModel(car, _currencyUpdater, requested));
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LiteCarViewModel>>> FindSimilarCars(string id)
@@ -109,22 +116,33 @@ namespace car_website.Controllers
         //SuccessCode == 1 --> success
         //SuccessCode == 2 --> user not logged in
         [HttpGet]
-        public async Task<ActionResult<byte>> BuyRequest(string id)
+        public async Task<ActionResult<byte>> BuyRequest(string id, bool cancel)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
                 Ok(new { SuccessCode = 2 });
             try
             {
-                var user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("UserId")));
-                var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
-                BuyRequest buyRequest = new BuyRequest()
+                var user = await GetCurrentUser();
+                if (user == null) return Ok(new { SuccessCode = 2 });
+                if (!cancel)
                 {
-                    BuyerId = user.Id.ToString(),
-                    CarId = id,
-                };
-                await _buyRequestRepository.Add(buyRequest);
-                user.SendedBuyRequest.Add(buyRequest.Id);
-                await _userRepository.Update(user);
+                    var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
+                    BuyRequest buyRequest = new BuyRequest()
+                    {
+                        BuyerId = user.Id.ToString(),
+                        CarId = id,
+                    };
+                    await _buyRequestRepository.Add(buyRequest);
+                    user.SendedBuyRequest.Add(buyRequest.Id);
+                    await _userRepository.Update(user);
+                }
+                else
+                {
+                    var request = await _buyRequestRepository.GetByBuyerAndCarAsync(user.Id.ToString(), id);
+                    user.SendedBuyRequest.Remove(request.Id);
+                    await _buyRequestRepository.Delete(request);
+                    await _userRepository.Update(user);
+                }
             }
             catch
             {

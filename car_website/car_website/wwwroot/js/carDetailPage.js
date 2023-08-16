@@ -6,6 +6,14 @@ getSimilarCars();
 
 buyButton.addEventListener('click', () => {
     buyRequest();
+    if (buyButton.hasAttribute('cancel')) {
+        buyButton.removeAttribute('cancel');
+        buyButton.innerHTML = 'Запит на покупку';
+    }
+    else {
+        buyButton.setAttribute('cancel','');
+        buyButton.innerHTML = 'Скасувати запит';
+    }
 });
 //#region Ajax requests
 function getSimilarCars() {
@@ -28,7 +36,7 @@ function getSimilarCars() {
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function buyRequest() {
-    fetch(`/Car/BuyRequest/${buyButton.getAttribute('carId')}`)
+    fetch(`/Car/BuyRequest?id=${buyButton.getAttribute('carId')}&cancel=${buyButton.hasAttribute('cancel')}`)
         .then(response => response.json())
         .then(data => {
             //successCode == 0 --> some error

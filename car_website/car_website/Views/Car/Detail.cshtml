@@ -20,7 +20,14 @@
                 <p class="car_container-right-price-USD">@Model.Price $</p>
                 <p class="car_container-right-price-UAH">≈ @Model.PriceUAH грн</p>
             </div>
-            <button class="priceBuy_buy" id="buy-car" carId="@Model.Id">Запит на покупку</button>
+            @if (Model.Requested)
+            {
+                <button class="priceBuy_buy" id="buy-car" carId="@Model.Id" cancel>Скасувати запит</button>
+            }
+            else
+            {
+                <button class="priceBuy_buy" id="buy-car" carId="@Model.Id">Запит на покупку</button>
+            }
         </div>
         <div id="buy-request-result"></div>
         <div class="car_container-info-parameters onDetail">

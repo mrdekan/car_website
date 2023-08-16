@@ -7,7 +7,7 @@ namespace car_website.ViewModels
 {
     public class CarDetailViewModel
     {
-        public CarDetailViewModel(Car car, CurrencyUpdater currencyUpdater)
+        public CarDetailViewModel(Car car, CurrencyUpdater currencyUpdater, bool requested)
         {
             Id = car.Id.ToString();
             CultureInfo cultureInfo = new CultureInfo("en-US");
@@ -28,6 +28,7 @@ namespace car_website.ViewModels
             Options = car.Options;
             Mileage = car.Mileage;
             VideoUrl = null;
+            Requested = requested;
         }
         public string Id { get; set; }
         public string Price { get; set; }
@@ -47,6 +48,7 @@ namespace car_website.ViewModels
         public CarOptions[] Options { get; set; }
         public uint Mileage { get; set; }
         public string? VideoUrl { get; set; }
+        public bool Requested { get; set; }
         private string GetTransmission(Transmission tr) => (tr == Transmission.Automatic ? "Автомат" : "Механічна");
         private string GetBody(TypeBody b)
         {

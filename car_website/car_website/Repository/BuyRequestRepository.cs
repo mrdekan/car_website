@@ -45,5 +45,10 @@ namespace car_website.Repository
         {
             return await _dbContext.BuyRequests.Find(request => ids.Contains(request.Id)).ToListAsync();
         }
+
+        public async Task<BuyRequest> GetByBuyerAndCarAsync(string buyerId, string carId)
+        {
+            return await _dbContext.BuyRequests.Find(request => request.BuyerId == buyerId && request.CarId == carId).FirstOrDefaultAsync();
+        }
     }
 }
