@@ -9,6 +9,7 @@
         <a asp-controller="Car" asp-action="Create">Продати авто</a>
 
         <div class="filters">
+
             <label>Тип кузова</label>
             <select name="bodyType_select" id="bodyType_select">
                 <option value="0">Усі</option>
@@ -24,16 +25,30 @@
                 <option value="10">Фастбек</option>
             </select>
             <label>Марка</label>
+            <div>
+                <div class="select-btn">
+                    <span>Усі</span>
+                    <i class="uil uil-angle-down"></i>
+                </div>
+                <div class="content">
+                    <div class="search">
+                        <i class="uil uil-search"></i>
+                        <input spellcheck="false" type="text" placeholder="Пошук" id="searchCar">
+                    </div>
+                    <ul class="options"></ul>
+                </div>
+            </div>
+            @*
             <select name="brand-select" id="brand-select">
-                <option value="Any">Усі</option>
-                @foreach (var str in Model.Brands)
-                {
-                    if (str != "Інше")
-                    {
-                        <option value=@str>@str</option>
-                    }
-                }
-            </select>
+            <option value="Any">Усі</option>
+            @foreach (var str in Model.Brands)
+            {
+            if (str != "Інше")
+            {
+            <option value=@str>@str</option>
+            }
+            }
+            </select>*@
             <label>Модель</label>
             <select name="model-select" id="model-select">
                 <option value="Any">Усі</option>
@@ -57,13 +72,13 @@
             </div>
             <label>Ціна ($)</label>
             <div class="price_input">
-                <input type="number" maxlength="9" id="price_min-input" placeholder="Від" />
-                <input type="number" maxlength="9" id="price_max-input" placeholder="До" />
+                <input class="input" type="number" maxlength="9" id="price_min-input" placeholder="Від" />
+                <input class="input" type="number" maxlength="9" id="price_max-input" placeholder="До" />
             </div>
             <label>Пробіг (тис. км)</label>
             <div class="price_input">
-                <input type="number" maxlength="3" id="race_min-input" placeholder="Від" />
-                <input type="number" maxlength="3" id="race_max-input" placeholder="До" />
+                <input class="input" type="number" maxlength="3" id="race_min-input" placeholder="Від" />
+                <input class="input" type="number" maxlength="3" id="race_max-input" placeholder="До" />
             </div>
             <label>Коробка передач</label>
             <select name="transmission-select" id="transmission-select">
@@ -90,8 +105,8 @@
             </select>
             <label>Об’єм двигуна (л.)</label>
             <div class="price-input">
-                <input type="number" maxlength="3" id="engineVolume_min-input" placeholder="Від" />
-                <input type="number" maxlength="3" id="engineVolume_max-input" placeholder="До" />
+                <input class="input" type="number" maxlength="3" id="engineVolume_min-input" placeholder="Від" />
+                <input class="input" type="number" maxlength="3" id="engineVolume_max-input" placeholder="До" />
             </div>
             <button id="refresh_cars">Пошук</button>
             <button id="clear_filters">Очистити</button>

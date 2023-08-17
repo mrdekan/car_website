@@ -1,4 +1,8 @@
-﻿//#region constants
+﻿const wrapper = document.querySelector(".wrapper"),
+    selectBtn = wrapper.querySelector(".select-btn"),
+    searchInp = document.getElementById("searchCar"),
+    options = wrapper.querySelector(".options");
+//#region constants
 //const root = document.documentElement;
 const apply_button = document.getElementById("refresh_cars");
 const brand_select = document.getElementById("brand-select");
@@ -19,7 +23,11 @@ const clear_filters = document.getElementById("clear_filters");
 const pages_buttons_containers = document.getElementsByClassName("pages_buttons");
 let likeButtons = document.getElementsByClassName("like_cars");
 let carsPage = 1;
+
+
+let brands = ["Усі"];
 //root.style.setProperty('--primary-color', '#222222');
+getMarks();
 //#endregion
 function updateLikeButtons() {
     likeButtons = document.getElementsByClassName("car_container-right-like-cars");
@@ -89,7 +97,7 @@ function clearFilters() {
     race_max_input.value = "";
     race_min_input.value = "";
     body_Type_select.value = 0;
-    brand_select.value = "Any";
+    selectBtn.firstElementChild.innerText = "Усі";
     driveline_select.value = 0;
     fuel_select.value = 0;
     model_select.value = "Any";
@@ -158,22 +166,22 @@ race_min_input.addEventListener('input', function (event) {
     event.target.value = currentValue;
 });
 apply_button.onclick = () => applyFilter();
-brand_select.addEventListener('change', function () {
+/*brand_select.addEventListener('change', function () {
     if (brand_select.value == "Any")
         model_select.innerHTML = '<option value="Any">Усі</option>';
     else {
         getModelsOfMark();
     }
-});
+});*/
 //#endregion
 
 applyFilter();
-if (brand_select.value != "Any")
+if (selectBtn.firstElementChild.innerText != "Усі")
     getModelsOfMark()
 
 //#region Ajax requests
 function getModelsOfMark() {
-    fetch(`/home/GetModels?brand=${brand_select.value}`)
+    fetch(`/home/GetModels?brand=${selectBtn.firstElementChild.innerText}`)
         .then(response => response.json())
         .then(data => {
             model_select.innerHTML = '<option value="Any">Усі</option>';
@@ -184,10 +192,21 @@ function getModelsOfMark() {
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
+function getMarks() {
+    fetch(`/home/GetBrands`)
+        .then(response => response.json())
+        .then(data => {
+            brands = ["Усі"];
+            brands = brands.concat(data.brands);
+            brands = brands.filter((n) => { return n != 'Інше' });
+            addBrand();
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
 function applyFilter(page = 1) {
     const filters = {
         body: Number(body_Type_select.value),
-        brand: brand_select.value,
+        brand: selectBtn.firstElementChild.innerText,
         model: model_select.value,
         minYear: Number(year_min_select.value),
         maxYear: Number(year_max_select.value),
@@ -319,4 +338,40 @@ function drivelineName(id) {
 function formatNumberWithThousandsSeparator(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
+//#endregion
+
+//#region custom checkboxes
+//let countries = getMarks().brands;
+function addBrand(selectedCountry) {
+    options.innerHTML = "";
+    brands.forEach(country => {
+        let isSelected = country == selectedCountry ? "selected" : "";
+        let li = `<li onclick="updateName(this)" class="${isSelected}">${country}</li>`;
+        options.insertAdjacentHTML("beforeend", li);
+    });
+}
+addBrand();
+function updateName(selectedLi) {
+    searchInp.value = "";
+    addBrand(selectedLi.innerText);
+    wrapper.classList.remove("active");
+    selectBtn.firstElementChild.innerText = selectedLi.innerText;
+    if (selectBtn.firstElementChild.innerText == "Усі")
+        model_select.innerHTML = '<option value="Any">Усі</option>';
+    else {
+        getModelsOfMark();
+    }
+}
+searchInp.addEventListener("keyup", () => {
+    let arr = [];
+    let searchWord = searchInp.value.toLowerCase();
+    arr = brands.filter(data => {
+        return data.toLowerCase().startsWith(searchWord);
+    }).map(data => {
+        let isSelected = data == selectBtn.firstElementChild.innerText ? "selected" : "";
+        return `<li onclick="updateName(this)" class="${isSelected}">${data}</li>`;
+    }).join("");
+    options.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Oops! Country not found</p>`;
+});
+selectBtn.addEventListener("click", () => wrapper.classList.toggle("active"));
 //#endregion

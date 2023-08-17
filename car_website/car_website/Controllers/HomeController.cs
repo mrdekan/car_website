@@ -56,7 +56,7 @@ namespace car_website.Controllers
             {
                 int page = filter.Page;
                 IEnumerable<Car> filteredCars = await _carRepository.GetAll();
-                if (!string.IsNullOrEmpty(filter.Brand) && filter.Brand != "Any")
+                if (!string.IsNullOrEmpty(filter.Brand) && filter.Brand != "Усі")
                     filteredCars = filteredCars.Where(car => car.Brand == filter.Brand);
                 if (!string.IsNullOrEmpty(filter.Model) && filter.Model != "Any" && filter.Brand != "Інше")
                     filteredCars = filteredCars.Where(car => car.Model == filter.Model?.Replace('_', ' '));
@@ -100,10 +100,16 @@ namespace car_website.Controllers
             }
         }
         [HttpGet]
+        public async Task<ActionResult<IEnumerable<string>>> GetBrands()
+        {
+            var brands = await _brandRepository.GetAll();
+            return Ok(new { Brands = brands.OrderBy(brand => brand) });
+        }
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<string>>> GetModels(string brand)
         {
-            var models = await _brandRepository.GetByName(brand);
-            return Ok(new { Models = models.Models });
+            var brandObj = await _brandRepository.GetByName(brand);
+            return Ok(new { Models = brandObj.Models });
         }
         public IActionResult Privacy()
         {
