@@ -79,12 +79,9 @@ window.addEventListener('load', function () {
     });
     selectedRadioIndex = selectedIndex;
     var computedStyle = getComputedStyle(pages_profile);
-    var width = computedStyle.getPropertyValue('width');
-    //pageUnderline.style.width = `${Math.round(parseFloat(width) / window.innerWidth * 100) / radioButtons.length}%`;
     pageUnderline.style.width = `${radioButtons.length==4?16.5:22}%`;
     offset = radioButtons.length == 4 ? 300 : 200;
     let percent = selectedIndex * (offset / (radioButtons.length - 1));
-    console.log(percent)
     pageUnderline.style.transform = `translateX(${percent}%)`;
 });
 var mediaQuery = window.matchMedia('(max-width: 768px)');
@@ -96,7 +93,6 @@ function handleMediaChange(mediaQuery) {
         num = 66;
     pageUnderline.style.width = `${num / radioButtons.length}%`;
     offset = radioButtons.length == 4 ? 300 : 200;
-    console.log(selectedRadioIndex)
     let percent = selectedRadioIndex * (offset / (radioButtons.length - 1));
     pageUnderline.style.transform = `translateX(${percent}%)`;
 }
@@ -114,7 +110,6 @@ function handleRadioChange(event) {
     updateCarsList(event.target);
 }
 function updateCarsList(target, page = 1) {
-    console.log(target)
     if (target.id == "waiting") {
         selectedRadioIndex = 1;
         waitingCarsPage = page;

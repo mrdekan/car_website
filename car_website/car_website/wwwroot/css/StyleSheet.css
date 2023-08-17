@@ -1,6 +1,4 @@
-﻿@charset "UTF-8";
-/*null*/
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap");
+﻿/*null*/
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap");
 * {
   padding: 0;
@@ -281,95 +279,20 @@ input[type=number] {
   gap: 10px;
 }
 
-/*null*/
-* {
-  padding: 0;
-  margin: 0;
-  border: 0;
+:root {
+  --green-light: #537049;
+  --green-medium: #4b6742;
+  --green-dark: #415939;
+  --background-color: #ffffff;
+  --backgroundSecondary-color: #f6f6f6;
+  --text-default: #000000;
+  --icons-invert: 0%;
 }
 
-*, *:before, *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-:focus, :active {
-  outline: none;
-}
-
-a:focus, a:active {
-  outline: none;
-}
-
-nav, footer, header, aside {
-  display: block;
-}
-
-html, body {
-  height: 100%;
-  width: 100%;
-  font-size: 100%;
-  line-height: 1;
-  font-size: 14px;
-  -ms-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-}
-
-input, button, textarea {
-  font-family: inherit;
-}
-
-input::-ms-clear {
-  display: none;
-}
-
-button {
-  cursor: pointer;
-}
-
-button::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-a, a:visited {
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-ul li {
-  list-style: none;
-}
-
-img {
-  vertical-align: top;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-size: inherit;
-  font-weight: inherit;
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-/*--------------------*/
 .title {
   font-weight: 700;
   font-size: 28px;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid var(--text-default);
   line-height: 1.1;
   margin-bottom: 20px;
   text-align: center;
@@ -385,6 +308,7 @@ input[type=number] {
 
 .wrapper_carDetail {
   width: 600px;
+  color: var(--text-default);
 }
 
 .priceBuy {
@@ -432,7 +356,7 @@ input[type=number] {
 }
 
 h4 {
-  border-top: 2px solid black;
+  border-top: 2px solid var(--text-default);
   margin: 20px 0 15px;
   padding-top: 20px;
   font-weight: 700;
@@ -440,7 +364,7 @@ h4 {
 }
 
 .car_description {
-  border-top: 2px solid black;
+  border-top: 2px solid var(--text-default);
   padding-top: 20px;
   margin: 20px 0 0;
   font-size: 16px;
@@ -457,7 +381,7 @@ h4 {
   gap: 5px;
 }
 .car_similar .similarCar a {
-  color: black;
+  color: var(--text-default);
   font-size: 16px;
   display: block;
   font-weight: 700;
@@ -641,8 +565,19 @@ h4 {
     width: 100%;
   }
 }
+:root {
+  --green-light: #537049;
+  --green-medium: #4b6742;
+  --green-dark: #415939;
+  --background-color: #ffffff;
+  --backgroundSecondary-color: #f6f6f6;
+  --text-default: #000000;
+  --icons-invert: 0%;
+}
+
 body {
-  background-color: white;
+  background-color: var(--background-color);
+  transition: 0.2s;
   font-family: "Roboto", sans-serif;
 }
 
@@ -670,19 +605,20 @@ body {
   margin-left: 14%;
 }
 .wrapper .filters_before p {
+  color: var(--text-default);
   font-weight: 700;
 }
 .wrapper .filters_before a {
   padding: 7px 0;
   border-radius: 3px;
-  background-color: #415939;
+  background-color: var(--green-dark);
   color: white;
   text-align: center;
   font-size: 16px;
   transition: 0.3s;
 }
 .wrapper .filters_before a:hover {
-  background-color: #4b6742;
+  background-color: var(--green-medium);
   transition: 0.2s;
 }
 .wrapper .filters {
@@ -699,14 +635,16 @@ body {
   border-radius: 8px;
   padding: 5px;
   color: gray;
+  background-color: var(--background-color);
 }
 .wrapper .filters select option:hover {
-  background-color: #415939;
+  background-color: var(--green-dark);
 }
 .wrapper .filters input {
   max-width: 80px;
   border-radius: 8px;
   padding: 5px 8px;
+  background-color: var(--background-color);
 }
 .wrapper .filters .price_input {
   display: flex;
@@ -727,7 +665,7 @@ body {
 }
 .wrapper .filters button {
   border-radius: 3px;
-  background-color: #415939;
+  background-color: var(--green-dark);
   color: white;
   text-align: center;
   margin: 5px 0;
@@ -737,14 +675,14 @@ body {
   transition: 0.3s;
 }
 .wrapper .filters button:hover {
-  background-color: #4b6742;
+  background-color: var(--green-medium);
   transition: 0.2s;
 }
 .wrapper .filters #clear_filters {
-  border: 2px solid #415939;
+  border: 2px solid var(--green-dark);
   background-color: #F3EFCA;
   font-size: 14px;
-  color: #415939;
+  color: var(--green-dark);
   font-weight: 700;
   transition: 0.2s;
 }
@@ -761,9 +699,10 @@ body {
 .car {
   display: flex;
   justify-content: space-between;
-  background-color: #F6F6F6;
+  background-color: var(--backgroundSecondary-color);
   align-items: end;
   max-width: 890px;
+  color: var(--text-default);
 }
 .car_container-right {
   display: flex;
@@ -803,7 +742,7 @@ body {
 .car_container-right-price-USD {
   font-size: 26px;
   color: white;
-  background-color: #415939;
+  background-color: var(--green-dark);
   padding: 4px 0;
   text-align: center;
   border-radius: 0 10px 0 10px;
@@ -812,7 +751,7 @@ body {
 .car_container-right-price-UAH {
   font-size: 18px;
   color: white;
-  background-color: #537049;
+  background-color: var(--green-light);
   border-radius: 0 10px 0 10px;
   padding: 5px 0px;
   min-width: 135px;
@@ -824,7 +763,6 @@ body {
 .car input {
   width: 40px;
   height: 40px;
-  background-color: #F6F6F6;
 }
 .car_container {
   display: flex;
@@ -845,7 +783,7 @@ body {
   padding-left: 30px;
 }
 .car_container-info a {
-  color: black;
+  color: var(--text-default);
   font-size: 32px;
 }
 .car_container-info-all {
@@ -873,7 +811,7 @@ body {
 header {
   height: 50px;
   width: 100%;
-  background-color: #415939;
+  background-color: var(--green-dark);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -881,16 +819,16 @@ header {
 header .header_left {
   width: 250px;
   height: 80px;
-  background-color: #F3EFCA; /* Цвет фона, здесь используется синий */
-  transform: skewX(-20deg); /* Угол наклона в градусах (может быть положительным или отрицательным) */
+  background-color: #F3EFCA;
+  transform: skewX(-20deg);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 header .header_left::before {
   content: "";
   position: absolute;
   top: 0;
-  left: -30px; /* Измените это значение, чтобы регулировать наклон параллелограмма */
-  width: 130px; /* Увеличиваем ширину, чтобы учесть прямой угол */
+  left: -30px;
+  width: 130px;
   height: 100%;
   background-color: inherit;
 }
@@ -1006,7 +944,7 @@ header .header_right-button::before {
 }
 .pages_buttons button {
   font-size: 18px;
-  background-color: white;
+  background-color: var(--background-color);
   outline: 1px solid #969696;
   color: #969696;
   width: 32px;

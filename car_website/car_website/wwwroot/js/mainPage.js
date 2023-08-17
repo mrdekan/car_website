@@ -1,4 +1,5 @@
 ﻿//#region constants
+//const root = document.documentElement;
 const apply_button = document.getElementById("refresh_cars");
 const brand_select = document.getElementById("brand-select");
 const model_select = document.getElementById("model-select");
@@ -18,6 +19,7 @@ const clear_filters = document.getElementById("clear_filters");
 const pages_buttons_containers = document.getElementsByClassName("pages_buttons");
 let likeButtons = document.getElementsByClassName("like_cars");
 let carsPage = 1;
+//root.style.setProperty('--primary-color', '#222222');
 //#endregion
 function updateLikeButtons() {
     likeButtons = document.getElementsByClassName("car_container-right-like-cars");

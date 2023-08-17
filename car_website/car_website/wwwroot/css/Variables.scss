@@ -1,0 +1,16 @@
+﻿$green-dark: var(--green-dark);
+$green-medium: var(--green-medium);
+$green-light: var(--green-light);
+$background: var(--background-color);
+$background-secondary: var(--backgroundSecondary-color);
+$text-default: var(--text-default);
+$icons-invert: var(--icons-invert);
+:root {
+    --green-light: #537049;
+    --green-medium: #4b6742;
+    --green-dark: #415939;
+    --background-color: #ffffff;
+    --backgroundSecondary-color: #f6f6f6;
+    --text-default: #000000;
+    --icons-invert: 0%;
+}

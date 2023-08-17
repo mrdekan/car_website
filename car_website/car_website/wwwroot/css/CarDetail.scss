@@ -1,11 +1,9 @@
-﻿@import "nullstyle.scss";
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
-
+﻿@import "Variables.scss";
 .title {
     font-weight: 700;
     font-size: 28px;
     //text-decoration:underline;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid $text-default;
     line-height: 1.1;
     margin-bottom: 20px;
     text-align: center;
@@ -21,6 +19,7 @@
 
 .wrapper_carDetail {
     width: 600px;
+    color: $text-default;
 }
 
 .priceBuy {
@@ -76,7 +75,7 @@
     }
 }
 h4 {
-    border-top: 2px solid black;
+    border-top: 2px solid $text-default;
     margin: 20px 0 15px;
     padding-top: 20px;
     font-weight: 700;
@@ -84,7 +83,7 @@ h4 {
 }
 .car {
     &_description {
-        border-top: 2px solid black;
+        border-top: 2px solid $text-default;
         padding-top: 20px;
         margin: 20px 0 0;
         font-size: 16px;
@@ -102,7 +101,7 @@ h4 {
             gap: 5px;
 
             a {
-                color: black;
+                color: $text-default;
                 font-size: 16px;
                 display: block;
                 font-weight: 700;
