@@ -7,6 +7,7 @@
     <div class="wrapper_carDetail">
         <h2 class="title">@Model.Brand @Model.Model @Model.Year</h2>
         <div class="slider">
+            <button id="prev"></button>
             @foreach (var photo in Model.PhotosURL)
             {
                 <div class="slider_element">
@@ -14,6 +15,13 @@
                     <img src="@photo" class="slider_element-background" alt="photo" />
                 </div>
             }
+            @if (!string.IsNullOrEmpty(Model.VideoUrl))
+            {
+                <div class="slider_element">
+                    <iframe src="@Model.VideoUrl" frameborder="0" allowfullscreen></iframe>
+                </div>
+            }
+            <button id="next"></button>
         </div>
         <div class="priceBuy">
             <div class="car_container-right-price onDetail">
@@ -22,7 +30,7 @@
             </div>
             @if (Model.Requested)
             {
-                <button class="priceBuy_buy" id="buy-car" carId="@Model.Id" cancel>Скасувати запит</button>
+                <button class="priceBuy_buy cancelBuy" id="buy-car" carId="@Model.Id" cancel>Скасувати запит</button>
             }
             else
             {
@@ -33,7 +41,7 @@
         <div class="car_container-info-parameters onDetail">
             <div class="car_container-info-parameters-column onDetail">
                 <p class="car_container-info-parameters-column-race">@Model.Mileage тис. км</p>
-                <p class="car_container-info-parameters-column-fuel">@Model.Fuel @Model.EngineCapacity л.</p>
+                <p class="car_container-info-parameters-column-fuel">@Model.Fuel, @Model.EngineCapacity л.</p>
 
                 <p class="car_container-info-parameters-column-vin">@Model.VIN</p>
 

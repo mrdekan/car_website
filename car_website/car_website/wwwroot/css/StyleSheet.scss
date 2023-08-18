@@ -156,6 +156,7 @@ body {
     align-items: end;
     max-width: 890px;
     color: $text-default;
+    transition: 0.2s;
 
     &_container-right {
         display: flex;
@@ -254,6 +255,7 @@ body {
 
             a {
                 color: $text-default;
+                transition: 0.2s;
                 font-size: 32px;
             }
 
@@ -462,12 +464,12 @@ header {
 
     .selected {
         font-weight: 700;
-        outline: 2px solid #595959;
-        color: #595959;
+        outline: 2px solid $gray-default;
+        color: $gray-default;
         font-size: 20px;
 
         &:hover {
-            outline: 2px solid #595959;
+            outline: 2px solid $gray-default;
         }
     }
 }
@@ -507,6 +509,7 @@ header {
     color: $gray-default;
     border-radius: 7px;
     justify-content: space-between;
+    transition: 0.2s;
 }
 
 .select-btn input {
@@ -571,8 +574,8 @@ header {
 }
 
 .search input:focus {
-    padding-left: 42px;
-    border: 2px solid $green-dark;
+    //padding-left: 42px;
+    border: 1px solid $green-dark;
 }
 
 .search input::placeholder {

@@ -27,7 +27,7 @@ namespace car_website.ViewModels
             VIN = car.VIN;
             Options = car.Options;
             Mileage = car.Mileage;
-            VideoUrl = null;
+            VideoUrl = car.VideoURL;
             Requested = requested;
         }
         public string Id { get; set; }

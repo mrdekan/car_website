@@ -164,13 +164,29 @@ input[type=number] {
   color: red;
 }
 
+:root {
+  --green-light: #537049;
+  --green-medium: #4b6742;
+  --green-dark: #415939;
+  --background-main: #ffffff;
+  --background-secondary: #f6f6f6;
+  --text-default: #000000;
+  --icons-invert: 0%;
+  --success-main: #3a784a;
+  --success-secondary: #D0E0CA;
+  --error-main: #db3d5f;
+  --error-secondary: #f7dfe5;
+  --gray-default: #404040;
+}
+
 .buy-request {
   display: flex;
   gap: 30px;
+  color: var(--gray-default);
 }
 .buy-request a {
   display: block;
-  color: black;
+  color: var(--text-default);
   margin: 0 0 7px;
   font-size: 20px;
 }
@@ -179,7 +195,7 @@ input[type=number] {
 }
 .buy-request p {
   font-size: 16px;
-  color: #3D3D3D;
+  color: var(--gray-default);
 }
 .buy-request_car {
   display: flex;
@@ -212,17 +228,17 @@ input[type=number] {
 
 .user_container-element {
   padding: 15px;
-  background-color: #F6F6F6;
+  background-color: var(--background-secondary);
   width: 300px;
 }
 .user_container-element a {
-  color: black;
+  color: var(--text-default);
   font-size: 20px;
   margin: 0 0 5px;
   display: block;
 }
 .user_container-element p {
-  color: #3D3D3D;
+  color: var(--gray-default);
   font-size: 16px;
 }
 
@@ -325,20 +341,48 @@ input[type=number] {
 }
 .priceBuy_buy {
   height: fit-content;
+  width: 200px;
   font-size: 20px;
   padding: 7px 15px;
   border-radius: 3px;
   background-color: var(--green-dark);
+  transition: 0.2s;
   color: white;
+}
+.priceBuy .cancelBuy {
+  background-color: var(--error-main);
+  transition: 0.2s;
 }
 
 .slider {
-  height: 400px;
+  /*height: 400px;
   width: 600px;
-  overflow: hidden;
+  overflow: hidden;*/
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  /*flex-direction: column;*/
+  justify-content: space-between;
+  align-items: center;
+}
+.slider button {
+  height: 120px;
+  width: 30px;
+  position: absolute;
+  z-index: 10;
+  background-color: rgba(170, 170, 170, 0.5);
+  border-top: 1px solid var(--gray-default);
+  border-bottom: 1px solid var(--gray-default);
+}
+.slider button:hover {
+  background-color: rgba(170, 170, 170, 0.8);
+}
+.slider #prev {
+  border-radius: 0 10px 10px 0;
+  border-right: 1px solid var(--gray-default);
+}
+.slider #next {
+  margin-left: 570px;
+  border-radius: 10px 0 0 10px;
+  border-left: 1px solid var(--gray-default);
 }
 .slider_element {
   height: 400px;
@@ -355,9 +399,14 @@ input[type=number] {
   position: absolute;
 }
 .slider_element-background {
-  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
   object-fit: cover;
   filter: blur(0.5rem);
+}
+.slider_element iframe {
+  width: 100%;
+  height: 100%;
 }
 
 h4 {
@@ -432,6 +481,21 @@ h4 {
   margin-bottom: 10px;
 }
 
+:root {
+  --green-light: #537049;
+  --green-medium: #4b6742;
+  --green-dark: #415939;
+  --background-main: #ffffff;
+  --background-secondary: #f6f6f6;
+  --text-default: #000000;
+  --icons-invert: 0%;
+  --success-main: #3a784a;
+  --success-secondary: #D0E0CA;
+  --error-main: #db3d5f;
+  --error-secondary: #f7dfe5;
+  --gray-default: #404040;
+}
+
 .profile_info {
   width: 66%;
   margin: 25px auto;
@@ -490,7 +554,7 @@ h4 {
   display: none;
 }
 .profile_pages .radio input[type=radio]:checked + label {
-  color: #595959;
+  color: var(--gray-default);
   transition: 0.22s;
 }
 .profile_content {
@@ -507,7 +571,7 @@ h4 {
 .line-separator #line {
   height: 3px;
   border-radius: 0 0 4px 4px;
-  background-color: #595959;
+  background-color: var(--gray-default);
   width: 30%;
   position: absolute;
   transition: transform 0.22s ease;
@@ -717,6 +781,7 @@ body {
   align-items: end;
   max-width: 890px;
   color: var(--text-default);
+  transition: 0.2s;
 }
 .car_container-right {
   display: flex;
@@ -798,6 +863,7 @@ body {
 }
 .car_container-info a {
   color: var(--text-default);
+  transition: 0.2s;
   font-size: 32px;
 }
 .car_container-info-all {
@@ -973,12 +1039,12 @@ header .header_right-button::before {
 }
 .pages_buttons .selected {
   font-weight: 700;
-  outline: 2px solid #595959;
-  color: #595959;
+  outline: 2px solid var(--gray-default);
+  color: var(--gray-default);
   font-size: 20px;
 }
 .pages_buttons .selected:hover {
-  outline: 2px solid #595959;
+  outline: 2px solid var(--gray-default);
 }
 
 ::-webkit-scrollbar {
@@ -1012,6 +1078,7 @@ header .header_right-button::before {
   color: var(--gray-default);
   border-radius: 7px;
   justify-content: space-between;
+  transition: 0.2s;
 }
 
 .select-btn input {
@@ -1076,8 +1143,7 @@ header .header_right-button::before {
 }
 
 .search input:focus {
-  padding-left: 42px;
-  border: 2px solid var(--green-dark);
+  border: 1px solid var(--green-dark);
 }
 
 .search input::placeholder {

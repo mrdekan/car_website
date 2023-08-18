@@ -1,4 +1,5 @@
-﻿.profile {
+﻿@import "Variables.scss";
+.profile {
     &_info {
         width: 66%;
         margin: 25px auto;
@@ -65,7 +66,7 @@
             }
 
             input[type="radio"]:checked + label {
-                color: #595959;
+                color: $gray-default;
                 transition: 0.22s;
             }
         }
@@ -86,7 +87,7 @@
     #line {
         height: 3px;
         border-radius: 0 0 4px 4px;
-        background-color: #595959;
+        background-color: $gray-default;
         width: 30%;
         position: absolute;
         transition: transform 0.22s ease;

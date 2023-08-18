@@ -139,9 +139,16 @@ namespace car_website.Controllers
                 else
                 {
                     var request = await _buyRequestRepository.GetByBuyerAndCarAsync(user.Id.ToString(), id);
-                    user.SendedBuyRequest.Remove(request.Id);
-                    await _buyRequestRepository.Delete(request);
-                    await _userRepository.Update(user);
+                    if (request == null)
+                    {
+                        return Ok(new { SuccessCode = 0 });
+                    }
+                    else
+                    {
+                        user.SendedBuyRequest.Remove(request.Id);
+                        await _buyRequestRepository.Delete(request);
+                        await _userRepository.Update(user);
+                    }
                 }
             }
             catch
@@ -165,14 +172,24 @@ namespace car_website.Controllers
                 return RedirectToAction("Register", "User");
             if (ModelState.IsValid)
             {
-                using (HttpClient client = new HttpClient())
+                if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
                 {
-                    var response = await client.GetAsync($"https://www.googleapis.com/youtube/v3/videos?id={GetVideoIdFromUrl(carVM.CreateCarViewModel.VideoURL ?? "")}&key={_configuration.GetSection("GoogleApiSettings")["ApiKey"]}&part=snippet");
-                    if (response.IsSuccessStatusCode)
+                    using (HttpClient client = new HttpClient())
                     {
-                        string responseBody = await response.Content.ReadAsStringAsync();
-                        var videoDetails = JsonConvert.DeserializeObject<VideoDetailsResponse>(responseBody);
-                        if (videoDetails == null || videoDetails.Items.Length <= 0)
+                        var response = await client.GetAsync($"https://www.googleapis.com/youtube/v3/videos?id={GetVideoIdFromUrl(carVM.CreateCarViewModel.VideoURL ?? "")}&key={_configuration.GetSection("GoogleApiSettings")["ApiKey"]}&part=snippet");
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string responseBody = await response.Content.ReadAsStringAsync();
+                            var videoDetails = JsonConvert.DeserializeObject<VideoDetailsResponse>(responseBody);
+                            if (videoDetails == null || videoDetails.Items.Length <= 0)
+                            {
+                                var brands = await _brandRepository.GetAll();
+                                carVM.CarBrands = brands.ToList();
+                                ModelState.AddModelError("VideoURL", "Відео не знайдено");
+                                return View(carVM);
+                            }
+                        }
+                        else
                         {
                             var brands = await _brandRepository.GetAll();
                             carVM.CarBrands = brands.ToList();
@@ -180,16 +197,10 @@ namespace car_website.Controllers
                             return View(carVM);
                         }
                     }
-                    else
-                    {
-                        var brands = await _brandRepository.GetAll();
-                        carVM.CarBrands = brands.ToList();
-                        ModelState.AddModelError("VideoURL", "Відео не знайдено");
-                        return View(carVM);
-                    }
                 }
-
                 var newCar = carVM.CreateCarViewModel;
+                if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
+                    newCar.VideoURL = $"https://www.youtube.com/embed/{GetVideoIdFromUrl(newCar.VideoURL)}";
                 List<string> photosNames = new List<string>();
                 List<IFormFile> photos = new List<IFormFile>() { newCar.Photo1, newCar.Photo2, newCar.Photo3, newCar.Photo4, newCar.Photo5 };
                 photos = photos.Where(photo => photo != null).ToList();
@@ -200,7 +211,6 @@ namespace car_website.Controllers
                 }
                 Car car = new Car(newCar, photosNames, userId);
                 WaitingCar waitingCar = new WaitingCar(car, !string.IsNullOrEmpty(newCar.OtherModelName), !string.IsNullOrEmpty(newCar.OtherBrandName));
-                //await _carRepository.Add(car);
                 User user = await GetCurrentUser();
                 if (user != null)
                 {

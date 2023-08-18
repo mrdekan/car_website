@@ -1,10 +1,12 @@
-﻿.buy-request {
+﻿@import "Variables.scss";
+.buy-request {
     display: flex;
     gap: 30px;
+    color: $gray-default;
 
     a {
         display: block;
-        color: black;
+        color: $text-default;
         margin: 0 0 7px;
         font-size: 20px;
     }
@@ -15,7 +17,7 @@
 
     p {
         font-size: 16px;
-        color: #3D3D3D;
+        color: $gray-default;
     }
 
     &_car {
@@ -54,18 +56,18 @@
 
 .user_container-element {
     padding: 15px;
-    background-color: #F6F6F6;
+    background-color: $background-secondary;
     width: 300px;
 
     a {
-        color: black;
+        color: $text-default;
         font-size: 20px;
         margin: 0 0 5px;
         display: block;
     }
 
     p {
-        color: #3D3D3D;
+        color: $gray-default;
         font-size: 16px;
     }
 }
