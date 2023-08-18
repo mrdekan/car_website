@@ -53,7 +53,29 @@
             <select name="model-select" id="model-select">
                 <option value="Any">Усі</option>
             </select>
-            <label>Рік</label>
+            <label id="year-label">Рік</label>
+            <label>Від:</label>
+            <div class="range">
+                <div class="rangeValue">
+                    <span id="min-year-value">1980</span>
+                </div>
+                <div class="field">
+                    <div class="value left">1980</div>
+                    <input type="range" id="min-year-slider" min="1980" max="@DateTime.Now.Year" value="1980" step="1" />
+                    <div class="value right" id="min-max-year">@DateTime.Now.Year</div>
+                </div>
+            </div>
+            <label>До:</label>
+            <div class="range">
+                <div class="rangeValue">
+                    <span id="max-year-value">@DateTime.Now.Year</span>
+                </div>
+                <div class="field">
+                    <div class="value left" id="max-min-year">1980</div>
+                    <input type="range" id="max-year-slider" min="1980" max="@DateTime.Now.Year" value="@DateTime.Now.Year" step="1" />
+                    <div class="value right">@DateTime.Now.Year</div>
+                </div>
+            </div>
             <div class="year_select">
                 <select name="year_min-select" id="year_min-select">
                     <option value="0">Від</option>

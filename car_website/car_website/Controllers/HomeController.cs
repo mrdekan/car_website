@@ -62,7 +62,7 @@ namespace car_website.Controllers
                     filteredCars = filteredCars.Where(car => car.Model == filter.Model?.Replace('_', ' '));
                 if (filter.Body != 0)
                     filteredCars = filteredCars.Where(car => car.Body == filter.Body);
-                if (filter.MinYear != 0)
+                if (filter.MinYear != 0 && filter.MinYear != 1980)
                     filteredCars = filteredCars.Where(car => car.Year >= filter.MinYear);
                 if (filter.MaxYear != 0)
                     filteredCars = filteredCars.Where(car => car.Year <= filter.MaxYear);

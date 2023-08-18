@@ -574,7 +574,6 @@ header {
 }
 
 .search input:focus {
-    //padding-left: 42px;
     border: 1px solid $green-dark;
 }
 
@@ -621,3 +620,86 @@ header {
 }
 
 //------------------Custom select end---------
+
+//------------------Custom slider range start-
+.range {
+    height: 32px;
+    width: 100%;
+    background-color: $background;
+    border-radius: 7px;
+    padding: 10px 3px;
+
+    .rangeValue {
+        position: relative;
+        width: 100%;
+            .show {
+                transform: translateX(50%) scale(1);
+                transition: transform 0.3s ease-in-out;
+            }
+
+        span {
+            position: absolute;
+            height: 45px;
+            width: 45px;
+            top: -56px;
+            line-height: 48px;
+            text-align: center;
+            z-index: 2;
+            transform: translateX(50%) scale(0);
+            transform-origin: bottom;
+            transition: transform 0.3s ease-in-out;
+            color: $green-light;
+            font-weight: 700;
+            font-size: 15px;
+            left: 2.5%;
+            user-select: none;
+
+
+            &::after {
+                content: "";
+                position: absolute;
+                height: 45px;
+                width: 45px;
+                left: 50%;
+                border: 3px solid $green-light;
+                border-radius: 50% 50% 0 50%;
+                background-color: $background;
+                transform: translateX(-50%) rotate(45deg);
+                z-index: -1;
+            }
+        }
+    }
+
+    .field {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+
+        .value {
+            font-size: 16px;
+            color: $gray-default;
+            margin: 0 4px;
+        }
+
+        input {
+            -webkit-appearance: none;
+            height: 3px;
+            width: 100%;
+            background-color: #909090;
+            border-radius: 5px;
+            outline: none;
+            border: none;
+
+            &::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                height: 15px;
+                width: 15px;
+                border-radius: 50%;
+                background-color: $green-dark;
+            }
+        }
+    }
+}
+//------------------Custom slider range end---

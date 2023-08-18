@@ -1187,3 +1187,76 @@ header .header_right-button::before {
   border-radius: 5px;
   background: var(--background-secondary);
 }
+
+.range {
+  height: 32px;
+  width: 100%;
+  background-color: var(--background-main);
+  border-radius: 7px;
+  padding: 10px 3px;
+}
+.range .rangeValue {
+  position: relative;
+  width: 100%;
+}
+.range .rangeValue .show {
+  transform: translateX(50%) scale(1);
+  transition: transform 0.3s ease-in-out;
+}
+.range .rangeValue span {
+  position: absolute;
+  height: 45px;
+  width: 45px;
+  top: -56px;
+  line-height: 48px;
+  text-align: center;
+  z-index: 2;
+  transform: translateX(50%) scale(0);
+  transform-origin: bottom;
+  transition: transform 0.3s ease-in-out;
+  color: var(--green-light);
+  font-weight: 700;
+  font-size: 15px;
+  left: 2.5%;
+  user-select: none;
+}
+.range .rangeValue span::after {
+  content: "";
+  position: absolute;
+  height: 45px;
+  width: 45px;
+  left: 50%;
+  border: 3px solid var(--green-light);
+  border-radius: 50% 50% 0 50%;
+  background-color: var(--background-main);
+  transform: translateX(-50%) rotate(45deg);
+  z-index: -1;
+}
+.range .field {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.range .field .value {
+  font-size: 16px;
+  color: var(--gray-default);
+  margin: 0 4px;
+}
+.range .field input {
+  -webkit-appearance: none;
+  height: 3px;
+  width: 100%;
+  background-color: #909090;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+}
+.range .field input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background-color: var(--green-dark);
+}

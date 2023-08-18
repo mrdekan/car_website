@@ -22,6 +22,14 @@ const engineVolume_max_input = document.getElementById("engineVolume_max-input")
 const clear_filters = document.getElementById("clear_filters");
 const pages_buttons_containers = document.getElementsByClassName("pages_buttons");
 let likeButtons = document.getElementsByClassName("like_cars");
+const minYearValue = document.getElementById('min-year-value');
+const minYearSlider = document.getElementById('min-year-slider');
+const maxYearValue = document.getElementById('max-year-value');
+const maxYearSlider = document.getElementById('max-year-slider');
+const minMaxYear = document.getElementById('min-max-year');
+const maxMinYear = document.getElementById('max-min-year');
+const currentYear = minYearSlider.getAttribute('max');
+const yearLabel = document.getElementById('year-label');
 let carsPage = 1;
 
 
@@ -29,6 +37,41 @@ let brands = ["Усі"];
 //root.style.setProperty('--primary-color', '#222222');
 getMarks();
 //#endregion
+
+//pos 3% --- 54%
+minYearSlider.oninput = (() => {
+    var value = minYearSlider.value;
+    minYearValue.textContent = value;
+    var coef = 52.6 / (minYearSlider.getAttribute('max') - 1980);
+    minYearValue.style.left = (value - 1980) * coef + 3 + '%';
+    minYearValue.classList.add("show");
+    maxYearSlider.setAttribute('min', value);
+    maxMinYear.textContent = value;
+    if (minYearSlider.value == maxYearSlider.value)
+        yearLabel.textContent = `Рік (${minYearSlider.value})`;
+    else
+        yearLabel.textContent = `Рік (${minYearSlider.value}-${maxYearSlider.value})`;
+});
+maxYearSlider.onblur = (() => {
+    maxYearValue.classList.remove("show");
+});
+maxYearSlider.oninput = (() => {
+    var valueMax = maxYearSlider.value;
+    maxYearValue.textContent = valueMax;
+    var coefMax = 52.6 / (currentYear - maxYearSlider.getAttribute('min'));
+    console.log(coefMax)
+    maxYearValue.style.left = (valueMax - maxYearSlider.getAttribute('min')) * coefMax + 3 + '%';
+    maxYearValue.classList.add("show");
+    minYearSlider.setAttribute('max', valueMax);
+    minMaxYear.textContent = valueMax;
+    if (minYearSlider.value == maxYearSlider.value)
+        yearLabel.textContent = `Рік (${minYearSlider.value})`;
+    else
+        yearLabel.textContent = `Рік (${minYearSlider.value}-${maxYearSlider.value})`;
+});
+minYearSlider.onblur = (() => {
+    minYearValue.classList.remove("show");
+});
 function updateLikeButtons() {
     likeButtons = document.getElementsByClassName("car_container-right-like-cars");
     Array.from(likeButtons).forEach(like => {
@@ -105,6 +148,10 @@ function clearFilters() {
     year_max_select.value = 0;
     year_min_select.value = 0;
     model_select.innerHTML = '<option value="Any">Усі</option>';
+    minYearSlider.value = 1980;
+    minYearSlider.setAttribute('max', maxYearSlider.getAttribute('max'));
+    maxYearSlider.value = 2023;
+    maxYearSlider.setAttribute('min', minYearSlider.getAttribute('min'));
 }
 clear_filters.addEventListener("click", () => {
     clearFilters();
@@ -208,8 +255,8 @@ function applyFilter(page = 1) {
         body: Number(body_Type_select.value),
         brand: selectBtn.firstElementChild.innerText,
         model: model_select.value,
-        minYear: Number(year_min_select.value),
-        maxYear: Number(year_max_select.value),
+        minYear: Number(minYearSlider.value),
+        maxYear: Number(maxYearSlider.value),
         minPrice: Number(price_min_input.value),
         maxPrice: Number(price_max_input.value),
         carTransmission: Number(transmission_select.value),
