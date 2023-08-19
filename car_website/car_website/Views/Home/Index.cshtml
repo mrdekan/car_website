@@ -26,7 +26,7 @@
             </select>
             <label>Марка</label>
             <div>
-                <div class="select-btn">
+                <div class="select-btn" id="brandsButton">
                     <span>Усі</span>
                     <i class="uil uil-angle-down"></i>
                 </div>
@@ -35,45 +35,48 @@
                         <i class="uil uil-search"></i>
                         <input spellcheck="false" type="text" placeholder="Пошук" id="searchCar">
                     </div>
-                    <ul class="options"></ul>
+                    <ul class="options" id="brands"></ul>
                 </div>
             </div>
-            @*
-            <select name="brand-select" id="brand-select">
-            <option value="Any">Усі</option>
-            @foreach (var str in Model.Brands)
-            {
-            if (str != "Інше")
-            {
-            <option value=@str>@str</option>
-            }
-            }
-            </select>*@
             <label>Модель</label>
-            <select name="model-select" id="model-select">
-                <option value="Any">Усі</option>
-            </select>
-            <label id="year-label">Рік</label>
-            <label>Від:</label>
-            <div class="range">
-                <div class="rangeValue">
-                    <span id="min-year-value">1980</span>
+            <div>
+                <div class="select-btn" id="modelsButton">
+                    <span>Усі</span>
+                    <i class="uil uil-angle-down"></i>
                 </div>
-                <div class="field">
-                    <div class="value left">1980</div>
-                    <input type="range" id="min-year-slider" min="1980" max="@DateTime.Now.Year" value="1980" step="1" />
-                    <div class="value right" id="min-max-year">@DateTime.Now.Year</div>
+                <div class="content">
+                    <div class="search">
+                        <i class="uil uil-search"></i>
+                        <input spellcheck="false" type="text" placeholder="Пошук" id="searchModel">
+                    </div>
+                    <ul class="options" id="models"></ul>
                 </div>
             </div>
-            <label>До:</label>
-            <div class="range">
-                <div class="rangeValue">
-                    <span id="max-year-value">@DateTime.Now.Year</span>
+            <label id="year-label">Рік</label>
+            <div class="range-slider">
+                <span>Від:</span>
+                <div class="range">
+                    <div class="rangeValue">
+                        <span id="min-year-value">1980</span>
+                    </div>
+                    <div class="field">
+                        <div class="value left">1980</div>
+                        <input type="range" id="min-year-slider" min="1980" max="@DateTime.Now.Year" value="1980" step="1" />
+                        <div class="value right" id="min-max-year">@DateTime.Now.Year</div>
+                    </div>
                 </div>
-                <div class="field">
-                    <div class="value left" id="max-min-year">1980</div>
-                    <input type="range" id="max-year-slider" min="1980" max="@DateTime.Now.Year" value="@DateTime.Now.Year" step="1" />
-                    <div class="value right">@DateTime.Now.Year</div>
+            </div>
+            <div class="range-slider">
+                <span>До:</span>
+                <div class="range">
+                    <div class="rangeValue">
+                        <span id="max-year-value">@DateTime.Now.Year</span>
+                    </div>
+                    <div class="field">
+                        <div class="value left" id="max-min-year">1980</div>
+                        <input type="range" id="max-year-slider" min="1980" max="@DateTime.Now.Year" value="@DateTime.Now.Year" step="1" />
+                        <div class="value right">@DateTime.Now.Year</div>
+                    </div>
                 </div>
             </div>
             <div class="year_select">

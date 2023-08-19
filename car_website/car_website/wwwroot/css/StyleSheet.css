@@ -711,6 +711,7 @@ body {
   flex-direction: column;
   gap: 5px;
   max-width: 300px;
+  width: fit-content;
   padding: 10px 17px;
   border-radius: 3px;
 }
@@ -1087,16 +1088,30 @@ header .header_right-button::before {
 }
 
 .select-btn i {
+  margin-right: 5px;
   font-size: 15px;
-  transition: transform 0.3s linear;
+  transform: rotate(-180deg);
+  transition: transform 0.1s linear;
+}
+.select-btn i::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: url("/img/arrow.svg");
+  position: absolute;
+  background-size: 14px 14px;
+  margin-top: -7px;
+  margin-left: -7px;
 }
 
-.wrapper.active .select-btn i {
-  transform: rotate(-180deg);
+.select-btn.active i {
+  transform: rotate(-90deg);
 }
 
 .content {
-  display: none;
+  display: block;
+  transform-origin: top;
+  transform: scaleY(0);
   padding: 5px;
   margin-top: 5px;
   background: var(--background-main);
@@ -1105,14 +1120,20 @@ header .header_right-button::before {
   position: absolute;
   z-index: 5;
   font-size: 16px;
-  width: 160px;
+  width: 230px;
   transition: 0.2s;
+  transition: transform 0.1s ease-in-out;
 }
 
-.wrapper.active .content {
+.content.active {
   display: block;
+  transform: scaleY(1);
 }
 
+/*.wrapper.active .content {
+    display: block;
+    transform: scaleY(1);
+}*/
 .content .search {
   position: relative;
 }
@@ -1125,6 +1146,17 @@ header .header_right-button::before {
   pointer-events: none;
   transform: translateY(-50%);
   position: absolute;
+}
+.search i::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: url("/img/search.svg");
+  z-index: 100;
+  position: absolute;
+  background-size: 18px 18px;
+  margin-top: -9px;
+  margin-left: 0px;
 }
 
 .search input {
@@ -1190,7 +1222,7 @@ header .header_right-button::before {
 
 .range {
   height: 32px;
-  width: 100%;
+  width: 200px;
   background-color: var(--background-main);
   border-radius: 7px;
   padding: 10px 3px;
@@ -1259,4 +1291,15 @@ header .header_right-button::before {
   width: 15px;
   border-radius: 50%;
   background-color: var(--green-dark);
+}
+
+.range-slider {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+.range-slider span {
+  font-size: 14px;
+  font-weight: 400;
 }

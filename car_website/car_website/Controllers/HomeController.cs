@@ -58,7 +58,7 @@ namespace car_website.Controllers
                 IEnumerable<Car> filteredCars = await _carRepository.GetAll();
                 if (!string.IsNullOrEmpty(filter.Brand) && filter.Brand != "Усі")
                     filteredCars = filteredCars.Where(car => car.Brand == filter.Brand);
-                if (!string.IsNullOrEmpty(filter.Model) && filter.Model != "Any" && filter.Brand != "Інше")
+                if (!string.IsNullOrEmpty(filter.Model) && filter.Model != "Усі" && filter.Brand != "Інше")
                     filteredCars = filteredCars.Where(car => car.Model == filter.Model?.Replace('_', ' '));
                 if (filter.Body != 0)
                     filteredCars = filteredCars.Where(car => car.Body == filter.Body);
