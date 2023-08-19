@@ -34,10 +34,10 @@ let carsPage = 1;
 
 let brands = ["Усі"];
 let models = ["Усі"];
-getMarks();
+let modelsCache = {};
 //#endregion
+getMarks();
 
-//pos 3% --- 54%
 minYearSlider.oninput = (() => {
     var value = minYearSlider.value;
     minYearValue.textContent = value;
@@ -157,12 +157,13 @@ function clearFilters() {
     driveline_select.value = 0;
     fuel_select.value = 0;
     transmission_select.value = 0;
-    year_max_select.value = 0;
-    year_min_select.value = 0;
     minYearSlider.value = 1980;
     minYearSlider.setAttribute('max', maxYearSlider.getAttribute('max'));
+    minMaxYear.textContent = maxYearSlider.getAttribute('max');
+    maxMinYear.textContent = minYearSlider.getAttribute('min');
     maxYearSlider.value = 2023;
     maxYearSlider.setAttribute('min', minYearSlider.getAttribute('min'));
+    yearLabel.textContent = `Рік`;
 }
 clear_filters.addEventListener("click", () => {
     clearFilters();
@@ -232,15 +233,23 @@ if (selectBrandsBtn.firstElementChild.innerText != "Усі")
 
 //#region Ajax requests
 function getModelsOfMark() {
-    fetch(`/home/GetModels?brand=${selectBrandsBtn.firstElementChild.innerText}`)
-        .then(response => response.json())
-        .then(data => {
-            models = ["Усі"];
-            models = models.concat(data.models);
-            models = models.filter((n) => { return n != 'Інше' });
-            addModel()
-        })
-        .catch(error => console.error("An error occurred while retrieving data:", error));
+    var brand = selectBrandsBtn.firstElementChild.innerText;
+    if (modelsCache[brand] == null) {
+        fetch(`/home/GetModels?brand=${brand}`)
+            .then(response => response.json())
+            .then(data => {
+                models = ["Усі"];
+                models = models.concat(data.models);
+                models = models.filter((n) => { return n != 'Інше' });
+                modelsCache[brand] = models;
+                addModel();
+            })
+            .catch(error => console.error("An error occurred while retrieving data:", error));
+    }
+    else {
+        models = modelsCache[brand];
+        addModel();
+    }
 }
 function getMarks() {
     fetch(`/home/GetBrands`)
@@ -392,6 +401,7 @@ function formatNumberWithThousandsSeparator(number) {
 
 //#region custom checkboxes
 function addBrand(selectedBrand) {
+    console.log(selectedBrand)
     if (!selectedBrand) {
         selectModelsBtn.firstElementChild.innerText = 'Усі';
         brandsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
@@ -431,18 +441,6 @@ searchBrandInp.addEventListener("keyup", () => {
     }).join("");
     brandsOptions.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Oops! Country not found</p>`;
 });
-document.addEventListener('click', function (event) {
-    if (!selectBrandsBtn.parentElement.contains(event.target)) {
-        searchBrandInp.value = "";
-        brandsOptions.parentElement.classList.remove("active");
-        selectBrandsBtn.classList.remove("active");
-    }
-});
-searchBrandInp.onblur = () => {
-    searchBrandInp.value = "";
-    brandsOptions.parentElement.classList.remove("active");
-    selectBrandsBtn.classList.remove("active");
-}
 selectBrandsBtn.addEventListener("click", () => {
     brandsOptions.parentElement.classList.toggle("active");
     selectBrandsBtn.classList.toggle("active");
@@ -488,11 +486,6 @@ searchModelInp.addEventListener("keyup", () => {
     }).join("");
     modelsOptions.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Oops! Country not found</p>`;
 });
-searchModelInp.onblur = () => {
-    searchModelInp.value = "";
-    modelsOptions.parentElement.classList.remove("active");
-    selectModelsBtn.classList.remove("active");
-}
 selectModelsBtn.addEventListener("click", () => {
     modelsOptions.parentElement.classList.toggle("active");
     selectModelsBtn.classList.toggle("active");
@@ -502,3 +495,30 @@ selectModelsBtn.addEventListener("click", () => {
     selectBrandsBtn.classList.remove("active");
 });
 //#endregion
+document.addEventListener('click', function (event) {
+    if (!selectBrandsBtn.parentElement.contains(event.target)) {
+        searchBrandInp.value = "";
+        brandsOptions.parentElement.classList.remove("active");
+        selectBrandsBtn.classList.remove("active");
+        var selected;
+        console.log(Array.from(brandsOptions.children))
+        Array.from(brandsOptions.children).forEach((child) => {
+            if (child.classList.contains('selected')) {
+                selected = child;
+            }
+        });
+        addBrand(selected);
+    }
+    if (!selectModelsBtn.parentElement.contains(event.target)) {
+        searchModelInp.value = "";
+        modelsOptions.parentElement.classList.remove("active");
+        selectModelsBtn.classList.remove("active");
+        /*var selected;
+        Array.from(brandsOptions.children).forEach((child) => {
+            if (child.classList.contains('selected')) {
+                selected = child;
+            }
+        });
+        addBrand(selected);*/
+    }
+});

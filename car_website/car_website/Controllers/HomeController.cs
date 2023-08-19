@@ -30,24 +30,8 @@ namespace car_website.Controllers
         #endregion
         public async Task<IActionResult> IndexAsync()
         {
-            /*Brand pol = new Brand();
-            pol.Name = "Jeep";
-            pol.Models = new List<string>() { "Wrangler",
-                "Grand_Cherokee",
-                "Cherokee",
-                "Compass",
-                "Renegade",
-                "Gladiator",
-            "Інше" };*/
-            //await _brandRepository.Add(pol);
-            var brands = await _brandRepository.GetAll();
-            brands = brands.OrderBy(brand => brand);
             var carsCount = await _carRepository.GetCount();
-            IndexPageViewModel vm = new IndexPageViewModel()
-            {
-                Brands = brands.ToList(),
-                CarsCount = carsCount
-            };
+            IndexPageViewModel vm = new() { CarsCount = carsCount };
             return View(vm);
         }
         public async Task<ActionResult<IEnumerable<Car>>> GetCars([FromBody] CarFilterModel filter, int perPage = CARS_PER_PAGE)
@@ -64,7 +48,7 @@ namespace car_website.Controllers
                     filteredCars = filteredCars.Where(car => car.Body == filter.Body);
                 if (filter.MinYear != 0 && filter.MinYear != 1980)
                     filteredCars = filteredCars.Where(car => car.Year >= filter.MinYear);
-                if (filter.MaxYear != 0)
+                if (filter.MaxYear != 0 && filter.MaxYear != DateTime.Now.Year)
                     filteredCars = filteredCars.Where(car => car.Year <= filter.MaxYear);
                 if (filter.MinPrice != 0)
                     filteredCars = filteredCars.Where(car => car.Price >= filter.MinPrice);
@@ -88,7 +72,7 @@ namespace car_website.Controllers
                 int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
                 int skip = (page - 1) * perPage;
                 filteredCars = filteredCars.Skip(skip).Take(perPage);
-                User user = null;
+                User? user = null;
                 if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
                     user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("UserId")));
                 var carsRes = filteredCars.Select(car => new CarViewModel(car, _currencyUpdater, user != null && user.Favorites.Contains(car.Id))).ToList();
