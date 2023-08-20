@@ -59,11 +59,27 @@ body {
     }
 
     .input {
-        max-width: 80px;
+        //max-width: 80px;
         border-radius: 8px;
         padding: 5px 8px;
         background-color: $background;
+        color: $text-default;
     }
+
+    .input[type="number"] {
+        height: 32px;
+        line-height: 32px;
+        font-size: 16px;
+        transition: 0.2s;
+        width: 300%;
+
+        &::placeholder {
+            color: $gray-default;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+    }
+
 
     .filters {
         background-color: #F3EFCA;
@@ -75,6 +91,13 @@ body {
         padding: 10px 17px;
         border-radius: 3px;
 
+        .price_input {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: nowrap;
+        }
 
         select {
             max-width: 200px;
@@ -89,12 +112,6 @@ body {
         }
 
 
-        .price_input {
-            display: flex;
-            width: 100%;
-            justify-content: space-between;
-            flex-wrap: nowrap;
-        }
 
         .year_select {
             display: flex;
@@ -555,17 +572,13 @@ header {
     width: 230px;
     transition: 0.2s;
     transition: transform 0.1s;
-
 }
-.content.active{
+
+.content.active {
     display: block;
     transform: scaleY(1);
 }
 
-/*.wrapper.active .content {
-    display: block;
-    transform: scaleY(1);
-}*/
 
 .content .search {
     position: relative;
@@ -588,7 +601,7 @@ header {
         z-index: 100;
         position: absolute;
         background-size: 18px 18px;
-        margin-top: -9px;
+        margin-top: -14px;
         margin-left: 0px;
     }
 }
@@ -606,8 +619,7 @@ header {
     border: 1px solid $gray-default;
     transition: 0.2s;
     user-select: none;
-
-    
+    margin: 0 0 10px;
 }
 
 .search input:focus {
@@ -619,7 +631,7 @@ header {
 }
 
 .content .options {
-    margin-top: 10px;
+    //margin-top: 10px;
     max-height: 250px;
     overflow-y: auto;
     padding-right: 7px;
@@ -663,16 +675,18 @@ header {
     height: 32px;
     width: 200px;
     background-color: $background;
+    transition: 0.2s;
     border-radius: 7px;
     padding: 10px 3px;
 
     .rangeValue {
         position: relative;
         width: 100%;
-            .show {
-                transform: translateX(50%) scale(1);
-                transition: transform 0.3s ease-in-out;
-            }
+
+        .show {
+            transform: translateX(50%) scale(1);
+            transition: transform 0.3s ease-in-out;
+        }
 
         span {
             position: absolute;
@@ -718,6 +732,7 @@ header {
             font-size: 16px;
             color: $gray-default;
             margin: 0 4px;
+            transition: 0.2s;
         }
 
         input {
@@ -739,6 +754,7 @@ header {
         }
     }
 }
+
 .range-slider {
     display: flex;
     align-items: center;

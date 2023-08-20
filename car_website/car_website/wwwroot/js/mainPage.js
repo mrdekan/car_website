@@ -5,17 +5,21 @@ const selectBrandsBtn = document.getElementById("brandsButton"),
 const selectModelsBtn = document.getElementById("modelsButton"),
     searchModelInp = document.getElementById("searchModel"),
     modelsOptions = document.getElementById("models");
+const selectBodiesBtn = document.getElementById("bodiesButton"),
+    bodiesOptions = document.getElementById("bodies");
+const selectTransmissionsBtn = document.getElementById("transmissionsButton"),
+    transmissionsOptions = document.getElementById("transmissions");
+const selectFuelsBtn = document.getElementById("fuelsButton"),
+    fuelsOptions = document.getElementById("fuels");
+const selectDrivelinesBtn = document.getElementById("drivelinesButton"),
+    drivelinesOptions = document.getElementById("drivelines");
 const apply_button = document.getElementById("refresh_cars");
-const body_Type_select = document.getElementById("bodyType_select");
 const year_min_select = document.getElementById("year_min-select");
 const year_max_select = document.getElementById("year_max-select");
 const price_max_input = document.getElementById("price_max-input");
 const price_min_input = document.getElementById("price_min-input");
 const race_max_input = document.getElementById("race_max-input");
 const race_min_input = document.getElementById("race_min-input");
-const transmission_select = document.getElementById("transmission-select");
-const fuel_select = document.getElementById("fuel-select");
-const driveline_select = document.getElementById("driveline-select");
 const engineVolume_min_input = document.getElementById("engineVolume_min-input");
 const engineVolume_max_input = document.getElementById("engineVolume_max-input");
 const clear_filters = document.getElementById("clear_filters");
@@ -30,58 +34,39 @@ const maxMinYear = document.getElementById('max-min-year');
 const currentYear = minYearSlider.getAttribute('max');
 const yearLabel = document.getElementById('year-label');
 let carsPage = 1;
+//#endregion
 
-
+//#region Selects content
 let brands = ["Усі"];
 let models = ["Усі"];
+let bodies = ["Усі", "Седан", "Позашляховик", "Мінівен", "Хетчбек", "Універсал", "Купе", "Кабріолет", "Пікап", "Ліфтбек", "Фастбек"];
+let transmissions = ["Усі", "Механічна", "Автоматична"];
+let fuels = {};
+fuels["Усі"] = 0;
+fuels["Бензин"] = 3;
+fuels["Дизель"] = 4;
+fuels["Газ"] = 1;
+fuels["Газ/Бензин"] = 2;
+fuels["Гібрид"] = 5;
+fuels["Електро"] = 6;
+let drivelines = ["Усі", "Передній", "Задній", "Повний"];
 let modelsCache = {};
 //#endregion
-getMarks();
 
-minYearSlider.oninput = (() => {
-    var value = minYearSlider.value;
-    minYearValue.textContent = value;
-    var coef = 46.9 / (minYearSlider.getAttribute('max') - 1980);
-    minYearValue.style.left = (value - 1980) * coef + 3 + '%';
-    minYearValue.classList.add("show");
-    maxYearSlider.setAttribute('min', value);
-    maxMinYear.textContent = value;
-    if (minYearSlider.value == maxYearSlider.value)
-        yearLabel.textContent = `Рік (${minYearSlider.value})`;
-    else if (minYearSlider.value == 1980 && maxYearSlider.value != maxYearSlider.getAttribute('max'))
-        yearLabel.textContent = `Рік (≤ ${maxYearSlider.value})`;
-    else if (minYearSlider.value != 1980 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
-        yearLabel.textContent = `Рік (≥ ${minYearSlider.value})`;
-    else if (minYearSlider.value == 1980 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
-        yearLabel.textContent = `Рік`;
-    else
-        yearLabel.textContent = `Рік (${minYearSlider.value} — ${maxYearSlider.value})`;
-});
-maxYearSlider.onblur = (() => {
-    maxYearValue.classList.remove("show");
-});
-maxYearSlider.oninput = (() => {
-    var valueMax = maxYearSlider.value;
-    maxYearValue.textContent = valueMax;
-    var coefMax = 46.9 / (currentYear - maxYearSlider.getAttribute('min'));
-    maxYearValue.style.left = (valueMax - maxYearSlider.getAttribute('min')) * coefMax + 3 + '%';
-    maxYearValue.classList.add("show");
-    minYearSlider.setAttribute('max', valueMax);
-    minMaxYear.textContent = valueMax;
-    if (minYearSlider.value == maxYearSlider.value)
-        yearLabel.textContent = `Рік (${minYearSlider.value})`;
-    else if (minYearSlider.value == 1980 && maxYearSlider.value != maxYearSlider.getAttribute('max'))
-        yearLabel.textContent = `Рік (≤ ${maxYearSlider.value})`;
-    else if (minYearSlider.value != 1980 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
-        yearLabel.textContent = `Рік (≥ ${minYearSlider.value})`;
-    else if (minYearSlider.value == 1980 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
-        yearLabel.textContent = `Рік`;
-    else
-        yearLabel.textContent = `Рік (${minYearSlider.value} — ${maxYearSlider.value})`;
-});
-minYearSlider.onblur = (() => {
-    minYearValue.classList.remove("show");
-});
+//#region Functions' calls
+getMarks();
+applyFilter();
+if (selectBrandsBtn.firstElementChild.innerText != "Усі")
+    getModelsOfMark();
+addBrand();
+addModel();
+addBody();
+addTransmission();
+addFuel();
+addDriveline();
+//#endregion
+
+//#region Pages & Likes
 function updateLikeButtons() {
     likeButtons = document.getElementsByClassName("car_container-right-like-cars");
     Array.from(likeButtons).forEach(like => {
@@ -148,15 +133,23 @@ function clearFilters() {
     price_min_input.value = "";
     race_max_input.value = "";
     race_min_input.value = "";
-    body_Type_select.value = 0;
     selectBrandsBtn.firstElementChild.innerText = "Усі";
     addBrand();
+    selectBodiesBtn.firstElementChild.innerText = "Усі";
+    addBody();
+    bodiesOptions.scrollTop = 0;
+    selectTransmissionsBtn.firstElementChild.innerText = "Усі";
+    addTransmission();
+    transmissionsOptions.scrollTop = 0;
+    selectFuelsBtn.firstElementChild.innerText = "Усі";
+    addFuel();
+    fuelsOptions.scrollTop = 0;
+    selectDrivelinesBtn.firstElementChild.innerText = "Усі";
+    addDriveline();
+    drivelinesOptions.scrollTop = 0;
     selectModelsBtn.firstElementChild.innerText = "Усі";
     models = ['Усі'];
     addModel();
-    driveline_select.value = 0;
-    fuel_select.value = 0;
-    transmission_select.value = 0;
     minYearSlider.value = 1980;
     minYearSlider.setAttribute('max', maxYearSlider.getAttribute('max'));
     minMaxYear.textContent = maxYearSlider.getAttribute('max');
@@ -169,7 +162,53 @@ clear_filters.addEventListener("click", () => {
     clearFilters();
     applyFilter();
 });
+//#endregion
+
 //#region input fields settings
+minYearSlider.oninput = (() => {
+    var value = minYearSlider.value;
+    minYearValue.textContent = value;
+    var coef = 46.9 / (minYearSlider.getAttribute('max') - 1980);
+    minYearValue.style.left = (value - 1980) * coef + 3 + '%';
+    minYearValue.classList.add("show");
+    maxYearSlider.setAttribute('min', value);
+    maxMinYear.textContent = value;
+    if (minYearSlider.value == maxYearSlider.value)
+        yearLabel.textContent = `Рік (${minYearSlider.value})`;
+    else if (minYearSlider.value == 1980 && maxYearSlider.value != maxYearSlider.getAttribute('max'))
+        yearLabel.textContent = `Рік (≤ ${maxYearSlider.value})`;
+    else if (minYearSlider.value != 1980 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
+        yearLabel.textContent = `Рік (≥ ${minYearSlider.value})`;
+    else if (minYearSlider.value == 1980 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
+        yearLabel.textContent = `Рік`;
+    else
+        yearLabel.textContent = `Рік (${minYearSlider.value} — ${maxYearSlider.value})`;
+});
+maxYearSlider.onblur = (() => {
+    maxYearValue.classList.remove("show");
+});
+maxYearSlider.oninput = (() => {
+    var valueMax = maxYearSlider.value;
+    maxYearValue.textContent = valueMax;
+    var coefMax = 46.9 / (currentYear - maxYearSlider.getAttribute('min'));
+    maxYearValue.style.left = (valueMax - maxYearSlider.getAttribute('min')) * coefMax + 3 + '%';
+    maxYearValue.classList.add("show");
+    minYearSlider.setAttribute('max', valueMax);
+    minMaxYear.textContent = valueMax;
+    if (minYearSlider.value == maxYearSlider.value)
+        yearLabel.textContent = `Рік (${minYearSlider.value})`;
+    else if (minYearSlider.value == 1980 && maxYearSlider.value != maxYearSlider.getAttribute('max'))
+        yearLabel.textContent = `Рік (≤ ${maxYearSlider.value})`;
+    else if (minYearSlider.value != 1980 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
+        yearLabel.textContent = `Рік (≥ ${minYearSlider.value})`;
+    else if (minYearSlider.value == 1980 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
+        yearLabel.textContent = `Рік`;
+    else
+        yearLabel.textContent = `Рік (${minYearSlider.value} — ${maxYearSlider.value})`;
+});
+minYearSlider.onblur = (() => {
+    minYearValue.classList.remove("show");
+});
 engineVolume_min_input.addEventListener('input', function (event) {
     const maxLength = parseInt(event.target.getAttribute('maxlength'));
     let currentValue = event.target.value;
@@ -227,10 +266,6 @@ race_min_input.addEventListener('input', function (event) {
 apply_button.onclick = () => applyFilter();
 //#endregion
 
-applyFilter();
-if (selectBrandsBtn.firstElementChild.innerText != "Усі")
-    getModelsOfMark()
-
 //#region Ajax requests
 function getModelsOfMark() {
     var brand = selectBrandsBtn.firstElementChild.innerText;
@@ -264,16 +299,16 @@ function getMarks() {
 }
 function applyFilter(page = 1) {
     const filters = {
-        body: Number(body_Type_select.value),
+        body: bodies.indexOf(selectBodiesBtn.firstElementChild.innerHTML),
         brand: selectBrandsBtn.firstElementChild.innerText,
         model: selectModelsBtn.firstElementChild.innerText,
         minYear: Number(minYearSlider.value),
         maxYear: Number(maxYearSlider.value),
         minPrice: Number(price_min_input.value),
         maxPrice: Number(price_max_input.value),
-        carTransmission: Number(transmission_select.value),
-        fuel: Number(fuel_select.value),
-        driveLine: Number(driveline_select.value),
+        carTransmission: transmissions.indexOf(selectTransmissionsBtn.firstElementChild.innerHTML),
+        fuel: fuels[selectFuelsBtn.firstElementChild.innerHTML],
+        driveLine: drivelines.indexOf(selectDrivelinesBtn.firstElementChild.innerHTML),
         minEngineCapacity: Number(engineVolume_min_input.value),
         maxEngineCapacity: Number(engineVolume_max_input.value),
         minMileage: Number(race_min_input.value),
@@ -289,7 +324,6 @@ function applyFilter(page = 1) {
     })
         .then(response => response.json())
         .then(data => {
-            //console.log(data);
             if (data != null && data.success == true) {
                 carsPage = data.page;
                 updatePagesButtons(data.pages);
@@ -348,7 +382,6 @@ function applyFilter(page = 1) {
 //#endregion
 
 //#region info displaying
-
 function fuelName(id) {
     switch (id) {
         case 1: {
@@ -399,9 +432,60 @@ function formatNumberWithThousandsSeparator(number) {
 }
 //#endregion
 
-//#region custom checkboxes
+//#region Custom selects
+function refreshBrands() {
+    if (selectBrandsBtn.firstElementChild.innerText === 'Усі') {
+        brandsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
+    }
+    else {
+        brandsOptions.innerHTML = '';
+    }
+    brands.forEach(brand => {
+        if (brand !== 'Усі' || selectBrandsBtn.firstElementChild.innerText !== 'Усі') {
+            let isSelected = brand == selectBrandsBtn.firstElementChild.innerText ? "selected" : "";
+            let li = `<li onclick="updateName(this)" class="${isSelected}">${brand}</li>`;
+            brandsOptions.insertAdjacentHTML("beforeend", li);
+        }
+    });
+}
+function refreshModels() {
+    if (selectModelsBtn.firstElementChild.innerText === 'Усі') {
+        modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
+    }
+    else {
+        modelsOptions.innerHTML = '';
+    }
+    models.forEach(model => {
+        if (model !== 'Усі' || selectModelsBtn.firstElementChild.innerText !== 'Усі') {
+            let isSelected = model == selectModelsBtn.firstElementChild.innerText ? "selected" : "";
+            let li = `<li onclick="updateModel(this)" class="${isSelected}">${model}</li>`;
+            modelsOptions.insertAdjacentHTML("beforeend", li);
+        }
+    });
+}
+searchBrandInp.addEventListener("keyup", () => {
+    let arr = [];
+    let searchWord = searchBrandInp.value.toLowerCase();
+    arr = brands.filter(data => {
+        return data.toLowerCase().startsWith(searchWord);
+    }).map(data => {
+        let isSelected = data == selectBrandsBtn.firstElementChild.innerText ? "selected" : "";
+        return `<li onclick="updateName(this)" class="${isSelected}">${data}</li>`;
+    }).join("");
+    brandsOptions.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Марку не знайдено.</p>`;
+});
+searchModelInp.addEventListener("keyup", () => {
+    let arr = [];
+    let searchWord = searchModelInp.value.toLowerCase();
+    arr = models.filter(data => {
+        return data.toLowerCase().startsWith(searchWord);
+    }).map(data => {
+        let isSelected = data == selectModelsBtn.firstElementChild.innerText ? "selected" : "";
+        return `<li onclick="updateModel(this)" class="${isSelected}">${data}</li>`;
+    }).join("");
+    modelsOptions.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Модель не знайдено.</p>`;
+});
 function addBrand(selectedBrand) {
-    console.log(selectedBrand)
     if (!selectedBrand) {
         selectModelsBtn.firstElementChild.innerText = 'Усі';
         brandsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
@@ -417,40 +501,6 @@ function addBrand(selectedBrand) {
         }
     });
 }
-addBrand();
-function updateName(selectedLi) {
-    searchBrandInp.value = "";
-    addBrand(selectedLi.innerText);
-    brandsOptions.parentElement.classList.remove("active");
-    selectBrandsBtn.classList.remove("active");
-    selectBrandsBtn.firstElementChild.innerText = selectedLi.innerText;
-    if (selectBrandsBtn.firstElementChild.innerText == "Усі")
-        modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
-    else {
-        getModelsOfMark();
-    }
-}
-searchBrandInp.addEventListener("keyup", () => {
-    let arr = [];
-    let searchWord = searchBrandInp.value.toLowerCase();
-    arr = brands.filter(data => {
-        return data.toLowerCase().startsWith(searchWord);
-    }).map(data => {
-        let isSelected = data == selectBrandsBtn.firstElementChild.innerText ? "selected" : "";
-        return `<li onclick="updateName(this)" class="${isSelected}">${data}</li>`;
-    }).join("");
-    brandsOptions.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Oops! Country not found</p>`;
-});
-selectBrandsBtn.addEventListener("click", () => {
-    brandsOptions.parentElement.classList.toggle("active");
-    selectBrandsBtn.classList.toggle("active");
-
-    searchModelInp.value = "";
-    modelsOptions.parentElement.classList.remove("active");
-    selectModelsBtn.classList.remove("active");
-});
-
-
 function addModel(selectedModel) {
     if (!selectedModel) {
         selectModelsBtn.firstElementChild.innerText = 'Усі';
@@ -467,7 +517,50 @@ function addModel(selectedModel) {
         }
     });
 }
-addModel();
+function addBody(selectedBody) {
+    bodiesOptions.innerHTML = '';
+    bodies.forEach(body => {
+        let isSelected = body == selectedBody || !selectedBody && body=='Усі' ? "selected" : "";
+        let li = `<li onclick="updateBody(this)" class="${isSelected}">${body}</li>`;
+        bodiesOptions.insertAdjacentHTML("beforeend", li);
+    });
+}
+function addTransmission(selectedTransmission) {
+    transmissionsOptions.innerHTML = '';
+    transmissions.forEach(transmission => {
+        let isSelected = transmission == selectedTransmission || !selectedTransmission && transmission == 'Усі' ? "selected" : "";
+        let li = `<li onclick="updateTransmission(this)" class="${isSelected}">${transmission}</li>`;
+        transmissionsOptions.insertAdjacentHTML("beforeend", li);
+    });
+}
+function addFuel(selectedFuel) {
+    fuelsOptions.innerHTML = '';
+    for (const [key, value] of Object.entries(fuels)) {
+        let isSelected = key == selectedFuel || !selectedFuel && key == 'Усі' ? "selected" : "";
+        let li = `<li onclick="updateFuel(this)" class="${isSelected}">${key}</li>`;
+        fuelsOptions.insertAdjacentHTML("beforeend", li);
+    }
+}
+function addDriveline(selectedDriveline) {
+    drivelinesOptions.innerHTML = '';
+    drivelines.forEach(driveline => {
+        let isSelected = driveline == selectedDriveline || !selectedDriveline && driveline == 'Усі' ? "selected" : "";
+        let li = `<li onclick="updateDriveline(this)" class="${isSelected}">${driveline}</li>`;
+        drivelinesOptions.insertAdjacentHTML("beforeend", li);
+    });
+}
+function updateName(selectedLi) {
+    searchBrandInp.value = "";
+    addBrand(selectedLi.innerText);
+    brandsOptions.parentElement.classList.remove("active");
+    selectBrandsBtn.classList.remove("active");
+    selectBrandsBtn.firstElementChild.innerText = selectedLi.innerText;
+    if (selectBrandsBtn.firstElementChild.innerText == "Усі")
+        modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
+    else {
+        getModelsOfMark();
+    }
+}
 function updateModel(selectedLi) {
     searchModelInp.value = "";
     addModel(selectedLi.innerText);
@@ -475,50 +568,143 @@ function updateModel(selectedLi) {
     selectModelsBtn.classList.remove("active");
     selectModelsBtn.firstElementChild.innerText = selectedLi.innerText;
 }
-searchModelInp.addEventListener("keyup", () => {
-    let arr = [];
-    let searchWord = searchModelInp.value.toLowerCase();
-    arr = models.filter(data => {
-        return data.toLowerCase().startsWith(searchWord);
-    }).map(data => {
-        let isSelected = data == selectModelsBtn.firstElementChild.innerText ? "selected" : "";
-        return `<li onclick="updateModel(this)" class="${isSelected}">${data}</li>`;
-    }).join("");
-    modelsOptions.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Oops! Country not found</p>`;
-});
-selectModelsBtn.addEventListener("click", () => {
-    modelsOptions.parentElement.classList.toggle("active");
-    selectModelsBtn.classList.toggle("active");
-
+function updateBody(selectedLi) {
+    addBody(selectedLi.innerText);
+    bodiesOptions.parentElement.classList.remove("active");
+    selectBodiesBtn.classList.remove("active");
+    selectBodiesBtn.firstElementChild.innerText = selectedLi.innerText;
+}
+function updateTransmission(selectedLi) {
+    addTransmission(selectedLi.innerText);
+    transmissionsOptions.parentElement.classList.remove("active");
+    selectTransmissionsBtn.classList.remove("active");
+    selectTransmissionsBtn.firstElementChild.innerText = selectedLi.innerText;
+}
+function updateFuel(selectedLi) {
+    addFuel(selectedLi.innerText);
+    fuelsOptions.parentElement.classList.remove("active");
+    selectFuelsBtn.classList.remove("active");
+    selectFuelsBtn.firstElementChild.innerText = selectedLi.innerText;
+}
+function updateDriveline(selectedLi) {
+    addDriveline(selectedLi.innerText);
+    drivelinesOptions.parentElement.classList.remove("active");
+    selectDrivelinesBtn.classList.remove("active");
+    selectDrivelinesBtn.firstElementChild.innerText = selectedLi.innerText;
+}
+function hideBrand() {
     searchBrandInp.value = "";
     brandsOptions.parentElement.classList.remove("active");
     selectBrandsBtn.classList.remove("active");
-});
+}
+function hideModel() {
+    searchModelInp.value = "";
+    modelsOptions.parentElement.classList.remove("active");
+    selectModelsBtn.classList.remove("active");
+}
+function hideBody() {
+    bodiesOptions.parentElement.classList.remove("active");
+    selectBodiesBtn.classList.remove("active");
+    bodiesOptions.scrollTop = 0;
+}
+function hideTransmission() {
+    transmissionsOptions.parentElement.classList.remove("active");
+    selectTransmissionsBtn.classList.remove("active");
+    transmissionsOptions.scrollTop = 0;
+}
+function hideDriveline() {
+    drivelinesOptions.parentElement.classList.remove("active");
+    selectDrivelinesBtn.classList.remove("active");
+    drivelinesOptions.scrollTop = 0;
+}
+function hideFuel() {
+    fuelsOptions.parentElement.classList.remove("active");
+    selectFuelsBtn.classList.remove("active");
+    fuelsOptions.scrollTop = 0;
+}
 //#endregion
+
+//#region Click events
+selectBrandsBtn.addEventListener("click", () => {
+    searchBrandInp.value = "";
+    brandsOptions.parentElement.classList.toggle("active");
+    selectBrandsBtn.classList.toggle("active");
+    hideModel();
+    hideBody();
+    hideTransmission();
+    hideFuel();
+    hideDriveline();
+});
+selectModelsBtn.addEventListener("click", () => {
+    searchModelInp.value = "";
+    modelsOptions.parentElement.classList.toggle("active");
+    selectModelsBtn.classList.toggle("active");
+    hideBrand();
+    hideBody();
+    hideTransmission();
+    hideFuel();
+    hideDriveline();
+});
+selectBodiesBtn.addEventListener("click", () => {
+    bodiesOptions.parentElement.classList.toggle("active");
+    selectBodiesBtn.classList.toggle("active");
+    bodiesOptions.scrollTop = 0;
+    hideBrand();
+    hideModel();
+    hideTransmission();
+    hideFuel();
+    hideDriveline();
+});
+selectTransmissionsBtn.addEventListener("click", () => {
+    transmissionsOptions.parentElement.classList.toggle("active");
+    selectTransmissionsBtn.classList.toggle("active");
+    transmissionsOptions.scrollTop = 0;
+    hideBody();
+    hideBrand();
+    hideModel();
+    hideFuel();
+    hideDriveline();
+});
+selectFuelsBtn.addEventListener("click", () => {
+    fuelsOptions.parentElement.classList.toggle("active");
+    selectFuelsBtn.classList.toggle("active");
+    fuelsOptions.scrollTop = 0;
+    hideBody();
+    hideBrand();
+    hideModel();
+    hideTransmission();
+    hideDriveline();
+});
+selectDrivelinesBtn.addEventListener("click", () => {
+    drivelinesOptions.parentElement.classList.toggle("active");
+    selectDrivelinesBtn.classList.toggle("active");
+    drivelinesOptions.scrollTop = 0;
+    hideBody();
+    hideBrand();
+    hideModel();
+    hideTransmission();
+    hideFuel();
+});
 document.addEventListener('click', function (event) {
     if (!selectBrandsBtn.parentElement.contains(event.target)) {
-        searchBrandInp.value = "";
-        brandsOptions.parentElement.classList.remove("active");
-        selectBrandsBtn.classList.remove("active");
-        var selected;
-        console.log(Array.from(brandsOptions.children))
-        Array.from(brandsOptions.children).forEach((child) => {
-            if (child.classList.contains('selected')) {
-                selected = child;
-            }
-        });
-        addBrand(selected);
+        hideBrand();
+        refreshBrands();
     }
     if (!selectModelsBtn.parentElement.contains(event.target)) {
-        searchModelInp.value = "";
-        modelsOptions.parentElement.classList.remove("active");
-        selectModelsBtn.classList.remove("active");
-        /*var selected;
-        Array.from(brandsOptions.children).forEach((child) => {
-            if (child.classList.contains('selected')) {
-                selected = child;
-            }
-        });
-        addBrand(selected);*/
+        hideModel();
+        refreshModels();
+    }
+    if (!selectBodiesBtn.parentElement.contains(event.target)) {
+        hideBody();
+    }
+    if (!selectTransmissionsBtn.parentElement.contains(event.target)) {
+        hideTransmission();
+    }
+    if (!selectFuelsBtn.parentElement.contains(event.target)) {
+        hideFuel();
+    }
+    if (!selectDrivelinesBtn.parentElement.contains(event.target)) {
+        hideDriveline();
     }
 });
+//#endregion

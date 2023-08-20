@@ -86,14 +86,32 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<string>>> GetBrands()
         {
-            var brands = await _brandRepository.GetAll();
-            return Ok(new { Brands = brands.OrderBy(brand => brand) });
+            try
+            {
+                var brands = await _brandRepository.GetAll();
+                if (brands == null)
+                    return Ok(new { Success = false, Brands = new List<string>() });
+                return Ok(new { Success = true, Brands = brands.OrderBy(brand => brand) });
+            }
+            catch
+            {
+                return Ok(new { Success = false, Brands = new List<string>() });
+            }
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<string>>> GetModels(string brand)
         {
-            var brandObj = await _brandRepository.GetByName(brand);
-            return Ok(new { Models = brandObj.Models });
+            try
+            {
+                var brandObj = await _brandRepository.GetByName(brand);
+                if (brandObj == null)
+                    return Ok(new { Success = false, Models = new List<string>() });
+                return Ok(new { Success = true, Models = brandObj.Models });
+            }
+            catch
+            {
+                return Ok(new { Success = false, Models = new List<string>() });
+            }
         }
         public IActionResult Privacy()
         {

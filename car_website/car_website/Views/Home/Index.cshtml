@@ -7,23 +7,17 @@
     <div class="filters_before">
         <p>Авто в продажі : @Model.CarsCount</p>
         <a asp-controller="Car" asp-action="Create">Продати авто</a>
-
         <div class="filters">
-
             <label>Тип кузова</label>
-            <select name="bodyType_select" id="bodyType_select">
-                <option value="0">Усі</option>
-                <option value="1">Седан</option>
-                <option value="2">Позашляховик</option>
-                <option value="3">Мінівен</option>
-                <option value="4">Хетчбек</option>
-                <option value="5">Універсал</option>
-                <option value="6">Купе</option>
-                <option value="7">Кабріолет</option>
-                <option value="8">Пікап</option>
-                <option value="9">Ліфтбек</option>
-                <option value="10">Фастбек</option>
-            </select>
+            <div>
+                <div class="select-btn" id="bodiesButton">
+                    <span>Усі</span>
+                    <i class="uil uil-angle-down"></i>
+                </div>
+                <div class="content">
+                    <ul class="options" id="bodies"></ul>
+                </div>
+            </div>
             <label>Марка</label>
             <div>
                 <div class="select-btn" id="brandsButton">
@@ -79,22 +73,6 @@
                     </div>
                 </div>
             </div>
-            @*<div class="year_select">
-                <select name="year_min-select" id="year_min-select">
-                    <option value="0">Від</option>
-                    @for (int i = DateTime.Now.Year; i >= 1900; i--)
-                    {
-                        <option value=@i>@i</option>
-                    }
-                </select>
-                <select name="year_max-select" id="year_max-select">
-                    <option value="0">До</option>
-                    @for (int i = DateTime.Now.Year; i >= 1900; i--)
-                    {
-                        <option value=@i>@i</option>
-                    }
-                </select>
-            </div>*@
             <label>Ціна ($)</label>
             <div class="price_input">
                 <input class="input" type="number" maxlength="9" id="price_min-input" placeholder="Від" />
@@ -105,31 +83,38 @@
                 <input class="input" type="number" maxlength="3" id="race_min-input" placeholder="Від" />
                 <input class="input" type="number" maxlength="3" id="race_max-input" placeholder="До" />
             </div>
-            <label>Коробка передач</label>
-            <select name="transmission-select" id="transmission-select">
-                <option value="0">Будь-яка</option>
-                <option value="1">Механіка</option>
-                <option value="2">Автоматична</option>
-            </select>
-            <label>Паливо</label>
-            <select name="fuel-select" id="fuel-select">
-                <option value="0">Будь-яке</option>
-                <option value="3">Бензин</option>
-                <option value="4">Дизель</option>
-                <option value="1">Газ</option>
-                <option value="2">Газ/Бензин</option>
-                <option value="5">Гібрид</option>
-                <option value="6">Електро</option>
-            </select>
+            <label>Тип трансмісії</label>
+            <div>
+                <div class="select-btn" id="transmissionsButton">
+                    <span>Усі</span>
+                    <i class="uil uil-angle-down"></i>
+                </div>
+                <div class="content">
+                    <ul class="options" id="transmissions"></ul>
+                </div>
+            </div>
+            <label>Тип палива</label>
+            <div>
+                <div class="select-btn" id="fuelsButton">
+                    <span>Усі</span>
+                    <i class="uil uil-angle-down"></i>
+                </div>
+                <div class="content">
+                    <ul class="options" id="fuels"></ul>
+                </div>
+            </div>
             <label>Тип приводу</label>
-            <select name="driveline-select" id="driveline-select">
-                <option value="0">Будь-який</option>
-                <option value="1">Передній</option>
-                <option value="2">Задній</option>
-                <option value="3">Повний</option>
-            </select>
+            <div>
+                <div class="select-btn" id="drivelinesButton">
+                    <span>Усі</span>
+                    <i class="uil uil-angle-down"></i>
+                </div>
+                <div class="content">
+                    <ul class="options" id="drivelines"></ul>
+                </div>
+            </div>
             <label>Об’єм двигуна (л.)</label>
-            <div class="price-input">
+            <div class="price_input">
                 <input class="input" type="number" maxlength="3" id="engineVolume_min-input" placeholder="Від" />
                 <input class="input" type="number" maxlength="3" id="engineVolume_max-input" placeholder="До" />
             </div>

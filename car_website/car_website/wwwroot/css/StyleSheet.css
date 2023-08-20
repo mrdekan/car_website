@@ -700,10 +700,22 @@ body {
   transition: 0.2s;
 }
 .wrapper .input {
-  max-width: 80px;
   border-radius: 8px;
   padding: 5px 8px;
   background-color: var(--background-main);
+  color: var(--text-default);
+}
+.wrapper .input[type=number] {
+  height: 32px;
+  line-height: 32px;
+  font-size: 16px;
+  transition: 0.2s;
+  width: 300%;
+}
+.wrapper .input[type=number]::placeholder {
+  color: var(--gray-default);
+  font-size: 16px;
+  transition: 0.2s;
 }
 .wrapper .filters {
   background-color: #F3EFCA;
@@ -715,6 +727,13 @@ body {
   padding: 10px 17px;
   border-radius: 3px;
 }
+.wrapper .filters .price_input {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
 .wrapper .filters select {
   max-width: 200px;
   border-radius: 8px;
@@ -724,12 +743,6 @@ body {
 }
 .wrapper .filters select option:hover {
   background-color: var(--green-dark);
-}
-.wrapper .filters .price_input {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  flex-wrap: nowrap;
 }
 .wrapper .filters .year_select {
   display: flex;
@@ -1130,10 +1143,6 @@ header .header_right-button::before {
   transform: scaleY(1);
 }
 
-/*.wrapper.active .content {
-    display: block;
-    transform: scaleY(1);
-}*/
 .content .search {
   position: relative;
 }
@@ -1155,7 +1164,7 @@ header .header_right-button::before {
   z-index: 100;
   position: absolute;
   background-size: 18px 18px;
-  margin-top: -9px;
+  margin-top: -14px;
   margin-left: 0px;
 }
 
@@ -1172,6 +1181,7 @@ header .header_right-button::before {
   border: 1px solid var(--gray-default);
   transition: 0.2s;
   user-select: none;
+  margin: 0 0 10px;
 }
 
 .search input:focus {
@@ -1183,7 +1193,6 @@ header .header_right-button::before {
 }
 
 .content .options {
-  margin-top: 10px;
   max-height: 250px;
   overflow-y: auto;
   padding-right: 7px;
@@ -1224,6 +1233,7 @@ header .header_right-button::before {
   height: 32px;
   width: 200px;
   background-color: var(--background-main);
+  transition: 0.2s;
   border-radius: 7px;
   padding: 10px 3px;
 }
@@ -1275,6 +1285,7 @@ header .header_right-button::before {
   font-size: 16px;
   color: var(--gray-default);
   margin: 0 4px;
+  transition: 0.2s;
 }
 .range .field input {
   -webkit-appearance: none;
