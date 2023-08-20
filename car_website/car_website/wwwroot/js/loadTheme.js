@@ -23,7 +23,7 @@ function setDark() {
     root.style.setProperty('--icons-invert', '90%');
     root.style.setProperty('--success-main', '#46a75f');
     root.style.setProperty('--success-secondary', '#2b3129');
-    root.style.setProperty('--error-main', '#ff436b');
+    root.style.setProperty('--error-main', '#c21111');
     root.style.setProperty('--error-secondary', '#442c31');
     root.style.setProperty('--gray-default', '#999999');
 }
@@ -37,7 +37,7 @@ function setLight() {
     root.style.setProperty('--icons-invert', '0%');
     root.style.setProperty('--success-main', '#3a784a');
     root.style.setProperty('--success-secondary', '#D0E0CA');
-    root.style.setProperty('--error-main', '#db3d5f');
+    root.style.setProperty('--error-main', '#c21111');
     root.style.setProperty('--error-secondary', '#f7dfe5');
     root.style.setProperty('--gray-default', '#505050');
 }

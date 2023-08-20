@@ -13,10 +13,19 @@
             <a asp-controller="Home" asp-action="Index">RoadStar</a>
         </div>
         <div class="header_center">
-            <input type="radio" name="theme" theme="light"/>
-            <input type="radio" name="theme" theme="dark"/>
+
         </div>
         <div class="header_right">
+            <div class="header_right-theme">
+            <label for="light" class="header_right-light-label"></label>
+            <input id="light" class="header_right-light" type="radio" name="theme" theme="light" />
+            @*<div class="header_right-highlight">
+                
+                </div>*@
+                <div class="header_right-separator"></div>
+            <label for="dark" class="header_right-dark-label"></label>
+            <input id="dark" class="header_right-dark" type="radio" name="theme" theme="dark" />
+            </div>
             @{
                 var userId = ViewContext.HttpContext.Session.GetString("UserId");
             }

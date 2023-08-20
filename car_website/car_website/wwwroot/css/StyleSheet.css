@@ -174,7 +174,7 @@ input[type=number] {
   --icons-invert: 0%;
   --success-main: #3a784a;
   --success-secondary: #D0E0CA;
-  --error-main: #db3d5f;
+  --error-main: #c21111;
   --error-secondary: #f7dfe5;
   --gray-default: #404040;
 }
@@ -305,7 +305,7 @@ input[type=number] {
   --icons-invert: 0%;
   --success-main: #3a784a;
   --success-secondary: #D0E0CA;
-  --error-main: #db3d5f;
+  --error-main: #c21111;
   --error-secondary: #f7dfe5;
   --gray-default: #404040;
 }
@@ -491,7 +491,7 @@ h4 {
   --icons-invert: 0%;
   --success-main: #3a784a;
   --success-secondary: #D0E0CA;
-  --error-main: #db3d5f;
+  --error-main: #c21111;
   --error-secondary: #f7dfe5;
   --gray-default: #404040;
 }
@@ -648,7 +648,7 @@ h4 {
   --icons-invert: 0%;
   --success-main: #3a784a;
   --success-secondary: #D0E0CA;
-  --error-main: #db3d5f;
+  --error-main: #c21111;
   --error-secondary: #f7dfe5;
   --gray-default: #404040;
 }
@@ -672,6 +672,7 @@ body {
 .wrapper {
   margin: 50px 0 0 0;
   display: flex;
+  justify-content: center;
   gap: 50px;
 }
 .wrapper .filters_before {
@@ -680,7 +681,6 @@ body {
   gap: 10px;
   max-width: 300px;
   padding: 5px 17px;
-  margin-left: 14%;
 }
 .wrapper .filters_before p {
   color: var(--text-default);
@@ -938,6 +938,63 @@ header .header_left a {
 header .header_right {
   display: flex;
   margin: 0 25px 0 0;
+  align-items: center;
+}
+header .header_right-theme {
+  display: flex;
+  width: 75px;
+  height: 26px;
+  justify-content: space-between;
+}
+header .header_right-highlight {
+  margin: 0 5px;
+  height: 26px;
+  background-color: var(--green-medium);
+  padding-left: 35px;
+}
+header .header_right-separator {
+  width: 2px;
+  height: 26px;
+  background-color: white;
+  border-radius: 1px;
+}
+header .header_right-light {
+  display: none;
+  z-index: 5;
+  position: absolute;
+}
+header .header_right-light-label {
+  width: 20px;
+  height: 20px;
+  z-index: 5;
+  position: absolute;
+}
+header .header_right-light-label::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: url(../img/light.svg);
+  background-size: 100% 100%;
+}
+header .header_right-dark {
+  display: none;
+  z-index: 5;
+  position: absolute;
+}
+header .header_right-dark-label {
+  width: 20px;
+  height: 20px;
+  z-index: 5;
+  position: absolute;
+}
+header .header_right-dark-label::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: url(../img/dark.svg);
+  background-size: 100% 100%;
 }
 header .header_right-button {
   padding: 7px 10px 7px 32px;
@@ -945,6 +1002,7 @@ header .header_right-button {
   background-color: #56744D;
   color: white;
   transition: 0.2s;
+  margin-left: 15px;
 }
 header .header_right-button:hover {
   background-color: #5D864F;
