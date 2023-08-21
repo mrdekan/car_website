@@ -942,9 +942,10 @@ header .header_right {
 }
 header .header_right-theme {
   display: flex;
-  width: 75px;
+  width: 65px;
   height: 26px;
   justify-content: space-between;
+  align-items: center;
 }
 header .header_right-highlight {
   margin: 0 5px;
@@ -956,12 +957,24 @@ header .header_right-separator {
   width: 2px;
   height: 26px;
   background-color: white;
-  border-radius: 1px;
+  z-index: 4;
+  position: absolute;
+  margin-left: 27px;
+}
+header .header_right-separator::before {
+  content: "";
+  height: 26px;
+  width: 31px;
+  margin-left: -31px;
+  border-radius: 7px 0 0 7px;
+  background-color: var(--green-medium);
+  position: absolute;
+  z-index: 3;
 }
 header .header_right-light {
   display: none;
-  z-index: 5;
-  position: absolute;
+  /*z-index: 5;
+  position: absolute;*/
 }
 header .header_right-light-label {
   width: 20px;
@@ -976,17 +989,19 @@ header .header_right-light-label::before {
   height: 20px;
   background: url(../img/light.svg);
   background-size: 100% 100%;
+  cursor: pointer;
 }
 header .header_right-dark {
-  display: none;
-  z-index: 5;
-  position: absolute;
+  display: block;
+  /*z-index: 5;
+  position: absolute;*/
 }
 header .header_right-dark-label {
   width: 20px;
   height: 20px;
   z-index: 5;
   position: absolute;
+  margin-left: 29px;
 }
 header .header_right-dark-label::before {
   content: "";
@@ -995,6 +1010,7 @@ header .header_right-dark-label::before {
   height: 20px;
   background: url(../img/dark.svg);
   background-size: 100% 100%;
+  cursor: pointer;
 }
 header .header_right-button {
   padding: 7px 10px 7px 32px;
