@@ -452,6 +452,9 @@ h4 {
   background-color: var(--success-secondary);
   border-radius: 10px;
   padding: 2%;
+  transition: transform 0.2s;
+  transform-origin: top;
+  transform: scaleY(0);
 }
 .buy-request-result-info p {
   color: var(--success-main);

@@ -58,11 +58,12 @@ function buyRequest() {
             //successCode == 0 --> some error
             //successCode == 1 --> success
             //successCode == 2 --> user not logged in
+            let resBlock = document.createElement("div");
             if (data != null && data.successCode == 1) {
-                buyResult.innerHTML = `<div class="buy-request-result-info">
+                resBlock.innerHTML = `
                     <p class="buy-request-result-info-title">${buyButton.hasAttribute('cancel') ? 'Запит скасовано.' : 'Дякуємо за ваш запит!'} </p>
-                    <p>${buyButton.hasAttribute('cancel') ? 'Якщо запит було скасовано випадково, то Ви можете розмістити його ще раз.' : 'Наш менеджер зв\'яжеться з вами найближчим часом для надання додаткової інформації та обговорення деталей.'}</p>
-                </div>`;
+                    <p>${buyButton.hasAttribute('cancel') ? 'Якщо запит було скасовано випадково, то Ви можете розмістити його ще раз.' : 'Наш менеджер зв\'яжеться з вами найближчим часом для надання додаткової інформації та обговорення деталей.'}</p>`;
+                resBlock.classList.add("buy-request-result-info")
                 if (buyButton.hasAttribute('cancel')) {
                     buyButton.removeAttribute('cancel');
                     buyButton.innerHTML = 'Запит на покупку';
@@ -75,11 +76,22 @@ function buyRequest() {
                 }
             }
             else if (data == null || data.successCode == 0) {
-            buyResult.innerHTML = `<div class="buy-request-result-error">
+                resBlock.innerHTML = `
                     <p class="buy-request-result-error-title">Вибачте за незручності. Сталася помилка.</p>
-                    <p>Будь ласка, оновіть сторінку або спробуйте пізніше.</p>
-                </div>`;
+                    <p>Будь ласка, оновіть сторінку або спробуйте пізніше.</p>`;
+                resBlock.classList.add("buy-request-result-error")
             }
+            buyResult.innerHTML = '';
+            buyResult.appendChild(resBlock);
+            setTimeout(function () {
+                resBlock.style.transform = "scaleY(1)"
+            }, 10);
+            setTimeout(function () {
+                resBlock.style.transform = "scaleY(0)"
+            }, 10000);
+            setTimeout(function () {
+                buyResult.removeChild(resBlock);
+            }, 10200);
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }

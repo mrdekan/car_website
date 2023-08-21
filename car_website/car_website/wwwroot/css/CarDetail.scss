@@ -152,12 +152,16 @@ h4 {
     }
 }
 .buy-request-result {
+
     &-info {
         transition: 0.2s;
         border: 2px solid $success-main;
         background-color: $success-secondary;
         border-radius: 10px;
         padding: 2%;
+        transition: transform 0.2s;
+        transform-origin: top;
+        transform: scaleY(0);
 
         p {
             color: $success-main;
