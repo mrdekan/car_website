@@ -327,12 +327,14 @@ header {
     align-items: center;
 
     .header_left {
-        width: 250px;
-        height: 80px;
-        background-color: #F3EFCA;
-        transform: skewX(-20deg);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 
+        span{
+            display: block;
+        transform: skewX(-20deg);
+        width: 250px;
+        height: 100px;
+        background-color: #F3EFCA;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 
 
         &::before {
@@ -344,15 +346,26 @@ header {
             height: 100%;
             background-color: inherit;
         }
+        }
 
         a {
             position: absolute;
             z-index: 5;
-            margin: 34px 0 0 125px;
+            margin: -50px 0 0 100px;
+            //margin: 34px 0 0 125px;
             color: black;
             font-size: 26px;
-            font-weight: 700;
+            font-weight: 400;
             user-select: none;
+            &::before{
+                content: '';
+                width: 75px;
+                height: 75px;
+                background: url('/img/logo.png');
+                background-size: 100% 100%;
+                position: absolute;
+                margin: -25px 0 0 -80px;
+            }
         }
     }
 

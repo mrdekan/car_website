@@ -472,6 +472,9 @@ h4 {
   background-color: var(--error-secondary);
   border-radius: 10px;
   padding: 2%;
+  transition: transform 0.2s;
+  transform-origin: top;
+  transform: scaleY(0);
 }
 .buy-request-result-error p {
   color: var(--error-main);
@@ -913,14 +916,15 @@ header {
   justify-content: space-between;
   align-items: center;
 }
-header .header_left {
-  width: 250px;
-  height: 80px;
-  background-color: #F3EFCA;
+header .header_left span {
+  display: block;
   transform: skewX(-20deg);
+  width: 250px;
+  height: 100px;
+  background-color: #F3EFCA;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
-header .header_left::before {
+header .header_left span::before {
   content: "";
   position: absolute;
   top: 0;
@@ -932,11 +936,20 @@ header .header_left::before {
 header .header_left a {
   position: absolute;
   z-index: 5;
-  margin: 34px 0 0 125px;
+  margin: -50px 0 0 100px;
   color: black;
   font-size: 26px;
-  font-weight: 700;
+  font-weight: 400;
   user-select: none;
+}
+header .header_left a::before {
+  content: "";
+  width: 75px;
+  height: 75px;
+  background: url("/img/logo.png");
+  background-size: 100% 100%;
+  position: absolute;
+  margin: -25px 0 0 -80px;
 }
 header .header_right {
   display: flex;

@@ -58,6 +58,7 @@ function buyRequest() {
             //successCode == 0 --> some error
             //successCode == 1 --> success
             //successCode == 2 --> user not logged in
+            console.log(data)
             let resBlock = document.createElement("div");
             if (data != null && data.successCode == 1) {
                 resBlock.innerHTML = `
@@ -81,13 +82,18 @@ function buyRequest() {
                     <p>Будь ласка, оновіть сторінку або спробуйте пізніше.</p>`;
                 resBlock.classList.add("buy-request-result-error")
             }
+            else if (data.successCode == 2) {
+                window.location.href = '/User/Login';
+            }
             buyResult.innerHTML = '';
             buyResult.appendChild(resBlock);
             setTimeout(function () {
-                resBlock.style.transform = "scaleY(1)"
+                resBlock.style.transform = "scaleY(1)";
             }, 10);
             setTimeout(function () {
-                resBlock.style.transform = "scaleY(0)"
+                resBlock.style.transform = "scaleY(0)";
+                resBlock.style.margin = '0 0 0 0';
+                resBlock.style.height = '0px';
             }, 10000);
             setTimeout(function () {
                 buyResult.removeChild(resBlock);
