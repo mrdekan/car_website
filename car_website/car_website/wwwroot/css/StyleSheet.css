@@ -328,7 +328,7 @@ input[type=number] {
 }
 
 .wrapper_carDetail {
-  width: 600px;
+  width: 50%;
   color: var(--text-default);
 }
 
@@ -337,7 +337,6 @@ input[type=number] {
   align-items: center;
   justify-content: space-between;
   margin: 20px 0;
-  width: 600px;
 }
 .priceBuy_buy {
   height: fit-content;
@@ -386,7 +385,6 @@ input[type=number] {
 }
 .slider_element {
   height: 400px;
-  width: 600px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -905,7 +903,7 @@ body {
   font-size: 20px;
 }
 .car_container-info-parameters.onDetail {
-  margin: 30px 0 0 30px;
+  margin: 30px 0px;
 }
 
 header {

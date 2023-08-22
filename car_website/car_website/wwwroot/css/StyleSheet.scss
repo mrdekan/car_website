@@ -35,8 +35,8 @@ body {
         gap: 10px;
         max-width: 300px;
         padding: 5px 17px;
+        //margin-top: 25px
         //margin-left: 14%;
-
         p {
             color: $text-default;
             font-weight: 700;
@@ -311,7 +311,7 @@ body {
                     //display: flex;
                     //flex-direction: column;
                     //justify-content: center;
-                    margin: 30px 0 0 30px;
+                    margin: 30px 0px;
                 }
             }
         }
@@ -327,7 +327,7 @@ header {
     align-items: center;
 
     .header_left {
-
+        //display:flex;
         span{
             display: block;
         transform: skewX(-20deg);
