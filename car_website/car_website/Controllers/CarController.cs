@@ -36,7 +36,6 @@ namespace car_website.Controllers
         public async Task<IActionResult> Detail(string id)
         {
             var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
-            //var similarCars = await FindSimilarCars(car);
             var user = await GetCurrentUser();
             bool requested = false;
             if (user != null)
@@ -45,6 +44,16 @@ namespace car_website.Controllers
                 if (request != null) requested = true;
             }
             return View(new CarDetailViewModel(car, _currencyUpdater, requested));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
+            var user = await GetCurrentUser();
+            if (user == null || user.Id.ToString() != car.SellerId && user.Role == 0)
+                return BadRequest();
+
+            return View();
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LiteCarViewModel>>> FindSimilarCars(string id)

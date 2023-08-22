@@ -177,6 +177,7 @@ input[type=number] {
   --error-main: #c21111;
   --error-secondary: #f7dfe5;
   --gray-default: #404040;
+  --beige-default: #F3EFCA;
 }
 
 .buy-request {
@@ -308,11 +309,12 @@ input[type=number] {
   --error-main: #c21111;
   --error-secondary: #f7dfe5;
   --gray-default: #404040;
+  --beige-default: #F3EFCA;
 }
 
 .title {
   font-weight: 700;
-  font-size: 28px;
+  font-size: 3vh;
   border-bottom: 2px solid var(--gray-default);
   line-height: 1.1;
   margin-bottom: 20px;
@@ -498,6 +500,7 @@ h4 {
   --error-main: #c21111;
   --error-secondary: #f7dfe5;
   --gray-default: #404040;
+  --beige-default: #F3EFCA;
 }
 
 .profile_info {
@@ -506,11 +509,14 @@ h4 {
 }
 .profile_info h2 {
   font-size: 28px;
+  color: var(--text-default);
+  transition: 0.2s;
 }
 .profile_info h3 {
   margin: 5px 0;
   font-size: 20px;
-  color: #5b5b5b;
+  color: var(--gray-default);
+  transition: 0.2s;
 }
 .profile_info a {
   padding: 7px 0;
@@ -655,6 +661,7 @@ h4 {
   --error-main: #c21111;
   --error-secondary: #f7dfe5;
   --gray-default: #404040;
+  --beige-default: #F3EFCA;
 }
 
 body {
@@ -722,7 +729,8 @@ body {
   transition: 0.2s;
 }
 .wrapper .filters {
-  background-color: #F3EFCA;
+  background-color: var(--beige-default);
+  transition: 0.2s;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -790,6 +798,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.cars-not-found {
+  width: 890px;
+  display: flex;
+  justify-content: center;
 }
 
 .car {

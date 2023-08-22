@@ -26,6 +26,7 @@ function setDark() {
     root.style.setProperty('--error-main', '#c21111');
     root.style.setProperty('--error-secondary', '#442c31');
     root.style.setProperty('--gray-default', '#999999');
+    root.style.setProperty('--beige-default', '#5E6044'); //A39E87 7D7A53 6F7255 5E6044
 }
 function setLight() {
     root.style.setProperty('--green-light', '#537049');
@@ -40,4 +41,5 @@ function setLight() {
     root.style.setProperty('--error-main', '#c21111');
     root.style.setProperty('--error-secondary', '#f7dfe5');
     root.style.setProperty('--gray-default', '#505050');
+    root.style.setProperty('--beige-default', '#F3EFCA');
 }

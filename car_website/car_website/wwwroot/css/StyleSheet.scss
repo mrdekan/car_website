@@ -35,6 +35,7 @@ body {
         gap: 10px;
         max-width: 300px;
         padding: 5px 17px;
+        //margin-left: 14vw;
         //margin-top: 25px
         //margin-left: 14%;
         p {
@@ -82,7 +83,8 @@ body {
 
 
     .filters {
-        background-color: #F3EFCA;
+        background-color: $beige-default;
+        transition: 0.2s;
         display: flex;
         flex-direction: column;
         gap: 5px;
@@ -166,7 +168,11 @@ body {
         align-items: center;
     }
 }
-
+.cars-not-found{
+    width: 890px;
+    display: flex;
+    justify-content: center;
+}
 .car {
     display: flex;
     justify-content: space-between;
@@ -320,6 +326,7 @@ body {
 
 header {
     height: 50px;
+    //height: 5vh;
     width: 100%;
     background-color: $green-dark;
     display: flex;

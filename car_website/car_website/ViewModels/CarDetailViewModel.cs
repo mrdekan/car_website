@@ -29,8 +29,10 @@ namespace car_website.ViewModels
             Mileage = car.Mileage;
             VideoUrl = car.VideoURL;
             Requested = requested;
+            SellerId = car.SellerId;
         }
         public string Id { get; set; }
+        public string SellerId { get; set; }
         public string Price { get; set; }
         public string PriceUAH { get; set; }
         public string[] PhotosURL { get; set; }

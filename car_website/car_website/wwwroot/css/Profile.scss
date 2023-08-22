@@ -6,12 +6,15 @@
 
         h2 {
             font-size: 28px;
+            color: $text-default;
+            transition: 0.2s;
         }
 
         h3 {
             margin: 5px 0;
             font-size: 20px;
-            color: #5b5b5b;
+            color: $gray-default;
+            transition: 0.2s;
         }
 
         a {

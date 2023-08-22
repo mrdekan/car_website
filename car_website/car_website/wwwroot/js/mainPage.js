@@ -327,7 +327,7 @@ function applyFilter(page = 1) {
     })
         .then(response => response.json())
         .then(data => {
-            if (data != null && data.success == true) {
+            if (data != null && data.success == true && data.cars.length > 0) {
                 carsPage = data.page;
                 updatePagesButtons(data.pages);
                 const carList = document.getElementById("carList");
@@ -372,8 +372,12 @@ function applyFilter(page = 1) {
                 });
                 updateLikeButtons();
             }
+            else if (data != null && data.success == true) {
+                updatePagesButtons(0);
+                carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Нічого не знайдено</h3></div>`;
+            }
             else {
-                carList.innerHTML = `<h3 class="warning-text">Щось пішло не так</h3>`;
+                carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Щось пішло не так</h3></div>`;
             }
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));

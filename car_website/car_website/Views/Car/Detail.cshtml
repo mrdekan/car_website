@@ -2,6 +2,9 @@
 @model CarDetailViewModel
 @{
     ViewData["Title"] = Model.Brand + " " + Model.Model;
+    var userId = ViewContext.HttpContext.Session.GetString("UserId");
+    bool isAdmin = !string.IsNullOrEmpty(userId) && ViewContext.HttpContext.Session.GetInt32("UserRole") != 0;
+    bool isSelf = userId == Model.SellerId;
 }
 <div class="wrapper_carDetail-before">
     <div class="wrapper_carDetail">
@@ -37,6 +40,10 @@
                 <button class="priceBuy_buy" id="buy-car" carId="@Model.Id">Запит на покупку</button>
             }
         </div>
+            @if (isSelf || isAdmin)
+            {
+                <a asp-controller="Car" asp-action="Edit" asp-route-id=@Model.Id>Редагувати</a>
+            }
         <div id="buy-request-result"></div>
         <div class="car_container-info-parameters onDetail">
             <div class="car_container-info-parameters-column onDetail">
