@@ -208,18 +208,14 @@ async function getModelsOfMark(brand, modelsContainer) {
                 data.models = data.models.filter((n) => { return n != 'Інше' });
                 modelsCache[brand] = data.models;
                 modelsCache[brand].forEach(model => {
-                    modelsContainer.innerHTML += `<div class="model"><input type="radio" id="${model.replace(' ', '_')}"
-                                name="models" value="${model.replace(' ', '_')}">
-                                <label for="${model.replace(' ', '_')}">${model}</label></div>`;
+                    modelsContainer.innerHTML += `<div class="model"><p>${model}</p><button brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}">X</button></div>`;
                 });
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
     }
     else {
         modelsCache[brand].forEach(model => {
-            modelsContainer.innerHTML += `<div class="model"><input type="radio" id="${model.replace(' ', '_')}"
-                                name="models" value="${model.replace(' ', '_')}">
-                                <label for="${model.replace(' ', '_')}">${model}</label></div>`;
+            modelsContainer.innerHTML += `<div class="model"><p>${model}</p><button brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}">X</button></div>`;
         });
     }
 }
