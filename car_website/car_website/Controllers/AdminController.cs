@@ -192,6 +192,26 @@ namespace car_website.Controllers
                 return Ok(new { Success = false, Type = "BuyRequests", Requests = new List<WaitingCar>(), Pages = 0, Page = 0 });
             }
         }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<WaitingCar>>> GetBrands(int page = 1, int perPage = 20)
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return Ok(new { Success = false, Type = "Brands", Brands = new List<string>(), Pages = 0, Page = 0 });
+            try
+            {
+                var brands = await _brandRepository.GetAll();
+                brands = brands.OrderBy(brand => brand);
+                int totalItems = brands.Count();
+                int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
+                int skip = (page - 1) * perPage;
+                brands = brands.Skip(skip).Take(perPage);
+                return Ok(new { Success = true, Type = "Brands", Brands = brands, Pages = totalPages, Page = page });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Success = false, Type = "Brands", Brands = new List<string>(), Pages = 0, Page = 0 });
+            }
+        }
         #endregion
     }
 }

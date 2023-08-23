@@ -6,6 +6,9 @@ let waitingCarsPage = 1;
 let waitingCarsCache;
 let usersPage = 1;
 let usersCache;
+let brandsPage = 1;
+let brandsCache;
+let modelsCache = {};
 window.addEventListener('load', function () {
     radioButtons.forEach(function (radio) {
         if (radio.checked) {
@@ -32,16 +35,23 @@ function updateInfo(target) {
     }
     else if (target.id == "buyRequests") {
         if (buyRequestsCache == null)
-            getBuyRequests()
+            getBuyRequests();
         else {
             showData(buyRequestsCache);
         }
     }
     else if (target.id == "waitingCars") {
         if (waitingCarsCache == null)
-            getWaitingCars()
+            getWaitingCars();
         else {
             showData(waitingCarsCache);
+        }
+    }
+    else if (target.id == "brands") {
+        if (brandsCache == null)
+            getBrands();
+        else {
+            showData(brandsCache);
         }
     }
 }
@@ -123,6 +133,31 @@ function showData(data) {
         </div>`;
             });
         }
+        else if (data.type == "Brands") {
+            container.innerHTML = "";
+            if (data.brands.length == 0) {
+                container.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
+            }
+            else {
+                container.innerHTML = '<div class="brands-and-models"></div>';
+                container.firstElementChild.innerHTML += '<div id="modelsCont"></div><div id="brandsCont"></div>';
+                let brandsContainer = document.getElementById('brandsCont');
+                let modelsContainer = document.getElementById('modelsCont');
+                data.brands.forEach(brand => {
+                    if (brand != "Інше") {
+                        let currBrand = document.createElement('div');
+                        currBrand.classList.add('brand');
+                        currBrand.innerHTML = `<input type="radio" id="${brand.replace(' ', '_')}"
+                        name="brands" value="${brand.replace(' ', '_')}">
+                        <label for="${brand.replace(' ', '_')}">${brand}</label>`;
+                        brandsContainer.appendChild(currBrand);
+                        currBrand.addEventListener('change', (event) => {
+                            getModelsOfMark(event.target.getAttribute('value'), modelsContainer);
+                        });
+                    }
+                });
+            }
+        }
     }
 }
 
@@ -153,6 +188,40 @@ function getBuyRequests() {
             showData(buyRequestsCache);
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
+}
+function getBrands() {
+    fetch(`/Admin/GetBrands?page=${waitingCarsPage}`)
+        .then(response => response.json())
+        .then(data => {
+            brandsCache = data;
+            showData(brandsCache);
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
+async function getModelsOfMark(brand, modelsContainer) {
+    brand = brand.replace('_', ' ');
+    modelsContainer.innerHTML = '';
+    if (modelsCache[brand] == null) {
+        fetch(`/home/GetModels?brand=${brand}`)
+            .then(response => response.json())
+            .then(data => {
+                data.models = data.models.filter((n) => { return n != 'Інше' });
+                modelsCache[brand] = data.models;
+                modelsCache[brand].forEach(model => {
+                    modelsContainer.innerHTML += `<div class="model"><input type="radio" id="${model.replace(' ', '_')}"
+                                name="models" value="${model.replace(' ', '_')}">
+                                <label for="${model.replace(' ', '_')}">${model}</label></div>`;
+                });
+            })
+            .catch(error => console.error("An error occurred while retrieving data:", error));
+    }
+    else {
+        modelsCache[brand].forEach(model => {
+            modelsContainer.innerHTML += `<div class="model"><input type="radio" id="${model.replace(' ', '_')}"
+                                name="models" value="${model.replace(' ', '_')}">
+                                <label for="${model.replace(' ', '_')}">${model}</label></div>`;
+        });
+    }
 }
 //#endregion
 //#region info displaying

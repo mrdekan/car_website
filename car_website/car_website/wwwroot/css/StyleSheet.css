@@ -296,6 +296,42 @@ input[type=number] {
   gap: 10px;
 }
 
+.brands-and-models {
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 2.5vh;
+}
+.brands-and-models input[type=radio] {
+  display: none;
+}
+.brands-and-models #brandsCont {
+  width: 20vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5vh;
+}
+.brands-and-models #modelsCont {
+  width: 20vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5vh;
+}
+.brands-and-models input[type=radio]:checked + label {
+  background: var(--green-dark);
+  color: var(--background-main);
+}
+.brands-and-models label {
+  padding: 0.7vh;
+  background: var(--background-main);
+  transition: 0.2s;
+  border-radius: 1vh;
+  user-select: none;
+}
+.brands-and-models label:hover {
+  background: var(--background-secondary);
+  transition: 0.2s;
+}
+
 :root {
   --green-light: #537049;
   --green-medium: #4b6742;

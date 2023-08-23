@@ -1,4 +1,5 @@
 ﻿@import "Variables.scss";
+
 .buy-request {
     display: flex;
     gap: 30px;
@@ -131,5 +132,45 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+    }
+}
+
+.brands-and-models {
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 2.5vh;
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    #brandsCont {
+        width: 20vw;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5vh;
+    }
+
+    #modelsCont {
+        width: 20vw;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5vh;
+    }
+
+    input[type="radio"]:checked + label{
+        background: $green-dark;
+        color: $background;
+    }
+    label {
+        padding: 0.7vh;
+        background: $background;
+        transition: 0.2s;
+        border-radius: 1vh;
+        user-select: none;
+        &:hover {
+            background: $background-secondary;
+            transition: 0.2s;
+        }
     }
 }
