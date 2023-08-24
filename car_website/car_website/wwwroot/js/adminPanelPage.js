@@ -198,24 +198,125 @@ function getBrands() {
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
-async function getModelsOfMark(brand, modelsContainer) {
+function addModel(button) {
+    const input = document.getElementById('new-model-name');
+    if (input.value !== '') {
+        fetch(`/Admin/AddModel?brand=${button.getAttribute('brand')}&model=${input.value}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data != null && data.success == true) {
+                    let modelsCont = document.getElementById('modelsCont');
+                    if (modelsCont != null)
+                        getModelsOfMark(button.getAttribute('brand'), modelsCont, true);
+                }
+            })
+            .catch(error => console.error("An error occurred while retrieving data:", error));
+    }
+}
+function deleteModel(button) {
+    if (confirm(`Видалити модель "${button.getAttribute('model')}" у марки "${button.getAttribute('brand')}"?`)) {
+        fetch(`/Admin/DeleteModel?brand=${button.getAttribute('brand')}&model=${button.getAttribute('model')}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data != null && data.success == true) {
+                    let modelsCont = document.getElementById('modelsCont');
+                    if (modelsCont != null)
+                        getModelsOfMark(button.getAttribute('brand'), modelsCont, true);
+                }
+            })
+            .catch(error => console.error("An error occurred while retrieving data:", error));
+    }
+}
+async function getModelsOfMark(brand, modelsContainer, forced = false) {
+    modelsContainer.innerHTML = `<div class="new-model"><input type="text" placeholder="Назва моделі" id="new-model-name"/><button onclick="addModel(this)" brand="${brand}"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_223_315)">
+    <path d="M19.5 3H4.5C3.67157 3 3 3.67157 3 4.5V19.5C3 20.3284 3.67157 21 4.5 21H19.5C20.3284 21 21 20.3284 21 19.5V4.5C21 3.67157 20.3284 3 19.5 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <defs>
+    <clipPath id="clip0_223_315">
+    <rect width="24" height="24" fill="white"/>
+    </clipPath>
+    </defs>
+    </svg>
+    </span></button></div>`;
     brand = brand.replace('_', ' ');
-    modelsContainer.innerHTML = '';
-    if (modelsCache[brand] == null) {
+    if (modelsCache[brand] == null || forced) {
         fetch(`/home/GetModels?brand=${brand}`)
             .then(response => response.json())
             .then(data => {
                 data.models = data.models.filter((n) => { return n != 'Інше' });
                 modelsCache[brand] = data.models;
                 modelsCache[brand].forEach(model => {
-                    modelsContainer.innerHTML += `<div class="model"><p>${model}</p><button brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}">X</button></div>`;
+                    modelsContainer.innerHTML += `<div class="model"><p>${model}</p>
+                    <div model_buttons>
+                    <button brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-edit"><span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_217_311)">
+                    <path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/>
+                    <path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_217_311">
+                    <rect width="24" height="24" fill="white"/>
+                    </clipPath>
+                    </defs>
+                    </svg>
+                    
+                    </span></button><button onclick="deleteModel(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-delete"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_217_304)">
+                    <path d="M4.5 5V22H19.5V5H4.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M10 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 5H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 5L9.6445 2H14.3885L16 5H8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_217_304">
+                    <rect width="24" height="24" fill="white"/>
+                    </clipPath>
+                    </defs>
+                    </svg>
+                    </span></button></div></div>`;
                 });
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
     }
     else {
         modelsCache[brand].forEach(model => {
-            modelsContainer.innerHTML += `<div class="model"><p>${model}</p><button brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}">X</button></div>`;
+            modelsContainer.innerHTML += `<div class="model"><p>${model}</p>
+                    <div model_buttons>
+                    <button brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-edit"><span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_217_311)">
+                    <path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/>
+                    <path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_217_311">
+                    <rect width="24" height="24" fill="white"/>
+                    </clipPath>
+                    </defs>
+                    </svg>
+                    
+                    </span></button><button onclick="deleteModel(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-delete"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_217_304)">
+                    <path d="M4.5 5V22H19.5V5H4.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M10 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 5H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 5L9.6445 2H14.3885L16 5H8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_217_304">
+                    <rect width="24" height="24" fill="white"/>
+                    </clipPath>
+                    </defs>
+                    </svg>
+                    </span></button></div></div>`;
         });
     }
 }

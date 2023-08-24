@@ -143,6 +143,77 @@ namespace car_website.Controllers
             }
         }
         [HttpGet]
+        public async Task<ActionResult<bool>> AddModel(string brand, string model)
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return Ok(new { Success = false });
+            try
+            {
+                brand = brand.Replace('_', ' ');
+                var brandObj = await _brandRepository.GetByName(brand);
+                if (brandObj == null || brandObj.Models.Contains(model))
+                    return Ok(new { Success = false });
+                brandObj.Models.Add(model);
+                await _brandRepository.Update(brandObj);
+                return Ok(new { Success = true });
+            }
+            catch
+            {
+                return Ok(new { Success = false });
+            }
+        }
+        [HttpGet]
+        public async Task<ActionResult<bool>> DeleteModel(string brand, string model)
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return Ok(new { Success = false });
+            try
+            {
+                brand = brand.Replace('_', ' ');
+                model = model.Replace('_', ' ');
+                var brandObj = await _brandRepository.GetByName(brand);
+                if (brandObj == null || !brandObj.Models.Contains(model))
+                    return Ok(new { Success = false });
+                brandObj.Models.Remove(model);
+                await _brandRepository.Update(brandObj);
+                return Ok(new { Success = true });
+            }
+            catch
+            {
+                return Ok(new { Success = false });
+            }
+        }
+        [HttpGet]
+        public async Task<ActionResult<bool>> EditModel(string brand, string newName, string oldName)
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return Ok(new { Success = false });
+            try
+            {
+                brand = brand.Replace('_', ' ');
+                oldName = oldName.Replace('_', ' ');
+                var brandObj = await _brandRepository.GetByName(brand);
+                if (brandObj == null || !brandObj.Models.Contains(oldName))
+                    return Ok(new { Success = false });
+                brandObj.Models[brandObj.Models.IndexOf(oldName)] = newName;
+                await _brandRepository.Update(brandObj);
+                var cars = await _carRepository.GetAll();
+                foreach (var car in cars)
+                {
+                    if (car.Model == oldName)
+                    {
+                        car.Model = newName;
+                        await _carRepository.Update(car);
+                    }
+                }
+                return Ok(new { Success = true });
+            }
+            catch
+            {
+                return Ok(new { Success = false });
+            }
+        }
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<WaitingCar>>> GetWaitingCars(int page = 1, int perPage = 20)
         {
             if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)

@@ -332,27 +332,28 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: 0.2s;
 
     .header_left {
         //display:flex;
-        span{
+        span {
             display: block;
-        transform: skewX(-20deg);
-        width: 250px;
-        height: 100px;
-        background-color: #F3EFCA;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transform: skewX(-20deg);
+            width: 250px;
+            height: 100px;
+            background-color: #F3EFCA;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 
 
-        &::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -30px;
-            width: 130px;
-            height: 100%;
-            background-color: inherit;
-        }
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -30px;
+                width: 130px;
+                height: 100%;
+                background-color: inherit;
+            }
         }
 
         a {
@@ -364,7 +365,8 @@ header {
             font-size: 26px;
             font-weight: 400;
             user-select: none;
-            &::before{
+
+            &::before {
                 content: '';
                 width: 75px;
                 height: 75px;

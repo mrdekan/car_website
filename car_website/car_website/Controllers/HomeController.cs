@@ -106,7 +106,7 @@ namespace car_website.Controllers
                 var brandObj = await _brandRepository.GetByName(brand);
                 if (brandObj == null)
                     return Ok(new { Success = false, Models = new List<string>() });
-                return Ok(new { Success = true, Models = brandObj.Models });
+                return Ok(new { Success = true, Models = brandObj.Models.OrderBy(model => model) });
             }
             catch
             {

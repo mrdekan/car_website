@@ -14,9 +14,9 @@ else {
     --gray-default: #404040;
 */
 function setDark() {
-    root.style.setProperty('--green-light', '#537049');
-    root.style.setProperty('--green-medium', '#4b6742');
-    root.style.setProperty('--green-dark', '#415939');
+    root.style.setProperty('--green-light', '#6B7C60');
+    root.style.setProperty('--green-medium', '#5A7A51');
+    root.style.setProperty('--green-dark', '#4C6C47');
     root.style.setProperty('--background-main', '#222222');
     root.style.setProperty('--background-secondary', '#303030');
     root.style.setProperty('--text-default', '#ffffff');
@@ -38,7 +38,7 @@ function setLight() {
     root.style.setProperty('--icons-invert', '0%');
     root.style.setProperty('--success-main', '#3a784a');
     root.style.setProperty('--success-secondary', '#D0E0CA');
-    root.style.setProperty('--error-main', '#ff3636');
+    root.style.setProperty('--error-main', '#ff3636 ');
     root.style.setProperty('--error-secondary', '#f7dfe5');
     root.style.setProperty('--gray-default', '#505050');
     root.style.setProperty('--beige-default', '#F3EFCA');

@@ -266,7 +266,7 @@ input[type=number] {
 }
 .admin_left label::before {
   content: "";
-  background-color: #415939;
+  background-color: var(--green-dark);
   position: absolute;
   height: 40px;
   width: 21%;
@@ -282,7 +282,7 @@ input[type=number] {
   display: none;
 }
 .admin_left .radio input[type=radio]:checked + label {
-  color: white;
+  color: var(--background-main);
   transition: 0.22s;
 }
 .admin_left .radio input[type=radio]:checked + label::before {
@@ -300,7 +300,6 @@ input[type=number] {
   display: flex;
   flex-direction: row-reverse;
   font-size: 22px;
-  color: var(--text-default);
 }
 .brands-and-models input[type=radio] {
   display: none;
@@ -310,11 +309,16 @@ input[type=number] {
   display: flex;
   flex-direction: column;
   gap: 2.5vh;
+  padding-left: 1vw;
+  border-left: 1px solid var(--gray-default);
 }
 .brands-and-models #modelsCont {
-  width: 20vw;
+  min-width: fit-content;
+  max-width: 20vw;
   display: flex;
   flex-direction: column;
+  padding-left: 1vw;
+  border-left: 1px solid var(--gray-default);
 }
 .brands-and-models input[type=radio]:checked + label {
   background: var(--green-dark);
@@ -326,10 +330,45 @@ input[type=number] {
   transition: 0.2s;
   border-radius: 1vh;
   user-select: none;
+  color: var(--gray-default);
 }
 .brands-and-models label:hover {
   background: var(--background-secondary);
   transition: 0.2s;
+}
+.brands-and-models .new-model {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7vh 0.7vh 0.7vh 0;
+  border-bottom: 1px solid var(--gray-default);
+}
+.brands-and-models .new-model button {
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  background: var(--success-main);
+  color: var(--background-main);
+  transition: 0.2s;
+  margin-left: 5px;
+}
+.brands-and-models .new-model button span {
+  display: block;
+  margin-top: 3px;
+}
+.brands-and-models .new-model input {
+  font-size: 22px;
+  height: 36px;
+  border-radius: 10px;
+  padding-left: 7px;
+  border: 1px solid var(--gray-default);
+  background: var(--background-secondary);
+  color: var(--text-default);
+  transition: 0.2s;
+}
+.brands-and-models .new-model:last-child {
+  border-bottom: none;
 }
 .brands-and-models .model {
   display: flex;
@@ -339,12 +378,23 @@ input[type=number] {
   padding: 0.7vh;
   border-bottom: 1px solid var(--gray-default);
 }
+.brands-and-models .model p {
+  color: var(--text-default);
+  transition: 0.2s;
+}
 .brands-and-models .model button {
-  background: var(--error-main);
   border-radius: 10px;
   width: 36px;
   height: 36px;
   color: var(--background-main);
+  transition: 0.2s;
+  margin-left: 5px;
+}
+.brands-and-models .model_buttons-edit {
+  background-color: #FFD700;
+}
+.brands-and-models .model_buttons-delete {
+  background: var(--error-main);
 }
 .brands-and-models .model:last-child {
   border-bottom: none;
@@ -981,6 +1031,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: 0.2s;
 }
 header .header_left span {
   display: block;
