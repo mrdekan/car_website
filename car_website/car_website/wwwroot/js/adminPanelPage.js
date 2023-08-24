@@ -9,6 +9,7 @@ let usersCache;
 let brandsPage = 1;
 let brandsCache;
 let modelsCache = {};
+let selectedBrand;
 window.addEventListener('load', function () {
     radioButtons.forEach(function (radio) {
         if (radio.checked) {
@@ -142,16 +143,63 @@ function showData(data) {
                 container.innerHTML = '<div class="brands-and-models"></div>';
                 container.firstElementChild.innerHTML += '<div id="modelsCont"></div><div id="brandsCont"></div>';
                 let brandsContainer = document.getElementById('brandsCont');
+                brandsContainer.innerHTML = `<div class="new-model"><input type="text" placeholder="Назва марки" id="new-brand-name"/>
+                <button onclick="addBrand(this)"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_223_315)">
+                <path d="M19.5 3H4.5C3.67157 3 3 3.67157 3 4.5V19.5C3 20.3284 3.67157 21 4.5 21H19.5C20.3284 21 21 20.3284 21 19.5V4.5C21 3.67157 20.3284 3 19.5 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_223_315">
+                <rect width="24" height="24" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+                </span></button></div>`;
                 let modelsContainer = document.getElementById('modelsCont');
+                if (selectedBrand == null || !data.brands.includes(selectedBrand)) selectedBrand = data.brands[0];
                 data.brands.forEach(brand => {
                     if (brand != "Інше") {
                         let currBrand = document.createElement('div');
                         currBrand.classList.add('brand');
                         currBrand.innerHTML = `<input type="radio" id="${brand.replace(' ', '_')}"
-                        name="brands" value="${brand.replace(' ', '_')}">
-                        <label for="${brand.replace(' ', '_')}">${brand}</label>`;
+                        name="brands" value="${brand.replace(' ', '_')}" ${brand == selectedBrand ? 'checked':''}>
+                        <label for="${brand.replace(' ', '_')}">${brand}</label><div model_buttons>
+                        <button brand="${brand.replace(' ', '_')}" class="model_buttons-edit"><span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_217_311)">
+                        <path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/>
+                        <path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                        <clipPath id="clip0_217_311">
+                        <rect width="24" height="24" fill="white"/>
+                        </clipPath>
+                        </defs>
+                        </svg>
+                        
+                        </span></button><button onclick="deleteBrand(this)" brand="${brand.replace(' ', '_')}" class="model_buttons-delete"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_217_304)">
+                        <path d="M4.5 5V22H19.5V5H4.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M10 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M14 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 5H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 5L9.6445 2H14.3885L16 5H8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                        <clipPath id="clip0_217_304">
+                        <rect width="24" height="24" fill="white"/>
+                        </clipPath>
+                        </defs>
+                        </svg>
+                        </span></button></div>`;
+                        if (brand == selectedBrand)
+                            getModelsOfMark(brand, modelsContainer);
                         brandsContainer.appendChild(currBrand);
                         currBrand.addEventListener('change', (event) => {
+                            selectedBrand = event.target.getAttribute('value').replace('_',' ');
                             getModelsOfMark(event.target.getAttribute('value'), modelsContainer);
                         });
                     }
@@ -209,6 +257,29 @@ function addModel(button) {
                     if (modelsCont != null)
                         getModelsOfMark(button.getAttribute('brand'), modelsCont, true);
                 }
+            })
+            .catch(error => console.error("An error occurred while retrieving data:", error));
+    }
+}
+function addBrand(button) {
+    const input = document.getElementById('new-brand-name');
+    if (input.value !== '') {
+        fetch(`/Admin/AddBrand?brand=${input.value}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data != null && data.success == true)
+                    getBrands();
+            })
+            .catch(error => console.error("An error occurred while retrieving data:", error));
+    }
+}
+function deleteBrand(button) {
+    if (confirm(`Видалити марку "${button.getAttribute('brand')}"?`)) {
+        fetch(`/Admin/DeleteBrand?brand=${button.getAttribute('brand') }`)
+            .then(response => response.json())
+            .then(data => {
+                if (data != null && data.success == true)
+                    getBrands();
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
     }

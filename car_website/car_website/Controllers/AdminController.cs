@@ -163,6 +163,22 @@ namespace car_website.Controllers
             }
         }
         [HttpGet]
+        public async Task<ActionResult<bool>> AddBrand(string brand)
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return Ok(new { Success = false });
+            try
+            {
+                var brandObj = new Brand() { Name = brand, Models = new List<string>() { "Інше" } };
+                await _brandRepository.Add(brandObj);
+                return Ok(new { Success = true });
+            }
+            catch
+            {
+                return Ok(new { Success = false });
+            }
+        }
+        [HttpGet]
         public async Task<ActionResult<bool>> DeleteModel(string brand, string model)
         {
             if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
@@ -176,6 +192,25 @@ namespace car_website.Controllers
                     return Ok(new { Success = false });
                 brandObj.Models.Remove(model);
                 await _brandRepository.Update(brandObj);
+                return Ok(new { Success = true });
+            }
+            catch
+            {
+                return Ok(new { Success = false });
+            }
+        }
+        [HttpGet]
+        public async Task<ActionResult<bool>> DeleteBrand(string brand)
+        {
+            if (HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                return Ok(new { Success = false });
+            try
+            {
+                brand = brand.Replace('_', ' ');
+                var brandObj = await _brandRepository.GetByName(brand);
+                if (brandObj == null)
+                    return Ok(new { Success = false });
+                await _brandRepository.Delete(brandObj);
                 return Ok(new { Success = true });
             }
             catch

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - RoadStar</title>
     <link rel="stylesheet" href="~/css/StyleSheet.min.css" asp-append-version="true" />
-    <script src="~/js/loadTheme.js" asp-append-version="true"></script>
 </head>
 <body>
     <header>
@@ -14,7 +13,10 @@
             <a asp-controller="Home" asp-action="Index">RoadStar</a>
         </div>
         <div class="header_center">
-
+            <a asp-controller="Car" asp-action="Create">Продати авто</a>
+            <a href="#">Швидка продажа</a>
+            <a href="#">Розмістити запит</a>
+            <a asp-controller="Home" asp-action="Privacy">Про нас</a>
         </div>
         <div class="header_right">
             <div class="header_right-theme">
@@ -26,6 +28,7 @@
                 <div class="header_right-separator"></div>
             <label for="dark" class="header_right-dark-label"></label>
             <input id="dark" class="header_right-dark" type="radio" name="theme" theme="dark" />
+    <script src="~/js/loadTheme.js" asp-append-version="true"></script>
             </div>
             @{
                 var userId = ViewContext.HttpContext.Session.GetString("UserId");

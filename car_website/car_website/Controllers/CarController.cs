@@ -169,7 +169,10 @@ namespace car_website.Controllers
         public async Task<IActionResult> Create()
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                HttpContext.Session.SetString("ReturnUrl", HttpContext.Request.Path);
                 return RedirectToAction("Register", "User");
+            }
             var brands = await _brandRepository.GetAll();
             return View(new CarCreationPageViewModel() { CarBrands = brands.ToList(), CreateCarViewModel = new CreateCarViewModel() });
         }
@@ -178,7 +181,10 @@ namespace car_website.Controllers
         {
             string userId = HttpContext.Session.GetString("UserId") ?? "";
             if (string.IsNullOrEmpty(userId))
+            {
+                HttpContext.Session.SetString("ReturnUrl", HttpContext.Request.Path);
                 return RedirectToAction("Register", "User");
+            }
             if (ModelState.IsValid)
             {
                 if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))

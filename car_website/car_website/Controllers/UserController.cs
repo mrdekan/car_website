@@ -100,6 +100,7 @@ namespace car_website.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginVM)
         {
+            var returnUrl = HttpContext.Session.GetString("ReturnUrl");
             if (ModelState.IsValid)
             {
                 User user = await _userRepository.GetByEmailAsync(loginVM.Email);
@@ -108,6 +109,11 @@ namespace car_website.Controllers
                     ViewBag.CurrentUser = user;
                     HttpContext.Session.SetString("UserId", user.Id.ToString());
                     HttpContext.Session.SetInt32("UserRole", (int)user.Role);
+                    /*if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        HttpContext.Session.SetString("ReturnUrl", "");
+                        return LocalRedirect(returnUrl);
+                    }*/
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("Email", "Неправильна почта або пароль");
@@ -184,7 +190,6 @@ namespace car_website.Controllers
             if (result)
             {
                 user.EmailConfirmed = true;
-                //user.ConfirmationToken = "";
                 await _userRepository.Update(user);
                 return View("EmailConfirmationSuccess");
             }

@@ -116,7 +116,7 @@
             }
 
             input[type="radio"]:checked + label {
-                color: $background;
+                color: white;
                 transition: 0.22s;
             }
 
@@ -146,11 +146,12 @@
     }
 
     #brandsCont {
-        width: 20vw;
+        min-width: fit-content;
+        max-width: 20vw;
         display: flex;
         flex-direction: column;
-        gap: 2.5vh;
-        padding-left: 1vw;
+        //gap: 2.5vh;
+        padding: 0 1vw;
         border-left: 1px solid $gray-default;
     }
 
@@ -159,28 +160,24 @@
         max-width: 20vw;
         display: flex;
         flex-direction: column;
-        padding-left: 1vw;
+        padding: 0 1vw;
         border-left: 1px solid $gray-default;
         //gap: 2.5vh;
     }
 
     input[type="radio"]:checked + label {
         background: $green-dark;
-        color: $background;
+        color: white;
     }
 
     label {
-        padding: 0.7vh;
+        padding: 5px 10px 5px 0.7vh;
         background: $background;
         transition: 0.2s;
-        border-radius: 1vh;
+        border-radius: 5px;
         user-select: none;
         color: $gray-default;
-
-        &:hover {
-            background: $background-secondary;
-            transition: 0.2s;
-        }
+        cursor: pointer;
     }
 
     .new-model {
@@ -199,7 +196,8 @@
             color: $background;
             transition: 0.2s;
             margin-left: 5px;
-            span{
+
+            span {
                 display: block;
                 margin-top: 3px;
             }
@@ -222,6 +220,29 @@
         }
     }
 
+    button {
+        border-radius: 10px;
+        width: 36px;
+        height: 36px;
+        color: $background;
+        transition: 0.2s;
+        margin-left: 5px;
+    }
+
+    .brand {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid $gray-default;
+        padding: 0.7vh 0.7vh 0.7vh 0;
+        background: $background;
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
     .model {
         display: flex;
         width: 100%;
@@ -235,14 +256,6 @@
             transition: 0.2s;
         }
 
-        button {
-            border-radius: 10px;
-            width: 36px;
-            height: 36px;
-            color: $background;
-            transition: 0.2s;
-            margin-left: 5px;
-        }
 
         &_buttons-edit {
             background-color: #FFD700;
