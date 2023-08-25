@@ -1,0 +1,129 @@
+﻿@import "Variables.scss";
+
+.info-text {
+    color: $gray-default;
+    font-size: 16px;
+}
+
+.create {
+    form {
+        margin: 50px auto 0;
+        width: 60%;
+        padding: 2%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        background: $background-secondary;
+        transition: 0.2s;
+        border: 1px solid $gray-default;
+        border-radius: 10px;
+
+        span {
+            color: $gray-default;
+            font-size: 16px;
+        }
+
+        textarea {
+            padding: 10px;
+            border-radius: 5px;
+            max-height: 300px;
+            background: $background;
+            color: $text-default;
+            font-size: 16px;
+            resize: none;
+            transition: 0.2s;
+
+            &::-webkit-scrollbar-thumb {
+                background: $gray-default;
+                transition: 0.2s;
+                border-radius: 25px;
+            }
+
+            &::-webkit-scrollbar {
+                width: 7px;
+            }
+        }
+    }
+
+    p {
+        margin-top: 5px;
+        color: $text-default;
+        font-size: 18px;
+    }
+
+    label {
+        color: $text-default;
+        transition: 0.2s;
+        font-size: 18px;
+        display: block;
+    }
+
+    &_price {
+        span {
+            display: block;
+        }
+
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        input {
+            padding: 10px;
+            border-radius: 5px;
+            background: $background;
+            color: $text-default;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+    }
+
+    &_photos {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        input[type="file"] {
+            font-size: 14px;
+            background: $background-secondary;
+            width: 250px;
+            outline: none;
+            color: $text-default;
+            font-weight: 400;
+            transition: 0.2s;
+
+            &::before {
+                content: "Оберіть фото";
+                position: absolute;
+                margin: 5px 0 0 10px;
+                font-size: 16px;
+                font-weight: 700;
+                color: white;
+            }
+        }
+    }
+
+    &_main {
+        display: flex;
+        width: 100%;
+        gap: 5%;
+
+        &-section {
+            margin-top: 5px;
+            width: 30%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+}
+
+::-webkit-file-upload-button {
+    font-size: 0;
+    background: $green-light;
+    height: 30px;
+    width: 120px;
+    border: none;
+    border-radius: 5px;
+    padding: 11px 0 0 0;
+    transition: 0.2s;
+}

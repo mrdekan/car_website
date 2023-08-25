@@ -17,5 +17,6 @@ namespace car_website.Data
         public IMongoCollection<Brand> Brands => _database.GetCollection<Brand>("Brands");
         public IMongoCollection<User> Users => _database.GetCollection<User>("Users");
         public IMongoCollection<BuyRequest> BuyRequests => _database.GetCollection<BuyRequest>("BuyRequests");
+        public IMongoCollection<ExpressSaleCar> ExpressSaleCars => _database.GetCollection<ExpressSaleCar>("ExpressSaleCars");
     }
 }

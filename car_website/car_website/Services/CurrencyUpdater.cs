@@ -11,6 +11,7 @@ namespace car_website.Services
         public bool LoadingError { get; private set; } = false;
         private string JSON { get; set; }
         private List<Currency> Currencies { get; set; }
+        public double CurrencyRate => GetCurrency("USD");
         internal async void UpdateCurrencies()
         {
             await Task.Run(() =>

@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Швидкий продаж";
+}
+<div class="create">
+    <form method="post" asp-action="Create" enctype="multipart/form-data">
+        <h2 class="info-text">Низька ціна – великі можливості! Продайте авто швидко та без зайвого клопоту з нашою допомогою.</h2>
+        <div class="create_main">
+            <div class="create_main-section">
+                <label>Марка</label>
+                <div>
+                    <div class="select-btn" id="brandsButton">
+                        <span>Не обрано</span>
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <div class="search">
+                            <i class="uil uil-search"></i>
+                            <input spellcheck="false" type="text" placeholder="Пошук" id="searchCar">
+                        </div>
+                        <ul class="options" id="brands"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="create_main-section">
+                <label>Модель</label>
+                <div>
+                    <div class="select-btn" id="modelsButton">
+                        <span>Не обрано</span>
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <div class="search">
+                            <i class="uil uil-search"></i>
+                            <input spellcheck="false" type="text" placeholder="Пошук" id="searchModel">
+                        </div>
+                        <ul class="options" id="models"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="create_main-section">
+                <label>Рік</label>
+                <div>
+                    <div class="select-btn" id="yearsButton">
+                        <span>Не обрано</span>
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <div class="search">
+                            <i class="uil uil-search"></i>
+                            <input spellcheck="false" type="text" placeholder="Пошук" id="searchYear">
+                        </div>
+                        <ul class="options" id="years"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p>Вкажіть бажану ціну ($)</p>
+        <div class="create_price">
+            <input id="price-input" type="number" placeholder="Ціна" />
+            <span id="price-uah"></span>
+        </div>
+        <p>Додайте одне або два фото</p>
+        <div class="create_photos">
+            <input type="file" text="Оберіть фото" />
+            <input type="file" text="Оберіть фото" />
+        </div>
+        <p>За необхідності додайте опис</p>
+        <textarea placeholder="Додатковий опис" rows="4"></textarea>
+        <span>0/500</span>
+    </form>
+</div>
+<script src="~/js/createExpressCarSalePage.js" asp-append-version="true"></script>

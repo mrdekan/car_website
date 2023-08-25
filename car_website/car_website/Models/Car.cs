@@ -7,10 +7,6 @@ namespace car_website.Models
 {
     public class Car
     {
-        public Car()
-        {
-
-        }
         public Car(CreateCarViewModel carVM, List<string> urlPhotos, string sellerId)
         {
             Price = carVM.Price;
@@ -36,8 +32,6 @@ namespace car_website.Models
                 this.Brand = carVM.OtherBrandName;
             if (carVM.OtherModelName != null)
                 this.Model = carVM.OtherModelName;
-            //OtherBrand = carVM.OtherBrandName != null;
-            //OtherModel = carVM.OtherModelName != null;
             SellerId = sellerId;
             VideoURL = carVM.VideoURL;
         }
@@ -56,11 +50,10 @@ namespace car_website.Models
         public uint Year { get; set; }
         public string Description { get; set; }
         public float EngineCapacity { get; set; }
-        public string VIN { get; set; }
+        public string? VIN { get; set; }
         public CarOptions[] Options { get; set; }
         public uint Mileage { get; set; }
         public string SellerId { get; set; }
         public string? VideoURL { get; set; }
-        //public string Mark { get; set; }
     }
 }

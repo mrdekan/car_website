@@ -99,6 +99,18 @@ namespace car_website.Controllers
             }
         }
         [HttpGet]
+        public IActionResult GetCurrency()
+        {
+            try
+            {
+                return Ok(new { Success = true, CurrencyRate = _currencyUpdater.CurrencyRate });
+            }
+            catch
+            {
+                return Ok(new { Success = false, CurrencyRate = 0 });
+            }
+        }
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<string>>> GetModels(string brand)
         {
             try

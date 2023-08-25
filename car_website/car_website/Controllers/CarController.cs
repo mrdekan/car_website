@@ -166,6 +166,12 @@ namespace car_website.Controllers
             }
             return Ok(new { SuccessCode = 1 });
         }
+        public IActionResult CreateExpressSaleCar()
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+                return RedirectToAction("Register", "User");
+            return View();
+        }
         public async Task<IActionResult> Create()
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
