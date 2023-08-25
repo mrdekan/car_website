@@ -228,7 +228,7 @@ namespace car_website.Controllers
                 brand = brand.Replace('_', ' ');
                 oldName = oldName.Replace('_', ' ');
                 var brandObj = await _brandRepository.GetByName(brand);
-                if (brandObj == null || !brandObj.Models.Contains(oldName))
+                if (brandObj == null || !brandObj.Models.Contains(oldName) || brandObj.Models.Contains(newName))
                     return Ok(new { Success = false });
                 brandObj.Models[brandObj.Models.IndexOf(oldName)] = newName;
                 await _brandRepository.Update(brandObj);

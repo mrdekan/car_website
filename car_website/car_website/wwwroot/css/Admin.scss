@@ -91,7 +91,7 @@
             width: 100%;
             padding: 10px 0;
             display: block;
-            transition: 0.22s;
+            transition: 0.2s;
             user-select: none;
 
             &::before {
@@ -153,6 +153,7 @@
         //gap: 2.5vh;
         padding: 0 1vw;
         border-left: 1px solid $gray-default;
+        margin-left: 100px;
     }
 
     #modelsCont {
@@ -172,7 +173,7 @@
 
     label {
         padding: 5px 10px 5px 0.7vh;
-        background: $background;
+        background: none;
         transition: 0.2s;
         border-radius: 5px;
         user-select: none;
@@ -212,7 +213,8 @@
             background: $background-secondary;
             color: $text-default;
             transition: 0.2s;
-            //width: 8vw;
+            width: 100%;
+            width: 310px;
         }
 
         &:last-child {
@@ -236,7 +238,6 @@
         align-items: center;
         border-bottom: 1px solid $gray-default;
         padding: 0.7vh 0.7vh 0.7vh 0;
-        background: $background;
 
         &:last-child {
             border-bottom: none;
@@ -251,11 +252,29 @@
         padding: 0.7vh;
         border-bottom: 1px solid $gray-default;
 
+        input {
+            margin-left: -0.7vh;
+            font-size: 22px;
+            height: 36px;
+            border-radius: 10px;
+            padding-left: 7px;
+            border: 1px solid $gray-default;
+            background: $background-secondary;
+            color: $text-default;
+            transition: 0.2s;
+            //width: calc(100% - 112px);
+            //width: 100%;
+        }
+
         p {
             color: $text-default;
             transition: 0.2s;
+            width: 259px;
         }
 
+        &_buttons-submit {
+            background: $success-main;
+        }
 
         &_buttons-edit {
             background-color: #FFD700;

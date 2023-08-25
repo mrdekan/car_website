@@ -262,7 +262,7 @@ input[type=number] {
   width: 100%;
   padding: 10px 0;
   display: block;
-  transition: 0.22s;
+  transition: 0.2s;
   user-select: none;
 }
 .admin_left label::before {
@@ -312,6 +312,7 @@ input[type=number] {
   flex-direction: column;
   padding: 0 1vw;
   border-left: 1px solid var(--gray-default);
+  margin-left: 100px;
 }
 .brands-and-models #modelsCont {
   min-width: fit-content;
@@ -327,7 +328,7 @@ input[type=number] {
 }
 .brands-and-models label {
   padding: 5px 10px 5px 0.7vh;
-  background: var(--background-main);
+  background: none;
   transition: 0.2s;
   border-radius: 5px;
   user-select: none;
@@ -364,6 +365,8 @@ input[type=number] {
   background: var(--background-secondary);
   color: var(--text-default);
   transition: 0.2s;
+  width: 100%;
+  width: 310px;
 }
 .brands-and-models .new-model:last-child {
   border-bottom: none;
@@ -383,7 +386,6 @@ input[type=number] {
   align-items: center;
   border-bottom: 1px solid var(--gray-default);
   padding: 0.7vh 0.7vh 0.7vh 0;
-  background: var(--background-main);
 }
 .brands-and-models .brand:last-child {
   border-bottom: none;
@@ -396,9 +398,24 @@ input[type=number] {
   padding: 0.7vh;
   border-bottom: 1px solid var(--gray-default);
 }
+.brands-and-models .model input {
+  margin-left: -0.7vh;
+  font-size: 22px;
+  height: 36px;
+  border-radius: 10px;
+  padding-left: 7px;
+  border: 1px solid var(--gray-default);
+  background: var(--background-secondary);
+  color: var(--text-default);
+  transition: 0.2s;
+}
 .brands-and-models .model p {
   color: var(--text-default);
   transition: 0.2s;
+  width: 259px;
+}
+.brands-and-models .model_buttons-submit {
+  background: var(--success-main);
 }
 .brands-and-models .model_buttons-edit {
   background-color: #FFD700;

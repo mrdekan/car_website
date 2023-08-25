@@ -135,10 +135,8 @@ function showData(data) {
             });
         }
         else if (data.type == "Brands") {
-            container.innerHTML = "";
-            if (data.brands.length == 0) {
+            if (data.brands.length == 0)
                 container.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
-            }
             else {
                 container.innerHTML = '<div class="brands-and-models"></div>';
                 container.firstElementChild.innerHTML += '<div id="modelsCont"></div><div id="brandsCont"></div>';
@@ -164,7 +162,7 @@ function showData(data) {
                         let currBrand = document.createElement('div');
                         currBrand.classList.add('brand');
                         currBrand.innerHTML = `<input type="radio" id="${brand.replace(' ', '_')}"
-                        name="brands" value="${brand.replace(' ', '_')}" ${brand == selectedBrand ? 'checked':''}>
+                        name="brands" value="${brand.replace(' ', '_')}" ${brand == selectedBrand ? 'checked' : ''}>
                         <label for="${brand.replace(' ', '_')}">${brand}</label><div model_buttons>
                         <button brand="${brand.replace(' ', '_')}" class="model_buttons-edit"><span>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -196,11 +194,11 @@ function showData(data) {
                         </svg>
                         </span></button></div>`;
                         if (brand == selectedBrand)
-                            getModelsOfMark(brand, modelsContainer);
+                            getModelsOfMark(brand);
                         brandsContainer.appendChild(currBrand);
                         currBrand.addEventListener('change', (event) => {
-                            selectedBrand = event.target.getAttribute('value').replace('_',' ');
-                            getModelsOfMark(event.target.getAttribute('value'), modelsContainer);
+                            selectedBrand = event.target.getAttribute('value').replace('_', ' ');
+                            getModelsOfMark(event.target.getAttribute('value'));
                         });
                     }
                 });
@@ -248,14 +246,12 @@ function getBrands() {
 }
 function addModel(button) {
     const input = document.getElementById('new-model-name');
-    if (input.value !== '') {
+    if (input != null && input.value !== '') {
         fetch(`/Admin/AddModel?brand=${button.getAttribute('brand')}&model=${input.value}`)
             .then(response => response.json())
             .then(data => {
                 if (data != null && data.success == true) {
-                    let modelsCont = document.getElementById('modelsCont');
-                    if (modelsCont != null)
-                        getModelsOfMark(button.getAttribute('brand'), modelsCont, true);
+                    getModelsOfMark(button.getAttribute('brand'), true);
                 }
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
@@ -263,7 +259,7 @@ function addModel(button) {
 }
 function addBrand(button) {
     const input = document.getElementById('new-brand-name');
-    if (input.value !== '') {
+    if (input != null && input.value !== '') {
         fetch(`/Admin/AddBrand?brand=${input.value}`)
             .then(response => response.json())
             .then(data => {
@@ -275,7 +271,7 @@ function addBrand(button) {
 }
 function deleteBrand(button) {
     if (confirm(`Видалити марку "${button.getAttribute('brand')}"?`)) {
-        fetch(`/Admin/DeleteBrand?brand=${button.getAttribute('brand') }`)
+        fetch(`/Admin/DeleteBrand?brand=${button.getAttribute('brand')}`)
             .then(response => response.json())
             .then(data => {
                 if (data != null && data.success == true)
@@ -290,28 +286,58 @@ function deleteModel(button) {
             .then(response => response.json())
             .then(data => {
                 if (data != null && data.success == true) {
-                    let modelsCont = document.getElementById('modelsCont');
-                    if (modelsCont != null)
-                        getModelsOfMark(button.getAttribute('brand'), modelsCont, true);
+                    getModelsOfMark(button.getAttribute('brand'), true);
                 }
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
     }
 }
-async function getModelsOfMark(brand, modelsContainer, forced = false) {
-    modelsContainer.innerHTML = `<div class="new-model"><input type="text" placeholder="Назва моделі" id="new-model-name"/><button onclick="addModel(this)" brand="${brand}"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#clip0_223_315)">
-    <path d="M19.5 3H4.5C3.67157 3 3 3.67157 3 4.5V19.5C3 20.3284 3.67157 21 4.5 21H19.5C20.3284 21 21 20.3284 21 19.5V4.5C21 3.67157 20.3284 3 19.5 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-    <path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </g>
-    <defs>
-    <clipPath id="clip0_223_315">
-    <rect width="24" height="24" fill="white"/>
-    </clipPath>
-    </defs>
-    </svg>
-    </span></button></div>`;
+function editModel(button) {
+    const input = document.getElementById('edit-model-name');
+    if (input != null && input.value !== '') {
+        let newName = input.value;
+        let oldName = button.getAttribute('model');
+        if (confirm(`Змінити назву моделі з "${oldName}" на "${newName}?"`)) {
+            fetch(`/Admin/EditModel?brand=${button.getAttribute('brand')}&newName=${newName}&oldName=${oldName}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data != null && data.success == true) {
+                        getModelsOfMark(button.getAttribute('brand'), true);
+                    }
+                })
+                .catch(error => console.error("An error occurred while retrieving data:", error));
+        }
+    }
+}
+function changeModelToEditMode(button) {
+    showModels(button.getAttribute('brand'));
+    let modelsCont = document.getElementById('modelsCont');
+    if (modelsCont == null) return;
+    let brand = button.getAttribute('brand');
+    let model = button.getAttribute('model');
+    for (let i = 0; i < modelsCont.children.length; i++) {
+        if (modelsCont.children[i].textContent.replace(/[\n\r]+|[\s]{2,}/g, '') === model) {
+            modelsCont.children[i].innerHTML = `<input type="text" placeholder="Нова назва" value="${button.getAttribute('model')}" id="edit-model-name"/><div model_buttons>
+                    <button onclick="editModel(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-submit"><span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_235_308)">
+                    <path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_235_308">
+                    <rect width="24" height="24" fill="white"/>
+                    </clipPath>
+                    </defs>
+                    </svg>
+                    </span></button><button onclick="getModelsOfMark('${brand}')" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-delete"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4143 12.0002L18.7072 6.70725C19.0982 6.31625 19.0982 5.68425 18.7072 5.29325C18.3162 4.90225 17.6843 4.90225 17.2933 5.29325L12.0002 10.5862L6.70725 5.29325C6.31625 4.90225 5.68425 4.90225 5.29325 5.29325C4.90225 5.68425 4.90225 6.31625 5.29325 6.70725L10.5862 12.0002L5.29325 17.2933C4.90225 17.6843 4.90225 18.3162 5.29325 18.7072C5.48825 18.9022 5.74425 19.0002 6.00025 19.0002C6.25625 19.0002 6.51225 18.9022 6.70725 18.7072L12.0002 13.4143L17.2933 18.7072C17.4883 18.9022 17.7442 19.0002 18.0002 19.0002C18.2562 19.0002 18.5122 18.9022 18.7072 18.7072C19.0982 18.3162 19.0982 17.6843 18.7072 17.2933L13.4143 12.0002Z" fill="currentColor"/>
+                    </svg>
+                    </span></button></div>`;
+            break;
+        }
+    }
+}
+async function getModelsOfMark(brand, forced = false) {
     brand = brand.replace('_', ' ');
     if (modelsCache[brand] == null || forced) {
         fetch(`/home/GetModels?brand=${brand}`)
@@ -319,47 +345,35 @@ async function getModelsOfMark(brand, modelsContainer, forced = false) {
             .then(data => {
                 data.models = data.models.filter((n) => { return n != 'Інше' });
                 modelsCache[brand] = data.models;
-                modelsCache[brand].forEach(model => {
-                    modelsContainer.innerHTML += `<div class="model"><p>${model}</p>
-                    <div model_buttons>
-                    <button brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-edit"><span>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_217_311)">
-                    <path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/>
-                    <path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                    </g>
-                    <defs>
-                    <clipPath id="clip0_217_311">
-                    <rect width="24" height="24" fill="white"/>
-                    </clipPath>
-                    </defs>
-                    </svg>
-                    
-                    </span></button><button onclick="deleteModel(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-delete"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_217_304)">
-                    <path d="M4.5 5V22H19.5V5H4.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                    <path d="M10 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M2 5H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8 5L9.6445 2H14.3885L16 5H8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                    </g>
-                    <defs>
-                    <clipPath id="clip0_217_304">
-                    <rect width="24" height="24" fill="white"/>
-                    </clipPath>
-                    </defs>
-                    </svg>
-                    </span></button></div></div>`;
-                });
+                showModels(brand);
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
     }
     else {
-        modelsCache[brand].forEach(model => {
-            modelsContainer.innerHTML += `<div class="model"><p>${model}</p>
+        showModels(brand);
+    }
+}
+function showModels(brand) {
+    let modelsContainer = document.getElementById('modelsCont');
+    if (modelsContainer == null) return;
+    modelsContainer.innerHTML = `<div class="new-model"><input type="text" placeholder="Назва моделі" id="new-model-name"/><button onclick="addModel(this)" brand="${brand}"><span>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_223_315)">
+                                            <path d="M19.5 3H4.5C3.67157 3 3 3.67157 3 4.5V19.5C3 20.3284 3.67157 21 4.5 21H19.5C20.3284 21 21 20.3284 21 19.5V4.5C21 3.67157 20.3284 3 19.5 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                            <path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_223_315">
+                                            <rect width="24" height="24" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                 </span></button></div>`;
+    modelsCache[brand].forEach(model => {
+        modelsContainer.innerHTML += `<div class="model"><p>${model}</p>
                     <div model_buttons>
-                    <button brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-edit"><span>
+                    <button onclick="changeModelToEditMode(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-edit"><span>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_217_311)">
                     <path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/>
@@ -372,7 +386,6 @@ async function getModelsOfMark(brand, modelsContainer, forced = false) {
                     </clipPath>
                     </defs>
                     </svg>
-                    
                     </span></button><button onclick="deleteModel(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-delete"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_217_304)">
                     <path d="M4.5 5V22H19.5V5H4.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
@@ -388,8 +401,7 @@ async function getModelsOfMark(brand, modelsContainer, forced = false) {
                     </defs>
                     </svg>
                     </span></button></div></div>`;
-        });
-    }
+    });
 }
 //#endregion
 //#region info displaying
