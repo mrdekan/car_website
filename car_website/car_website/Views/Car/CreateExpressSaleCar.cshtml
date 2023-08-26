@@ -65,8 +65,8 @@
             <input type="file" text="Оберіть фото" />
         </div>
         <p>За необхідності додайте опис</p>
-        <textarea placeholder="Додатковий опис" rows="4"></textarea>
-        <span>0/500</span>
+        <textarea placeholder="Додатковий опис" rows="4" maxlength="500" id="description"></textarea>
+        <span id="description-limit">0/500</span>
     </form>
 </div>
 <script src="~/js/createExpressCarSalePage.js" asp-append-version="true"></script>
