@@ -1,11 +1,24 @@
-﻿.login-wrapper {
+﻿@import "Variables.scss";
+
+.login-wrapper {
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0;
     padding: 10%;
-    background-color: #D0E0CA;
+    background-color: $background;
+    transition: 0.2s;
+
+    span {
+        color: $text-default;
+        transition: 0.2s;
+    }
+
+    p {
+        color: $text-default;
+        transition: 0.2s;
+    }
 
     form {
         width: 400px;
@@ -14,29 +27,33 @@
         gap: 11px;
         padding: 40px;
         border-radius: 40px;
-        border: 2px solid #D4D4D4;
-        background-color: #F6F6F6;
+        border: 2px solid $gray-default;
+        background-color: $background-secondary;
+        transition: 0.2s;
 
         input[type="text"] {
             width: 100%;
             font-size: 16px;
             padding: 9px 12px;
-            background-color: #F6F6F6;
-            border: 2px solid #D4D4D4;
-            border-radius: 6px;
+            background-color: $background;
+            border: 1px solid $gray-default;
+            border-radius: 7px;
+            transition: 0.2s;
         }
 
         input[type="password"] {
             width: 100%;
             font-size: 16px;
             padding: 9px 12px;
-            background-color: #F6F6F6;
-            border: 2px solid #D4D4D4;
-            border-radius: 6px;
+            background-color: $background;
+            border: 1px solid $gray-default;
+            border-radius: 7px;
+            transition: 0.2s;
         }
 
         input::placeholder {
-            color: #B3B3B3;
+            color: $gray-default;
+            transition: 0.2s;
         }
 
         input[type="checkbox"] {
@@ -50,6 +67,8 @@
             display: block;
             margin: 2px 0 2px 0;
             font-size: 18px;
+            transition: 0.2s;
+            color: $text-default;
         }
 
         .showpass {
@@ -61,13 +80,13 @@
             padding: 9px 12px;
             font-size: 16px;
             border-radius: 6px;
-            background-color: #56744D;
+            background-color: $green-medium;
             color: white;
             transition: 0.2s;
             margin: 5px 0;
 
             &:hover {
-                background-color: #5D864F;
+                background-color: $green-light;
                 transition: 0.2s;
             }
         }
@@ -79,11 +98,13 @@
         }
 
         a {
-            color: black;
+            color: $text-default;
             text-decoration: underline;
         }
     }
 }
-.text-danger{
-    color: red;
+
+.text-danger {
+    display: block;
+    color: $error-main;
 }

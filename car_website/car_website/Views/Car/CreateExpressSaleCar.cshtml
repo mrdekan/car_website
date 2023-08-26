@@ -1,16 +1,26 @@
-﻿@{
+﻿@using car_website.ViewModels;
+@model CreateExpressSaleCarViewModel
+@{
     ViewData["Title"] = "Швидкий продаж";
 }
 <div class="create">
-    <form method="post" asp-action="Create" enctype="multipart/form-data">
+    <form method="post" asp-action="CreateExpressSaleCar" enctype="multipart/form-data">
         <h2 class="info-text">Низька ціна – великі можливості! Продайте авто швидко та без зайвого клопоту з нашою допомогою.</h2>
         <div class="create_main">
             <div class="create_main-section">
                 <label>Марка</label>
                 <div class="custom-select">
                     <div class="select-btn" id="brandsButton">
-                        <span>Не обрано</span>
+                        @if (Model==null || string.IsNullOrEmpty(Model.Brand))
+                        {
+                            <span>Не обрано</span>
+                        }
+                        else
+                        {
+                            <span>@Model.Brand</span>
+                        }
                         <i class="uil uil-angle-down"></i>
+                        <input id="brand-input" type="hidden" asp-for=Brand />
                     </div>
                     <div class="content">
                         <div class="search">
@@ -20,13 +30,22 @@
                         <ul class="options" id="brands"></ul>
                     </div>
                 </div>
+                <span asp-validation-for=Brand class="text-danger"></span>
             </div>
             <div class="create_main-section">
                 <label>Модель</label>
                 <div class="custom-select">
                     <div class="select-btn" id="modelsButton">
-                        <span>Не обрано</span>
+                        @if (Model == null || string.IsNullOrEmpty(Model.Model))
+                        {
+                            <span>Не обрано</span>
+                        }
+                        else
+                        {
+                            <span>@Model.Model</span>
+                        }
                         <i class="uil uil-angle-down"></i>
+                        <input id="model-input" type="hidden" asp-for=Model />
                     </div>
                     <div class="content">
                         <div class="search">
@@ -36,24 +55,32 @@
                         <ul class="options" id="models"></ul>
                     </div>
                 </div>
+                <span asp-validation-for=Model class="text-danger"></span>
             </div>
             <div class="create_main-section">
                 <label>Рік</label>
-                <input type="number" id="year-input" placeholder="Рік" />
+                <input asp-for=Year type="number" id="year-input" placeholder="Рік" />
+                <span asp-validation-for=Year class="text-danger"></span>
             </div>
         </div>
         <p>Вкажіть бажану ціну ($)</p>
         <div class="create_price">
-            <input id="price-input" type="number" placeholder="Ціна" />
+            <div>
+                <input asp-for=Price id="price-input" type="number" placeholder="Ціна" />
+                <span asp-validation-for=Price class="text-danger"></span>
+            </div>
             <span id="price-uah"></span>
         </div>
         <p>Додайте одне або два фото</p>
         <div class="create_photos">
-            <input type="file" text="Оберіть фото" />
-            <input type="file" text="Оберіть фото" />
+            <input type="file" text="Оберіть фото" asp-for=Photo1 />
+            <span asp-validation-for=Photo1 class="text-danger"></span>
+            <input type="file" text="Оберіть фото" asp-for=Photo2 />
+            <span asp-validation-for=Photo2 class="text-danger"></span>
         </div>
         <p>За необхідності додайте опис</p>
-        <textarea placeholder="Додатковий опис" rows="4" maxlength="500" id="description"></textarea>
+        <textarea asp-for=Description placeholder="Додатковий опис" rows="4" maxlength="500" id="description"></textarea>
+        <span asp-validation-for=Description class="text-danger"></span>
         <span id="description-limit">0/500</span>
         <button type="submit" class="sell-button">Опублікувати оголошення</button>
     </form>

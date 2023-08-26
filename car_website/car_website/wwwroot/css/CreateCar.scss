@@ -11,9 +11,11 @@
     min-height: calc(100vh - 100px); //100px = висота header + footer
     //ToDo: variables for header & footer height
     max-height: fit-content;
+
     form {
         margin: 50px auto 0;
-        width: 60%;
+        min-width: 60%;
+        max-width: fit-content;
         padding: 2%;
         display: flex;
         flex-direction: column;
@@ -23,7 +25,7 @@
         border: 1px solid $gray-default;
         border-radius: 10px;
 
-        span {
+        span:not(.text-danger) {
             color: $gray-default;
             font-size: 16px;
         }
@@ -64,15 +66,16 @@
     }
 
     &_price {
-        span {
+        span:not(.text-danger) {
             display: block;
+            margin-top: -24px;
         }
 
         display: flex;
         align-items: center;
         gap: 6px;
-
         input {
+        margin-bottom: 10px;
             padding: 10px;
             border-radius: 5px;
             background: $background;
@@ -135,12 +138,13 @@
         }
     }
 
-    .sell-button{
-        width: 30%;
+    .sell-button {
+        min-width: 30%;
+        max-width: fit-content;
         margin-left: auto;
         background: $green-light;
         border-radius: 7px;
-        padding: 10px 0;
+        padding: 10px;
         transition: 0.2s;
         color: white;
         font-size: 20px;
@@ -153,7 +157,7 @@
     height: 30px;
     width: 120px;
     border: none;
-    border-radius: 5px;
+    border-radius: 7px;
     padding: 11px 0 0 0;
     transition: 0.2s;
 }

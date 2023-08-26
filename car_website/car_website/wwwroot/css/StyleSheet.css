@@ -85,6 +85,23 @@ input[type=number] {
 }
 
 /*--------------------*/
+:root {
+  --green-light: #537049;
+  --green-medium: #4b6742;
+  --green-dark: #415939;
+  --background-main: #ffffff;
+  --background-secondary: #f6f6f6;
+  --text-default: #000000;
+  --icons-invert: 0%;
+  --success-main: #3a784a;
+  --success-secondary: #D0E0CA;
+  --error-main: #c21111;
+  --error-secondary: #f7dfe5;
+  --gray-default: #404040;
+  --beige-default: #F3EFCA;
+  --theme-separator: -25px;
+}
+
 .login-wrapper {
   height: 100%;
   display: flex;
@@ -92,7 +109,16 @@ input[type=number] {
   align-items: center;
   margin: 0;
   padding: 10%;
-  background-color: #D0E0CA;
+  background-color: var(--background-main);
+  transition: 0.2s;
+}
+.login-wrapper span {
+  color: var(--text-default);
+  transition: 0.2s;
+}
+.login-wrapper p {
+  color: var(--text-default);
+  transition: 0.2s;
 }
 .login-wrapper form {
   width: 400px;
@@ -101,27 +127,31 @@ input[type=number] {
   gap: 11px;
   padding: 40px;
   border-radius: 40px;
-  border: 2px solid #D4D4D4;
-  background-color: #F6F6F6;
+  border: 2px solid var(--gray-default);
+  background-color: var(--background-secondary);
+  transition: 0.2s;
 }
 .login-wrapper form input[type=text] {
   width: 100%;
   font-size: 16px;
   padding: 9px 12px;
-  background-color: #F6F6F6;
-  border: 2px solid #D4D4D4;
-  border-radius: 6px;
+  background-color: var(--background-main);
+  border: 1px solid var(--gray-default);
+  border-radius: 7px;
+  transition: 0.2s;
 }
 .login-wrapper form input[type=password] {
   width: 100%;
   font-size: 16px;
   padding: 9px 12px;
-  background-color: #F6F6F6;
-  border: 2px solid #D4D4D4;
-  border-radius: 6px;
+  background-color: var(--background-main);
+  border: 1px solid var(--gray-default);
+  border-radius: 7px;
+  transition: 0.2s;
 }
 .login-wrapper form input::placeholder {
-  color: #B3B3B3;
+  color: var(--gray-default);
+  transition: 0.2s;
 }
 .login-wrapper form input[type=checkbox] {
   display: inline-block;
@@ -133,6 +163,8 @@ input[type=number] {
   display: block;
   margin: 2px 0 2px 0;
   font-size: 18px;
+  transition: 0.2s;
+  color: var(--text-default);
 }
 .login-wrapper form .showpass {
   margin: 7px 0 0 0;
@@ -142,13 +174,13 @@ input[type=number] {
   padding: 9px 12px;
   font-size: 16px;
   border-radius: 6px;
-  background-color: #56744D;
+  background-color: var(--green-medium);
   color: white;
   transition: 0.2s;
   margin: 5px 0;
 }
 .login-wrapper form button:hover {
-  background-color: #5D864F;
+  background-color: var(--green-light);
   transition: 0.2s;
 }
 .login-wrapper form .log-reg-change {
@@ -157,12 +189,13 @@ input[type=number] {
   justify-content: center;
 }
 .login-wrapper form a {
-  color: black;
+  color: var(--text-default);
   text-decoration: underline;
 }
 
 .text-danger {
-  color: red;
+  display: block;
+  color: var(--error-main);
 }
 
 :root {
@@ -812,7 +845,8 @@ h4 {
 }
 .create form {
   margin: 50px auto 0;
-  width: 60%;
+  min-width: 60%;
+  max-width: fit-content;
   padding: 2%;
   display: flex;
   flex-direction: column;
@@ -822,7 +856,7 @@ h4 {
   border: 1px solid var(--gray-default);
   border-radius: 10px;
 }
-.create form span {
+.create form span:not(.text-danger) {
   color: var(--gray-default);
   font-size: 16px;
 }
@@ -860,10 +894,12 @@ h4 {
   align-items: center;
   gap: 6px;
 }
-.create_price span {
+.create_price span:not(.text-danger) {
   display: block;
+  margin-top: -24px;
 }
 .create_price input {
+  margin-bottom: 10px;
   padding: 10px;
   border-radius: 5px;
   background: var(--background-main);
@@ -918,11 +954,12 @@ h4 {
   color: var(--gray-default);
 }
 .create .sell-button {
-  width: 30%;
+  min-width: 30%;
+  max-width: fit-content;
   margin-left: auto;
   background: var(--green-light);
   border-radius: 7px;
-  padding: 10px 0;
+  padding: 10px;
   transition: 0.2s;
   color: white;
   font-size: 20px;
@@ -934,7 +971,7 @@ h4 {
   height: 30px;
   width: 120px;
   border: none;
-  border-radius: 5px;
+  border-radius: 7px;
   padding: 11px 0 0 0;
   transition: 0.2s;
 }

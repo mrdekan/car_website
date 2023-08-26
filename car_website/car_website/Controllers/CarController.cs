@@ -20,7 +20,8 @@ namespace car_website.Controllers
         private readonly IWaitingCarsRepository _waitingCarsRepository;
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly IConfiguration _configuration;
-        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration)
+        private readonly IExpressSaleCarRepository _expressSaleCarRepository;
+        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -30,6 +31,7 @@ namespace car_website.Controllers
             _waitingCarsRepository = waitingCarsRepository;
             _currencyUpdater = currencyUpdater;
             _configuration = configuration;
+            _expressSaleCarRepository = expressSaleCarRepository;
         }
         #endregion
         [HttpGet]
@@ -171,6 +173,40 @@ namespace car_website.Controllers
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
                 return RedirectToAction("Register", "User");
             return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateExpressSaleCar(CreateExpressSaleCarViewModel carVM)
+        {
+            string userId = HttpContext.Session.GetString("UserId") ?? "";
+            if (string.IsNullOrEmpty(userId))
+            {
+                HttpContext.Session.SetString("ReturnUrl", HttpContext.Request.Path);
+                return RedirectToAction("Register", "User");
+            }
+            if (ModelState.IsValid)
+            {
+                List<string> photosNames = new List<string>();
+                List<IFormFile> photos = new List<IFormFile>() { carVM.Photo1, carVM.Photo2 };
+                photos = photos.Where(photo => photo != null).ToList();
+                foreach (var photo in photos)
+                {
+                    var photoName = await _imageService.UploadPhotoAsync(photo);
+                    photosNames.Add(photoName);
+                }
+                var newCar = new ExpressSaleCar(carVM, userId, photosNames);
+                User user = await GetCurrentUser();
+                if (user != null)
+                {
+                    await _expressSaleCarRepository.Add(newCar);
+                    user.ExpressSaleCars.Add(newCar.Id);
+                    await _userRepository.Update(user);
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View(carVM);
+            }
         }
         public async Task<IActionResult> Create()
         {

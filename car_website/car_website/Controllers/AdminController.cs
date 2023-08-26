@@ -44,6 +44,7 @@ namespace car_website.Controllers
             /*var users = await _userRepository.GetAll();
             foreach (var user in users)
             {
+                user.ExpressSaleCars = new List<ObjectId>();
                 await _userRepository.Update(user);
             }*/
             /*var buyRequests = await _buyRequestRepository.GetAll();

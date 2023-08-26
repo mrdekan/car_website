@@ -26,6 +26,7 @@ namespace car_website.Models
             CarWithoutConfirmation = new List<ObjectId>();
             Favorites = new List<ObjectId>();
             SendedBuyRequest = new List<ObjectId>();
+            ExpressSaleCars = new List<ObjectId>();
         }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -42,5 +43,6 @@ namespace car_website.Models
         public List<ObjectId> CarWithoutConfirmation { get; set; }
         public List<ObjectId> Favorites { get; set; }
         public List<ObjectId> SendedBuyRequest { get; set; }
+        public List<ObjectId> ExpressSaleCars { get; set; }
     }
 }

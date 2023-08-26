@@ -1,9 +1,11 @@
 ﻿const selectBrandsBtn = document.getElementById("brandsButton"),
     searchBrandInp = document.getElementById("searchCar"),
-    brandsOptions = document.getElementById("brands");
+    brandsOptions = document.getElementById("brands"),
+    brandInput = document.getElementById('brand-input');
 const selectModelsBtn = document.getElementById("modelsButton"),
     searchModelInp = document.getElementById("searchModel"),
-    modelsOptions = document.getElementById("models");
+    modelsOptions = document.getElementById("models"),
+    modelInput = document.getElementById('model-input');
 const yearInput = document.getElementById("year-input");
 const priceUAH = document.getElementById('price-uah');
 const priceInput = document.getElementById('price-input');
@@ -29,8 +31,8 @@ yearInput.addEventListener("input", () => {
         yearInput.value = yearInput.value.slice(0, 4);
 });
 priceInput.addEventListener("input", () => {
-    if (priceInput.value.length > 9)
-        priceInput.value = priceInput.value.slice(0, 9);
+    if (priceInput.value.length > 7)
+        priceInput.value = priceInput.value.slice(0, 7);
     if (priceInput.value != '0' && priceInput.value != '' && currencyRate != 0)
         priceUAH.innerHTML = `≈ ${formatNumberWithThousandsSeparator(Math.round(Number(priceInput.value) * currencyRate))} грн`;
     else
@@ -56,7 +58,9 @@ function getMarks() {
         .then(response => response.json())
         .then(data => {
             brands = data.brands;
-            addBrand();
+            addBrand(selectBrandsBtn.firstElementChild.innerText);
+            if (selectBrandsBtn.firstElementChild.innerText != 'Не обрано')
+                getModelsOfMark(selectBrandsBtn.firstElementChild.innerText);
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
@@ -69,6 +73,7 @@ function getModelsOfMark() {
                 models = data.models;
                 modelsCache[brand] = models;
                 addModel();
+                refreshModels();
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
     }
@@ -106,6 +111,7 @@ function updateName(selectedLi) {
     brandsOptions.parentElement.classList.remove("active");
     selectBrandsBtn.classList.remove("active");
     selectBrandsBtn.firstElementChild.innerText = selectedLi.innerText;
+    brandInput.value = selectedLi.innerText == 'Не обрано' ? 'Any' : selectedLi.innerText;
     if (selectBrandsBtn.firstElementChild.innerText == "Не обрано")
         modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
     else {
@@ -113,11 +119,13 @@ function updateName(selectedLi) {
     }
 }
 function updateModel(selectedLi) {
+    
     searchModelInp.value = "";
     addModel(selectedLi.innerText);
     modelsOptions.parentElement.classList.remove("active");
     selectModelsBtn.classList.remove("active");
     selectModelsBtn.firstElementChild.innerText = selectedLi.innerText;
+    modelInput.value = selectedLi.innerText == 'Не обрано' ? 'Any' : selectedLi.innerText;
 }
 function refreshBrands() {
     if (selectBrandsBtn.firstElementChild.innerText === 'Не обрано') {
@@ -169,7 +177,7 @@ searchModelInp.addEventListener("keyup", () => {
         let isSelected = data == selectModelsBtn.firstElementChild.innerText ? "selected" : "";
         return `<li onclick="updateModel(this)" class="${isSelected}">${data}</li>`;
     }).join("");
-    modelsOptions.innerHTML = arr ? arr : `<li onclick="updateModel(this)">Інше</li>`;
+    modelsOptions.innerHTML = arr ? arr : `<li onclick="updateModel(this)" ${selectBrandsBtn.firstElementChild.innerText == 'Не обрано' ?'class="selected"':''}>${selectBrandsBtn.firstElementChild.innerText=='Не обрано'?'Не обрано':'Інше'}</li>`;
 });
 selectBrandsBtn.addEventListener("click", () => {
     searchBrandInp.value = "";
