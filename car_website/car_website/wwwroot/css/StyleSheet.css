@@ -1504,6 +1504,11 @@ header .header_right-button::before {
   transform: rotate(-90deg);
 }
 
+.custom-select {
+  width: 100%;
+  position: relative;
+}
+
 .content {
   display: block;
   transform-origin: top;
@@ -1516,7 +1521,7 @@ header .header_right-button::before {
   position: absolute;
   z-index: 5;
   font-size: 16px;
-  width: 230px;
+  width: 100%;
   transition: 0.2s;
   transition: transform 0.1s;
 }
