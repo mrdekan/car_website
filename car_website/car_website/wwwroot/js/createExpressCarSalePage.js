@@ -4,6 +4,7 @@
 const selectModelsBtn = document.getElementById("modelsButton"),
     searchModelInp = document.getElementById("searchModel"),
     modelsOptions = document.getElementById("models");
+const yearInput = document.getElementById("year-input");
 const priceUAH = document.getElementById('price-uah');
 const priceInput = document.getElementById('price-input');
 const description = document.getElementById('description');
@@ -18,6 +19,14 @@ addModel("Не обрано");
 priceInput.addEventListener("keydown", (event) => {
     if (event.key === "." || event.key === ",")
         event.preventDefault();
+});
+yearInput.addEventListener("keydown", (event) => {
+    if (event.key === "." || event.key === ",")
+        event.preventDefault();
+});
+yearInput.addEventListener("input", () => {
+    if (yearInput.value.length > 4)
+        yearInput.value = yearInput.value.slice(0, 4);
 });
 priceInput.addEventListener("input", () => {
     if (priceInput.value.length > 9)

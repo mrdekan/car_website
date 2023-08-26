@@ -39,19 +39,7 @@
             </div>
             <div class="create_main-section">
                 <label>Рік</label>
-                <div class="custom-select">
-                    <div class="select-btn" id="yearsButton">
-                        <span>Не обрано</span>
-                        <i class="uil uil-angle-down"></i>
-                    </div>
-                    <div class="content">
-                        <div class="search">
-                            <i class="uil uil-search"></i>
-                            <input spellcheck="false" type="text" placeholder="Пошук" id="searchYear">
-                        </div>
-                        <ul class="options" id="years"></ul>
-                    </div>
-                </div>
+                <input type="number" id="year-input" placeholder="Рік" />
             </div>
         </div>
         <p>Вкажіть бажану ціну ($)</p>
@@ -67,6 +55,7 @@
         <p>За необхідності додайте опис</p>
         <textarea placeholder="Додатковий опис" rows="4" maxlength="500" id="description"></textarea>
         <span id="description-limit">0/500</span>
+        <button type="submit" class="sell-button">Опублікувати оголошення</button>
     </form>
 </div>
 <script src="~/js/createExpressCarSalePage.js" asp-append-version="true"></script>

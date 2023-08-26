@@ -6,6 +6,11 @@
 }
 
 .create {
+    display: flex;
+    align-items: center;
+    min-height: calc(100vh - 100px); //100px = висота header + footer
+    //ToDo: variables for header & footer height
+    max-height: fit-content;
     form {
         margin: 50px auto 0;
         width: 60%;
@@ -113,7 +118,32 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+
+            input[type="number"] {
+                height: 32px;
+                padding: 0 10px;
+                font-size: 16px;
+                background: $background;
+                color: $gray-default;
+                border-radius: 7px;
+                transition: 0.2s;
+
+                &::placeholder {
+                    color: $gray-default;
+                }
+            }
         }
+    }
+
+    .sell-button{
+        width: 30%;
+        margin-left: auto;
+        background: $green-light;
+        border-radius: 7px;
+        padding: 10px 0;
+        transition: 0.2s;
+        color: white;
+        font-size: 20px;
     }
 }
 

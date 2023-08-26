@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Опублікувати оголошення";
 }
-<div class="create-wrapper" style="margin: 50px">
+@*<div class="create-wrapper" style="margin: 50px">*@
     @{
         List<string> phrases = new List<string>()
         {
@@ -13,8 +13,9 @@
     "Не втрачайте часу на невдачі – розпочніть процес продажу вашого авто з правильного кроку. Оголосіть про продаж на нашому сайті та отримайте доступ до активної аудиторії покупців.",
         };
     }
-    <h2 class="info-text">@phrases[new Random().Next(0,phrases.Count)]</h2>
+    <div class="create">
     <form method="post" asp-action="Create" enctype="multipart/form-data">
+    <h2 class="info-text">@phrases[new Random().Next(0,phrases.Count)]</h2>
         <div id="photos-select">
             <div class="form-group">
                 <label asp-for="CreateCarViewModel.Photo1">Фото</label>
