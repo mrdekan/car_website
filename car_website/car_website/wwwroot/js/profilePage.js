@@ -79,7 +79,7 @@ window.addEventListener('load', function () {
     });
     selectedRadioIndex = selectedIndex;
     var computedStyle = getComputedStyle(pages_profile);
-    pageUnderline.style.width = `${radioButtons.length==4?16.5:22}%`;
+    pageUnderline.style.width = `${radioButtons.length == 4 ? 16.5 : 22}%`;
     offset = radioButtons.length == 4 ? 300 : 200;
     let percent = selectedIndex * (offset / (radioButtons.length - 1));
     pageUnderline.style.transform = `translateX(${percent}%)`;
@@ -369,7 +369,7 @@ function formatNumberWithThousandsSeparator(number) {
 //#endregion
 function editPhone(button) {
     let phoneCont = document.getElementById('phone_container');
-    phoneCont.innerHTML = `<input type="text" placeholder="380xxxxxxxxx" value="${button.getAttribute('phone').replace('+', '')}" /><button id="submit-phone"><span>
+    phoneCont.innerHTML = `<input type="number" placeholder="380xxxxxxxxx" value="${button.getAttribute('phone').replace('+', '')}" id="new-phone"/><button onclick="sendNewPhone(this)" id="submit-phone" phone="${button.getAttribute('phone')}"><span>
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_235_308)">
                     <path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -385,10 +385,71 @@ function editPhone(button) {
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4143 12.0002L18.7072 6.70725C19.0982 6.31625 19.0982 5.68425 18.7072 5.29325C18.3162 4.90225 17.6843 4.90225 17.2933 5.29325L12.0002 10.5862L6.70725 5.29325C6.31625 4.90225 5.68425 4.90225 5.29325 5.29325C4.90225 5.68425 4.90225 6.31625 5.29325 6.70725L10.5862 12.0002L5.29325 17.2933C4.90225 17.6843 4.90225 18.3162 5.29325 18.7072C5.48825 18.9022 5.74425 19.0002 6.00025 19.0002C6.25625 19.0002 6.51225 18.9022 6.70725 18.7072L12.0002 13.4143L17.2933 18.7072C17.4883 18.9022 17.7442 19.0002 18.0002 19.0002C18.2562 19.0002 18.5122 18.9022 18.7072 18.7072C19.0982 18.3162 19.0982 17.6843 18.7072 17.2933L13.4143 12.0002Z" fill="currentColor"/>
                     </svg>
     </span></button>`;
+    let inp = document.getElementById('new-phone');
+    inp.addEventListener('keydown', (event) => {
+        if (event.key === "." || event.key === ",")
+            event.preventDefault();
+    });
+    inp.addEventListener('input', () => {
+        if (inp.value.length > 12)
+            inp.value = inp.value.slice(0, 12);
+    });
+}
+//SuccessCode == 0 -> ok
+//SuccessCode == 1 -> user is not logged in
+//SuccessCode == 2 -> incorrect phone format
+//SuccessCode == 3 -> another error
+function sendNewPhone(button) {
+    let phoneInp = document.getElementById('new-phone');
+    if (phoneInp != null && phoneInp.value != button.getAttribute('phone')) {
+        fetch(`/User/ChangePhone?phone=${phoneInp.value}`)
+            .then(response => response.json())
+            .then(data => {
+                clearPhoneError();
+                let phoneCont = document.getElementById('phone_container');
+                if (data != null && data.successCode == 0 && phoneCont != null) {
+                    phoneCont.innerHTML = `<h3>+${phoneInp.value}</h3>
+                        <button id="change-phone-number" onclick="editPhone(this)" phone="+${phoneInp.value}"><span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_217_311)">
+                        <path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/>
+                        <path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                        <clipPath id="clip0_217_311">
+                        <rect width="24" height="24" fill="white"/>
+                        </clipPath>
+                        </defs>
+                        </svg>
+                        </span></button>`;
+                }
+                else if (data != null && data.successCode == 2 && phoneCont != null) {
+                    let error = document.createElement('span');
+                    error.className = "text-danger";
+                    error.innerHTML = 'Некоректний номер';
+                    error.id = 'phone-error';
+                    phoneCont.insertAdjacentElement("afterend", error);
+                }
+                else if (phoneCont != null) {
+                    let error = document.createElement('span');
+                    error.className = "text-danger";
+                    error.innerHTML = 'Виникла помилка';
+                    error.id = 'phone-error';
+                    phoneCont.insertAdjacentElement("afterend", error);
+                }
+            })
+            .catch(error => console.error("An error occurred while retrieving data:", error));
+    }
+}
+function clearPhoneError() {
+    let error = document.getElementById('phone-error');
+    if (error) error.remove();
 }
 function cancelEditPhone(button) {
+    clearPhoneError();
     let phoneCont = document.getElementById('phone_container');
-    phoneCont.innerHTML = `<h3>${button.getAttribute('phone') }</h3>
+    phoneCont.innerHTML = `<h3>${button.getAttribute('phone')}</h3>
         <button id="change-phone-number" onclick="editPhone(this)" phone=${button.getAttribute('phone')}><span>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_217_311)">
@@ -403,4 +464,14 @@ function cancelEditPhone(button) {
                         </defs>
                         </svg>
         </span></button>`;
+}
+function copyPhone(button) {
+    var textToCopy = button.getAttribute('phone');
+    var tempTextArea = document.createElement("textarea");
+    tempTextArea.value = textToCopy;
+    document.body.appendChild(tempTextArea);
+    tempTextArea.select();
+    tempTextArea.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    document.body.removeChild(tempTextArea);
 }

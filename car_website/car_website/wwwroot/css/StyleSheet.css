@@ -683,6 +683,8 @@ h4 {
   display: flex;
   align-items: center;
   margin: 7px 0;
+  width: fit-content;
+  border-radius: 9px;
 }
 .profile_info #phone_container button {
   color: var(--gray-default);

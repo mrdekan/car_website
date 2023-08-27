@@ -4,6 +4,7 @@ using car_website.Services;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using System.Text.RegularExpressions;
 
 namespace car_website.Controllers
 {
@@ -143,6 +144,29 @@ namespace car_website.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("NewPassword", new { userId = user.Id.ToString(), token = user.ConfirmationToken });
+        }
+        //SuccessCode == 0 -> ok
+        //SuccessCode == 1 -> user is not logged in
+        //SuccessCode == 2 -> incorrect phone format
+        //SuccessCode == 3 -> another error
+        [HttpGet]
+        public async Task<IActionResult> ChangePhone(string phone)
+        {
+            var user = await GetCurrentUser();
+            if (user == null)
+                return Ok(new { SuccessCode = 1 });
+            if (!IsValidPhoneNumber(phone))
+                return Ok(new { SuccessCode = 2 });
+            try
+            {
+                user.PhoneNumber = $"+{phone}";
+                await _userRepository.Update(user);
+                return Ok(new { SuccessCode = 0 });
+            }
+            catch
+            {
+                return Ok(new { SuccessCode = 3 });
+            }
         }
         [HttpPost]
         public async Task<IActionResult> NewPassword(NewPasswordViewModel newPassVM)
@@ -309,6 +333,12 @@ namespace car_website.Controllers
                     user = await _userRepository.GetByIdAsync(id);
             }
             return user;
+        }
+
+        private static bool IsValidPhoneNumber(string phoneNumber)
+        {
+            string pattern = @"^38\d{10}$";
+            return Regex.IsMatch(phoneNumber, pattern);
         }
         #endregion
     }
