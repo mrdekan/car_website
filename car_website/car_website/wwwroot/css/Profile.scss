@@ -1,4 +1,5 @@
 ﻿@import "Variables.scss";
+
 .profile {
     &_info {
         width: 66%;
@@ -8,6 +9,67 @@
             font-size: 28px;
             color: $text-default;
             transition: 0.2s;
+        }
+
+        #phone_container {
+            display: flex;
+            align-items: center;
+            margin: 7px 0;
+
+            button {
+                color: $gray-default;
+                transition: 0.2s;
+                width: 34px;
+                height: 34px;
+                background: $background-secondary;
+            }
+
+            input {
+                height: 34px;
+                padding: 0 0 0 7px;
+                border: 1px solid $gray-default;
+                border-radius: 7px 0 0 7px;
+                background: $background-secondary;
+                color: $text-default;
+                transition: 0.2s;
+                font-size: 18px;
+                width: 160px;
+
+                &::placeholder {
+                    color: $gray-default;
+                }
+            }
+        }
+
+        #change-phone-number {
+            border-radius: 7px;
+            margin-left: 5px;
+            border: 1px solid $gray-default;
+        }
+
+        #submit-phone {
+            border-top: 1px solid $gray-default;
+            border-bottom: 1px solid $gray-default;
+
+            &:hover {
+                background: $success-main;
+                color: $text-default;
+                box-shadow: 0px 0px 5px $success-main;
+                border-top: 1px solid $success-main;
+                border-bottom: 1px solid $success-main;
+            }
+        }
+
+        #cancel-phone {
+            border: 1px solid $gray-default;
+            border-radius: 0 7px 7px 0;
+
+            &:hover {
+                background: $error-main;
+                color: $text-default;
+                box-shadow: 0px 0px 5px $error-main;
+                border: 1px solid $error-main;
+            }
         }
 
         h3 {
@@ -150,19 +212,21 @@
     display: flex;
     justify-content: center;
 }
+
 @media (max-width: 1024px) {
     .label_counter {
         display: none;
     }
 }
+
 @media (max-width: 768px) {
     .profile {
         &_info {
             width: 100%;
         }
+
         &_pages {
             width: 100%;
         }
-        
     }
 }

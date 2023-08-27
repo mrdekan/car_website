@@ -679,6 +679,58 @@ h4 {
   color: var(--text-default);
   transition: 0.2s;
 }
+.profile_info #phone_container {
+  display: flex;
+  align-items: center;
+  margin: 7px 0;
+}
+.profile_info #phone_container button {
+  color: var(--gray-default);
+  transition: 0.2s;
+  width: 34px;
+  height: 34px;
+  background: var(--background-secondary);
+}
+.profile_info #phone_container input {
+  height: 34px;
+  padding: 0 0 0 7px;
+  border: 1px solid var(--gray-default);
+  border-radius: 7px 0 0 7px;
+  background: var(--background-secondary);
+  color: var(--text-default);
+  transition: 0.2s;
+  font-size: 18px;
+  width: 160px;
+}
+.profile_info #phone_container input::placeholder {
+  color: var(--gray-default);
+}
+.profile_info #change-phone-number {
+  border-radius: 7px;
+  margin-left: 5px;
+  border: 1px solid var(--gray-default);
+}
+.profile_info #submit-phone {
+  border-top: 1px solid var(--gray-default);
+  border-bottom: 1px solid var(--gray-default);
+}
+.profile_info #submit-phone:hover {
+  background: var(--success-main);
+  color: var(--text-default);
+  box-shadow: 0px 0px 5px var(--success-main);
+  border-top: 1px solid var(--success-main);
+  border-bottom: 1px solid var(--success-main);
+}
+.profile_info #cancel-phone {
+  border: 1px solid var(--gray-default);
+  border-radius: 0 7px 7px 0;
+}
+.profile_info #cancel-phone:hover {
+  background: var(--error-main);
+  color: var(--text-default);
+  box-shadow: 0px 0px 5px var(--error-main);
+  border: 1px solid var(--error-main);
+}
 .profile_info h3 {
   margin: 5px 0;
   font-size: 20px;
