@@ -1,20 +1,23 @@
-﻿const radioButtons = document.querySelectorAll('input[name="action"]');
+﻿const svgCodes = {
+    edit: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_217_311)"><path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/><path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></g><defs><clipPath id="clip0_217_311"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>`,
+    delete: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_217_304)"><path d="M4.5 5V22H19.5V5H4.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 5H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 5L9.6445 2H14.3885L16 5H8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></g><defs><clipPath id="clip0_217_304"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>`,
+    submit: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_235_308)"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_235_308"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>`,
+    cancel: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.4143 12.0002L18.7072 6.70725C19.0982 6.31625 19.0982 5.68425 18.7072 5.29325C18.3162 4.90225 17.6843 4.90225 17.2933 5.29325L12.0002 10.5862L6.70725 5.29325C6.31625 4.90225 5.68425 4.90225 5.29325 5.29325C4.90225 5.68425 4.90225 6.31625 5.29325 6.70725L10.5862 12.0002L5.29325 17.2933C4.90225 17.6843 4.90225 18.3162 5.29325 18.7072C5.48825 18.9022 5.74425 19.0002 6.00025 19.0002C6.25625 19.0002 6.51225 18.9022 6.70725 18.7072L12.0002 13.4143L17.2933 18.7072C17.4883 18.9022 17.7442 19.0002 18.0002 19.0002C18.2562 19.0002 18.5122 18.9022 18.7072 18.7072C19.0982 18.3162 19.0982 17.6843 18.7072 17.2933L13.4143 12.0002Z" fill="currentColor"/></svg>`,
+    add: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_223_315)"><path d="M19.5 3H4.5C3.67157 3 3 3.67157 3 4.5V19.5C3 20.3284 3.67157 21 4.5 21H19.5C20.3284 21 21 20.3284 21 19.5V4.5C21 3.67157 20.3284 3 19.5 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_223_315"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>`,
+};
+const radioButtons = document.querySelectorAll('input[name="action"]');
 const container = document.getElementById('container');
-let buyRequestsPage = 1;
-let buyRequestsCache;
-let waitingCarsPage = 1;
-let waitingCarsCache;
-let usersPage = 1;
-let usersCache;
-let brandsPage = 1;
-let brandsCache;
+let buyRequestsPage = 1, buyRequestsCache;
+let waitingCarsPage = 1, waitingCarsCache;
+let usersPage = 1, usersCache;
+let brandsPage = 1, brandsCache;
 let modelsCache = {};
 let selectedBrand;
 window.addEventListener('load', function () {
     radioButtons.forEach(function (radio) {
         if (radio.checked) {
-            selectedRadioButton = radio;
-            updateInfo(selectedRadioButton);
+            //selectedRadioButton = radio;
+            updateInfo(radio);
         }
     });
 });
@@ -30,42 +33,36 @@ function updateInfo(target) {
     if (target.id == "users") {
         if (usersCache == null)
             getUsers();
-        else {
+        else
             showData(usersCache);
-        }
     }
     else if (target.id == "buyRequests") {
         if (buyRequestsCache == null)
             getBuyRequests();
-        else {
+        else
             showData(buyRequestsCache);
-        }
     }
     else if (target.id == "waitingCars") {
         if (waitingCarsCache == null)
             getWaitingCars();
-        else {
+        else
             showData(waitingCarsCache);
-        }
     }
     else if (target.id == "brands") {
         if (brandsCache == null)
             getBrands();
-        else {
+        else
             showData(brandsCache);
-        }
     }
 }
 function showData(data) {
-    if (data == null || data.success == false) {
+    if (data == null || data.success == false)
         container.innerHTML = `<h3 class="warning-text">Помилка при отриманні даних</h3>`;
-    }
     else {
         if (data.type == "Users") {
             container.innerHTML = "";
-            if (data.users.length == 0) {
-                container.innerHTML = `<h3 class="warning-text">Пусто</h3>`;
-            }
+            if (data.users.length == 0)
+                container.innerHTML = `<h3 class="warning-text">Тут ще нікого немає</h3>`;
             data.users.forEach(user => {
                 container.innerHTML += `<div class="user_container-element">
                 <a href="/User/Detail/${user.id}">${user.name} ${user.surname}</a>
@@ -75,9 +72,8 @@ function showData(data) {
         }
         else if (data.type == "WaitingCars") {
             container.innerHTML = "";
-            if (data.cars.length == 0) {
+            if (data.cars.length == 0)
                 container.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
-            }
             data.cars.forEach(car => {
                 container.innerHTML += `<div class="car">
                                   <div class="car_container">
@@ -89,12 +85,10 @@ function showData(data) {
                                                     <p class="car_container-info-parameters-column-race">${car.car.mileage} тис. км</p>
                                                     <p class="car_container-info-parameters-column-transmission">${transmissionName(car.car.carTransmission)}</p>
                                                     <p class="car_container-info-parameters-column-vin">${car.car.vin}</p>
-                                                
                                                     </div>
                                                 <div class="car_container-info-parameters-column">
                                                     <p class="car_container-info-parameters-column-fuel">${fuelName(car.car.fuel)}, ${car.car.engineCapacity} л.</p>
                                                     <p class="car_container-info-parameters-column-driveline">${drivelineName(car.car.driveline)}</p>
-                                                    
                                                     </div>
                                             </div>
                                             
@@ -112,9 +106,8 @@ function showData(data) {
         }
         else if (data.type == "BuyRequests") {
             container.innerHTML = "";
-            if (data.requests.length == 0) {
+            if (data.requests.length == 0)
                 container.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
-            }
             data.requests.forEach(request => {
                 container.innerHTML += `<div class="buy-request">
             <div class="buy-request_buyer">
@@ -142,20 +135,8 @@ function showData(data) {
                 container.firstElementChild.innerHTML += '<div id="modelsCont"></div><div id="brandsCont"></div>';
                 let brandsContainer = document.getElementById('brandsCont');
                 brandsContainer.innerHTML = `<div class="new-model"><input type="text" placeholder="Назва марки" id="new-brand-name"/>
-                <button onclick="addBrand(this)"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_223_315)">
-                <path d="M19.5 3H4.5C3.67157 3 3 3.67157 3 4.5V19.5C3 20.3284 3.67157 21 4.5 21H19.5C20.3284 21 21 20.3284 21 19.5V4.5C21 3.67157 20.3284 3 19.5 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                <path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </g>
-                <defs>
-                <clipPath id="clip0_223_315">
-                <rect width="24" height="24" fill="white"/>
-                </clipPath>
-                </defs>
-                </svg>
+                <button onclick="addBrand(this)"><span>${svgCodes.add}
                 </span></button></div>`;
-                let modelsContainer = document.getElementById('modelsCont');
                 if (selectedBrand == null || !data.brands.includes(selectedBrand)) selectedBrand = data.brands[0];
                 data.brands.forEach(brand => {
                     if (brand != "Інше") {
@@ -165,33 +146,8 @@ function showData(data) {
                         name="brands" value="${brand.replace(' ', '_')}" ${brand == selectedBrand ? 'checked' : ''}>
                         <label for="${brand.replace(' ', '_')}">${brand}</label><div model_buttons>
                         <button brand="${brand.replace(' ', '_')}" class="model_buttons-edit"><span>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_217_311)">
-                        <path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/>
-                        <path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_217_311">
-                        <rect width="24" height="24" fill="white"/>
-                        </clipPath>
-                        </defs>
-                        </svg>
-                        
-                        </span></button><button onclick="deleteBrand(this)" brand="${brand.replace(' ', '_')}" class="model_buttons-delete"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_217_304)">
-                        <path d="M4.5 5V22H19.5V5H4.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                        <path d="M10 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M14 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M2 5H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M8 5L9.6445 2H14.3885L16 5H8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_217_304">
-                        <rect width="24" height="24" fill="white"/>
-                        </clipPath>
-                        </defs>
-                        </svg>
+                        ${svgCodes.edit}
+                        </span></button><button onclick="deleteBrand(this)" brand="${brand.replace(' ', '_')}" class="model_buttons-delete"><span>${svgCodes.delete}
                         </span></button></div>`;
                         if (brand == selectedBrand)
                             getModelsOfMark(brand);
@@ -285,9 +241,8 @@ function deleteModel(button) {
         fetch(`/Admin/DeleteModel?brand=${button.getAttribute('brand')}&model=${button.getAttribute('model')}`)
             .then(response => response.json())
             .then(data => {
-                if (data != null && data.success == true) {
+                if (data != null && data.success == true)
                     getModelsOfMark(button.getAttribute('brand'), true);
-                }
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
     }
@@ -301,9 +256,8 @@ function editModel(button) {
             fetch(`/Admin/EditModel?brand=${button.getAttribute('brand')}&newName=${newName}&oldName=${oldName}`)
                 .then(response => response.json())
                 .then(data => {
-                    if (data != null && data.success == true) {
+                    if (data != null && data.success == true)
                         getModelsOfMark(button.getAttribute('brand'), true);
-                    }
                 })
                 .catch(error => console.error("An error occurred while retrieving data:", error));
         }
@@ -318,20 +272,8 @@ function changeModelToEditMode(button) {
     for (let i = 0; i < modelsCont.children.length; i++) {
         if (modelsCont.children[i].textContent.replace(/[\n\r]+|[\s]{2,}/g, '') === model) {
             modelsCont.children[i].innerHTML = `<input type="text" placeholder="Нова назва" value="${button.getAttribute('model')}" id="edit-model-name"/><div model_buttons>
-                    <button onclick="editModel(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-submit"><span>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_235_308)">
-                    <path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </g>
-                    <defs>
-                    <clipPath id="clip0_235_308">
-                    <rect width="24" height="24" fill="white"/>
-                    </clipPath>
-                    </defs>
-                    </svg>
-                    </span></button><button onclick="getModelsOfMark('${brand}')" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-delete"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4143 12.0002L18.7072 6.70725C19.0982 6.31625 19.0982 5.68425 18.7072 5.29325C18.3162 4.90225 17.6843 4.90225 17.2933 5.29325L12.0002 10.5862L6.70725 5.29325C6.31625 4.90225 5.68425 4.90225 5.29325 5.29325C4.90225 5.68425 4.90225 6.31625 5.29325 6.70725L10.5862 12.0002L5.29325 17.2933C4.90225 17.6843 4.90225 18.3162 5.29325 18.7072C5.48825 18.9022 5.74425 19.0002 6.00025 19.0002C6.25625 19.0002 6.51225 18.9022 6.70725 18.7072L12.0002 13.4143L17.2933 18.7072C17.4883 18.9022 17.7442 19.0002 18.0002 19.0002C18.2562 19.0002 18.5122 18.9022 18.7072 18.7072C19.0982 18.3162 19.0982 17.6843 18.7072 17.2933L13.4143 12.0002Z" fill="currentColor"/>
-                    </svg>
+                    <button onclick="editModel(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-submit"><span>${svgCodes.submit}
+                    </span></button><button onclick="getModelsOfMark('${brand}')" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-delete"><span>${svgCodes.cancel}
                     </span></button></div>`;
             break;
         }
@@ -349,57 +291,17 @@ async function getModelsOfMark(brand, forced = false) {
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
     }
-    else {
+    else
         showModels(brand);
-    }
 }
 function showModels(brand) {
     let modelsContainer = document.getElementById('modelsCont');
     if (modelsContainer == null) return;
-    modelsContainer.innerHTML = `<div class="new-model"><input type="text" placeholder="Назва моделі" id="new-model-name"/><button onclick="addModel(this)" brand="${brand}"><span>
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_223_315)">
-                                            <path d="M19.5 3H4.5C3.67157 3 3 3.67157 3 4.5V19.5C3 20.3284 3.67157 21 4.5 21H19.5C20.3284 21 21 20.3284 21 19.5V4.5C21 3.67157 20.3284 3 19.5 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                                            <path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_223_315">
-                                            <rect width="24" height="24" fill="white"/>
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                 </span></button></div>`;
+    modelsContainer.innerHTML = `<div class="new-model"><input type="text" placeholder="Назва моделі" id="new-model-name"/><button onclick="addModel(this)" brand="${brand}"><span>${svgCodes.add}</span></button></div>`;
     modelsCache[brand].forEach(model => {
-        modelsContainer.innerHTML += `<div class="model"><p>${model}</p>
-                    <div model_buttons>
-                    <button onclick="changeModelToEditMode(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-edit"><span>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_217_311)">
-                    <path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/>
-                    <path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                    </g>
-                    <defs>
-                    <clipPath id="clip0_217_311">
-                    <rect width="24" height="24" fill="white"/>
-                    </clipPath>
-                    </defs>
-                    </svg>
-                    </span></button><button onclick="deleteModel(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-delete"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_217_304)">
-                    <path d="M4.5 5V22H19.5V5H4.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                    <path d="M10 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M2 5H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8 5L9.6445 2H14.3885L16 5H8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                    </g>
-                    <defs>
-                    <clipPath id="clip0_217_304">
-                    <rect width="24" height="24" fill="white"/>
-                    </clipPath>
-                    </defs>
-                    </svg>
+        modelsContainer.innerHTML += `<div class="model"><p>${model}</p><div model_buttons>
+                    <button onclick="changeModelToEditMode(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-edit"><span>${svgCodes.edit}
+                    </span></button><button onclick="deleteModel(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-delete"><span>${svgCodes.delete}
                     </span></button></div></div>`;
     });
 }
@@ -429,25 +331,20 @@ function fuelName(id) {
 }
 function transmissionName(id) {
     switch (id) {
-        case 1: {
+        case 1:
             return "Механічна";
-        }
-        case 2: {
+        case 2:
             return "Автомат";
-        }
     }
 }
 function drivelineName(id) {
     switch (id) {
-        case 1: {
+        case 1:
             return "Передній";
-        }
-        case 2: {
+        case 2:
             return "Задній";
-        }
-        case 3: {
+        case 3:
             return "Повний";
-        }
     }
 }
 function formatNumberWithThousandsSeparator(number) {
