@@ -11,12 +11,13 @@
             transition: 0.2s;
         }
 
-        #phone_container {
+        #phone_container, #name_container {
             display: flex;
             align-items: center;
             margin: 7px 0;
             width: fit-content;
             border-radius: 9px;
+
             button {
                 color: $gray-default;
                 transition: 0.2s;
@@ -40,6 +41,12 @@
                     color: $gray-default;
                 }
             }
+        }
+
+        #change-name {
+            border-radius: 7px;
+            margin-left: 5px;
+            border: 1px solid $gray-default;
         }
 
         #change-phone-number {
