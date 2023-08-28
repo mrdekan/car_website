@@ -16,7 +16,7 @@ namespace car_website.Models
         {
             ConfirmationToken = confirmationToken;
             Name = userVM.Name;
-            Email = userVM.Email;
+            Email = userVM.Email.ToLower();
             SurName = userVM.Surname;
             Password = userService.HashPassword(userVM.Password);
             EmailConfirmed = false;

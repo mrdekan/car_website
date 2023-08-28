@@ -34,9 +34,16 @@ namespace car_website.Controllers
             _buyRequestRepository = buyRequestRepository;
         }
         #endregion
+
+        private bool IsAdmin() => HttpContext.Session.GetInt32("UserRole") == 1
+            || HttpContext.Session.GetInt32("UserRole") == 2;
+
+        private bool IsCurrentUserId(string id) =>
+            HttpContext.Session.GetString("UserId") == id;
+
         public async Task<IActionResult> Detail(string id)
         {
-            if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+            if (!IsCurrentUserId(id) && !IsAdmin())
                 return RedirectToAction("Index", "Home");
             var user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
             return View(user);
@@ -63,12 +70,15 @@ namespace car_website.Controllers
                 User newUser = new User(userVM, _userService, _userService.GenerateEmailConfirmationToken());
                 await _userRepository.Add(newUser);
                 var verificationLink = Url.Action("VerifyEmail", "User",
-                    new { userId = newUser.Id.ToString(), token = newUser.ConfirmationToken }, Request.Scheme);
+                    new
+                    {
+                        userId = newUser.Id.ToString(),
+                        token = newUser.ConfirmationToken
+                    }, Request.Scheme);
                 var message = $"Будь ласка, щоб підтвердити ел. пошту перейдіть за посиланням: {verificationLink}";
                 await _emailService.SendEmailAsync(newUser.Email, "Підтвердження пошти", message);
                 HttpContext.Session.SetString("UserId", newUser.Id.ToString());
                 HttpContext.Session.SetInt32("UserRole", (int)newUser.Role);
-                ViewBag.CurrentUser = newUser;
                 return RedirectToAction("RegistrationSuccess");
             }
             else
@@ -88,11 +98,19 @@ namespace car_website.Controllers
                 User user = await _userRepository.GetByEmailAsync(passVM.Email);
                 if (user == null)
                 {
-                    ModelState.AddModelError("Email", "Обліковий запис з вказаною електронною адресою не знайдено.");
+                    ModelState.AddModelError("Email",
+                        "Обліковий запис з вказаною електронною адресою не знайдено.");
                     return View(passVM);
                 }
+                string secretKey = Guid.NewGuid().ToString();
+                HttpContext.Session.SetString("secretKey", secretKey);
                 var verificationLink = Url.Action("NewPassword", "User",
-                    new { userId = user.Id.ToString(), token = user.ConfirmationToken }, Request.Scheme);
+                    new
+                    {
+                        userId = user.Id.ToString(),
+                        token = user.ConfirmationToken,
+                        sk = secretKey
+                    }, Request.Scheme);
                 var message = $"Щоб змінити пароль, будь ласка, скористайтеся цим посиланням: {verificationLink}.\nЯкщо у вас є сумніви стосовно цієї дії, рекомендуємо утриматися від переходу за посиланням.";
                 await _emailService.SendEmailAsync(user.Email, "Зміна пароля", message);
             }
@@ -101,20 +119,14 @@ namespace car_website.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginVM)
         {
-            var returnUrl = HttpContext.Session.GetString("ReturnUrl");
             if (ModelState.IsValid)
             {
-                User user = await _userRepository.GetByEmailAsync(loginVM.Email);
-                if (user != null && _userService.VerifyPassword(loginVM.Password, user.Password))
+                User user = await _userRepository.GetByEmailAsync(loginVM.Email.ToLower());
+                if (user != null
+                    && _userService.VerifyPassword(loginVM.Password, user.Password))
                 {
-                    ViewBag.CurrentUser = user;
                     HttpContext.Session.SetString("UserId", user.Id.ToString());
                     HttpContext.Session.SetInt32("UserRole", (int)user.Role);
-                    /*if (!string.IsNullOrEmpty(returnUrl))
-                    {
-                        HttpContext.Session.SetString("ReturnUrl", "");
-                        return LocalRedirect(returnUrl);
-                    }*/
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("Email", "Неправильна почта або пароль");
@@ -125,14 +137,14 @@ namespace car_website.Controllers
                 return View(loginVM);
             }
         }
-        public async Task<IActionResult> NewPassword(string userId, string token)
+        public async Task<IActionResult> NewPassword(string userId, string token, string sk)
         {
             var user = await _userRepository.GetByIdAsync(ObjectId.Parse(userId));
 
-            if (user == null || user.ConfirmationToken != token)
-            {
+            if (user == null
+                || user.ConfirmationToken != token
+                || sk != HttpContext.Session.GetString("secretKey"))
                 return BadRequest();
-            }
             HttpContext.Session.SetString("ResetPasswordId", user.Id.ToString());
             return View();
         }
@@ -143,12 +155,16 @@ namespace car_website.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("NewPassword", new { userId = user.Id.ToString(), token = user.ConfirmationToken });
+            return RedirectToAction("NewPassword", new
+            {
+                userId = user.Id.ToString(),
+                token = user.ConfirmationToken
+            });
         }
-        //SuccessCode == 0 -> ok
-        //SuccessCode == 1 -> user is not logged in
-        //SuccessCode == 2 -> incorrect phone format
-        //SuccessCode == 3 -> another error
+        // SuccessCode == 0 -> ok
+        // SuccessCode == 1 -> user is not logged in
+        // SuccessCode == 2 -> incorrect phone format
+        // SuccessCode == 3 -> another error
         [HttpGet]
         public async Task<IActionResult> ChangePhone(string phone)
         {
@@ -172,12 +188,13 @@ namespace car_website.Controllers
         public async Task<IActionResult> NewPassword(NewPasswordViewModel newPassVM)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("ResetPasswordId")))
-                return RedirectToAction("Index", "Home");
+                return BadRequest();
             try
             {
                 if (ModelState.IsValid)
                 {
                     var user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("ResetPasswordId")));
+                    if (user == null) return BadRequest();
                     user.Password = _userService.HashPassword(newPassVM.Password);
                     await _userRepository.Update(user);
                     string userId = HttpContext.Session.GetString("UserId") ?? "";
@@ -262,7 +279,7 @@ namespace car_website.Controllers
         {
             try
             {
-                if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
+                if (!IsCurrentUserId(id) && !IsAdmin())
                     return Ok(new { Success = false, Cars = new List<Car>(), Pages = 0, Page = 0 });
                 User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
                 IEnumerable<WaitingCar> cars = await _waitingCarsRepository.GetByIdListAsync(user.CarWithoutConfirmation);
@@ -283,8 +300,14 @@ namespace car_website.Controllers
         {
             try
             {
-                if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
-                    return Ok(new { Success = false, Cars = new List<Car>(), Pages = 0, Page = 0 });
+                if (!IsCurrentUserId(id) && !IsAdmin())
+                    return Ok(new
+                    {
+                        Success = false,
+                        Cars = new List<Car>(),
+                        Pages = 0,
+                        Page = 0
+                    });
                 User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
                 IEnumerable<BuyRequest> requests = await _buyRequestRepository.GetByIdListAsync(user.SendedBuyRequest);
                 int totalItems = requests.Count();
@@ -293,11 +316,25 @@ namespace car_website.Controllers
                 requests = requests.Skip(skip).Take(perPage);
                 var carsIds = requests.Select(obj => ObjectId.Parse(obj.CarId)).ToList();
                 var carsRes = await _carRepository.GetByIdListAsync(carsIds);
-                return Ok(new { Success = true, Cars = carsRes.Select(car => new CarViewModel(car, _currencyUpdater, user.Favorites.Contains(car.Id))).ToList(), Pages = totalPages, Page = page });
+                return Ok(new
+                {
+                    Success = true,
+                    Cars = carsRes.Select(car => new CarViewModel(car,
+                        _currencyUpdater,
+                        user.Favorites.Contains(car.Id))).ToList(),
+                    Pages = totalPages,
+                    Page = page
+                });
             }
             catch (Exception ex)
             {
-                return Ok(new { Success = false, Cars = new List<Car>(), Pages = 0, Page = 0 });
+                return Ok(new
+                {
+                    Success = false,
+                    Cars = new List<Car>(),
+                    Pages = 0,
+                    Page = 0
+                });
             }
         }
         [HttpGet]
@@ -305,8 +342,14 @@ namespace car_website.Controllers
         {
             try
             {
-                if (HttpContext.Session.GetString("UserId") != id && HttpContext.Session.GetInt32("UserRole") != 1 && HttpContext.Session.GetInt32("UserRole") != 2)
-                    return Ok(new { Success = false, Cars = new List<Car>(), Pages = 0, Page = 0 });
+                if (!IsCurrentUserId(id) && !IsAdmin())
+                    return Ok(new
+                    {
+                        Success = false,
+                        Cars = new List<Car>(),
+                        Pages = 0,
+                        Page = 0
+                    });
                 User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
                 User currentUser = await GetCurrentUser();
                 IEnumerable<Car> cars = await _carRepository.GetByIdListAsync(user.CarsForSell);
@@ -314,25 +357,37 @@ namespace car_website.Controllers
                 int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
                 int skip = (page - 1) * perPage;
                 cars = cars.Skip(skip).Take(perPage);
-                var carsRes = cars.Select(car => new CarViewModel(car, _currencyUpdater, currentUser.Favorites.Contains(car.Id))).ToList();
-                return Ok(new { Success = true, Cars = carsRes, Pages = totalPages, Page = page });
+                var carsRes = cars.Select(car => new CarViewModel(car,
+                    _currencyUpdater,
+                    currentUser.Favorites.Contains(car.Id))).ToList();
+                return Ok(new
+                {
+                    Success = true,
+                    Cars = carsRes,
+                    Pages = totalPages,
+                    Page = page
+                });
             }
             catch (Exception ex)
             {
-                return Ok(new { Success = false, Cars = new List<Car>(), Pages = 0, Page = 0 });
+                return Ok(new
+                {
+                    Success = false,
+                    Cars = new List<Car>(),
+                    Pages = 0,
+                    Page = 0
+                });
             }
         }
         private async Task<User> GetCurrentUser()
         {
-            User user = null;
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
             {
-                ObjectId id;
-                bool parsed = ObjectId.TryParse(HttpContext.Session.GetString("UserId"), out id);
-                if (parsed)
-                    user = await _userRepository.GetByIdAsync(id);
+                if (ObjectId.TryParse(HttpContext.Session.GetString("UserId"),
+                    out ObjectId id))
+                    return await _userRepository.GetByIdAsync(id);
             }
-            return user;
+            return null;
         }
 
         private static bool IsValidPhoneNumber(string phoneNumber)

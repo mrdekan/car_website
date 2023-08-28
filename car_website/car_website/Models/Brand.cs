@@ -5,6 +5,11 @@ namespace car_website.Models
 {
     public class Brand
     {
+        public Brand(string name)
+        {
+            Name = name;
+            Models = new List<string>() { "Інше" };
+        }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }

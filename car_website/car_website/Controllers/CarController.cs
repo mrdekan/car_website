@@ -34,6 +34,10 @@ namespace car_website.Controllers
             _expressSaleCarRepository = expressSaleCarRepository;
         }
         #endregion
+
+        private async Task<bool> IsAtorized() =>
+            await GetCurrentUser() != null;
+
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {
@@ -77,14 +81,19 @@ namespace car_website.Controllers
                 var results = tasks.Select(task => task.Result).ToList();
                 var topThree = results.OrderByDescending(tuple => tuple.Item2).Take(3).ToList();
                 var similarCars = topThree.Select(tuple => tuple.Item1).ToList();
-                return Ok(new { Success = true, Cars = similarCars.Select(el => new LiteCarViewModel(el, _currencyUpdater)).ToList() });
+                return Ok(new
+                {
+                    Success = true,
+                    Cars = similarCars.Select(el =>
+                    new LiteCarViewModel(el, _currencyUpdater)).ToList()
+                });
             }
             catch
             {
                 return Ok(new { Success = false, Cars = new List<LiteCarViewModel>() });
             }
         }
-        private async Task<Tuple<Car, byte>> DistanceCoefficient(Car baseCar, Car compared)
+        private static async Task<Tuple<Car, byte>> DistanceCoefficient(Car baseCar, Car compared)
         {
             byte score = 0;
             await Task.Run(() =>
@@ -92,28 +101,66 @@ namespace car_website.Controllers
                 if (baseCar.Brand == compared.Brand)
                 {
                     score += 4;
-                    if (baseCar.Model == compared.Model) score += 4;
+                    if (baseCar.Model == compared.Model)
+                        score += 4;
                 }
-                if (baseCar.Fuel == compared.Fuel) score += 2;
-                else if (baseCar.Fuel == Data.Enum.TypeFuel.GasAndGasoline && compared.Fuel == Data.Enum.TypeFuel.Gas) score += 1;
-                else if (baseCar.Fuel == Data.Enum.TypeFuel.Gas && compared.Fuel == Data.Enum.TypeFuel.GasAndGasoline) score += 1;
-                else if (baseCar.Fuel == Data.Enum.TypeFuel.GasAndGasoline && compared.Fuel == Data.Enum.TypeFuel.Gasoline) score += 1;
-                else if (baseCar.Fuel == Data.Enum.TypeFuel.Gasoline && compared.Fuel == Data.Enum.TypeFuel.GasAndGasoline) score += 1;
-                if (compared.Year >= baseCar.Year - 3 && compared.Year <= baseCar.Year + 3) score += 2;
-                else if (compared.Year >= baseCar.Year - 5 && compared.Year <= baseCar.Year + 5) score += 1;
-                if (compared.Price >= (float)baseCar.Price * 0.75f && compared.Price <= (float)baseCar.Price * 1.25f) score += 4;
-                else if (compared.Price >= (float)baseCar.Price * 0.65f && compared.Price <= (float)baseCar.Price * 1.35f) score += 2;
-                if (compared.EngineCapacity >= baseCar.EngineCapacity - 0.5 && compared.EngineCapacity <= baseCar.EngineCapacity + 0.5) score += 1;
-                if (baseCar.Body == compared.Body) score += 5;
-                else if (baseCar.Body == Data.Enum.TypeBody.Sedan && compared.Body == Data.Enum.TypeBody.Coupe) score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.Coupe && compared.Body == Data.Enum.TypeBody.Sedan) score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.SUV && compared.Body == Data.Enum.TypeBody.StationWagon) score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.StationWagon && compared.Body == Data.Enum.TypeBody.SUV) score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.Coupe && compared.Body == Data.Enum.TypeBody.Convertible) score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.Convertible && compared.Body == Data.Enum.TypeBody.Coupe) score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.Sedan && compared.Body == Data.Enum.TypeBody.StationWagon) score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.StationWagon && compared.Body == Data.Enum.TypeBody.Sedan) score += 2;
-                if (baseCar.CarTransmission == compared.CarTransmission) score += 3;
+                if (baseCar.Fuel == compared.Fuel)
+                    score += 2;
+                else if (baseCar.Fuel == Data.Enum.TypeFuel.GasAndGasoline
+                && compared.Fuel == Data.Enum.TypeFuel.Gas)
+                    score += 1;
+                else if (baseCar.Fuel == Data.Enum.TypeFuel.Gas
+                && compared.Fuel == Data.Enum.TypeFuel.GasAndGasoline)
+                    score += 1;
+                else if (baseCar.Fuel == Data.Enum.TypeFuel.GasAndGasoline
+                && compared.Fuel == Data.Enum.TypeFuel.Gasoline)
+                    score += 1;
+                else if (baseCar.Fuel == Data.Enum.TypeFuel.Gasoline
+                && compared.Fuel == Data.Enum.TypeFuel.GasAndGasoline)
+                    score += 1;
+                if (compared.Year >= baseCar.Year - 3
+                && compared.Year <= baseCar.Year + 3)
+                    score += 2;
+                else if (compared.Year >= baseCar.Year - 5
+                && compared.Year <= baseCar.Year + 5)
+                    score += 1;
+                if (compared.Price >= (float)baseCar.Price * 0.75f
+                && compared.Price <= (float)baseCar.Price * 1.25f)
+                    score += 4;
+                else if (compared.Price >= (float)baseCar.Price * 0.65f
+                && compared.Price <= (float)baseCar.Price * 1.35f)
+                    score += 2;
+                if (compared.EngineCapacity >= baseCar.EngineCapacity - 0.5
+                && compared.EngineCapacity <= baseCar.EngineCapacity + 0.5)
+                    score += 1;
+                if (baseCar.Body == compared.Body)
+                    score += 5;
+                else if (baseCar.Body == Data.Enum.TypeBody.Sedan
+                && compared.Body == Data.Enum.TypeBody.Coupe)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.Coupe
+                && compared.Body == Data.Enum.TypeBody.Sedan)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.SUV
+                && compared.Body == Data.Enum.TypeBody.StationWagon)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.StationWagon
+                && compared.Body == Data.Enum.TypeBody.SUV)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.Coupe
+                && compared.Body == Data.Enum.TypeBody.Convertible)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.Convertible
+                && compared.Body == Data.Enum.TypeBody.Coupe)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.Sedan
+                && compared.Body == Data.Enum.TypeBody.StationWagon)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.StationWagon
+                && compared.Body == Data.Enum.TypeBody.Sedan)
+                    score += 2;
+                if (baseCar.CarTransmission == compared.CarTransmission)
+                    score += 3;
             });
             return new Tuple<Car, byte>(compared, score);
         }
@@ -123,22 +170,31 @@ namespace car_website.Controllers
             var car = await _waitingCarsRepository.GetByIdAsync(ObjectId.Parse(id));
             return View(car);
         }
-        //SuccessCode == 0 --> some error
-        //SuccessCode == 1 --> success
-        //SuccessCode == 2 --> user not logged in
+        // SuccessCode == 0 --> success
+        // SuccessCode == 1 --> some error
+        // SuccessCode == 2 --> user not logged in
         [HttpGet]
         public async Task<ActionResult<byte>> BuyRequest(string id, bool cancel)
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
-                Ok(new { SuccessCode = 2 });
+            User user = await GetCurrentUser();
+            if (user == null)
+                return Ok(new { SuccessCode = 2 });
             try
             {
-                var user = await GetCurrentUser();
-                if (user == null) return Ok(new { SuccessCode = 2 });
-                if (!cancel)
+                if (cancel)
                 {
-                    var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
-                    BuyRequest buyRequest = new BuyRequest()
+                    BuyRequest request = await _buyRequestRepository.GetByBuyerAndCarAsync(user.Id.ToString(), id);
+                    if (request == null)
+                        return Ok(new { SuccessCode = 1 });
+                    user.SendedBuyRequest.Remove(request.Id);
+                    await _buyRequestRepository.Delete(request);
+                    await _userRepository.Update(user);
+                    return Ok(new { SuccessCode = 0 });
+                }
+                else
+                {
+                    Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
+                    BuyRequest buyRequest = new()
                     {
                         BuyerId = user.Id.ToString(),
                         CarId = id,
@@ -146,55 +202,37 @@ namespace car_website.Controllers
                     await _buyRequestRepository.Add(buyRequest);
                     user.SendedBuyRequest.Add(buyRequest.Id);
                     await _userRepository.Update(user);
-                }
-                else
-                {
-                    var request = await _buyRequestRepository.GetByBuyerAndCarAsync(user.Id.ToString(), id);
-                    if (request == null)
-                    {
-                        return Ok(new { SuccessCode = 0 });
-                    }
-                    else
-                    {
-                        user.SendedBuyRequest.Remove(request.Id);
-                        await _buyRequestRepository.Delete(request);
-                        await _userRepository.Update(user);
-                    }
+                    return Ok(new { SuccessCode = 0 });
                 }
             }
             catch
             {
-                return Ok(new { SuccessCode = 0 });
+                return Ok(new { SuccessCode = 1 });
             }
-            return Ok(new { SuccessCode = 1 });
         }
-        public IActionResult CreateExpressSaleCar()
+        public async Task<IActionResult> CreateExpressSaleCar()
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            if (!await IsAtorized())
                 return RedirectToAction("Register", "User");
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> CreateExpressSaleCar(CreateExpressSaleCarViewModel carVM)
         {
-            string userId = HttpContext.Session.GetString("UserId") ?? "";
-            if (string.IsNullOrEmpty(userId))
-            {
-                HttpContext.Session.SetString("ReturnUrl", HttpContext.Request.Path);
+            User user = await GetCurrentUser();
+            if (user == null)
                 return RedirectToAction("Register", "User");
-            }
             if (ModelState.IsValid)
             {
                 List<string> photosNames = new List<string>();
-                List<IFormFile> photos = new List<IFormFile>() { carVM.Photo1, carVM.Photo2 };
-                photos = photos.Where(photo => photo != null).ToList();
+                List<IFormFile> photos = new List<IFormFile> { carVM.Photo1, carVM.Photo2 }
+                                                    .Where(photo => photo != null).ToList();
                 foreach (var photo in photos)
                 {
                     var photoName = await _imageService.UploadPhotoAsync(photo);
                     photosNames.Add(photoName);
                 }
-                var newCar = new ExpressSaleCar(carVM, userId, photosNames);
-                User user = await GetCurrentUser();
+                var newCar = new ExpressSaleCar(carVM, user.Id.ToString(), photosNames);
                 if (user != null)
                 {
                     await _expressSaleCarRepository.Add(newCar);
@@ -210,9 +248,8 @@ namespace car_website.Controllers
         }
         public async Task<IActionResult> Create()
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            if (!await IsAtorized())
             {
-                HttpContext.Session.SetString("ReturnUrl", HttpContext.Request.Path);
                 return RedirectToAction("Register", "User");
             }
             var brands = await _brandRepository.GetAll();
@@ -231,28 +268,26 @@ namespace car_website.Controllers
             {
                 if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
                 {
-                    using (HttpClient client = new HttpClient())
+                    using HttpClient client = new();
+                    var response = await client.GetAsync($"https://www.googleapis.com/youtube/v3/videos?id={GetVideoIdFromUrl(carVM.CreateCarViewModel.VideoURL ?? "")}&key={_configuration.GetSection("GoogleApiSettings")["ApiKey"]}&part=snippet");
+                    if (response.IsSuccessStatusCode)
                     {
-                        var response = await client.GetAsync($"https://www.googleapis.com/youtube/v3/videos?id={GetVideoIdFromUrl(carVM.CreateCarViewModel.VideoURL ?? "")}&key={_configuration.GetSection("GoogleApiSettings")["ApiKey"]}&part=snippet");
-                        if (response.IsSuccessStatusCode)
-                        {
-                            string responseBody = await response.Content.ReadAsStringAsync();
-                            var videoDetails = JsonConvert.DeserializeObject<VideoDetailsResponse>(responseBody);
-                            if (videoDetails == null || videoDetails.Items.Length <= 0)
-                            {
-                                var brands = await _brandRepository.GetAll();
-                                carVM.CarBrands = brands.ToList();
-                                ModelState.AddModelError("VideoURL", "Відео не знайдено");
-                                return View(carVM);
-                            }
-                        }
-                        else
+                        string responseBody = await response.Content.ReadAsStringAsync();
+                        var videoDetails = JsonConvert.DeserializeObject<VideoDetailsResponse>(responseBody);
+                        if (videoDetails == null || videoDetails.Items.Length <= 0)
                         {
                             var brands = await _brandRepository.GetAll();
                             carVM.CarBrands = brands.ToList();
                             ModelState.AddModelError("VideoURL", "Відео не знайдено");
                             return View(carVM);
                         }
+                    }
+                    else
+                    {
+                        var brands = await _brandRepository.GetAll();
+                        carVM.CarBrands = brands.ToList();
+                        ModelState.AddModelError("VideoURL", "Відео не знайдено");
+                        return View(carVM);
                     }
                 }
                 var newCar = carVM.CreateCarViewModel;
@@ -287,7 +322,7 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<ActionResult<bool>> Like(string carId, bool isLiked)
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            if (!await IsAtorized())
                 return Ok(new { Success = false });
             User user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("UserId")));
             Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(carId));
@@ -309,15 +344,13 @@ namespace car_website.Controllers
         }
         private async Task<User> GetCurrentUser()
         {
-            User user = null;
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
             {
-                ObjectId id;
-                bool parsed = ObjectId.TryParse(HttpContext.Session.GetString("UserId"), out id);
-                if (parsed)
-                    user = await _userRepository.GetByIdAsync(id);
+                if (ObjectId.TryParse(HttpContext.Session.GetString("UserId"),
+                    out ObjectId id))
+                    return await _userRepository.GetByIdAsync(id);
             }
-            return user;
+            return null;
         }
         private string GetVideoIdFromUrl(string url)
         {
