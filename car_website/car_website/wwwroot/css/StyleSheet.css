@@ -1080,6 +1080,7 @@ body {
   gap: 10px;
   max-width: 300px;
   padding: 5px 17px;
+  margin-top: 25px;
 }
 .wrapper .filters_before p {
   color: var(--text-default);
@@ -1309,6 +1310,8 @@ body {
 }
 
 header {
+  position: sticky;
+  top: 0;
   height: 50px;
   width: 100%;
   background-color: var(--green-dark);
@@ -1316,6 +1319,7 @@ header {
   justify-content: space-between;
   align-items: center;
   transition: 0.2s;
+  z-index: 5;
 }
 header .header_left span {
   display: block;
@@ -1446,12 +1450,15 @@ header .header_right-dark-label::before {
   cursor: pointer;
 }
 header .header_right-button {
-  padding: 7px 10px 7px 32px;
+  padding: 0px 13px 0px 35px;
   border-radius: 20px;
   background-color: var(--green-medium);
   color: white;
   transition: 0.2s;
   margin-left: 15px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 16px;
 }
 header .header_right-button:hover {
   background-color: var(--green-light);
@@ -1465,7 +1472,7 @@ header .header_right-button::before {
   height: 20px;
   width: 20px;
   background-size: 20px 20px;
-  margin: -4px -24px;
+  margin: 6px -24px;
 }
 
 .car_container-info-parameters-column-race::before {
