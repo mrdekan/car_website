@@ -53,6 +53,11 @@ let drivelines = ["Усі", "Передній", "Задній", "Повний"];
 let modelsCache = {};
 //#endregion
 
+fetch(`/api/Ping`)
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error("An error occurred while retrieving data:", error));
+
 //#region Functions' calls
 getMarks();
 applyFilter();

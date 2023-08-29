@@ -2,11 +2,13 @@
 using car_website.Interfaces;
 using car_website.Repository;
 using car_website.Services;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 builder.Services.AddSingleton<IMongoClient>(sp => new MongoClient(builder.Configuration.GetConnectionString("MongoDB")));
 builder.Services.AddScoped<IMongoDatabase>(sp =>
 {
@@ -34,6 +36,12 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromDays(365);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+});
+builder.Services.AddApiVersioning(options =>
+{
+    options.ReportApiVersions = true;
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
 });
 var app = builder.Build();
 // Configure the HTTP request pipeline.
