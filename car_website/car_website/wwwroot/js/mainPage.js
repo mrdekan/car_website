@@ -53,7 +53,18 @@ let drivelines = ["Усі", "Передній", "Задній", "Повний"];
 let modelsCache = {};
 //#endregion
 
-fetch(`/api/Ping`)
+const xhr = new XMLHttpRequest();
+xhr.open('GET', `/api/v1.0/ping`, true);
+xhr.send();
+xhr.onload = function () {
+    if (xhr.status >= 200 && xhr.status < 300) {
+        const response = JSON.parse(xhr.responseText);
+        console.log('Success:', response);
+    } else {
+        console.log('Request failed. Status:', xhr.status, 'Response:', xhr.responseText);
+    }
+};
+fetch(`/Api/v2/ping`)
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.error("An error occurred while retrieving data:", error));

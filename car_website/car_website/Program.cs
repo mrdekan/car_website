@@ -3,6 +3,7 @@ using car_website.Interfaces;
 using car_website.Repository;
 using car_website.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using MongoDB.Driver;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,9 +40,11 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddApiVersioning(options =>
 {
-    options.ReportApiVersions = true;
-    options.AssumeDefaultVersionWhenUnspecified = true;
     options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+
+    options.ApiVersionReader = new MediaTypeApiVersionReader();
 });
 var app = builder.Build();
 // Configure the HTTP request pipeline.
