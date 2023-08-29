@@ -53,7 +53,7 @@ let drivelines = ["Усі", "Передній", "Задній", "Повний"];
 let modelsCache = {};
 //#endregion
 
-const xhr = new XMLHttpRequest();
+/*const xhr = new XMLHttpRequest();
 xhr.open('GET', `/api/v1.0/ping`, true);
 xhr.send();
 xhr.onload = function () {
@@ -63,7 +63,7 @@ xhr.onload = function () {
     } else {
         console.log('Request failed. Status:', xhr.status, 'Response:', xhr.responseText);
     }
-};
+};*/
 fetch(`/Api/v2/ping`)
     .then(response => response.json())
     .then(data => console.log(data))
@@ -332,9 +332,9 @@ function applyFilter(page = 1) {
         maxEngineCapacity: Number(engineVolume_max_input.value),
         minMileage: Number(race_min_input.value),
         maxMileage: Number(race_max_input.value),
-        page: page,
+        page: page
     };
-    fetch(`/home/GetCars`, {
+    fetch(`/api/v1/getCars`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -343,7 +343,7 @@ function applyFilter(page = 1) {
     })
         .then(response => response.json())
         .then(data => {
-            if (data != null && data.success == true && data.cars.length > 0) {
+            if (data != null && data.status == true && data.cars.length > 0) {
                 carsPage = data.page;
                 updatePagesButtons(data.pages);
                 const carList = document.getElementById("carList");

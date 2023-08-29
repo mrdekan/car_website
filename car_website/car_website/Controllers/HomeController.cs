@@ -36,6 +36,8 @@ namespace car_website.Controllers
         }
         public async Task<ActionResult<IEnumerable<Car>>> GetCars([FromBody] CarFilterModel filter, int perPage = CARS_PER_PAGE)
         {
+            if (filter == null)
+                return Ok(new { Success = false, Cars = new List<CarViewModel>(), Pages = 0, Page = 0 });
             try
             {
                 int page = filter.Page;

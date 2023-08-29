@@ -5,6 +5,17 @@ namespace car_website.Services
 {
     public class UserService : IUserService
     {
+        private readonly IUserRepository _userRepository;
+        public UserService(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+        public async Task<bool> Login(string email, string password)
+        {
+            User user = await _userRepository.GetByEmailAsync(email);
+            if (user == null) return false;
+            return VerifyPassword(password, user.Password);
+        }
         public string HashPassword(string password)
         {
             string salt = BCrypt.Net.BCrypt.GenerateSalt();

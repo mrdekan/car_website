@@ -1,6 +1,5 @@
 ﻿using car_website.Models;
 using car_website.Services;
-using System.Globalization;
 
 namespace car_website.ViewModels
 {
@@ -10,7 +9,6 @@ namespace car_website.ViewModels
         {
             Id = car.Id.ToString();
             Info = $"{car.Brand} {car.Model} {car.Year}";
-            CultureInfo cultureInfo = new CultureInfo("en-US");
             Price = string.Format("{0:n0}", car.Price).Replace(",", " ");
             PriceUAH = string.Format("{0:n0}", currencyUpdater.ConvertToUAH(car.Price)).Replace(",", " ");
             PhotoURL = car.PhotosURL[0];

@@ -19,6 +19,7 @@ namespace car_website.Models
         public uint MinMileage { get; set; }
         public uint MaxMileage { get; set; }
         public int Page { get; set; }
+        public int? PerPage { get; set; }
 
     }
 }
