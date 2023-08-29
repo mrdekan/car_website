@@ -314,8 +314,8 @@
 
         <div class="form-group">
             <label asp-for="CreateCarViewModel.Description">Додатковий опис</label>
-            <textarea id="description" asp-for="CreateCarViewModel.Description" maxlength="200" style="resize: none;"></textarea>
-            <span id="descriptionLength">0/200</span>
+            <textarea id="description" asp-for="CreateCarViewModel.Description" maxlength="500" style="resize: none;"></textarea>
+            <span id="descriptionLength">0/500</span>
             <span asp-validation-for="CreateCarViewModel.Description" class="text-danger"></span>
         </div>
         <button type="submit" class="sell-button">Опублікувати оголошення</button>

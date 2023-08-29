@@ -112,17 +112,16 @@
     }
 }
 h4 {
-    border-top: 2px solid $gray-default;
-    margin: 20px 0 15px;
-    padding-top: 20px;
+    margin: 20px 0 ;
     font-weight: 700;
     font-size: 18px;
 }
 .car {
     &_description {
         border-top: 2px solid $gray-default;
-        padding-top: 20px;
-        margin: 20px 0 0;
+        border-bottom: 2px solid $gray-default;
+        padding: 20px 0;
+        //margin: 20px 0 0;
         font-size: 16px;
     }
 
@@ -136,22 +135,32 @@ h4 {
             flex-direction: column;
             align-items: center;
             gap: 5px;
+            background-color: $background-secondary;
+            background-color: var(--background-secondary);
+            padding: 10px;
+            border: 1px solid;
+            border-radius: 15px;
+            max-width:242px;
 
             a {
                 color: $text-default;
                 font-size: 16px;
                 display: block;
                 font-weight: 700;
+                border-bottom: 2px solid;
+                padding-bottom: 2px;
             }
 
             img {
-                width: 180px;
-                height: 120px;
+                width: 220px;
+                height: 150px;
                 object-fit: cover;
+                border-radius: 5px;
             }
         }
     }
 }
+
 .buy-request-result {
 
     &-info {

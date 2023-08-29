@@ -576,17 +576,15 @@ input[type=number] {
 }
 
 h4 {
-  border-top: 2px solid var(--gray-default);
-  margin: 20px 0 15px;
-  padding-top: 20px;
+  margin: 20px 0;
   font-weight: 700;
   font-size: 18px;
 }
 
 .car_description {
   border-top: 2px solid var(--gray-default);
-  padding-top: 20px;
-  margin: 20px 0 0;
+  border-bottom: 2px solid var(--gray-default);
+  padding: 20px 0;
   font-size: 16px;
 }
 .car_similar {
@@ -599,17 +597,26 @@ h4 {
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  background-color: var(--background-secondary);
+  background-color: var(--background-secondary);
+  padding: 10px;
+  border: 1px solid;
+  border-radius: 15px;
+  max-width: 242px;
 }
 .car_similar .similarCar a {
   color: var(--text-default);
   font-size: 16px;
   display: block;
   font-weight: 700;
+  border-bottom: 2px solid;
+  padding-bottom: 2px;
 }
 .car_similar .similarCar img {
-  width: 180px;
-  height: 120px;
+  width: 220px;
+  height: 150px;
   object-fit: cover;
+  border-radius: 5px;
 }
 
 .buy-request-result-info {
@@ -1086,6 +1093,15 @@ body {
   color: var(--text-default);
   font-weight: 700;
 }
+.wrapper .filters_before #save_filters {
+  padding: 7px 0;
+  border-radius: 3px;
+  background-color: var(--green-dark);
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  transition: 0.3s;
+}
 .wrapper .filters_before a {
   padding: 7px 0;
   border-radius: 3px;
@@ -1239,6 +1255,9 @@ body {
 .car_container-right-price.onDetail {
   margin: 0;
 }
+.car_container-right-price.similar {
+  margin: 0 0 0 9vw;
+}
 .car_container-right-price-USD {
   font-size: 26px;
   color: white;
@@ -1247,6 +1266,10 @@ body {
   text-align: center;
   border-radius: 0 10px 0 10px;
   min-width: 115px;
+}
+.car_container-right-price-USD.similar {
+  font-size: 20px;
+  min-width: 0;
 }
 .car_container-right-price-UAH {
   font-size: 18px;
@@ -1259,6 +1282,10 @@ body {
   text-align: center;
   white-space: nowrap;
   margin-left: 20%;
+}
+.car_container-right-price-UAH.similar {
+  font-size: 14px;
+  min-width: 110px;
 }
 .car input {
   width: 40px;
@@ -1319,7 +1346,7 @@ header {
   justify-content: space-between;
   align-items: center;
   transition: 0.2s;
-  z-index: 5;
+  z-index: 100;
 }
 header .header_left span {
   display: block;
@@ -1561,6 +1588,7 @@ header .header_right-button::before {
   line-height: 32px;
   cursor: pointer;
   user-select: none;
+  border-radius: 7px;
 }
 .pages_buttons button:hover {
   outline: 2px solid #969696;

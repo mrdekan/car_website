@@ -42,8 +42,10 @@ function getSimilarCars() {
                     similarCarsBlock.innerHTML += `<div class="similarCar">
                         <a href="/Car/Detail/${car.id}">${car.info}</a>
                         <img alt="photo" src="${car.photoURL}">
-                        <p>${car.price} $</p>
-                        <p>≈ ${car.priceUAH} грн</p>
+                        <div class="car_container-right-price similar">
+                <p class="car_container-right-price-USD similar">${car.price} $</p>
+                <p class="car_container-right-price-UAH similar">≈ ${car.priceUAH} грн</p>
+            </div>
                     </div>`;
                 });
             }

@@ -34,7 +34,7 @@ namespace car_website.ViewModels
         [Range(0, 10, ErrorMessage = "Оберіть значення")]
         public Color CarColor { get; set; }
         public uint Year { get; set; }
-        [MaxLength(200, ErrorMessage = "Не більше 200 символів")]
+        [MaxLength(500, ErrorMessage = "Не більше 500 символів")]
         public string? Description { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         public float EngineCapacity { get; set; }
