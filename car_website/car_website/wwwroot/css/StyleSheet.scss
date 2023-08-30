@@ -94,7 +94,8 @@ body {
 
 
     .filters {
-        background-color: $beige-default;
+        //background-color: $beige-default;
+        background-color: $background-secondary;
         transition: 0.2s;
         display: flex;
         flex-direction: column;
@@ -138,6 +139,8 @@ body {
 
         label {
             font-size: 16px;
+            transition: 0.2s;
+            color: $text-default;
         }
 
         button {
@@ -901,15 +904,17 @@ body {
         }
     }
 
-    .range-slider {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 5px;
+.range-slider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
 
-        span {
-            font-size: 14px;
-            font-weight: 400;
-        }
+    span {
+        font-size: 14px;
+        font-weight: 400;
+        transition: 0.2s;
+        color: $text-default;
     }
+}
     //------------------Custom slider range end---

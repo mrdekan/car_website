@@ -29,8 +29,6 @@
             input {
                 height: 34px;
                 padding: 0 0 0 7px;
-                border: 1px solid $gray-default;
-                border-radius: 7px 0 0 7px;
                 background: $background-secondary;
                 color: $text-default;
                 transition: 0.2s;
@@ -41,6 +39,16 @@
                     color: $gray-default;
                 }
             }
+        }
+
+        #new-phone {
+            border-radius: 7px 0 0 7px;
+            border: 1px solid $gray-default;
+        }
+
+        #new-surname {
+            border-radius: 7px 0 0 7px;
+            border: 1px solid $gray-default;
         }
 
         #change-name {
@@ -78,6 +86,13 @@
                 box-shadow: 0px 0px 5px $error-main;
                 border: 1px solid $error-main;
             }
+        }
+
+        #new-name {
+            border-radius: 0 0 0 0;
+            border-top: 1px solid $gray-default;
+            border-bottom: 1px solid $gray-default;
+            border-right: 1px solid $gray-default;
         }
 
         h3 {

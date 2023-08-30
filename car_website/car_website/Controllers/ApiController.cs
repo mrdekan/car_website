@@ -19,6 +19,7 @@ namespace car_website.Controllers.v1
         private const byte WAITING_CARS_PER_PAGE = 5;
         private const byte BUY_REQUESTS_PER_PAGE = 5;
         private const byte FAV_CARS_PER_PAGE = 10;
+        private const byte NAME_MAX_LENGTH = 25;
         #region Services & ctor
         private readonly ICarRepository _carRepository;
         private readonly IImageService _imageService;
@@ -205,6 +206,10 @@ namespace car_website.Controllers.v1
             [FromQuery] string newSurname,
             [FromQuery] string userId)
         {
+            newName = newName.Trim();
+            newSurname = newSurname.Trim();
+            if (!IsValidName(newName) || !IsValidName(newSurname))
+                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
             if (!IsCurrentUserId(userId))
                 return Ok(new { Status = false, Code = HttpCodes.Unauthorized });
             User user = await GetCurrentUser();
@@ -251,6 +256,11 @@ namespace car_website.Controllers.v1
         {
             string pattern = @"^38\d{10}$";
             return Regex.IsMatch(phoneNumber, pattern);
+        }
+        private static bool IsValidName(string name)
+        {
+            string pattern = @"^[а-яА-ЯёЁіІїЇєЄ'\s]+$";
+            return name.Length < NAME_MAX_LENGTH && Regex.IsMatch(name, pattern);
         }
         #endregion
     }

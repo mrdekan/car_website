@@ -7,6 +7,6 @@ namespace car_website.Interfaces
         string HashPassword(string password);
         bool VerifyPassword(string password, string hashedPassword);
         string GenerateEmailConfirmationToken();
-        bool ConfirmEmailAsync(User user, string token);
+        bool ConfirmEmail(User user, string token);
     }
 }

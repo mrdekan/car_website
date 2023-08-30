@@ -324,7 +324,7 @@ function fuelName(id) {
         case 5: {
             return "Гібрид";
         }
-        case 16: {
+        case 6: {
             return "Електро";
         }
     }

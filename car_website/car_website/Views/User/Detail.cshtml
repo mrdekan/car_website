@@ -8,10 +8,10 @@
 <div class="profile">
     <div class="profile_info">
         <div id="name_container">
-        <h2>@Model.Name @Model.SurName</h2>
+            <h2>@Model.SurName @Model.Name</h2>
             @if (isSelfAccount)
             {
-                <button id="change-name" onclick="editName(this)" phone="@Model.Name @Model.SurName">
+                <button id="change-name" onclick="editName(this)" name="@Model.Name" surname="@Model.SurName">
                     <span>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_217_311)">

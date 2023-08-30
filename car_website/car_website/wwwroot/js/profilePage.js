@@ -1,4 +1,9 @@
-﻿const radioButtons = document.querySelectorAll('input[name="page"]');
+﻿const svgCodes = {
+    edit: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_217_311)"><path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></g><defs><clipPath id="clip0_217_311"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>`,
+    submit: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_235_308)"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_235_308"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>`,
+    cancel: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.4143 12.0002L18.7072 6.70725C19.0982 6.31625 19.0982 5.68425 18.7072 5.29325C18.3162 4.90225 17.6843 4.90225 17.2933 5.29325L12.0002 10.5862L6.70725 5.29325C6.31625 4.90225 5.68425 4.90225 5.29325 5.29325C4.90225 5.68425 4.90225 6.31625 5.29325 6.70725L10.5862 12.0002L5.29325 17.2933C4.90225 17.6843 4.90225 18.3162 5.29325 18.7072C5.48825 18.9022 5.74425 19.0002 6.00025 19.0002C6.25625 19.0002 6.51225 18.9022 6.70725 18.7072L12.0002 13.4143L17.2933 18.7072C17.4883 18.9022 17.7442 19.0002 18.0002 19.0002C18.2562 19.0002 18.5122 18.9022 18.7072 18.7072C19.0982 18.3162 19.0982 17.6843 18.7072 17.2933L13.4143 12.0002Z" fill="currentColor"/></svg>`,
+};
+const radioButtons = document.querySelectorAll('input[name="page"]');
 const pageUnderline = document.getElementById('line');
 const pages_buttons_containers = document.getElementsByClassName("pages_buttons");
 const pages_profile = document.getElementById("pages-profile");
@@ -239,7 +244,7 @@ function getCars() {
 //#region info displaying
 function SetCarsFromData(data, waitingCarsList = false) {
     const favList = document.getElementById("cars-list");
-    if (data != null && data.cars.length != 0 && data.success == true) {
+    if (data != null && data.cars.length != 0 && data.status == true) {
         favList.innerHTML = "";
         data.cars.forEach(car => {
             if (!waitingCarsList) {
@@ -252,18 +257,13 @@ function SetCarsFromData(data, waitingCarsList = false) {
                                                 <div class="car_container-info-parameters-column">
                                                     <p class="car_container-info-parameters-column-race">${car.mileage} тис. км</p>
                                                     <p class="car_container-info-parameters-column-fuel">${fuelName(car.fuel)}, ${car.engineCapacity} л.</p>
-
                                                     <p class="car_container-info-parameters-column-vin">${car.vin}</p>
-                                                
                                                     </div>
                                                 <div class="car_container-info-parameters-column">
                                                     <p class="car_container-info-parameters-column-transmission">${transmissionName(car.carTransmission)}</p>
-
                                                     <p class="car_container-info-parameters-column-driveline">${drivelineName(car.driveline)}</p>
-                                                    
                                                     </div>
                                             </div>
-                                            
                                         </div>
                                     </div>
                                     <div class="car_container-right">
@@ -290,12 +290,10 @@ function SetCarsFromData(data, waitingCarsList = false) {
                                                     <p class="car_container-info-parameters-column-race">${car.car.mileage} тис. км</p>
                                                     <p class="car_container-info-parameters-column-transmission">${transmissionName(car.car.carTransmission)}</p>
                                                     <p class="car_container-info-parameters-column-vin">${car.car.vin}</p>
-                                                
                                                     </div>
                                                 <div class="car_container-info-parameters-column">
                                                     <p class="car_container-info-parameters-column-fuel">${fuelName(car.car.fuel)}, ${car.car.engineCapacity} л.</p>
                                                     <p class="car_container-info-parameters-column-driveline">${drivelineName(car.car.driveline)}</p>
-                                                    
                                                     </div>
                                             </div>
                                             
@@ -313,56 +311,43 @@ function SetCarsFromData(data, waitingCarsList = false) {
             }
         });
     }
-    else if (data.success == false) {
+    else if (data == null || data.status == false)
         favList.innerHTML = `<h3 class="warning-text">Щось пішло не так</h3>`;
-    }
-    else {
+    else
         favList.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
-    }
 }
 function fuelName(id) {
     switch (id) {
-        case 1: {
+        case 1:
             return "Газ";
-        }
-        case 2: {
+        case 2:
             return "Газ/Бензин";
-        }
-        case 3: {
+        case 3:
             return "Бензин";
-        }
-        case 4: {
+        case 4:
             return "Дизель";
-        }
-        case 5: {
+        case 5:
             return "Гібрид";
-        }
-        case 16: {
+        case 6:
             return "Електро";
-        }
     }
 }
 function transmissionName(id) {
     switch (id) {
-        case 1: {
+        case 1:
             return "Механічна";
-        }
-        case 2: {
+        case 2:
             return "Автомат";
-        }
     }
 }
 function drivelineName(id) {
     switch (id) {
-        case 1: {
+        case 1:
             return "Передній";
-        }
-        case 2: {
+        case 2:
             return "Задній";
-        }
-        case 3: {
+        case 3:
             return "Повний";
-        }
     }
 }
 function formatNumberWithThousandsSeparator(number) {
@@ -372,21 +357,7 @@ function formatNumberWithThousandsSeparator(number) {
 function editPhone(button) {
     let phoneCont = document.getElementById('phone_container');
     phoneCont.innerHTML = `<input type="number" placeholder="380xxxxxxxxx" value="${button.getAttribute('phone').replace('+', '')}" id="new-phone"/><button onclick="sendNewPhone(this)" id="submit-phone" phone="${button.getAttribute('phone')}"><span>
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_235_308)">
-                    <path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </g>
-                    <defs>
-                    <clipPath id="clip0_235_308">
-                    <rect width="24" height="24" fill="white"/>
-                    </clipPath>
-                    </defs>
-                    </svg>
-    </span></button><button phone="${button.getAttribute('phone')}" onclick="cancelEditPhone(this)" id="cancel-phone"><span>
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4143 12.0002L18.7072 6.70725C19.0982 6.31625 19.0982 5.68425 18.7072 5.29325C18.3162 4.90225 17.6843 4.90225 17.2933 5.29325L12.0002 10.5862L6.70725 5.29325C6.31625 4.90225 5.68425 4.90225 5.29325 5.29325C4.90225 5.68425 4.90225 6.31625 5.29325 6.70725L10.5862 12.0002L5.29325 17.2933C4.90225 17.6843 4.90225 18.3162 5.29325 18.7072C5.48825 18.9022 5.74425 19.0002 6.00025 19.0002C6.25625 19.0002 6.51225 18.9022 6.70725 18.7072L12.0002 13.4143L17.2933 18.7072C17.4883 18.9022 17.7442 19.0002 18.0002 19.0002C18.2562 19.0002 18.5122 18.9022 18.7072 18.7072C19.0982 18.3162 19.0982 17.6843 18.7072 17.2933L13.4143 12.0002Z" fill="currentColor"/>
-                    </svg>
-    </span></button>`;
+    ${svgCodes.submit}</span></button><button phone="${button.getAttribute('phone')}" onclick="cancelEditPhone(this)" id="cancel-phone"><span>${svgCodes.cancel}</span></button>`;
     let inp = document.getElementById('new-phone');
     inp.addEventListener('keydown', (event) => {
         if (event.key === "." || event.key === ",")
@@ -397,10 +368,45 @@ function editPhone(button) {
             inp.value = inp.value.slice(0, 12);
     });
 }
-//SuccessCode == 0 -> ok
-//SuccessCode == 1 -> user is not logged in
-//SuccessCode == 2 -> incorrect phone format
-//SuccessCode == 3 -> another error
+function editName(button) {
+    let nameCont = document.getElementById('name_container');
+    nameCont.innerHTML = `<input type="text" placeholder="Прізвище" value="${button.getAttribute('surname')}" id="new-surname"/><input type="text" placeholder="Ім'я" value="${button.getAttribute('name')}" id="new-name"/><button onclick="sendNewName(this)" id="submit-phone" surname="${button.getAttribute('surname')}" name="${button.getAttribute('name')}"><span>
+    ${svgCodes.submit}</span></button><button surname="${button.getAttribute('surname')}" name="${button.getAttribute('name')}" onclick="cancelEditName(this)" id="cancel-phone"><span>${svgCodes.cancel}</span></button>`
+}
+function sendNewName(button) {
+    var currentUrl = window.location.href;
+    var parts = currentUrl.split("/");
+    var userId = parts[parts.length - 1];
+    let nameInp = document.getElementById('new-name');
+    let surnameInp = document.getElementById('new-surname');
+    if (nameInp != null && surnameInp != null) {
+        fetch(`/api/v1/changeName?newName=${nameInp.value}&newSurname=${surnameInp.value}&userId=${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                clearNameError();
+                let nameCont = document.getElementById('name_container');
+                if (data != null && data.status == true && nameCont != null) {
+                    nameCont.innerHTML = `<h2>${surnameInp.value} ${nameInp.value}</h2>
+                        <button id="change-phone-number" onclick="editName(this)" surname="${surnameInp.value}" name="${nameInp.value}"><span>${svgCodes.edit}</span></button>`;
+                } else if (nameCont != null) {
+                    let error = document.createElement('span');
+                    error.className = "text-danger";
+                    error.id = 'name-error';
+                    if (data != null && data.code == 400)
+                        error.innerHTML = 'Некоректні дані';
+                    else
+                        error.innerHTML = 'Виникла помилка';
+                    nameCont.insertAdjacentElement("afterend", error);
+                }
+            })
+            .catch(error => console.error("An error occurred while retrieving data:", error));
+    }
+}
 function sendNewPhone(button) {
     var currentUrl = window.location.href;
     var parts = currentUrl.split("/");
@@ -419,20 +425,7 @@ function sendNewPhone(button) {
                 let phoneCont = document.getElementById('phone_container');
                 if (data != null && data.status == true && phoneCont != null) {
                     phoneCont.innerHTML = `<h3>+${phoneInp.value}</h3>
-                        <button id="change-phone-number" onclick="editPhone(this)" phone="+${phoneInp.value}"><span>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_217_311)">
-                        <path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/>
-                        <path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_217_311">
-                        <rect width="24" height="24" fill="white"/>
-                        </clipPath>
-                        </defs>
-                        </svg>
-                        </span></button>`;
+                        <button id="change-phone-number" onclick="editPhone(this)" phone="+${phoneInp.value}"><span>${svgCodes.edit}</span></button>`;
                 } else if (phoneCont != null) {
                     let error = document.createElement('span');
                     error.className = "text-danger";
@@ -451,23 +444,24 @@ function clearPhoneError() {
     let error = document.getElementById('phone-error');
     if (error) error.remove();
 }
+function clearNameError() {
+    let error = document.getElementById('name-error');
+    if (error) error.remove();
+}
+function cancelEditName(button) {
+    clearNameError();
+    let nameCont = document.getElementById('name_container');
+    nameCont.innerHTML = `<h2>${button.getAttribute('surname')} ${button.getAttribute('name')}</h2>
+        <button id="change-phone-number" onclick="editName(this)" surname="${button.getAttribute('surname')}" name="${button.getAttribute('name')}"><span>
+            ${svgCodes.edit}
+        </span></button>`;
+}
 function cancelEditPhone(button) {
     clearPhoneError();
     let phoneCont = document.getElementById('phone_container');
     phoneCont.innerHTML = `<h3>${button.getAttribute('phone')}</h3>
         <button id="change-phone-number" onclick="editPhone(this)" phone=${button.getAttribute('phone')}><span>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_217_311)">
-                        <path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/>
-                        <path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_217_311">
-                        <rect width="24" height="24" fill="white"/>
-                        </clipPath>
-                        </defs>
-                        </svg>
+            ${svgCodes.edit}
         </span></button>`;
 }
 function copyPhone(button) {

@@ -102,14 +102,13 @@ namespace car_website.Controllers
                         "Обліковий запис з вказаною електронною адресою не знайдено.");
                     return View(passVM);
                 }
-                string secretKey = Guid.NewGuid().ToString();
-                HttpContext.Session.SetString("secretKey", secretKey);
+                //string secretKey = Guid.NewGuid().ToString();
+                //HttpContext.Session.SetString("secretKey", secretKey);
                 var verificationLink = Url.Action("NewPassword", "User",
                     new
                     {
                         userId = user.Id.ToString(),
-                        token = user.ConfirmationToken,
-                        sk = secretKey
+                        token = user.ConfirmationToken
                     }, Request.Scheme);
                 var message = $"Щоб змінити пароль, будь ласка, скористайтеся цим посиланням: {verificationLink}.\nЯкщо у вас є сумніви стосовно цієї дії, рекомендуємо утриматися від переходу за посиланням.";
                 await _emailService.SendEmailAsync(user.Email, "Зміна пароля", message);
@@ -137,13 +136,12 @@ namespace car_website.Controllers
                 return View(loginVM);
             }
         }
-        public async Task<IActionResult> NewPassword(string userId, string token, string sk)
+        public async Task<IActionResult> NewPassword(string userId, string token)
         {
             var user = await _userRepository.GetByIdAsync(ObjectId.Parse(userId));
 
             if (user == null
-                || user.ConfirmationToken != token
-                || sk != HttpContext.Session.GetString("secretKey"))
+                || user.ConfirmationToken != token)
                 return BadRequest();
             HttpContext.Session.SetString("ResetPasswordId", user.Id.ToString());
             return View();
@@ -196,6 +194,7 @@ namespace car_website.Controllers
                     var user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("ResetPasswordId")));
                     if (user == null) return BadRequest();
                     user.Password = _userService.HashPassword(newPassVM.Password);
+                    user.ConfirmationToken = Guid.NewGuid().ToString();
                     await _userRepository.Update(user);
                     string userId = HttpContext.Session.GetString("UserId") ?? "";
                     int role = HttpContext.Session.GetInt32("UserRole") ?? 0;
@@ -226,7 +225,7 @@ namespace car_website.Controllers
             {
                 return BadRequest();
             }
-            var result = _userService.ConfirmEmailAsync(user, token);
+            var result = _userService.ConfirmEmail(user, token);
 
             if (result)
             {

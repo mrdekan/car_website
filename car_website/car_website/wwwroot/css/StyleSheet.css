@@ -703,8 +703,6 @@ h4 {
 .profile_info #phone_container input, .profile_info #name_container input {
   height: 34px;
   padding: 0 0 0 7px;
-  border: 1px solid var(--gray-default);
-  border-radius: 7px 0 0 7px;
   background: var(--background-secondary);
   color: var(--text-default);
   transition: 0.2s;
@@ -713,6 +711,14 @@ h4 {
 }
 .profile_info #phone_container input::placeholder, .profile_info #name_container input::placeholder {
   color: var(--gray-default);
+}
+.profile_info #new-phone {
+  border-radius: 7px 0 0 7px;
+  border: 1px solid var(--gray-default);
+}
+.profile_info #new-surname {
+  border-radius: 7px 0 0 7px;
+  border: 1px solid var(--gray-default);
 }
 .profile_info #change-name {
   border-radius: 7px;
@@ -744,6 +750,12 @@ h4 {
   color: var(--text-default);
   box-shadow: 0px 0px 5px var(--error-main);
   border: 1px solid var(--error-main);
+}
+.profile_info #new-name {
+  border-radius: 0 0 0 0;
+  border-top: 1px solid var(--gray-default);
+  border-bottom: 1px solid var(--gray-default);
+  border-right: 1px solid var(--gray-default);
 }
 .profile_info h3 {
   margin: 5px 0;
@@ -1134,7 +1146,7 @@ body {
   transition: 0.2s;
 }
 .wrapper .filters {
-  background-color: var(--beige-default);
+  background-color: var(--background-secondary);
   transition: 0.2s;
   display: flex;
   flex-direction: column;
@@ -1171,6 +1183,8 @@ body {
 }
 .wrapper .filters label {
   font-size: 16px;
+  transition: 0.2s;
+  color: var(--text-default);
 }
 .wrapper .filters button {
   border-radius: 3px;
@@ -1860,4 +1874,6 @@ header .header_right-button::before {
 .range-slider span {
   font-size: 14px;
   font-weight: 400;
+  transition: 0.2s;
+  color: var(--text-default);
 }

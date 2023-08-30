@@ -60,9 +60,8 @@ function buyRequest() {
             //successCode == 0 --> some error
             //successCode == 1 --> success
             //successCode == 2 --> user not logged in
-            console.log(data)
             let resBlock = document.createElement("div");
-            if (data != null && data.successCode == 1) {
+            if (data != null && data.successCode == 0) {
                 resBlock.innerHTML = `
                     <p class="buy-request-result-info-title">${buyButton.hasAttribute('cancel') ? 'Запит скасовано.' : 'Дякуємо за ваш запит!'} </p>
                     <p>${buyButton.hasAttribute('cancel') ? 'Якщо запит було скасовано випадково, то Ви можете розмістити його ще раз.' : 'Наш менеджер зв\'яжеться з вами найближчим часом для надання додаткової інформації та обговорення деталей.'}</p>`;
@@ -78,7 +77,7 @@ function buyRequest() {
                     buyButton.classList.add('cancelBuy');
                 }
             }
-            else if (data == null || data.successCode == 0) {
+            else if (data == null || data.successCode == 1) {
                 resBlock.innerHTML = `
                     <p class="buy-request-result-error-title">Вибачте за незручності. Сталася помилка.</p>
                     <p>Будь ласка, оновіть сторінку або спробуйте пізніше.</p>`;
@@ -98,6 +97,7 @@ function buyRequest() {
                 resBlock.style.height = '0px';
             }, 10000);
             setTimeout(function () {
+                if (buyResult.contains(resBlock))
                 buyResult.removeChild(resBlock);
             }, 10200);
         })

@@ -24,6 +24,6 @@ namespace car_website.Services
         }
         public bool VerifyPassword(string password, string hashedPassword) => BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         public string GenerateEmailConfirmationToken() => Guid.NewGuid().ToString();
-        public bool ConfirmEmailAsync(User user, string token) => user.ConfirmationToken == token;
+        public bool ConfirmEmail(User user, string token) => user.ConfirmationToken == token;
     }
 }
