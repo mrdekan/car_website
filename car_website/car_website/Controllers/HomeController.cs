@@ -30,7 +30,7 @@ namespace car_website.Controllers
         #endregion
         public async Task<IActionResult> IndexAsync()
         {
-            var carsCount = await _carRepository.GetCount();
+            var carsCount = _carRepository.GetCount();
             IndexPageViewModel vm = new() { CarsCount = carsCount };
             return View(vm);
         }

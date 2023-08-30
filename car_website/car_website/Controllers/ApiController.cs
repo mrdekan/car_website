@@ -15,11 +15,15 @@ namespace car_website.Controllers.v1
     [ApiVersion("1.0")]
     public class ApiController : ControllerBase
     {
+        #region Constants
         private const byte CARS_PER_PAGE = 3;
         private const byte WAITING_CARS_PER_PAGE = 5;
         private const byte BUY_REQUESTS_PER_PAGE = 5;
         private const byte FAV_CARS_PER_PAGE = 10;
         private const byte NAME_MAX_LENGTH = 25;
+        private readonly int[] ADMIN_ROLES = { 1, 2 };
+        #endregion
+
         #region Services & ctor
         private readonly ICarRepository _carRepository;
         private readonly IImageService _imageService;
@@ -54,10 +58,27 @@ namespace car_website.Controllers.v1
             _logger = logger;
         }
         #endregion
+
+        #region General
+
         [HttpGet("ping")]
         public IActionResult Ping() => Ok(new { Status = true, Code = HttpCodes.Success });
 
+        #endregion
+
         #region Cars
+
+        [HttpGet("getCarsCount")]
+        public ActionResult<long> GetCarsCount()
+        {
+            return Ok(new
+            {
+                Status = true,
+                Code = HttpCodes.Success,
+                CarsCount = _carRepository.GetCount()
+            });
+        }
+
         [HttpGet("getCars")]
         public async Task<ActionResult<IEnumerable<Car>>> GetCars([FromQuery] int? page = null,
             [FromQuery] int? perPage = null)
@@ -71,14 +92,15 @@ namespace car_website.Controllers.v1
                 int totalPages = (int)Math.Ceiling(totalItems / (double)_perPage);
                 int skip = (_page - 1) * _perPage;
                 cars = cars.Skip(skip).Take(_perPage);
-                var carsRes = cars.Select(car => new CarViewModel(car, _currencyUpdater, true)).ToList();
+                var carsRes = cars.Select(car => new CarViewModel(car, _currencyUpdater, true, IsAdmin())).ToList();
                 return Ok(new
                 {
                     Status = true,
                     Code = HttpCodes.Success,
                     Cars = carsRes,
                     Pages = totalPages,
-                    Page = page
+                    Page = _page,
+                    PerPage = _perPage
                 });
             }
             catch (Exception ex)
@@ -87,6 +109,7 @@ namespace car_website.Controllers.v1
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
         }
+
         [HttpPost("getFilteredCars")]
         public async Task<ActionResult<IEnumerable<Car>>> GetCars([FromBody] CarFilterModel filter)
         {
@@ -135,9 +158,16 @@ namespace car_website.Controllers.v1
                 var carsRes = filteredCars
                     .Select(car =>
                         new CarViewModel(car, _currencyUpdater, user != null
-                            && user.Favorites.Contains(car.Id)))
+                            && user.Favorites.Contains(car.Id), IsAdmin()))
                     .ToList();
-                return Ok(new { Status = true, Code = HttpCodes.Success, Cars = carsRes, Pages = totalPages, Page = page });
+                return Ok(new
+                {
+                    Status = true,
+                    Code = HttpCodes.Success,
+                    Cars = carsRes,
+                    Pages = totalPages,
+                    Page = page
+                });
             }
             catch (Exception ex)
             {
@@ -145,6 +175,7 @@ namespace car_website.Controllers.v1
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
         }
+
         [HttpGet("getCarById")]
         public async Task<ActionResult<Car>> GetCarById(string id)
         {
@@ -161,10 +192,13 @@ namespace car_website.Controllers.v1
                 Car = new CarViewModel(
                     car,
                     _currencyUpdater,
-                    user != null && user.Favorites.Contains(car.Id))
+                    user != null && user.Favorites.Contains(car.Id),
+                    IsAdmin())
             });
         }
+
         #region CarsInProfile
+
         [HttpGet("getFavoriteCars")]
         public async Task<ActionResult<IEnumerable<Car>>> GetFavoriteCars(int page,
             int perPage = FAV_CARS_PER_PAGE)
@@ -179,7 +213,7 @@ namespace car_website.Controllers.v1
                 int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
                 int skip = (page - 1) * perPage;
                 favoriteCars = favoriteCars.Skip(skip).Take(perPage);
-                var carsRes = favoriteCars.Select(car => new CarViewModel(car, _currencyUpdater, true)).ToList();
+                var carsRes = favoriteCars.Select(car => new CarViewModel(car, _currencyUpdater, true, IsAdmin())).ToList();
                 return Ok(new
                 {
                     Status = true,
@@ -197,10 +231,37 @@ namespace car_website.Controllers.v1
         }
 
         #endregion
+
         #endregion
+
         #region Users
 
+        [HttpGet("getUsersCount")]
+        public ActionResult<long> GetUsersCount()
+        {
+            return Ok(new
+            {
+                Status = true,
+                Code = HttpCodes.Success,
+                UsersCount = _userRepository.GetCount()
+            });
+        }
+
+        [HttpGet("getUserById")]
+        public async Task<ActionResult<Car>> GetUserById(string id)
+        {
+            if (!IsCurrentUserId(id) && !IsAdmin())
+                return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
+            if (!ObjectId.TryParse(id, out ObjectId userId))
+                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+            User user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+                return Ok(new { Status = false, Code = HttpCodes.NotFound });
+            return Ok(new { Status = true, Code = HttpCodes.Success, User = new UserViewModel(user) });
+        }
+
         #region EditInfo
+
         [HttpPut("changeName")]
         public async Task<ActionResult> ChangeName([FromQuery] string newName,
             [FromQuery] string newSurname,
@@ -220,6 +281,7 @@ namespace car_website.Controllers.v1
             await _userRepository.Update(user);
             return Ok(new { Status = true, Code = HttpCodes.Success });
         }
+
         [HttpPut("changePhone")]
         public async Task<ActionResult> ChangePhone([FromQuery] string newPhone,
             [FromQuery] string userId)
@@ -235,8 +297,11 @@ namespace car_website.Controllers.v1
             await _userRepository.Update(user);
             return Ok(new { Status = true, Code = HttpCodes.Success });
         }
+
         #endregion
+
         #endregion
+
         #region OtherMethods
         private async Task<User> GetCurrentUser()
         {
@@ -250,8 +315,8 @@ namespace car_website.Controllers.v1
         }
         private bool IsCurrentUserId(string id) =>
             HttpContext.Session.GetString("UserId") == id;
-        private bool IsAdmin() => HttpContext.Session.GetInt32("UserRole") == 1
-            || HttpContext.Session.GetInt32("UserRole") == 2;
+        private bool IsAdmin() =>
+            ADMIN_ROLES.Contains(HttpContext.Session.GetInt32("UserRole") ?? -1);
         private static bool IsValidPhoneNumber(string phoneNumber)
         {
             string pattern = @"^38\d{10}$";
@@ -266,7 +331,7 @@ namespace car_website.Controllers.v1
     }
 }
 
-// API v2 (just testing)
+/* API v2 (just testing)
 namespace car_website.Controllers.v2
 {
     [Route("api/v{version:apiVersion}/")]
@@ -304,3 +369,4 @@ namespace car_website.Controllers.v2
         }
     }
 }
+*/

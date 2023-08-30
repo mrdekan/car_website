@@ -29,5 +29,16 @@ namespace car_website.Repository
             var filter = Builders<User>.Filter.Eq(u => u.Id, user.Id);
             await _dbContext.Users.DeleteOneAsync(filter);
         }
+        public long GetCount()
+        {
+            try
+            {
+                return _dbContext.Users.CountDocuments(Builders<User>.Filter.Empty);
+            }
+            catch
+            {
+                return 0;
+            }
+        }
     }
 }

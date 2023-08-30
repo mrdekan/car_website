@@ -192,8 +192,8 @@ namespace car_website.Controllers
                 cars = cars.Skip(skip).Take(perPage);
                 var carsRes = cars.Select(car => new WaitingCarViewModel()
                 {
-                    Car = new CarViewModel(car.Car, _currencyUpdater, false),
-                    Id = car.Id.ToString()
+                    Car = new CarViewModel(car.Car, _currencyUpdater, false, true),
+                    Id = car.Id.ToString(),
                 }).ToList();
                 return Ok(new
                 {

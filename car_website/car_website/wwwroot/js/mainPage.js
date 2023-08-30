@@ -64,11 +64,8 @@ xhr.onload = function () {
         console.log('Request failed. Status:', xhr.status, 'Response:', xhr.responseText);
     }
 };*/
-fetch(`/api/v1/getCars?page=5`)
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error("An error occurred while retrieving data:", error));
-fetch(`/api/v1/getCarById?id=64c22c9f0d1233bbb3cd38c4`)
+//API testing
+fetch(`/api/v1/getUsersCount`)
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.error("An error occurred while retrieving data:", error));

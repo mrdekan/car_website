@@ -8,5 +8,6 @@ namespace car_website.Interfaces
         Task<IEnumerable<User>> GetAll();
         Task<User> GetByIdAsync(ObjectId id);
         Task<User> GetByEmailAsync(string email);
+        long GetCount();
     }
 }

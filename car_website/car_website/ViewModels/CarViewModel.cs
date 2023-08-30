@@ -6,7 +6,7 @@ namespace car_website.ViewModels
 {
     public class CarViewModel
     {
-        public CarViewModel(Car car, CurrencyUpdater currencyUpdater, bool liked)
+        public CarViewModel(Car car, CurrencyUpdater currencyUpdater, bool liked, bool isAdmin = false)
         {
             Id = car.Id.ToString();
             Price = car.Price;
@@ -26,6 +26,7 @@ namespace car_website.ViewModels
             Options = car.Options;
             Mileage = car.Mileage;
             Liked = liked;
+            SellerId = isAdmin ? car.SellerId : "";
         }
         public string Id { get; set; }
         public uint Price { get; set; }
@@ -40,10 +41,11 @@ namespace car_website.ViewModels
         public TypeDriveline Driveline { get; set; }
         public Color CarColor { get; set; }
         public uint Year { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public float EngineCapacity { get; set; }
-        public string VIN { get; set; }
+        public string? VIN { get; set; }
         public CarOptions[] Options { get; set; }
         public bool Liked { get; set; }
+        public string SellerId { get; set; }
     }
 }
