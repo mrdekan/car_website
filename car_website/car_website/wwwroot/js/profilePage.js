@@ -173,10 +173,10 @@ function updateLikeButtons() {
 }
 //#region Ajax requests
 function getFavorites() {
-    fetch(`/User/GetFavoriteCars?page=${buyRequestsPage}`)
+    fetch(`/api/v1/getFavoriteCars?page=${buyRequestsPage}`)
         .then(response => response.json())
         .then(data => {
-            if (data != null && data.success == true) {
+            if (data != null && data.status == true) {
                 favCars = data;
                 SetCarsFromData(favCars);
                 updateLikeButtons();
@@ -402,14 +402,22 @@ function editPhone(button) {
 //SuccessCode == 2 -> incorrect phone format
 //SuccessCode == 3 -> another error
 function sendNewPhone(button) {
+    var currentUrl = window.location.href;
+    var parts = currentUrl.split("/");
+    var userId = parts[parts.length - 1];
     let phoneInp = document.getElementById('new-phone');
     if (phoneInp != null && phoneInp.value != button.getAttribute('phone')) {
-        fetch(`/User/ChangePhone?phone=${phoneInp.value}`)
+        fetch(`/api/v1/changePhone?newPhone=${phoneInp.value}&userId=${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
             .then(response => response.json())
             .then(data => {
                 clearPhoneError();
                 let phoneCont = document.getElementById('phone_container');
-                if (data != null && data.successCode == 0 && phoneCont != null) {
+                if (data != null && data.status == true && phoneCont != null) {
                     phoneCont.innerHTML = `<h3>+${phoneInp.value}</h3>
                         <button id="change-phone-number" onclick="editPhone(this)" phone="+${phoneInp.value}"><span>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -425,19 +433,14 @@ function sendNewPhone(button) {
                         </defs>
                         </svg>
                         </span></button>`;
-                }
-                else if (data != null && data.successCode == 2 && phoneCont != null) {
+                } else if (phoneCont != null) {
                     let error = document.createElement('span');
                     error.className = "text-danger";
-                    error.innerHTML = 'Некоректний номер';
                     error.id = 'phone-error';
-                    phoneCont.insertAdjacentElement("afterend", error);
-                }
-                else if (phoneCont != null) {
-                    let error = document.createElement('span');
-                    error.className = "text-danger";
-                    error.innerHTML = 'Виникла помилка';
-                    error.id = 'phone-error';
+                    if (data != null && data.code == 400)
+                        error.innerHTML = 'Некоректний номер';
+                    else
+                        error.innerHTML = 'Виникла помилка';
                     phoneCont.insertAdjacentElement("afterend", error);
                 }
             })

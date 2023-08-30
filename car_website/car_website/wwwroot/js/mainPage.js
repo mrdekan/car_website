@@ -64,7 +64,11 @@ xhr.onload = function () {
         console.log('Request failed. Status:', xhr.status, 'Response:', xhr.responseText);
     }
 };*/
-fetch(`/Api/v2/ping`)
+fetch(`/api/v1/getCars?page=5`)
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error("An error occurred while retrieving data:", error));
+fetch(`/api/v1/getCarById?id=64c22c9f0d1233bbb3cd38c4`)
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.error("An error occurred while retrieving data:", error));
@@ -334,7 +338,7 @@ function applyFilter(page = 1) {
         maxMileage: Number(race_max_input.value),
         page: page
     };
-    fetch(`/api/v1/getCars`, {
+    fetch(`/api/v1/getFilteredCars`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
