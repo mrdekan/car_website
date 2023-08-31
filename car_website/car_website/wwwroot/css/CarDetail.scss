@@ -140,7 +140,14 @@ h4 {
             padding: 10px;
             border: 1px solid;
             border-radius: 15px;
-            max-width:242px;
+            max-width: 242px;
+
+            &_container-after {
+                display: flex;
+                max-width: 242px;
+                // align-items: center;
+                //justify-content: space-between;
+            }
 
             a {
                 color: $text-default;

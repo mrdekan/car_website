@@ -604,6 +604,10 @@ h4 {
   border-radius: 15px;
   max-width: 242px;
 }
+.car_similar .similarCar_container-after {
+  display: flex;
+  max-width: 242px;
+}
 .car_similar .similarCar a {
   color: var(--text-default);
   font-size: 16px;
@@ -1247,6 +1251,13 @@ body {
 .car_container-right-like {
   margin: 0px 72px 66px 0px;
   align-self: center;
+}
+.car_container-right-like.similar {
+  position: absolute;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
 }
 .car_container-right-span {
   position: absolute;

@@ -42,10 +42,16 @@ function getSimilarCars() {
                     similarCarsBlock.innerHTML += `<div class="similarCar">
                         <a href="/Car/Detail/${car.id}">${car.info}</a>
                         <img alt="photo" src="${car.photoURL}">
-                        <div class="car_container-right-price similar">
-                <p class="car_container-right-price-USD similar">${car.price} $</p>
-                <p class="car_container-right-price-UAH similar">≈ ${car.priceUAH} грн</p>
-            </div>
+                        <div class="similarCar_container-after">
+                            <div class="car_container-right-like similar">
+                                  <input type="checkbox" class="car_container-right-like-cars" carId="${car.id}" carId="${car.id}" ${car.liked ? "checked" : ""}/>
+                                  <span class="car_container-right-span similar"></span>
+                            </div>
+                            <div class="car_container-right-price similar">
+                                <p class="car_container-right-price-USD similar">${car.price} $</p>
+                                <p class="car_container-right-price-UAH similar">≈ ${car.priceUAH} грн</p>
+                            </div>
+                        </div>
                     </div>`;
                 });
             }

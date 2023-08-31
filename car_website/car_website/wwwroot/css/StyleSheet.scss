@@ -210,6 +210,15 @@ body {
         &-like {
             margin: 0px 72px 66px 0px;
             align-self: center;
+
+            &.similar {
+                position: absolute;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                margin-left:15px;
+
+            }
         }
 
         &-span {
@@ -219,6 +228,9 @@ body {
             background-image: url("/img/heart.svg");
             display: block;
             z-index: 2;
+
+            &.similar {
+            }
         }
 
         &-like-cars {
@@ -238,7 +250,6 @@ body {
 
             &.similar {
                 margin: 0 0 0 9vw;
-
             }
 
             &-USD {
