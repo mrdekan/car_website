@@ -2,8 +2,13 @@
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using System.Data;
+using System.Security.Claims;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace car_website.Controllers
@@ -22,8 +27,11 @@ namespace car_website.Controllers
         private readonly ICarRepository _carRepository;
         private readonly IWaitingCarsRepository _waitingCarsRepository;
         private readonly IBuyRequestRepository _buyRequestRepository;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository, CurrencyUpdater currencyUpdater, ICarRepository carRepository, IWaitingCarsRepository waitingCarsRepository, IBuyRequestRepository buyRequestRepository)
+        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository, CurrencyUpdater currencyUpdater, ICarRepository carRepository, IWaitingCarsRepository waitingCarsRepository, IBuyRequestRepository buyRequestRepository, UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager)
         {
             _userService = userService;
             _emailService = emailService;
@@ -32,6 +40,9 @@ namespace car_website.Controllers
             _carRepository = carRepository;
             _waitingCarsRepository = waitingCarsRepository;
             _buyRequestRepository = buyRequestRepository;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
         }
         #endregion
 
@@ -53,9 +64,11 @@ namespace car_website.Controllers
         {
             return View();
         }
-        public IActionResult Logout()
+        [Authorize]
+        public async Task<IActionResult> Logout()
         {
             HttpContext.Session.Clear();
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
         public IActionResult Register()
@@ -68,7 +81,8 @@ namespace car_website.Controllers
             if (ModelState.IsValid)
             {
                 User newUser = new User(userVM, _userService, _userService.GenerateEmailConfirmationToken());
-                await _userRepository.Add(newUser);
+                //await _userRepository.Add(newUser);
+                IdentityResult result = await _userManager.CreateAsync(newUser, userVM.Password);
                 var verificationLink = Url.Action("VerifyEmail", "User",
                     new
                     {
@@ -79,6 +93,7 @@ namespace car_website.Controllers
                 await _emailService.SendEmailAsync(newUser.Email, "Підтвердження пошти", message);
                 HttpContext.Session.SetString("UserId", newUser.Id.ToString());
                 HttpContext.Session.SetInt32("UserRole", (int)newUser.Role);
+                await _signInManager.PasswordSignInAsync(newUser, newUser.PasswordHash, isPersistent: true, false);
                 return RedirectToAction("RegistrationSuccess");
             }
             else
@@ -124,6 +139,30 @@ namespace car_website.Controllers
                 if (user != null
                     && _userService.VerifyPassword(loginVM.Password, user.Password))
                 {
+                    byte[] bytes = Encoding.UTF8.GetBytes(user.PasswordHash);
+
+                    string base64String = Convert.ToBase64String(bytes);
+                    user.PasswordHash = base64String;
+                    var claims = new ClaimsIdentity(new Claim[]
+                {
+
+                    new Claim("Id",user.Id.ToString()),
+                    new Claim("LoggedOn", DateTime.Now.ToString()),
+
+
+                });
+                    try
+                    {
+
+                        // await _signInManager.SignInAsync(user, isPersistent: true, authenticationMethod: "password");
+                        await _signInManager.PasswordSignInAsync(user, user.PasswordHash, isPersistent: false, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
+                    //var res = await _signInManager.PasswordSignInAsync(user, base64String, isPersistent: true, lockoutOnFailure: false);
+                    var us = User;
                     HttpContext.Session.SetString("UserId", user.Id.ToString());
                     HttpContext.Session.SetInt32("UserRole", (int)user.Role);
                     return RedirectToAction("Index", "Home");

@@ -1,10 +1,17 @@
 ﻿using car_website.Data;
 using car_website.Interfaces;
+using car_website.Models;
 using car_website.Repository;
 using car_website.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -55,6 +62,38 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader();
     });
 });
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+  {
+      options.RequireHttpsMetadata = false;
+      options.TokenValidationParameters = new TokenValidationParameters
+      {
+          ValidateIssuer = true,
+          ValidIssuer = builder.Configuration.GetSection("JWT")["Issuer"],
+          ValidateAudience = true,
+          ValidAudience = builder.Configuration.GetSection("JWT")["Audience"],
+          ValidateLifetime = true,
+          IssuerSigningKey = new SymmetricSecurityKey
+          (Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JWT")["Key"])),
+          ValidateIssuerSigningKey = true,
+      };
+  });
+builder.Services.AddIdentity<User, Role>()
+    .AddMongoDbStores<User, Role, ObjectId>(
+        builder.Configuration.GetConnectionString("MongoDB"),
+        builder.Configuration.GetConnectionString("DBName")
+    );
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+});
+builder.Services.Configure<PasswordHasherOptions>(options => options.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2);
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -69,8 +108,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseSession();
-app.UseAuthorization();
+
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

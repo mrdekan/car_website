@@ -64,8 +64,9 @@ xhr.onload = function () {
         console.log('Request failed. Status:', xhr.status, 'Response:', xhr.responseText);
     }
 };*/
-//API testing
-fetch(`/api/v1/getUsersCount`)
+//API testingconst 
+
+fetch(`/api/v1/getCarsCount`)
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.error("An error occurred while retrieving data:", error));

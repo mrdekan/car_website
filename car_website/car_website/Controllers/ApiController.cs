@@ -3,10 +3,15 @@ using car_website.Interfaces;
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson;
+using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Text.RegularExpressions;
-
 //API v1
 namespace car_website.Controllers.v1
 {
@@ -22,6 +27,7 @@ namespace car_website.Controllers.v1
         private const byte FAV_CARS_PER_PAGE = 10;
         private const byte NAME_MAX_LENGTH = 25;
         private readonly int[] ADMIN_ROLES = { 1, 2 };
+        private const uint JWT_LIFETIME_DAYS = 60;
         #endregion
 
         #region Services & ctor
@@ -35,6 +41,7 @@ namespace car_website.Controllers.v1
         private readonly IConfiguration _configuration;
         private readonly IExpressSaleCarRepository _expressSaleCarRepository;
         private readonly ILogger<ApiController> _logger;
+        private readonly IUserService _userService;
         public ApiController(ICarRepository carRepository,
             IBrandRepository brandRepository,
             IImageService imageService,
@@ -44,7 +51,8 @@ namespace car_website.Controllers.v1
             CurrencyUpdater currencyUpdater,
             IConfiguration configuration,
             IExpressSaleCarRepository expressSaleCarRepository,
-            ILogger<ApiController> logger)
+            ILogger<ApiController> logger,
+            IUserService userService)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -56,6 +64,7 @@ namespace car_website.Controllers.v1
             _configuration = configuration;
             _expressSaleCarRepository = expressSaleCarRepository;
             _logger = logger;
+            _userService = userService;
         }
         #endregion
 
@@ -69,6 +78,7 @@ namespace car_website.Controllers.v1
         #region Cars
 
         [HttpGet("getCarsCount")]
+        [Authorize(AuthenticationSchemes = "Bearer")] //(Roles = "2")
         public ActionResult<long> GetCarsCount()
         {
             return Ok(new
@@ -235,6 +245,60 @@ namespace car_website.Controllers.v1
         #endregion
 
         #region Users
+
+        #region Login & Register
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromForm] LoginViewModel loginVM)
+        {
+            string email = loginVM.Email;
+            var password = loginVM.Password;
+            var identity = await GetIdentity(email, password);
+            if (identity == null)
+            {
+                return BadRequest(new { Status = false, Code = HttpCodes.BadRequest });
+            }
+
+            var now = DateTime.UtcNow;
+            var jwt = new JwtSecurityToken(
+                    issuer: _configuration.GetSection("JWT")["Issuer"],
+            audience: _configuration.GetSection("JWT")["Audience"],
+            notBefore: now,
+            claims: identity.Claims,
+            expires: now.Add(TimeSpan.FromDays(JWT_LIFETIME_DAYS)),
+                    signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration.GetSection("JWT")["Key"])), SecurityAlgorithms.HmacSha256));
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            var response = new
+            {
+                access_token = encodedJwt,
+                username = identity.Name
+            };
+            Response.Cookies.Append("access_token", encodedJwt, new CookieOptions
+            {
+                HttpOnly = true,
+                SameSite = SameSiteMode.Strict
+            });
+            return Ok(new { Status = true, Code = HttpCodes.Success });
+        }
+        private async Task<ClaimsIdentity> GetIdentity(string email, string password)
+        {
+            User user = await _userRepository.GetByEmailAsync(email);
+            if (user != null && _userService.VerifyPassword(password, user.Password))
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Id.ToString()),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString())
+                };
+                ClaimsIdentity claimsIdentity =
+                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType);
+                return claimsIdentity;
+            }
+            return null;
+        }
+        #endregion
 
         [HttpGet("getUsersCount")]
         public ActionResult<long> GetUsersCount()

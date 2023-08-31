@@ -1,12 +1,14 @@
-﻿using car_website.Data.Enum;
+﻿using AspNetCore.Identity.MongoDbCore.Models;
+using car_website.Data.Enum;
 using car_website.Interfaces;
 using car_website.ViewModels;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+using MongoDbGenericRepository.Attributes;
 
 namespace car_website.Models
 {
-    public class User
+    [CollectionName("Users")]
+    public class User : MongoIdentityUser<ObjectId>
     {
         public User()
         {
@@ -28,17 +30,19 @@ namespace car_website.Models
             SendedBuyRequest = new List<ObjectId>();
             ExpressSaleCars = new List<ObjectId>();
         }
-        [BsonId]
+        /*[BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id { get; set; }
+        public ObjectId Id { get; set; }*/
         public string ConfirmationToken { get; set; }
         public string Name { get; set; }
         public string SurName { get; set; }
         public string Password { get; set; }
-        public string Email { get; set; }
-        public bool EmailConfirmed { get; set; }
+        //public string Email { get; set; }
+        //public bool EmailConfirmed { get; set; }
         public UserRole Role { get; set; }
-        public string PhoneNumber { get; set; }
+        /// <summary>
+        //public string PhoneNumber { get; set; }
+        /// </summary>
         public List<ObjectId> CarsForSell { get; set; }
         public List<ObjectId> CarWithoutConfirmation { get; set; }
         public List<ObjectId> Favorites { get; set; }

@@ -2,6 +2,7 @@
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -16,7 +17,8 @@ namespace car_website.Controllers
         private readonly IWaitingCarsRepository _waitingCarsRepository;
         private readonly IBrandRepository _brandRepository;
         private readonly CurrencyUpdater _currencyUpdater;
-        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater)
+        private readonly RoleManager<Role> _roleManager;
+        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, RoleManager<Role> roleManager)
         {
             _carRepository = carRepository;
             _userRepository = userRepository;
@@ -24,6 +26,7 @@ namespace car_website.Controllers
             _waitingCarsRepository = waitingCarsRepository;
             _brandRepository = brandRepository;
             _currencyUpdater = currencyUpdater;
+            _roleManager = roleManager;
         }
         #endregion
         public IActionResult Panel()
@@ -42,12 +45,17 @@ namespace car_website.Controllers
             {
                 await _carRepository.Update(car);
             }*/
-            /*var users = await _userRepository.GetAll();
+            var users = await _userRepository.GetAll();
             foreach (var user in users)
             {
-                user.ExpressSaleCars = new List<ObjectId>();
+                user.UserName = user.Email;
                 await _userRepository.Update(user);
-            }*/
+            }
+            Console.WriteLine(_roleManager.Roles.Count());
+            /*IdentityResult res = await _roleManager.CreateAsync(new Role() { Name = "User" });
+            await _roleManager.CreateAsync(new Role() { Name = "Admin" });
+            await _roleManager.CreateAsync(new Role() { Name = "Dev" });
+            Console.WriteLine(_roleManager.Roles.Count());*/
             /*var buyRequests = await _buyRequestRepository.GetAll();
             foreach (var buyRequest in buyRequests)
             {
@@ -97,8 +105,8 @@ namespace car_website.Controllers
         private async Task<User> GetUser(List<User> users, string id)
         {
             ObjectId userId = ObjectId.Parse(id);
-            if (users.Count(el => el.Id == userId) > 0)
-                return users.Find(el => el.Id == userId);
+            if (users.Count(el => el.Id.ToString() == userId.ToString()) > 0)
+                return users.Find(el => el.Id.ToString() == userId.ToString());
             var user = await _userRepository.GetByIdAsync(userId);
             users.Add(user);
             return user;
