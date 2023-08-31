@@ -2,7 +2,6 @@
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -46,11 +45,22 @@ namespace car_website.Controllers
         }
         #endregion
 
-        private bool IsAdmin() => HttpContext.Session.GetInt32("UserRole") == 1
-            || HttpContext.Session.GetInt32("UserRole") == 2;
+        private bool IsAdmin()
+        {
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                string role = ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault(c => c.Type == "Role")?.Value ?? "0";
+                return role == "Dev" || role == "Admin";
+            }
+            return false;
+        }
 
-        private bool IsCurrentUserId(string id) =>
-            HttpContext.Session.GetString("UserId") == id;
+        private bool IsCurrentUserId(string id)
+        {
+            if (User?.Identity?.IsAuthenticated ?? false)
+                return (((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault(c => c.Type == "Id")?.Value ?? "0") == id;
+            return false;
+        }
 
         public async Task<IActionResult> Detail(string id)
         {
@@ -64,7 +74,6 @@ namespace car_website.Controllers
         {
             return View();
         }
-        [Authorize]
         public async Task<IActionResult> Logout()
         {
             HttpContext.Session.Clear();
@@ -143,19 +152,19 @@ namespace car_website.Controllers
 
                     string base64String = Convert.ToBase64String(bytes);
                     user.PasswordHash = base64String;
-                    var claims = new ClaimsIdentity(new Claim[]
+                    var claims = new Claim[]
                 {
 
                     new Claim("Id",user.Id.ToString()),
+                    new Claim("Role",user.Role.ToString()),
                     new Claim("LoggedOn", DateTime.Now.ToString()),
-
-
-                });
+                };
+                    //ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims);
                     try
                     {
 
-                        // await _signInManager.SignInAsync(user, isPersistent: true, authenticationMethod: "password");
-                        await _signInManager.PasswordSignInAsync(user, user.PasswordHash, isPersistent: false, false);
+                        await _signInManager.SignInWithClaimsAsync(user, isPersistent: true, claims);
+                        //await _signInManager.PasswordSignInAsync(user, user.PasswordHash, isPersistent: false, false);
                     }
                     catch (Exception ex)
                     {
@@ -419,9 +428,9 @@ namespace car_website.Controllers
         }
         private async Task<User> GetCurrentUser()
         {
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            if (User?.Identity?.IsAuthenticated ?? false)
             {
-                if (ObjectId.TryParse(HttpContext.Session.GetString("UserId"),
+                if (ObjectId.TryParse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault().Value,
                     out ObjectId id))
                     return await _userRepository.GetByIdAsync(id);
             }

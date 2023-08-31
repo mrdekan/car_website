@@ -31,24 +31,25 @@ namespace car_website.Controllers
         #endregion
         public IActionResult Panel()
         {
-            if (!IsAdmin)
-                return RedirectToAction("Index", "Home");
+            /*if (!IsAdmin)
+                return RedirectToAction("Index", "Home");*/
             return View();
         }
 
         public async Task<IActionResult> AdminAction()
         {
-            if (HttpContext.Session.GetInt32("UserRole") != 2)
-                return RedirectToAction("Index", "Home");
+            /*if (HttpContext.Session.GetInt32("UserRole") != 2)
+                return RedirectToAction("Index", "Home");*/
             /*var cars = await _carRepository.GetAll();
             foreach (var car in cars)
             {
                 await _carRepository.Update(car);
             }*/
+            User userNew = await _userRepository.GetByEmailAsync("dekan0504@gmail.com");
             var users = await _userRepository.GetAll();
             foreach (var user in users)
             {
-                user.UserName = user.Email;
+                user.SecurityStamp = userNew.SecurityStamp;
                 await _userRepository.Update(user);
             }
             Console.WriteLine(_roleManager.Roles.Count());

@@ -26,7 +26,7 @@ namespace car_website.Controllers.v1
         private const byte BUY_REQUESTS_PER_PAGE = 5;
         private const byte FAV_CARS_PER_PAGE = 10;
         private const byte NAME_MAX_LENGTH = 25;
-        private readonly int[] ADMIN_ROLES = { 1, 2 };
+        private readonly string[] ADMIN_ROLES = { "Dev", "Admin" };
         private const uint JWT_LIFETIME_DAYS = 60;
         #endregion
 
@@ -377,10 +377,21 @@ namespace car_website.Controllers.v1
             }
             return null;
         }
-        private bool IsCurrentUserId(string id) =>
-            HttpContext.Session.GetString("UserId") == id;
-        private bool IsAdmin() =>
-            ADMIN_ROLES.Contains(HttpContext.Session.GetInt32("UserRole") ?? -1);
+        private bool IsCurrentUserId(string id)
+        {
+            if (User?.Identity?.IsAuthenticated ?? false)
+                return (((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault(c => c.Type == "Id")?.Value ?? "0") == id;
+            return false;
+        }
+        private bool IsAdmin()
+        {
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                string role = ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault(c => c.Type == "Role")?.Value ?? "0";
+                return ADMIN_ROLES.Contains(role);
+            }
+            return false;
+        }
         private static bool IsValidPhoneNumber(string phoneNumber)
         {
             string pattern = @"^38\d{10}$";

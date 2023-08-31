@@ -1,9 +1,15 @@
-﻿@model User
+﻿@using System.Security.Claims;
+@model User
 @{
     ViewData["Title"] = "Кабінет";
-    var role = ViewContext.HttpContext.Session.GetInt32("UserRole");
-    bool isSelfAccount = Model.Id.ToString() == ViewContext.HttpContext.Session.GetString("UserId");
-    bool isAdmin = role == 1 || role == 2;
+    string userId = "";
+    string userRole = "";
+    if (User != null && User.Identity != null){
+        userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
+        userRole = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault(c => c.Type == "Role")?.Value ?? "";
+    }
+    bool isSelfAccount = Model.Id.ToString() == userId;
+    bool isAdmin = userRole == "Dev" || userRole == "Admin";
 }
 <div class="profile">
     <div class="profile_info">

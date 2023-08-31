@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -31,10 +32,13 @@
     <script src="~/js/loadTheme.js" asp-append-version="true"></script>
             </div>
             @{
-                var userId = ViewContext.HttpContext.Session.GetString("UserId");
+                string userId = "";
+                if (User != null && User.Identity!=null)
+                    userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
+
             }
 
-            @if (!string.IsNullOrEmpty(userId))
+            @if (User?.Identity?.IsAuthenticated??false)
             {
                 <a asp-controller="User" asp-action="Detail" asp-route-id=@userId class="header_right-button" id="header_right-button">Кабінет</a>
             }
