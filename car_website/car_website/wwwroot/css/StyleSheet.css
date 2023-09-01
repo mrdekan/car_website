@@ -598,7 +598,7 @@ h4 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
   background-color: var(--background-secondary);
   background-color: var(--background-secondary);
   padding: 10px;
@@ -608,7 +608,9 @@ h4 {
 }
 .car_similar .similarCar_container-after {
   display: flex;
-  max-width: 242px;
+  width: 14.5vw;
+  justify-content: space-between;
+  align-self: start;
 }
 .car_similar .similarCar a {
   color: var(--text-default);
@@ -619,7 +621,7 @@ h4 {
   padding-bottom: 2px;
 }
 .car_similar .similarCar img {
-  width: 220px;
+  width: 100%;
   height: 150px;
   object-fit: cover;
   border-radius: 5px;
@@ -1255,11 +1257,9 @@ body {
   align-self: center;
 }
 .car_container-right-like.similar {
-  position: absolute;
   margin: 0;
   display: flex;
   align-items: center;
-  margin-left: 15px;
 }
 .car_container-right-span {
   position: absolute;
@@ -1275,6 +1275,8 @@ body {
   opacity: 0;
   cursor: pointer;
   z-index: 9;
+  width: 40px;
+  height: 40px;
 }
 .car_container-right-price {
   margin: 30px 0 0 20px;
@@ -1283,7 +1285,7 @@ body {
   margin: 0;
 }
 .car_container-right-price.similar {
-  margin: 0 0 0 9vw;
+  margin: 0;
 }
 .car_container-right-price-USD {
   font-size: 26px;

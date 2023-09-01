@@ -134,7 +134,7 @@ h4 {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
+            gap: 10px;
             background-color: $background-secondary;
             background-color: var(--background-secondary);
             padding: 10px;
@@ -144,9 +144,9 @@ h4 {
 
             &_container-after {
                 display: flex;
-                max-width: 242px;
-                // align-items: center;
-                //justify-content: space-between;
+                width: 14.5vw;
+                justify-content: space-between;
+                align-self: start;
             }
 
             a {
@@ -159,7 +159,7 @@ h4 {
             }
 
             img {
-                width: 220px;
+                width: 100%;
                 height: 150px;
                 object-fit: cover;
                 border-radius: 5px;
