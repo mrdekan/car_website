@@ -3,7 +3,6 @@ using car_website.Interfaces;
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson;
@@ -15,7 +14,7 @@ using System.Text.RegularExpressions;
 //API v1
 namespace car_website.Controllers.v1
 {
-    [Route("api/v{version:apiVersion}/")]
+    [Route("api/v{version:apiVersion}/[controller]/")]
     [ApiController]
     [ApiVersion("1.0")]
     public class ApiController : ControllerBase
@@ -78,7 +77,6 @@ namespace car_website.Controllers.v1
         #region Cars
 
         [HttpGet("getCarsCount")]
-        [Authorize(AuthenticationSchemes = "Bearer")] //(Roles = "2")
         public ActionResult<long> GetCarsCount()
         {
             return Ok(new

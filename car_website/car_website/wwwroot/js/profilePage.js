@@ -178,9 +178,10 @@ function updateLikeButtons() {
 }
 //#region Ajax requests
 function getFavorites() {
-    fetch(`/api/v1/getFavoriteCars?page=${buyRequestsPage}`)
+    fetch(`/api/v1/users/getFavoriteCars?page=${buyRequestsPage}`)
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             if (data != null && data.status == true) {
                 favCars = data;
                 SetCarsFromData(favCars);
@@ -226,10 +227,10 @@ function getCars() {
     var url = new URL(window.location.href);
     var pathSegments = url.pathname.split('/');
     var userId = pathSegments[pathSegments.length - 1];
-    fetch(`/User/GetCars?id=${userId}&page=${carsPage}`)
+    fetch(`/api/v1/users/getSellingCars?id=${userId}&page=${carsPage}`)
         .then(response => response.json())
         .then(data => {
-            if (data != null && data.success == true) {
+            if (data != null && data.status == true) {
                 cars = data;
                 SetCarsFromData(cars);
                 updateLikeButtons();

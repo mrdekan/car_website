@@ -41,7 +41,7 @@ builder.Services.AddHostedService<CurrencyUpdateService>();
 builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromDays(365);
+    options.IdleTimeout = TimeSpan.FromDays(2);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });

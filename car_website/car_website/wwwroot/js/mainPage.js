@@ -66,7 +66,7 @@ xhr.onload = function () {
 };*/
 //API testingconst 
 
-fetch(`/api/v1/getCarsCount`)
+fetch(`/api/v2/users/getById/64c13fdbc749ae227de382a2`)
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.error("An error occurred while retrieving data:", error));
@@ -336,7 +336,7 @@ function applyFilter(page = 1) {
         maxMileage: Number(race_max_input.value),
         page: page
     };
-    fetch(`/api/v1/getFilteredCars`, {
+    fetch(`/api/v1/cars/getFiltered`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

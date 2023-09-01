@@ -45,12 +45,25 @@ namespace car_website.Controllers
         }
         #endregion
 
-        private bool IsAdmin()
+        private async Task<bool> IsAdmin()
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                string role = ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault(c => c.Type == "Role")?.Value ?? "0";
-                return role == "Dev" || role == "Admin";
+                if (HttpContext.Session.GetInt32("Role") == null)
+                {
+                    string id = ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
+                    if (id == "") return false;
+                    User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
+                    if (user == null) return false;
+                    int userRole = (int)user.Role;
+                    HttpContext.Session.SetInt32("Role", userRole);
+                    return userRole == 1 || userRole == 2;
+                }
+                else
+                {
+                    return HttpContext.Session.GetInt32("Role") == 1
+                        || HttpContext.Session.GetInt32("Role") == 2;
+                }
             }
             return false;
         }
@@ -64,7 +77,7 @@ namespace car_website.Controllers
 
         public async Task<IActionResult> Detail(string id)
         {
-            if (!IsCurrentUserId(id) && !IsAdmin())
+            if (!IsCurrentUserId(id) && !IsAdmin().Result)
                 return RedirectToAction("Index", "Home");
             var user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
             return View(user);
@@ -156,15 +169,11 @@ namespace car_website.Controllers
                 {
 
                     new Claim("Id",user.Id.ToString()),
-                    new Claim("Role",user.Role.ToString()),
-                    new Claim("LoggedOn", DateTime.Now.ToString()),
+                    new Claim("Role",user.Role.ToString())
                 };
-                    //ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims);
                     try
                     {
-
                         await _signInManager.SignInWithClaimsAsync(user, isPersistent: true, claims);
-                        //await _signInManager.PasswordSignInAsync(user, user.PasswordHash, isPersistent: false, false);
                     }
                     catch (Exception ex)
                     {
@@ -326,7 +335,7 @@ namespace car_website.Controllers
         {
             try
             {
-                if (!IsCurrentUserId(id) && !IsAdmin())
+                if (!IsCurrentUserId(id) && !IsAdmin().Result)
                     return Ok(new { Success = false, Cars = new List<Car>(), Pages = 0, Page = 0 });
                 User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
                 IEnumerable<WaitingCar> cars = await _waitingCarsRepository.GetByIdListAsync(user.CarWithoutConfirmation);
@@ -347,7 +356,7 @@ namespace car_website.Controllers
         {
             try
             {
-                if (!IsCurrentUserId(id) && !IsAdmin())
+                if (!IsCurrentUserId(id) && !IsAdmin().Result)
                     return Ok(new
                     {
                         Success = false,
@@ -389,7 +398,7 @@ namespace car_website.Controllers
         {
             try
             {
-                if (!IsCurrentUserId(id) && !IsAdmin())
+                if (!IsCurrentUserId(id) && !IsAdmin().Result)
                     return Ok(new
                     {
                         Success = false,
