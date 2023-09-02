@@ -71,7 +71,7 @@
             </div>
             <span id="price-uah"></span>
         </div>
-        <p>Додайте одне або два фото</p>
+        <p>Додайте два фото</p>
         <div class="create_photos">
             <input type="file" text="Оберіть фото" asp-for=Photo1 />
             <span asp-validation-for=Photo1 class="text-danger"></span>
@@ -80,8 +80,8 @@
         </div>
         <p>За необхідності додайте опис</p>
         <textarea asp-for=Description placeholder="Додатковий опис" rows="4" maxlength="500" id="description"></textarea>
-        <span asp-validation-for=Description class="text-danger"></span>
         <span id="description-limit">0/500</span>
+        <span asp-validation-for=Description class="text-danger"></span>
         <button type="submit" class="sell-button">Опублікувати оголошення</button>
     </form>
 </div>

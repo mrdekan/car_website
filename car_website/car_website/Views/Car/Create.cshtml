@@ -16,339 +16,397 @@
 <div class="create">
     <form method="post" asp-action="Create" enctype="multipart/form-data">
         <h2 class="info-text">@phrases[new Random().Next(0,phrases.Count)]</h2>
-        <div id="photos-select">
-            <div class="img-group">
-                <p>Зробіть фото схоже до прикладу:</p>
-                <div class="photos-select-example">
-                    <img alt="Приклад" src="~/img/1pos.png" />
-                    <input asp-for="CreateCarViewModel.Photo1" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+        <div class="create_container">
+            <div class="create_container-left">
+                <div id="photos-select">
+                    <div class="img-group">
+                        <p>Зробіть фото схоже до прикладу:</p>
+                        <div class="photos-select-example">
+                            <img alt="Приклад" src="~/img/1pos.png" />
+                            <input asp-for="CreateCarViewModel.Photo1" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+                        </div>
+                        <span asp-validation-for="CreateCarViewModel.Photo1" class="text-danger"></span>
+                    </div>
+                    <div class="img-group">
+                        <p>Зробіть фото схоже до прикладу:</p>
+                        <div class="photos-select-example">
+                            <img alt="Приклад" src="~/img/3pos.png" />
+                            <input asp-for="CreateCarViewModel.Photo2" id="Photo2" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+                        </div>
+                        <span asp-validation-for="CreateCarViewModel.Photo2" class="text-danger"></span>
+                    </div>
+                    <div class="img-group">
+                        <p>Зробіть фото схоже до прикладу:</p>
+                        <div class="photos-select-example">
+                            <img alt="Приклад" src="~/img/4pos.png" />
+                            <input asp-for="CreateCarViewModel.Photo3" id="Photo3" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+                        </div>
+                        <span asp-validation-for="CreateCarViewModel.Photo3" class="text-danger"></span>
+                    </div>
+                    <div class="img-group">
+                        <p>Зробіть фото схоже до прикладу:</p>
+                        <div class="photos-select-example">
+                            <img alt="Приклад" src="~/img/2pos.png" />
+                            <input asp-for="CreateCarViewModel.Photo4" id="Photo4" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+                        </div>
+                        <span asp-validation-for="CreateCarViewModel.Photo4" class="text-danger"></span>
+                    </div>
+                    <div class="img-group">
+                        <p>Зробіть фото схоже до прикладу:</p>
+                        <div class="photos-select-example">
+                            <img alt="Приклад" src="~/img/5pos.png" />
+                            <input asp-for="CreateCarViewModel.Photo5" id="Photo5" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+                        </div>
+                        <span asp-validation-for="CreateCarViewModel.Photo5" class="text-danger"></span>
+                    </div>
                 </div>
-                <span asp-validation-for="CreateCarViewModel.Photo1" class="text-danger"></span>
-            </div>
-            <div class="img-group">
-                <p>Зробіть фото схоже до прикладу:</p>
-                <div class="photos-select-example">
-                    <img alt="Приклад" src="~/img/2pos.png" />
-                    <input asp-for="CreateCarViewModel.Photo2" id="Photo2" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+
+                <!-- Протитуманні фари (Fog lights) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.FogLights">Протитуманні фари</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.FogLights" />
                 </div>
-                <span asp-validation-for="CreateCarViewModel.Photo2" class="text-danger"></span>
-            </div>
-            <div class="img-group">
-                <p>Зробіть фото схоже до прикладу:</p>
-                <div class="photos-select-example">
-                    <img alt="Приклад" src="~/img/3pos.png" />
-                    <input asp-for="CreateCarViewModel.Photo3" id="Photo3" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+
+                <!-- Сенсор дощу (Rain sensor) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.RainSensor">Сенсор дощу</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.RainSensor" />
                 </div>
-                <span asp-validation-for="CreateCarViewModel.Photo3" class="text-danger"></span>
-            </div>
-            <div class="img-group">
-                <p>Зробіть фото схоже до прикладу:</p>
-                <div class="photos-select-example">
-                    <img alt="Приклад" src="~/img/4pos.png" />
-                    <input asp-for="CreateCarViewModel.Photo4" id="Photo4" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+
+                <!-- Кондиціонер (Air conditioner) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.AirConditioner">Кондиціонер</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.AirConditioner" />
                 </div>
-                <span asp-validation-for="CreateCarViewModel.Photo4" class="text-danger"></span>
-            </div>
-            <div class="img-group">
-                <p>Зробіть фото схоже до прикладу:</p>
-                <div class="photos-select-example">
-                    <img alt="Приклад" src="~/img/5pos.png" />
-                    <input asp-for="CreateCarViewModel.Photo5" id="Photo5" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+
+                <!-- Центральний замок (Central lock) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.CentralLock">Центральний замок</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.CentralLock" />
                 </div>
-                <span asp-validation-for="CreateCarViewModel.Photo5" class="text-danger"></span>
+
+                <!-- Підігрів сидінь (Seat heating) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.SeatHeating">Підігрів сидінь</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.SeatHeating" />
+                </div>
+
+                <!-- Датчик світла (Light sensor) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.LightSensor">Датчик світла</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.LightSensor" />
+                </div>
+
+                <!-- Сигналізація (Alarm system) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.AlarmSystem">Сигналізація</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.AlarmSystem" />
+                </div>
+
+                <!-- Шкіряний салон (Leather interior) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.LeatherInterior">Шкіряний салон</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.LeatherInterior" />
+                </div>
+
+                <!-- Круїз контроль (Cruise control) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.CruiseControl">Круїз контроль</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.CruiseControl" />
+                </div>
+
+                <!-- Навігація GPS (GPS navigation) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.GPSNavigation">Навігація GPS</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.GPSNavigation" />
+                </div>
+
+                <!-- Підсилювач керма (Power steering) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.PowerSteering">Підсилювач керма</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.PowerSteering" />
+                </div>
+
+                <!-- Другий комплект гуми (Second set of tires) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.SecondSetOfTires">Другий комплект гуми</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.SecondSetOfTires" />
+                </div>
+
+                <!-- Сервісна книга (Service book) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.ServiceBook">Сервісна книга</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.ServiceBook" />
+                </div>
+
+                <!-- Електродзеркала (Electric mirrors) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.ElectricMirrors">Електродзеркала</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.ElectricMirrors" />
+                </div>
+
+                <!-- Діод (LED lights) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.LEDLights">Діод</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.LEDLights" />
+                </div>
+
+                <!-- Парктронік (Parking sensors) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.ParkingSensors">Парктронік</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.ParkingSensors" />
+                </div>
+
+                <!-- ABS -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.ABS">ABS</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.ABS" />
+                </div>
+
+                <!-- Тонування (Tinted windows) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.TintedWindows">Тонування</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.TintedWindows" />
+                </div>
+
+                <!-- Склопідйомники (Power windows) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.PowerWindows">Склопідйомники</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.PowerWindows" />
+                </div>
+
+                <!-- Пневмопідвіска (Air suspension) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.AirSuspension">Пневмопідвіска</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.AirSuspension" />
+                </div>
+
+                <!-- ESP (Electronic Stability Program) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.ESP">ESP</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.ESP" />
+                </div>
+
+                <!-- Автомагнітола (Car audio system) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.CarAudioSystem">Автомагнітола</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.CarAudioSystem" />
+                </div>
+
+                <!-- Легкосплавні диски (Alloy wheels) -->
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Features.AlloyWheels">Легкосплавні диски</label>
+                    <input type="checkbox" asp-for="CreateCarViewModel.Features.AlloyWheels" />
+                </div>
+
+            </div>
+            <div class="create_container-right">
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.VideoURL">Посилання на відео з оглядом на YouTube</label>
+                    <input asp-for="CreateCarViewModel.VideoURL" />
+                    <span asp-validation-for="CreateCarViewModel.VideoURL" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.Brand">Марка</label>
+                    <select asp-for="CreateCarViewModel.Brand" id="brand-select">
+                        <option value="Any">Не обрано</option>
+                        @foreach (var str in Model.CarBrands ?? new List<string>())
+                        {
+                            <option value=@str>@str</option>
+                        }
+                    </select>
+                    <div class="custom-select">
+                        <div class="select-btn" id="brandsButton">
+                            <span>Усі</span>
+                            <i class="uil uil-angle-down"></i>
+                        </div>
+                        <div class="content">
+                            <div class="search">
+                                <i class="uil uil-search"></i>
+                                <input spellcheck="false" type="text" placeholder="Пошук" id="searchCar">
+                            </div>
+                            <ul class="options" id="brands"></ul>
+                        </div>
+                    </div>
+                    <span asp-validation-for="CreateCarViewModel.Brand" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.Model">Модель</label>
+                    <select asp-for="CreateCarViewModel.Model" id="model-select">
+                        <option value="Any">Не обрано</option>
+                    </select>
+                    <div class="custom-select">
+                        <div class="select-btn" id="modelsButton">
+                            <span>Усі</span>
+                            <i class="uil uil-angle-down"></i>
+                        </div>
+                        <div class="content">
+                            <div class="search">
+                                <i class="uil uil-search"></i>
+                                <input spellcheck="false" type="text" placeholder="Пошук" id="searchModel">
+                            </div>
+                            <ul class="options" id="models"></ul>
+                        </div>
+                    </div>
+                    <span asp-validation-for="CreateCarViewModel.Model" class="text-danger"></span>
+                </div>
+                <div id="other-brand">
+                    <div class="form-group">
+                        <label asp-for="CreateCarViewModel.OtherBrandName">Ваша марка</label>
+                        <input asp-for="CreateCarViewModel.OtherBrandName" />
+                        <span asp-validation-for="CreateCarViewModel.OtherBrandName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div id="other-model">
+                    <div class="form-group">
+                        <label asp-for="CreateCarViewModel.OtherModelName">Ваша модель</label>
+                        <input asp-for="CreateCarViewModel.OtherModelName" />
+                        <span asp-validation-for="CreateCarViewModel.OtherModelName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.CarTransmission">Трансмісія</label>
+                    <select asp-for="CreateCarViewModel.CarTransmission" class="form-select">
+                        <option value="1">Механіка</option>
+                        <option value="2">Автоматична</option>
+                        <option value="0" selected>Не обрано</option>
+                    </select>
+                    <div class="custom-select">
+                        <div class="select-btn" id="transmissionsButton">
+                            <span>Усі</span>
+                            <i class="uil uil-angle-down"></i>
+                        </div>
+                        <div class="content">
+                            <ul class="options" id="transmissions"></ul>
+                        </div>
+                    </div>
+                    <span asp-validation-for="CreateCarViewModel.CarTransmission" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.Body">Тип кузову</label>
+                    <select asp-for="CreateCarViewModel.Body" class="form-select">
+                        <option value="1">Седан</option>
+                        <option value="2">Позашляховик</option>
+                        <option value="3">Мінівен</option>
+                        <option value="4">Хетчбек</option>
+                        <option value="5">Універсал</option>
+                        <option value="6">Купе</option>
+                        <option value="7">Кабріолет</option>
+                        <option value="8">Пікап</option>
+                        <option value="9">Ліфтбек</option>
+                        <option value="10">Фастбек</option>
+                        <option value="0" selected>Не обрано</option>
+                    </select>
+                    <div class="custom-select">
+                        <div class="select-btn" id="bodiesButton">
+                            <span>Усі</span>
+                            <i class="uil uil-angle-down"></i>
+                        </div>
+                        <div class="content">
+                            <ul class="options" id="bodies"></ul>
+                        </div>
+                    </div>
+                    <span asp-validation-for="CreateCarViewModel.Body" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.Fuel">Тип палива</label>
+                    <select asp-for="CreateCarViewModel.Fuel" class="form-select">
+                        <option value="3">Бензин</option>
+                        <option value="4">Дизель</option>
+                        <option value="1">Газ</option>
+                        <option value="2">Газ/бензин</option>
+                        <option value="5">Гібрид</option>
+                        <option value="6">Електро</option>
+                        <option value="0" selected>Не обрано</option>
+                    </select>
+                    <div class="custom-select">
+                        <div class="select-btn" id="fuelsButton">
+                            <span>Усі</span>
+                            <i class="uil uil-angle-down"></i>
+                        </div>
+                        <div class="content">
+                            <ul class="options" id="fuels"></ul>
+                        </div>
+                    </div>
+                    <span asp-validation-for="CreateCarViewModel.Fuel" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.Driveline">Тип приводу</label>
+                    <select asp-for="CreateCarViewModel.Driveline" class="form-select">
+                        <option value="1">Передній</option>
+                        <option value="2">Задній</option>
+                        <option value="3">Повний</option>
+                        <option value="0" selected>Не обрано</option>
+                    </select>
+                    <span asp-validation-for="CreateCarViewModel.Driveline" class="text-danger"></span>
+                </div>
+                <div class="custom-select">
+                    <div class="select-btn" id="drivelinesButton">
+                        <span>Усі</span>
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <ul class="options" id="drivelines"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.CarColor">Колір</label>
+                    <select asp-for="CreateCarViewModel.CarColor" class="form-select">
+                        <option value="0">Бежевий</option>
+                        <option value="1">Чорний</option>
+                        <option value="2">Синій</option>
+                        <option value="3">Коричневий</option>
+                        <option value="4">Зелений</option>
+                        <option value="5">Сірий</option>
+                        <option value="6">Помаранчевий</option>
+                        <option value="7">Фіолетовий</option>
+                        <option value="8">Червоний</option>
+                        <option value="9">Білий</option>
+                        <option value="10">Жовтий</option>
+                        <option value="11" selected>Не обрано</option>
+                    </select>
+                    <span asp-validation-for="CreateCarViewModel.CarColor" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.Year">Рік</label>
+                    <select asp-for="CreateCarViewModel.Year" class="form-select">
+                        @for (int i = DateTime.Now.Year; i >= 1900; i--)
+                        {
+                            <option value=@i>@i</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CreateCarViewModel.Year" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.EngineCapacity">Об'єм двигуна</label>
+                    <input asp-for="CreateCarViewModel.EngineCapacity" />
+                    <span asp-validation-for="CreateCarViewModel.EngineCapacity" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.VIN">VIN номер</label>
+                    <input asp-for="CreateCarViewModel.VIN" type="text" />
+                    <span asp-validation-for="CreateCarViewModel.VIN" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.Mileage">Пробіг</label>
+                    <input asp-for="CreateCarViewModel.Mileage" type="number" />
+                    <span asp-validation-for="CreateCarViewModel.Mileage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.Price">Ціна</label>
+                    <input asp-for="CreateCarViewModel.Price" type="number" />
+                    <span asp-validation-for="CreateCarViewModel.Price" class="text-danger"></span>
+                </div>
+                <div class="checkbox-group">
+                    <label asp-for="CreateCarViewModel.Description">Додатковий опис</label>
+                    <textarea id="description" asp-for="CreateCarViewModel.Description" maxlength="500" style="resize: none;"></textarea>
+                    <span id="descriptionLength">0/500</span>
+                    <span asp-validation-for="CreateCarViewModel.Description" class="text-danger"></span>
+                </div>
+                <button type="submit" class="sell-button">Опублікувати оголошення</button>
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="CreateCarViewModel.VideoURL">Посилання на відео з оглядом на YouTube</label>
-            <input asp-for="CreateCarViewModel.VideoURL" />
-            <span asp-validation-for="CreateCarViewModel.VideoURL" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreateCarViewModel.Brand">Марка</label>
-            <select asp-for="CreateCarViewModel.Brand" id="brand-select">
-                <option value="Any">Не обрано</option>
-                @foreach (var str in Model.CarBrands ?? new List<string>())
-                {
-                    <option value=@str>@str</option>
-                }
-            </select>
-            <span asp-validation-for="CreateCarViewModel.Brand" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreateCarViewModel.Model">Модель</label>
-            <select asp-for="CreateCarViewModel.Model" id="model-select">
-                <option value="Any">Не обрано</option>
-            </select>
-            <span asp-validation-for="CreateCarViewModel.Model" class="text-danger"></span>
-        </div>
-        <div id="other-brand">
-            <div class="form-group">
-                <label asp-for="CreateCarViewModel.OtherBrandName">Ваша марка</label>
-                <input asp-for="CreateCarViewModel.OtherBrandName" />
-                <span asp-validation-for="CreateCarViewModel.OtherBrandName" class="text-danger"></span>
-            </div>
-        </div>
-        <div id="other-model">
-            <div class="form-group">
-                <label asp-for="CreateCarViewModel.OtherModelName">Ваша модель</label>
-                <input asp-for="CreateCarViewModel.OtherModelName" />
-                <span asp-validation-for="CreateCarViewModel.OtherModelName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreateCarViewModel.CarTransmission">Трансмісія</label>
-            <select asp-for="CreateCarViewModel.CarTransmission" class="form-select">
-                <option value="1">Механіка</option>
-                <option value="2">Автоматична</option>
-                <option value="0" selected>Не обрано</option>
-            </select>
-            <span asp-validation-for="CreateCarViewModel.CarTransmission" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreateCarViewModel.Body">Тип кузову</label>
-            <select asp-for="CreateCarViewModel.Body" class="form-select">
-                <option value="1">Седан</option>
-                <option value="2">Позашляховик</option>
-                <option value="3">Мінівен</option>
-                <option value="4">Хетчбек</option>
-                <option value="5">Універсал</option>
-                <option value="6">Купе</option>
-                <option value="7">Кабріолет</option>
-                <option value="8">Пікап</option>
-                <option value="9">Ліфтбек</option>
-                <option value="10">Фастбек</option>
-                <option value="0" selected>Не обрано</option>
-            </select>
-            <span asp-validation-for="CreateCarViewModel.Body" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreateCarViewModel.Fuel">Тип палива</label>
-            <select asp-for="CreateCarViewModel.Fuel" class="form-select">
-                <option value="3">Бензин</option>
-                <option value="4">Дизель</option>
-                <option value="1">Газ</option>
-                <option value="2">Газ/бензин</option>
-                <option value="5">Гібрид</option>
-                <option value="6">Електро</option>
-                <option value="0" selected>Не обрано</option>
-            </select>
-            <span asp-validation-for="CreateCarViewModel.Fuel" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreateCarViewModel.Driveline">Тип приводу</label>
-            <select asp-for="CreateCarViewModel.Driveline" class="form-select">
-                <option value="1">Передній</option>
-                <option value="2">Задній</option>
-                <option value="3">Повний</option>
-                <option value="0" selected>Не обрано</option>
-            </select>
-            <span asp-validation-for="CreateCarViewModel.Driveline" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreateCarViewModel.CarColor">Колір</label>
-            <select asp-for="CreateCarViewModel.CarColor" class="form-select">
-                <option value="0">Бежевий</option>
-                <option value="1">Чорний</option>
-                <option value="2">Синій</option>
-                <option value="3">Коричневий</option>
-                <option value="4">Зелений</option>
-                <option value="5">Сірий</option>
-                <option value="6">Помаранчевий</option>
-                <option value="7">Фіолетовий</option>
-                <option value="8">Червоний</option>
-                <option value="9">Білий</option>
-                <option value="10">Жовтий</option>
-                <option value="11" selected>Не обрано</option>
-            </select>
-            <span asp-validation-for="CreateCarViewModel.CarColor" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreateCarViewModel.Year">Рік</label>
-            <select asp-for="CreateCarViewModel.Year" class="form-select">
-                @for (int i = DateTime.Now.Year; i >= 1900; i--)
-                {
-                    <option value=@i>@i</option>
-                }
-            </select>
-            <span asp-validation-for="CreateCarViewModel.Year" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreateCarViewModel.EngineCapacity">Об'єм двигуна</label>
-            <input asp-for="CreateCarViewModel.EngineCapacity" />
-            <span asp-validation-for="CreateCarViewModel.EngineCapacity" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreateCarViewModel.VIN">VIN номер</label>
-            <input asp-for="CreateCarViewModel.VIN" type="text" />
-            <span asp-validation-for="CreateCarViewModel.VIN" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreateCarViewModel.Mileage">Пробіг</label>
-            <input asp-for="CreateCarViewModel.Mileage" type="number" />
-            <span asp-validation-for="CreateCarViewModel.Mileage" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreateCarViewModel.Price">Ціна</label>
-            <input asp-for="CreateCarViewModel.Price" type="number" />
-            <span asp-validation-for="CreateCarViewModel.Price" class="text-danger"></span>
-        </div>
-
-        <!-- Протитуманні фари (Fog lights) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.FogLights">Протитуманні фари</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.FogLights" />
-        </div>
-
-        <!-- Сенсор дощу (Rain sensor) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.RainSensor">Сенсор дощу</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.RainSensor" />
-        </div>
-
-        <!-- Кондиціонер (Air conditioner) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.AirConditioner">Кондиціонер</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.AirConditioner" />
-        </div>
-
-        <!-- Центральний замок (Central lock) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.CentralLock">Центральний замок</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.CentralLock" />
-        </div>
-
-        <!-- Підігрів сидінь (Seat heating) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.SeatHeating">Підігрів сидінь</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.SeatHeating" />
-        </div>
-
-        <!-- Датчик світла (Light sensor) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.LightSensor">Датчик світла</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.LightSensor" />
-        </div>
-
-        <!-- Сигналізація (Alarm system) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.AlarmSystem">Сигналізація</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.AlarmSystem" />
-        </div>
-
-        <!-- Шкіряний салон (Leather interior) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.LeatherInterior">Шкіряний салон</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.LeatherInterior" />
-        </div>
-
-        <!-- Круїз контроль (Cruise control) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.CruiseControl">Круїз контроль</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.CruiseControl" />
-        </div>
-
-        <!-- Навігація GPS (GPS navigation) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.GPSNavigation">Навігація GPS</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.GPSNavigation" />
-        </div>
-
-        <!-- Підсилювач керма (Power steering) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.PowerSteering">Підсилювач керма</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.PowerSteering" />
-        </div>
-
-        <!-- Другий комплект гуми (Second set of tires) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.SecondSetOfTires">Другий комплект гуми</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.SecondSetOfTires" />
-        </div>
-
-        <!-- Сервісна книга (Service book) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.ServiceBook">Сервісна книга</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.ServiceBook" />
-        </div>
-
-        <!-- Електродзеркала (Electric mirrors) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.ElectricMirrors">Електродзеркала</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.ElectricMirrors" />
-        </div>
-
-        <!-- Діод (LED lights) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.LEDLights">Діод</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.LEDLights" />
-        </div>
-
-        <!-- Парктронік (Parking sensors) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.ParkingSensors">Парктронік</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.ParkingSensors" />
-        </div>
-
-        <!-- ABS -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.ABS">ABS</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.ABS" />
-        </div>
-
-        <!-- Тонування (Tinted windows) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.TintedWindows">Тонування</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.TintedWindows" />
-        </div>
-
-        <!-- Склопідйомники (Power windows) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.PowerWindows">Склопідйомники</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.PowerWindows" />
-        </div>
-
-        <!-- Пневмопідвіска (Air suspension) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.AirSuspension">Пневмопідвіска</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.AirSuspension" />
-        </div>
-
-        <!-- ESP (Electronic Stability Program) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.ESP">ESP</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.ESP" />
-        </div>
-
-        <!-- Автомагнітола (Car audio system) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.CarAudioSystem">Автомагнітола</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.CarAudioSystem" />
-        </div>
-
-        <!-- Легкосплавні диски (Alloy wheels) -->
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Features.AlloyWheels">Легкосплавні диски</label>
-            <input type="checkbox" asp-for="CreateCarViewModel.Features.AlloyWheels" />
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-        <div class="checkbox-group">
-            <label asp-for="CreateCarViewModel.Description">Додатковий опис</label>
-            <textarea id="description" asp-for="CreateCarViewModel.Description" maxlength="500" style="resize: none;"></textarea>
-            <span id="descriptionLength">0/500</span>
-            <span asp-validation-for="CreateCarViewModel.Description" class="text-danger"></span>
-        </div>
-        <button type="submit" class="sell-button">Опублікувати оголошення</button>
     </form>
 </div>
 <script src="~/js/creationCarPage.js" asp-append-version="true"></script>
+<script src="~/js/creationCarPageSelectBoxes.js" asp-append-version="true"></script>

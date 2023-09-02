@@ -72,8 +72,8 @@ xhr.onload = function () {
     .catch(error => console.error("An error occurred while retrieving data:", error));*/
 
 //#region Functions' calls
-getMarks();
 applyFilter();
+getMarks();
 if (selectBrandsBtn.firstElementChild.innerText != "Усі")
     getModelsOfMark();
 addBrand();

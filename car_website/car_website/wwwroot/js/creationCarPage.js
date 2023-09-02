@@ -4,17 +4,8 @@ const descriptionLength = document.getElementById("descriptionLength");
 const description = document.getElementById("description");
 const allSelects = document.querySelectorAll('select');
 const photosBlock = document.getElementById("photos-select");
-const addPhotoButton = document.getElementById("addPhotoButton");
 
 
-let photoCount = 1;
-addPhotoButton.addEventListener('click', () => {
-    if (photoCount < 5) {
-        photoCount++;
-        document.getElementById(`Photo${photoCount}`).classList.remove("dont_display");
-        if (photoCount >= 5) addPhotoButton.remove();
-    }
-});
 
 allSelects.forEach(select => {
     select.addEventListener('change', function () {
