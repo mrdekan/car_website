@@ -29,6 +29,15 @@
     margin: 20px 0;
     //width: 600px;
 
+    a {
+        height: 38px;
+        font-size: 20px;
+        padding: 7px 15px;
+        border-radius: 3px;
+        background-color: var(--green-dark);
+        transition: .2s;
+        color: #fff;
+    }
 
     &_buy {
         height: fit-content;

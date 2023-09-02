@@ -511,6 +511,15 @@ input[type=number] {
   justify-content: space-between;
   margin: 20px 0;
 }
+.priceBuy a {
+  height: 38px;
+  font-size: 20px;
+  padding: 7px 15px;
+  border-radius: 3px;
+  background-color: var(--green-dark);
+  transition: 0.2s;
+  color: #fff;
+}
 .priceBuy_buy {
   height: fit-content;
   width: 200px;
