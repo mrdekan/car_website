@@ -29,6 +29,7 @@ function setDark() {
     root.style.setProperty('--gray-default', '#999999');
     root.style.setProperty('--beige-default', '#5E6044'); //A39E87 7D7A53 6F7255 5E6044
     root.style.setProperty('--theme-separator', '2px');
+    root.style.setProperty('--filters-background', '#303030');
 }
 function setLight() {
     themeSeparator.style.setProperty('--custom-border-radius', '7px 0 0 7px');
@@ -46,4 +47,5 @@ function setLight() {
     root.style.setProperty('--gray-default', '#505050');
     root.style.setProperty('--beige-default', '#F3EFCA');
     root.style.setProperty('--theme-separator', '-31px');
+    root.style.setProperty('--filters-background', '#F3EFCA');
 }

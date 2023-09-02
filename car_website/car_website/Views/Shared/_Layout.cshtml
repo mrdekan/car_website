@@ -4,14 +4,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - RoadStar</title>
+    <title>@ViewData["Title"] - 1Auto</title>
     <link rel="stylesheet" href="~/css/StyleSheet.min.css" asp-append-version="true" />
 </head>
 <body>
     <header>
         <div class="header_left">
             <span></span>
-            <a asp-controller="Home" asp-action="Index">RoadStar</a>
+            <a asp-controller="Home" asp-action="Index">1Auto</a>
         </div>
         <div class="header_center">
             <a asp-controller="Home" asp-action="Index">Головна</a>
@@ -23,10 +23,7 @@
             <div class="header_right-theme">
             <label for="light" class="header_right-light-label"></label>
             <input id="light" class="header_right-light" type="radio" name="theme" theme="light" />
-            @*<div class="header_right-highlight">
-                
-                </div>*@
-                <div class="header_right-separator"></div>
+            <div class="header_right-separator"></div>
             <label for="dark" class="header_right-dark-label"></label>
             <input id="dark" class="header_right-dark" type="radio" name="theme" theme="dark" />
     <script src="~/js/loadTheme.js" asp-append-version="true"></script>
@@ -47,10 +44,6 @@
                 <a asp-controller="User" asp-action="Login" class="header_right-button" id="header_right-button">Вхід</a>
             }
         </div>
-        @*
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">нічаво</a>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">ЧАВо</a>
-        <a href="#">Вхід</a>*@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -60,7 +53,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.Now.Year - car_website - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year - 1Auto - <a asp-area="" asp-controller="Home" asp-action="Privacy">Про нас</a>
         </div>
     </footer>
     <script src="~/js/changeTheme.js" asp-append-version="true"></script>

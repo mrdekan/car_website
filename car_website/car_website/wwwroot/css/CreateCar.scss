@@ -150,7 +150,23 @@
         font-size: 20px;
     }
 }
-
+.photos-select {
+    display: flex;
+    &-example{
+        display: flex;
+        align-items: center;
+        padding: 6px;
+        gap: 20px;
+        img{
+            width: 250px;
+        }
+    }
+}
+.checkbox-group{
+    display: flex;
+    flex-direction: row-reverse;
+    width: fit-content;
+}
 ::-webkit-file-upload-button {
     font-size: 0;
     background: $green-light;

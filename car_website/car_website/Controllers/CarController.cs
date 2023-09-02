@@ -5,6 +5,7 @@ using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using Newtonsoft.Json;
+using System.Security.Claims;
 using System.Web;
 
 namespace car_website.Controllers
@@ -344,13 +345,20 @@ namespace car_website.Controllers
         }
         private async Task<User> GetCurrentUser()
         {
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            string userId = GetCurrentUserId();
+            if (userId != "")
             {
-                if (ObjectId.TryParse(HttpContext.Session.GetString("UserId"),
+                if (ObjectId.TryParse(userId,
                     out ObjectId id))
                     return await _userRepository.GetByIdAsync(id);
             }
             return null;
+        }
+        private string GetCurrentUserId()
+        {
+            if (User?.Identity?.IsAuthenticated ?? false)
+                return ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
+            return "";
         }
         private string GetVideoIdFromUrl(string url)
         {

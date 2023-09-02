@@ -1,6 +1,6 @@
 ﻿@charset "UTF-8";
 /*null*/
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@500&family=Roboto:wght@100;400;700&display=swap");
 * {
   padding: 0;
   margin: 0;
@@ -100,6 +100,7 @@ input[type=number] {
   --gray-default: #404040;
   --beige-default: #F3EFCA;
   --theme-separator: -25px;
+  --filters-background: #F3EFCA;
 }
 
 .login-wrapper {
@@ -215,6 +216,7 @@ input[type=number] {
   --gray-default: #404040;
   --beige-default: #F3EFCA;
   --theme-separator: -25px;
+  --filters-background: #F3EFCA;
 }
 
 .buy-request {
@@ -478,6 +480,7 @@ input[type=number] {
   --gray-default: #404040;
   --beige-default: #F3EFCA;
   --theme-separator: -25px;
+  --filters-background: #F3EFCA;
 }
 
 .title {
@@ -524,16 +527,13 @@ input[type=number] {
 }
 
 .slider {
-  /*height: 400px;
-  width: 600px;
-  overflow: hidden;*/
   display: flex;
-  /*flex-direction: column;*/
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 .slider button {
-  height: 120px;
+  height: 200px;
   width: 30px;
   position: absolute;
   z-index: 10;
@@ -549,19 +549,20 @@ input[type=number] {
   border-right: 1px solid var(--gray-default);
 }
 .slider #next {
-  margin-left: 570px;
+  margin-left: calc(100% - 30px);
   border-radius: 10px 0 0 10px;
   border-left: 1px solid var(--gray-default);
 }
 .slider_element {
   height: 400px;
+  width: 100%;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .slider_element-image {
-  max-width: 600px;
+  max-width: 100%;
   max-height: 400px;
   z-index: 2;
   position: absolute;
@@ -593,6 +594,7 @@ h4 {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  overflow-y: auto;
 }
 .car_similar .similarCar {
   display: flex;
@@ -604,6 +606,7 @@ h4 {
   padding: 10px;
   border: 1px solid;
   border-radius: 15px;
+  min-width: 150px;
   max-width: 242px;
 }
 .car_similar .similarCar_container-after {
@@ -625,6 +628,9 @@ h4 {
   height: 150px;
   object-fit: cover;
   border-radius: 5px;
+}
+.car_similar .similarCar:last-child {
+  margin-right: 10px;
 }
 
 .buy-request-result-info {
@@ -668,6 +674,22 @@ h4 {
   margin-bottom: 10px;
 }
 
+@media (min-width: 768px) and (max-width: 1023px) {
+  .wrapper_carDetail {
+    width: 90%;
+  }
+}
+@media (max-width: 767px) {
+  .wrapper_carDetail {
+    width: 100%;
+  }
+  .slider_element {
+    height: 300px;
+  }
+  .slider_element-image {
+    max-height: 300px;
+  }
+}
 :root {
   --green-light: #537049;
   --green-medium: #4b6742;
@@ -683,6 +705,7 @@ h4 {
   --gray-default: #404040;
   --beige-default: #F3EFCA;
   --theme-separator: -25px;
+  --filters-background: #F3EFCA;
 }
 
 .profile_info {
@@ -916,6 +939,7 @@ h4 {
   --gray-default: #404040;
   --beige-default: #F3EFCA;
   --theme-separator: -25px;
+  --filters-background: #F3EFCA;
 }
 
 .info-text {
@@ -1051,6 +1075,25 @@ h4 {
   font-size: 20px;
 }
 
+.photos-select {
+  display: flex;
+}
+.photos-select-example {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  gap: 20px;
+}
+.photos-select-example img {
+  width: 250px;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: row-reverse;
+  width: fit-content;
+}
+
 ::-webkit-file-upload-button {
   font-size: 0;
   background: var(--green-light);
@@ -1077,12 +1120,14 @@ h4 {
   --gray-default: #404040;
   --beige-default: #F3EFCA;
   --theme-separator: -25px;
+  --filters-background: #F3EFCA;
 }
 
 body {
   background-color: var(--background-main);
   transition: 0.2s;
   font-family: "Roboto", sans-serif;
+  height: fit-content;
 }
 
 .dont_display {
@@ -1112,6 +1157,7 @@ body {
 .wrapper .filters_before p {
   color: var(--text-default);
   font-weight: 700;
+  font-size: 16px;
 }
 .wrapper .filters_before #save_filters {
   padding: 7px 0;
@@ -1154,7 +1200,7 @@ body {
   transition: 0.2s;
 }
 .wrapper .filters {
-  background-color: var(--background-secondary);
+  background-color: var(--filters-background);
   transition: 0.2s;
   display: flex;
   flex-direction: column;
@@ -1211,7 +1257,7 @@ body {
 }
 .wrapper .filters #clear_filters {
   border: 2px solid var(--green-dark);
-  background-color: #F3EFCA;
+  background-color: var(--filters-background);
   font-size: 14px;
   color: var(--green-dark);
   font-weight: 700;
@@ -1365,6 +1411,21 @@ body {
   margin: 30px 0px;
 }
 
+footer {
+  height: 40px;
+  width: 100%;
+  background-color: var(--green-dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.2s;
+  padding: 10px;
+  color: white;
+}
+footer a {
+  color: white;
+}
+
 header {
   position: sticky;
   top: 0;
@@ -1380,7 +1441,7 @@ header {
 header .header_left span {
   display: block;
   transform: skewX(-20deg);
-  width: 250px;
+  width: calc(170px + 6vw);
   height: 100px;
   background-color: #F3EFCA;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -1397,11 +1458,12 @@ header .header_left span::before {
 header .header_left a {
   position: absolute;
   z-index: 5;
-  margin: -50px 0 0 100px;
+  margin: -50px 0 0 calc(60px + 4.5vw);
   color: black;
   font-size: 26px;
   font-weight: 400;
   user-select: none;
+  font-family: "Noto Sans", sans-serif;
 }
 header .header_left a::before {
   content: "";
@@ -1608,7 +1670,7 @@ header .header_right-button::before {
 }
 .pages_buttons button {
   font-size: 18px;
-  background-color: var(--background-main);
+  background: var(--background-main);
   outline: 1px solid #969696;
   color: #969696;
   width: 32px;
@@ -1617,16 +1679,18 @@ header .header_right-button::before {
   line-height: 32px;
   cursor: pointer;
   user-select: none;
-  border-radius: 7px;
+  border-radius: 5px;
+  transition: 0.2s;
 }
 .pages_buttons button:hover {
-  outline: 2px solid #969696;
+  background: var(--background-secondary);
 }
 .pages_buttons .selected {
   font-weight: 700;
   outline: 2px solid var(--gray-default);
   color: var(--gray-default);
   font-size: 20px;
+  background: var(--background-secondary);
 }
 .pages_buttons .selected:hover {
   outline: 2px solid var(--gray-default);
@@ -1647,6 +1711,7 @@ header .header_right-button::before {
 
 .pb-3 {
   padding: 0 calc(10px - (100vw - 100%)) 0 0;
+  min-height: calc(100vh - 90px);
 }
 
 .select-btn, li {
@@ -1891,4 +1956,13 @@ header .header_right-button::before {
   font-weight: 400;
   transition: 0.2s;
   color: var(--text-default);
+}
+
+@media (max-width: 767px) {
+  .header_center a {
+    display: none;
+  }
+  .pb-3 {
+    padding: 0 0 0 0;
+  }
 }

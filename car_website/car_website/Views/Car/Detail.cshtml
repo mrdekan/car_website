@@ -1,9 +1,12 @@
-﻿@using car_website.ViewModels;
+﻿@using System.Security.Claims;
+@using car_website.ViewModels;
 @model CarDetailViewModel
 @{
     ViewData["Title"] = Model.Brand + " " + Model.Model;
-    var userId = ViewContext.HttpContext.Session.GetString("UserId");
-    bool isAdmin = !string.IsNullOrEmpty(userId) && ViewContext.HttpContext.Session.GetInt32("UserRole") != 0;
+    string userId = "";
+    if (User != null && User.Identity != null)
+        userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
+    bool isAdmin = !string.IsNullOrEmpty(userId) && ViewContext.HttpContext.Session.GetInt32("Role") != 0;
     bool isSelf = userId == Model.SellerId;
 }
 <div class="wrapper_carDetail-before">

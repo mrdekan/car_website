@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace car_website.Controllers
 {
@@ -33,6 +34,7 @@ namespace car_website.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+            await IsAdmin();
             var name = User.Identity.Name;
             var carsCount = _carRepository.GetCount();
             IndexPageViewModel vm = new() { CarsCount = carsCount };
@@ -139,6 +141,28 @@ namespace car_website.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        private async Task<bool> IsAdmin()
+        {
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                if (HttpContext.Session.GetInt32("Role") == null)
+                {
+                    string id = ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
+                    if (id == "") return false;
+                    User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
+                    if (user == null) return false;
+                    int userRole = (int)user.Role;
+                    HttpContext.Session.SetInt32("Role", userRole);
+                    return userRole == 1 || userRole == 2;
+                }
+                else
+                {
+                    return HttpContext.Session.GetInt32("Role") == 1
+                        || HttpContext.Session.GetInt32("Role") == 2;
+                }
+            }
+            return false;
         }
     }
 }

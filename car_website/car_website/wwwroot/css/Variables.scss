@@ -12,7 +12,9 @@ $error-secondary: var(--error-secondary);
 $gray-default: var(--gray-default);
 $beige-default: var(--beige-default);
 $theme-separator: var(--theme-separator);
-:root {
+$filters-background: var(--filters-background);
+:root
+{
     --green-light: #537049;
     --green-medium: #4b6742;
     --green-dark: #415939;
@@ -27,4 +29,5 @@ $theme-separator: var(--theme-separator);
     --gray-default: #404040;
     --beige-default: #F3EFCA;
     --theme-separator: -25px;
+    --filters-background: #F3EFCA;
 }

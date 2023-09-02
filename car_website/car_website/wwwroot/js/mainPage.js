@@ -66,10 +66,10 @@ xhr.onload = function () {
 };*/
 //API testingconst 
 
-fetch(`/api/v2/users/getById/64c13fdbc749ae227de382a2`)
+/*fetch(`/api/v1/users/getById/64c13fdbc749ae227de382a2`)
     .then(response => response.json())
     .then(data => console.log(data))
-    .catch(error => console.error("An error occurred while retrieving data:", error));
+    .catch(error => console.error("An error occurred while retrieving data:", error));*/
 
 //#region Functions' calls
 getMarks();
@@ -171,7 +171,7 @@ function clearFilters() {
     selectModelsBtn.firstElementChild.innerText = "Усі";
     models = ['Усі'];
     addModel();
-    minYearSlider.value = 1980;
+    minYearSlider.value = 2000;
     minYearSlider.setAttribute('max', maxYearSlider.getAttribute('max'));
     minMaxYear.textContent = maxYearSlider.getAttribute('max');
     maxMinYear.textContent = minYearSlider.getAttribute('min');
@@ -189,18 +189,18 @@ clear_filters.addEventListener("click", () => {
 minYearSlider.oninput = (() => {
     var value = minYearSlider.value;
     minYearValue.textContent = value;
-    var coef = 46.9 / (minYearSlider.getAttribute('max') - 1980);
-    minYearValue.style.left = (value - 1980) * coef + 3 + '%';
+    var coef = 46.9 / (minYearSlider.getAttribute('max') - 2000);
+    minYearValue.style.left = (value - 2000) * coef + 3 + '%';
     minYearValue.classList.add("show");
     maxYearSlider.setAttribute('min', value);
     maxMinYear.textContent = value;
     if (minYearSlider.value == maxYearSlider.value)
         yearLabel.textContent = `Рік (${minYearSlider.value})`;
-    else if (minYearSlider.value == 1980 && maxYearSlider.value != maxYearSlider.getAttribute('max'))
+    else if (minYearSlider.value == 2000 && maxYearSlider.value != maxYearSlider.getAttribute('max'))
         yearLabel.textContent = `Рік (≤ ${maxYearSlider.value})`;
-    else if (minYearSlider.value != 1980 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
+    else if (minYearSlider.value != 2000 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
         yearLabel.textContent = `Рік (≥ ${minYearSlider.value})`;
-    else if (minYearSlider.value == 1980 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
+    else if (minYearSlider.value == 2000 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
         yearLabel.textContent = `Рік`;
     else
         yearLabel.textContent = `Рік (${minYearSlider.value} — ${maxYearSlider.value})`;
@@ -218,11 +218,11 @@ maxYearSlider.oninput = (() => {
     minMaxYear.textContent = valueMax;
     if (minYearSlider.value == maxYearSlider.value)
         yearLabel.textContent = `Рік (${minYearSlider.value})`;
-    else if (minYearSlider.value == 1980 && maxYearSlider.value != maxYearSlider.getAttribute('max'))
+    else if (minYearSlider.value == 2000 && maxYearSlider.value != maxYearSlider.getAttribute('max'))
         yearLabel.textContent = `Рік (≤ ${maxYearSlider.value})`;
-    else if (minYearSlider.value != 1980 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
+    else if (minYearSlider.value != 2000 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
         yearLabel.textContent = `Рік (≥ ${minYearSlider.value})`;
-    else if (minYearSlider.value == 1980 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
+    else if (minYearSlider.value == 2000 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
         yearLabel.textContent = `Рік`;
     else
         yearLabel.textContent = `Рік (${minYearSlider.value} — ${maxYearSlider.value})`;

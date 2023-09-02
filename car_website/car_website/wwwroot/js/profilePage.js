@@ -195,10 +195,11 @@ function getBuyRequests() {
     var url = new URL(window.location.href);
     var pathSegments = url.pathname.split('/');
     var userId = pathSegments[pathSegments.length - 1];
-    fetch(`/User/GetBuyRequests?id=${userId}&page=${favCarsPage}`)
+    fetch(`/api/v1/users/getBuyRequests?id=${userId}&page=${favCarsPage}`)
         .then(response => response.json())
         .then(data => {
-            if (data != null && data.success == true) {
+            console.log(data)
+            if (data != null && data.status == true) {
                 buyRequests = data;
                 SetCarsFromData(buyRequests);
                 updateLikeButtons();
@@ -211,10 +212,10 @@ function getWaiting() {
     var url = new URL(window.location.href);
     var pathSegments = url.pathname.split('/');
     var userId = pathSegments[pathSegments.length - 1];
-    fetch(`/User/GetWaiting?id=${userId}&page=${waitingCarsPage}`)
+    fetch(`/api/v1/users/getWaitingCars?id=${userId}&page=${waitingCarsPage}`)
         .then(response => response.json())
         .then(data => {
-            if (data != null && data.success == true) {
+            if (data != null && data.status == true) {
                 waitingCars = data;
                 SetCarsFromData(waitingCars, true);
                 updateLikeButtons();

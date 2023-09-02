@@ -3,13 +3,13 @@
 @{
     ViewData["Title"] = "Кабінет";
     string userId = "";
-    string userRole = "";
+    int? userRole = 0;
     if (User != null && User.Identity != null){
         userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
-        userRole = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault(c => c.Type == "Role")?.Value ?? "";
+        userRole = ViewContext.HttpContext.Session.GetInt32("Role");
     }
     bool isSelfAccount = Model.Id.ToString() == userId;
-    bool isAdmin = userRole == "Dev" || userRole == "Admin";
+    bool isAdmin = userRole == 1 || userRole == 2;
 }
 <div class="profile">
     <div class="profile_info">

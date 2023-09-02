@@ -51,11 +51,11 @@
                 <span>Від:</span>
                 <div class="range">
                     <div class="rangeValue">
-                        <span id="min-year-value">1980</span>
+                        <span id="min-year-value">2000</span>
                     </div>
                     <div class="field">
-                        <div class="value left">1980</div>
-                        <input type="range" id="min-year-slider" min="1980" max="@DateTime.Now.Year" value="1980" step="1" />
+                        <div class="value left">2000</div>
+                        <input type="range" id="min-year-slider" min="2000" max="@DateTime.Now.Year" value="1980" step="1" />
                         <div class="value right" id="min-max-year">@DateTime.Now.Year</div>
                     </div>
                 </div>
@@ -67,8 +67,8 @@
                         <span id="max-year-value">@DateTime.Now.Year</span>
                     </div>
                     <div class="field">
-                        <div class="value left" id="max-min-year">1980</div>
-                        <input type="range" id="max-year-slider" min="1980" max="@DateTime.Now.Year" value="@DateTime.Now.Year" step="1" />
+                        <div class="value left" id="max-min-year">2000</div>
+                        <input type="range" id="max-year-slider" min="2000" max="@DateTime.Now.Year" value="@DateTime.Now.Year" step="1" />
                         <div class="value right">@DateTime.Now.Year</div>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
     </div>
     <div class="wrapper_right">
         <div class="pages_buttons"></div>
-        <div id="carList" class="carList"></div>
+        <div id="carList" class="carList"><div class="cars-not-found"><h3 class="warning-text">Завантаження...</h3></div></div>
         <div class="pages_buttons"></div>
     </div>
 </div>

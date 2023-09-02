@@ -77,7 +77,8 @@ namespace car_website.Controllers
 
         public async Task<IActionResult> Detail(string id)
         {
-            if (!IsCurrentUserId(id) && !IsAdmin().Result)
+            bool isAdmin = await IsAdmin();
+            if (!IsCurrentUserId(id) && !isAdmin)
                 return RedirectToAction("Index", "Home");
             var user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
             return View(user);
@@ -308,133 +309,7 @@ namespace car_website.Controllers
             return View();
         }
         #endregion
-        #region GetUserInfo
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Car>>> GetFavoriteCars(int page, int perPage = FAV_CARS_PER_PAGE)
-        {
-            try
-            {
-                User user = await GetCurrentUser();
-                if (user == null)
-                    return Ok(new { Success = false, Cars = new List<Car>(), Pages = 0, Page = 0 });
-                IEnumerable<Car> favoriteCars = await _carRepository.GetByIdListAsync(user.Favorites);
-                int totalItems = favoriteCars.Count();
-                int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
-                int skip = (page - 1) * perPage;
-                favoriteCars = favoriteCars.Skip(skip).Take(perPage);
-                var carsRes = favoriteCars.Select(car => new CarViewModel(car, _currencyUpdater, true)).ToList();
-                return Ok(new { Success = true, Cars = carsRes, Pages = totalPages, Page = page });
-            }
-            catch (Exception ex)
-            {
-                return Ok(new { Success = false, Cars = new List<Car>(), Pages = 0, Page = 0 });
-            }
-        }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Car>>> GetWaiting(string id, int page, int perPage = WAITING_CARS_PER_PAGE)
-        {
-            try
-            {
-                if (!IsCurrentUserId(id) && !IsAdmin().Result)
-                    return Ok(new { Success = false, Cars = new List<Car>(), Pages = 0, Page = 0 });
-                User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
-                IEnumerable<WaitingCar> cars = await _waitingCarsRepository.GetByIdListAsync(user.CarWithoutConfirmation);
-                int totalItems = cars.Count();
-                int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
-                int skip = (page - 1) * perPage;
-                cars = cars.Skip(skip).Take(perPage);
-                var carsRes = cars.Select(car => new WaitingCarViewModel() { Car = new CarViewModel(car.Car, _currencyUpdater, false), Id = car.Id.ToString() }).ToList();
-                return Ok(new { Success = true, Cars = carsRes, Pages = totalPages, Page = page });
-            }
-            catch (Exception ex)
-            {
-                return Ok(new { Success = false, Cars = new List<Car>(), Pages = 0, Page = 0 });
-            }
-        }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Car>>> GetBuyRequests(string id, int page, int perPage = BUY_REQUESTS_PER_PAGE)
-        {
-            try
-            {
-                if (!IsCurrentUserId(id) && !IsAdmin().Result)
-                    return Ok(new
-                    {
-                        Success = false,
-                        Cars = new List<Car>(),
-                        Pages = 0,
-                        Page = 0
-                    });
-                User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
-                IEnumerable<BuyRequest> requests = await _buyRequestRepository.GetByIdListAsync(user.SendedBuyRequest);
-                int totalItems = requests.Count();
-                int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
-                int skip = (page - 1) * perPage;
-                requests = requests.Skip(skip).Take(perPage);
-                var carsIds = requests.Select(obj => ObjectId.Parse(obj.CarId)).ToList();
-                var carsRes = await _carRepository.GetByIdListAsync(carsIds);
-                return Ok(new
-                {
-                    Success = true,
-                    Cars = carsRes.Select(car => new CarViewModel(car,
-                        _currencyUpdater,
-                        user.Favorites.Contains(car.Id))).ToList(),
-                    Pages = totalPages,
-                    Page = page
-                });
-            }
-            catch (Exception ex)
-            {
-                return Ok(new
-                {
-                    Success = false,
-                    Cars = new List<Car>(),
-                    Pages = 0,
-                    Page = 0
-                });
-            }
-        }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Car>>> GetCars(string id, int page, int perPage = CARS_PER_PAGE)
-        {
-            try
-            {
-                if (!IsCurrentUserId(id) && !IsAdmin().Result)
-                    return Ok(new
-                    {
-                        Success = false,
-                        Cars = new List<Car>(),
-                        Pages = 0,
-                        Page = 0
-                    });
-                User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
-                User currentUser = await GetCurrentUser();
-                IEnumerable<Car> cars = await _carRepository.GetByIdListAsync(user.CarsForSell);
-                int totalItems = cars.Count();
-                int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
-                int skip = (page - 1) * perPage;
-                cars = cars.Skip(skip).Take(perPage);
-                var carsRes = cars.Select(car => new CarViewModel(car,
-                    _currencyUpdater,
-                    currentUser.Favorites.Contains(car.Id))).ToList();
-                return Ok(new
-                {
-                    Success = true,
-                    Cars = carsRes,
-                    Pages = totalPages,
-                    Page = page
-                });
-            }
-            catch (Exception ex)
-            {
-                return Ok(new
-                {
-                    Success = false,
-                    Cars = new List<Car>(),
-                    Pages = 0,
-                    Page = 0
-                });
-            }
-        }
+
         private async Task<User> GetCurrentUser()
         {
             if (User?.Identity?.IsAuthenticated ?? false)
@@ -451,6 +326,5 @@ namespace car_website.Controllers
             string pattern = @"^38\d{10}$";
             return Regex.IsMatch(phoneNumber, pattern);
         }
-        #endregion
     }
 }
