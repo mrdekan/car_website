@@ -5,6 +5,7 @@ using car_website.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using System.Security.Claims;
 
 namespace car_website.Controllers
 {
@@ -71,7 +72,7 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<IActionResult> ApproveCar(string id)
         {
-            if (!IsAdmin)
+            if (!IsAdmin().Result)
                 return RedirectToAction("Index", "Home");
             if (ObjectId.TryParse(id, out ObjectId objId))
             {
@@ -123,25 +124,56 @@ namespace car_website.Controllers
             return car;
         }
 
-        private bool IsAdmin => HttpContext.Session.GetInt32("UserRole") == 1
-            || HttpContext.Session.GetInt32("UserRole") == 2;
-
+        private string GetCurrentUserId()
+        {
+            if (User?.Identity?.IsAuthenticated ?? false)
+                return ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
+            return "";
+        }
         private async Task<User> GetCurrentUser()
         {
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            string userId = GetCurrentUserId();
+            if (userId != "")
             {
-                if (ObjectId.TryParse(HttpContext.Session.GetString("UserId"),
+                if (ObjectId.TryParse(userId,
                     out ObjectId id))
                     return await _userRepository.GetByIdAsync(id);
             }
             return null;
+        }
+        private bool IsCurrentUserId(string id)
+        {
+            string userId = GetCurrentUserId();
+            return userId != "" && userId == id;
+        }
+        private async Task<bool> IsAdmin()
+        {
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                if (HttpContext.Session.GetInt32("Role") == null)
+                {
+                    string id = ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
+                    if (id == "") return false;
+                    User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
+                    if (user == null) return false;
+                    int userRole = (int)user.Role;
+                    HttpContext.Session.SetInt32("Role", userRole);
+                    return userRole == 1 || userRole == 2;
+                }
+                else
+                {
+                    return HttpContext.Session.GetInt32("Role") == 1
+                        || HttpContext.Session.GetInt32("Role") == 2;
+                }
+            }
+            return false;
         }
 
         #region Ajax responses
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserViewModel>>> GetUsers(int page = 1, int perPage = 20)
         {
-            if (!IsAdmin)
+            if (!IsAdmin().Result)
                 return Ok(new
                 {
                     Success = false,
@@ -182,7 +214,7 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WaitingCar>>> GetWaitingCars(int page = 1, int perPage = 20)
         {
-            if (!IsAdmin)
+            if (!IsAdmin().Result)
                 return Ok(new
                 {
                     Success = false,
@@ -229,7 +261,7 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BuyRequest>>> GetBuyRequests(int page = 1, int perPage = 20)
         {
-            if (!IsAdmin)
+            if (!IsAdmin().Result)
                 return Ok(new
                 {
                     Success = false,
@@ -280,7 +312,7 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WaitingCar>>> GetBrands(int page = 1, int perPage = 20)
         {
-            if (!IsAdmin)
+            if (!IsAdmin().Result)
                 return Ok(new
                 {
                     Success = false,
@@ -323,7 +355,7 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<ActionResult<bool>> AddModel(string brand, string model)
         {
-            if (!IsAdmin)
+            if (!IsAdmin().Result)
                 return Ok(new { Success = false });
             try
             {
@@ -344,7 +376,7 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<ActionResult<bool>> AddBrand(string brand)
         {
-            if (!IsAdmin)
+            if (!IsAdmin().Result)
                 return Ok(new { Success = false });
             try
             {
@@ -361,7 +393,7 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<ActionResult<bool>> DeleteModel(string brand, string model)
         {
-            if (!IsAdmin)
+            if (!IsAdmin().Result)
                 return Ok(new { Success = false });
             try
             {
@@ -383,7 +415,7 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<ActionResult<bool>> DeleteBrand(string brand)
         {
-            if (!IsAdmin)
+            if (!IsAdmin().Result)
                 return Ok(new { Success = false });
             try
             {
@@ -403,7 +435,7 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<ActionResult<bool>> EditModel(string brand, string newName, string oldName)
         {
-            if (!IsAdmin)
+            if (!IsAdmin().Result)
                 return Ok(new { Success = false });
             try
             {

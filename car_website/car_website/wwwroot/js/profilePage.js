@@ -181,7 +181,6 @@ function getFavorites() {
     fetch(`/api/v1/users/getFavoriteCars?page=${buyRequestsPage}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             if (data != null && data.status == true) {
                 favCars = data;
                 SetCarsFromData(favCars);
@@ -198,7 +197,6 @@ function getBuyRequests() {
     fetch(`/api/v1/users/getBuyRequests?id=${userId}&page=${favCarsPage}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             if (data != null && data.status == true) {
                 buyRequests = data;
                 SetCarsFromData(buyRequests);

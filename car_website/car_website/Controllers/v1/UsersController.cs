@@ -256,6 +256,53 @@ namespace car_website.Controllers.v1
         }
         #endregion
 
+        #region Change user's info
+        [HttpPut("setAdmin/{id}")]
+        public async Task<ActionResult<bool>> SetAdmin(string id)
+        {
+            if (!IsAdmin().Result)
+                return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
+            if (IsCurrentUserId(id) || !ObjectId.TryParse(id, out ObjectId userId))
+                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+            User user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+                return Ok(new { Status = false, Code = HttpCodes.NotFound });
+            try
+            {
+                user.Role = UserRole.Admin;
+                await _userRepository.Update(user);
+                return Ok(new { Status = true, Code = HttpCodes.Success });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Set admin error: {0}", ex.ToString());
+                return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
+            }
+        }
+        [HttpPut("removeAdmin/{id}")]
+        public async Task<ActionResult<bool>> RemoveAdmin(string id)
+        {
+            if (!IsAdmin().Result || id == "64c13fdbc749ae227de382a2")
+                return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
+            if (IsCurrentUserId(id) || !ObjectId.TryParse(id, out ObjectId userId))
+                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+            User user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+                return Ok(new { Status = false, Code = HttpCodes.NotFound });
+            try
+            {
+                user.Role = UserRole.User;
+                await _userRepository.Update(user);
+                return Ok(new { Status = true, Code = HttpCodes.Success });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Remove admin error: {0}", ex.ToString());
+                return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
+            }
+        }
+        #endregion
+
         #region Others methods
         private string GetCurrentUserId()
         {

@@ -4,7 +4,8 @@
     ViewData["Title"] = "Кабінет";
     string userId = "";
     int? userRole = 0;
-    if (User != null && User.Identity != null){
+    if (User != null && User.Identity != null)
+    {
         userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
         userRole = ViewContext.HttpContext.Session.GetInt32("Role");
     }
@@ -72,6 +73,14 @@
         {
             <a asp-controller="Admin" asp-action="Panel">Панель керування</a>
         }
+        @if (isAdmin && !isSelfAccount && Model.Role == 0)
+        {
+            <button id="change-role">Зробити адміном</button>
+        }
+        else @if (isAdmin && !isSelfAccount && Model.Role != 0)
+        {
+            <button id="change-role" cancel>Забрати адмінку</button>
+        }
         @if (isSelfAccount)
         {
             <a asp-controller="User" asp-action="ChangePasswordFromProfile">Змінити пароль</a>
@@ -120,3 +129,7 @@
     </div>
 </div>
 <script src="~/js/profilePage.js" asp-append-version="true"></script>
+@if (isAdmin)
+{
+    <script src="~/js/setRemoveAdmin.js" asp-append-version="true"></script>
+}

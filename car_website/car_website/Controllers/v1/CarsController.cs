@@ -103,9 +103,7 @@ namespace car_website.Controllers.v1
                 int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
                 int skip = (page - 1) * perPage;
                 filteredCars = filteredCars.Skip(skip).Take(perPage);
-                User? user = null;
-                if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
-                    user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("UserId")));
+                User user = await GetCurrentUser();
                 var carsRes = filteredCars
                     .Select(car =>
                         new CarViewModel(car, _currencyUpdater, user != null
@@ -140,7 +138,8 @@ namespace car_website.Controllers.v1
                 int totalPages = (int)Math.Ceiling(totalItems / (double)_perPage);
                 int skip = (_page - 1) * _perPage;
                 cars = cars.Skip(skip).Take(_perPage);
-                var carsRes = cars.Select(car => new CarViewModel(car, _currencyUpdater, true, IsAdmin().Result)).ToList();
+                User user = await GetCurrentUser();
+                var carsRes = cars.Select(car => new CarViewModel(car, _currencyUpdater, user != null && user.Favorites.Contains(car.Id), IsAdmin().Result)).ToList();
                 return Ok(new
                 {
                     Status = true,
@@ -181,11 +180,18 @@ namespace car_website.Controllers.v1
 
         #region Other methods
 
+        private string GetCurrentUserId()
+        {
+            if (User?.Identity?.IsAuthenticated ?? false)
+                return ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
+            return "";
+        }
         private async Task<User> GetCurrentUser()
         {
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            string userId = GetCurrentUserId();
+            if (userId != "")
             {
-                if (ObjectId.TryParse(HttpContext.Session.GetString("UserId"),
+                if (ObjectId.TryParse(userId,
                     out ObjectId id))
                     return await _userRepository.GetByIdAsync(id);
             }
@@ -193,9 +199,8 @@ namespace car_website.Controllers.v1
         }
         private bool IsCurrentUserId(string id)
         {
-            if (User?.Identity?.IsAuthenticated ?? false)
-                return (((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "0") == id;
-            return false;
+            string userId = GetCurrentUserId();
+            return userId != "" && userId == id;
         }
         private async Task<bool> IsAdmin()
         {

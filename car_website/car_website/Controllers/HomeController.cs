@@ -142,6 +142,28 @@ namespace car_website.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        private string GetCurrentUserId()
+        {
+            if (User?.Identity?.IsAuthenticated ?? false)
+                return ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
+            return "";
+        }
+        private async Task<User> GetCurrentUser()
+        {
+            string userId = GetCurrentUserId();
+            if (userId != "")
+            {
+                if (ObjectId.TryParse(userId,
+                    out ObjectId id))
+                    return await _userRepository.GetByIdAsync(id);
+            }
+            return null;
+        }
+        private bool IsCurrentUserId(string id)
+        {
+            string userId = GetCurrentUserId();
+            return userId != "" && userId == id;
+        }
         private async Task<bool> IsAdmin()
         {
             if (User?.Identity?.IsAuthenticated ?? false)

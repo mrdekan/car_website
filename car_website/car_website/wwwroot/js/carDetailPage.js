@@ -101,11 +101,13 @@ function buyRequest() {
                 resBlock.style.transform = "scaleY(0)";
                 resBlock.style.margin = '0 0 0 0';
                 resBlock.style.height = '0px';
+                resBlock.style.padding = '0 2%';
+                resBlock.style.border = '0px solid black';
             }, 10000);
             setTimeout(function () {
                 if (buyResult.contains(resBlock))
                 buyResult.removeChild(resBlock);
-            }, 10200);
+            }, 10100);
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
