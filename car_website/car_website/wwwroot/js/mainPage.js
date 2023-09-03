@@ -34,6 +34,11 @@ const maxMinYear = document.getElementById('max-min-year');
 const currentYear = minYearSlider.getAttribute('max');
 const yearLabel = document.getElementById('year-label');
 let carsPage = 1;
+const openFilter = document.getElementById('open-filters');
+const filter = document.querySelector('.filters_before');
+openFilter.addEventListener('click', () => {
+    filter.classList.toggle("open");
+});
 //#endregion
 
 //#region Selects content

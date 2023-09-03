@@ -53,6 +53,21 @@
             </div>
         </div>
     </header>
+    <div id="dropdown-menu">
+        <a asp-controller="Home" asp-action="Index">Головна</a>
+        <a asp-controller="Car" asp-action="Create">Продати авто</a>
+        <a asp-controller="Car" asp-action="CreateExpressSaleCar">Швидка продажа</a>
+        <a asp-controller="Home" asp-action="Privacy">Про нас</a>
+        <div class="separator"></div>
+        @if (User?.Identity?.IsAuthenticated ?? false)
+        {
+            <a asp-controller="User" asp-action="Detail" asp-route-id=@userId class="header_right-button" id="login-button">Кабінет</a>
+        }
+        else
+        {
+            <a asp-controller="User" asp-action="Login" class="header_right-button" id="login-button">Вхід</a>
+        }
+    </div>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

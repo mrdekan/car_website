@@ -1436,6 +1436,58 @@ body {
   margin: 30px 0px;
 }
 
+#dropdown-menu {
+  right: 0;
+  top: -650px;
+  position: fixed;
+  z-index: 90;
+  background: var(--background-secondary);
+  box-shadow: 0 0 6px rgba(120, 120, 120, 0.5);
+  min-width: 50%;
+  max-width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  padding: 10px;
+  transition: 0.2s;
+  border-radius: 0 0 0 12px;
+}
+#dropdown-menu a:not(#login-button) {
+  color: var(--text-default);
+  font-size: 16px;
+}
+#dropdown-menu.open {
+  top: 50px;
+}
+
+#open-filters {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 30vh;
+  width: 43px;
+  height: 42px;
+  background: var(--green-dark);
+  border-radius: 0 8px 8px 0;
+  z-index: 50;
+}
+#open-filters::before {
+  content: "";
+  position: absolute;
+  margin: -16px 0 0 -18px;
+  background: url("/img/find.svg");
+  background-size: 100% 100%;
+  width: 32px;
+  height: 32px;
+}
+
+.separator {
+  height: 1px;
+  width: 100%;
+  background: var(--gray-default);
+}
+
 footer {
   height: 40px;
   width: 100%;
@@ -1592,22 +1644,22 @@ header .header_right-dark-label::before {
   margin: 3px 0 0 4px;
   cursor: pointer;
 }
-header .header_right-button {
+
+#header_right-button, #login-button {
   padding: 0px 13px 0px 35px;
   border-radius: 20px;
   background-color: var(--green-medium);
   color: white;
   transition: 0.2s;
-  margin-left: 15px;
   height: 35px;
   line-height: 35px;
   font-size: 16px;
 }
-header .header_right-button:hover {
+#header_right-button:hover, #login-button:hover {
   background-color: var(--green-light);
   transition: 0.2s;
 }
-header .header_right-button::before {
+#header_right-button::before, #login-button::before {
   content: "";
   background: url("../img/white_avatar.svg");
   display: block;
@@ -1987,6 +2039,7 @@ header .header_right-button::before {
   width: 26px;
   height: 26px;
   position: relative;
+  margin: 4px 0 0 12px;
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -o-transform: rotate(0deg);
@@ -2083,6 +2136,18 @@ header .header_right-button::before {
 }
 
 @media (max-width: 767px) {
+  .filters_before {
+    position: fixed;
+    left: -300px;
+    transition: 0.2s;
+    z-index: 40;
+  }
+  .filters_before.open {
+    left: 2vw;
+  }
+  #open-filters {
+    display: block;
+  }
   #nav-icon2 {
     display: block;
   }
