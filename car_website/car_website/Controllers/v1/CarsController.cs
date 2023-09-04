@@ -36,6 +36,7 @@ namespace car_website.Controllers.v1
         private readonly IExpressSaleCarRepository _expressSaleCarRepository;
         private readonly ILogger<ApiController> _logger;
         private readonly IUserService _userService;
+        private readonly IValidationService _validationService;
         public CarsController(ICarRepository carRepository,
             IBrandRepository brandRepository,
             IImageService imageService,
@@ -46,7 +47,8 @@ namespace car_website.Controllers.v1
             IConfiguration configuration,
             IExpressSaleCarRepository expressSaleCarRepository,
             ILogger<ApiController> logger,
-            IUserService userService)
+            IUserService userService,
+            IValidationService validationService)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -59,6 +61,7 @@ namespace car_website.Controllers.v1
             _expressSaleCarRepository = expressSaleCarRepository;
             _logger = logger;
             _userService = userService;
+            _validationService = validationService;
         }
         #endregion
         [HttpPost("getFiltered")]
@@ -177,6 +180,68 @@ namespace car_website.Controllers.v1
                     IsAdmin().Result)
             });
         }
+
+        #region Buy requests
+        [HttpPut("buyRequestLoggedIn")]
+        public async Task<ActionResult<byte>> BuyRequest(string carId, bool cancel)
+        {
+            User user = await GetCurrentUser();
+            if (user == null)
+                return Ok(new { Status = false, Code = HttpCodes.Unauthorized });
+            try
+            {
+                if (cancel)
+                {
+                    BuyRequest request = await _buyRequestRepository.GetByBuyerAndCarAsync(user.Id.ToString(), carId);
+                    if (request == null)
+                        return Ok(new { Status = false, Code = HttpCodes.NotFound });
+                    user.SendedBuyRequest.Remove(request.Id);
+                    await _buyRequestRepository.Delete(request);
+                    await _userRepository.Update(user);
+                    return Ok(new { Status = true, Code = HttpCodes.Success });
+                }
+                else
+                {
+                    Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(carId));
+                    if (car == null)
+                        return Ok(new { Status = false, Code = HttpCodes.NotFound });
+                    if (car.SellerId == user.Id.ToString())
+                        return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+                    BuyRequest buyRequest = new(user.Id, carId);
+                    await _buyRequestRepository.Add(buyRequest);
+                    user.SendedBuyRequest.Add(buyRequest.Id);
+                    await _userRepository.Update(user);
+                    return Ok(new { Status = true, Code = HttpCodes.Success });
+                }
+            }
+            catch
+            {
+                return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
+            }
+        }
+        [HttpPut("buyRequestNotLoggedIn")]
+        public async Task<ActionResult<byte>> BuyRequest(string carId, string name, string phone)
+        {
+            try
+            {
+                phone = phone.Replace("+", "");
+                if (!ObjectId.TryParse(carId, out ObjectId carObjId)
+                    || !_validationService.IsValidName(name)
+                    || !_validationService.IsValidPhoneNumber(phone))
+                    return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+                Car car = await _carRepository.GetByIdAsync(carObjId);
+                if (car == null)
+                    return Ok(new { Status = false, Code = HttpCodes.NotFound });
+                BuyRequest buyRequest = new(phone, name, carId);
+                await _buyRequestRepository.Add(buyRequest);
+                return Ok(new { Status = true, Code = HttpCodes.Success });
+            }
+            catch
+            {
+                return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
+            }
+        }
+        #endregion
 
         #region Other methods
 
