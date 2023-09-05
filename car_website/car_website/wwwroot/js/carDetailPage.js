@@ -4,7 +4,14 @@ const buyResult = document.getElementById('buy-request-result');
 const sliderNext = document.getElementById('next');
 const sliderPrev = document.getElementById('prev');
 const slides = document.querySelectorAll('.slider_element');
+var popup = document.getElementById("popup");
+var closeButton = document.getElementById("closePopup");
+
 let currentSlide = 0;
+
+closeButton.addEventListener("click", function () {
+    popup.style.display = "none";
+});
 
 function showSlide() {
     if (currentSlide >= slides.length) currentSlide = 0;
@@ -28,8 +35,8 @@ getSimilarCars();
 
 
 buyButton.addEventListener('click', () => {
-    buyRequest();
-
+    //buyRequest();
+    popup.style.display = "block";
 });
 //#region Ajax requests
 function getSimilarCars() {

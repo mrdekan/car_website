@@ -20,6 +20,7 @@
 .wrapper_carDetail {
     width: 50%;
     color: $text-default;
+    margin-bottom: 55px;
 }
 
 .priceBuy {
@@ -135,7 +136,6 @@ h4 {
         width: 100%;
         display: flex;
         justify-content: space-between;
-        overflow-y: auto;
         .similarCar {
             display: flex;
             flex-direction: column;
@@ -229,7 +229,131 @@ h4 {
         }
     }
 }
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index:110;
 
+}
+
+.popup_content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+
+    span {
+        color: $text-default;
+        transition: 0.2s;
+    }
+
+    p {
+        color: $text-default;
+        transition: 0.2s;
+    }
+
+    form {
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+        padding: 40px;
+        border-radius: 40px;
+        border: 2px solid $gray-default;
+        background-color: $background-secondary;
+        transition: 0.2s;
+
+        input[type="text"] {
+            width: 100%;
+            font-size: 16px;
+            padding: 9px 12px;
+            background-color: $background;
+            border: 1px solid $gray-default;
+            color: $text-default;
+            border-radius: 7px;
+            transition: 0.2s;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            font-size: 16px;
+            padding: 9px 12px;
+            background-color: $background;
+            color: $text-default;
+            border: 1px solid $gray-default;
+            border-radius: 7px;
+            transition: 0.2s;
+        }
+
+        input::placeholder {
+            color: $gray-default;
+            transition: 0.2s;
+        }
+
+        input[type="checkbox"] {
+            display: inline-block;
+            height: 15px;
+            width: 15px;
+            margin-left: 4px;
+        }
+
+        label {
+            display: block;
+            margin: 2px 0 2px 0;
+            font-size: 18px;
+            transition: 0.2s;
+            color: $text-default;
+        }
+
+        .showpass {
+            margin: 7px 0 0 0;
+            display: flex;
+        }
+
+        button {
+            padding: 9px 12px;
+            font-size: 16px;
+            border-radius: 6px;
+            background-color: $green-medium;
+            color: white;
+            transition: 0.2s;
+            margin: 5px 0;
+
+            &:hover {
+                background-color: $green-light;
+                transition: 0.2s;
+            }
+        }
+
+        .log-reg-change {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        a {
+            color: $text-default;
+            text-decoration: underline;
+        }
+    }
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size:30px;
+}
 @media (min-width: 768px) and (max-width: 1023px) {
     .wrapper_carDetail {
         width: 90%;

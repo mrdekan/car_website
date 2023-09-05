@@ -503,6 +503,7 @@ input[type=number] {
 .wrapper_carDetail {
   width: 50%;
   color: var(--text-default);
+  margin-bottom: 55px;
 }
 
 .priceBuy {
@@ -603,7 +604,6 @@ h4 {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  overflow-y: auto;
 }
 .car_similar .similarCar {
   display: flex;
@@ -685,6 +685,118 @@ h4 {
   font-weight: 700;
   font-size: 20px;
   margin-bottom: 10px;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 110;
+}
+
+.popup_content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+.popup_content span {
+  color: var(--text-default);
+  transition: 0.2s;
+}
+.popup_content p {
+  color: var(--text-default);
+  transition: 0.2s;
+}
+.popup_content form {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 40px;
+  border-radius: 40px;
+  border: 2px solid var(--gray-default);
+  background-color: var(--background-secondary);
+  transition: 0.2s;
+}
+.popup_content form input[type=text] {
+  width: 100%;
+  font-size: 16px;
+  padding: 9px 12px;
+  background-color: var(--background-main);
+  border: 1px solid var(--gray-default);
+  color: var(--text-default);
+  border-radius: 7px;
+  transition: 0.2s;
+}
+.popup_content form input[type=password] {
+  width: 100%;
+  font-size: 16px;
+  padding: 9px 12px;
+  background-color: var(--background-main);
+  color: var(--text-default);
+  border: 1px solid var(--gray-default);
+  border-radius: 7px;
+  transition: 0.2s;
+}
+.popup_content form input::placeholder {
+  color: var(--gray-default);
+  transition: 0.2s;
+}
+.popup_content form input[type=checkbox] {
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+  margin-left: 4px;
+}
+.popup_content form label {
+  display: block;
+  margin: 2px 0 2px 0;
+  font-size: 18px;
+  transition: 0.2s;
+  color: var(--text-default);
+}
+.popup_content form .showpass {
+  margin: 7px 0 0 0;
+  display: flex;
+}
+.popup_content form button {
+  padding: 9px 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  background-color: var(--green-medium);
+  color: white;
+  transition: 0.2s;
+  margin: 5px 0;
+}
+.popup_content form button:hover {
+  background-color: var(--green-light);
+  transition: 0.2s;
+}
+.popup_content form .log-reg-change {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.popup_content form a {
+  color: var(--text-default);
+  text-decoration: underline;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 30px;
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
