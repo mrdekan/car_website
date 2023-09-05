@@ -36,6 +36,7 @@ builder.Services.AddScoped<IExpressSaleCarRepository, ExpressSaleCarRepository>(
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddTransient<IValidationService, ValidationService>();
 builder.Services.AddSingleton<CurrencyUpdater>();
 builder.Services.AddHostedService<CurrencyUpdateService>();
 builder.Services.AddScoped<ApplicationDbContext>();
