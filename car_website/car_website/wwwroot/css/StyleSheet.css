@@ -224,7 +224,7 @@ input[type=number] {
   gap: 30px;
   color: var(--gray-default);
 }
-.buy-request a {
+.buy-request a, .buy-request .buy-request-name {
   display: block;
   color: var(--text-default);
   margin: 0 0 7px;
@@ -523,13 +523,14 @@ input[type=number] {
 }
 .priceBuy_buy {
   height: fit-content;
-  width: 200px;
+  min-width: 200px;
   font-size: 20px;
   padding: 7px 15px;
   border-radius: 3px;
   background-color: var(--green-dark);
   transition: 0.2s;
   color: white;
+  max-width: fit-content;
 }
 .priceBuy .cancelBuy {
   background-color: var(--error-main);
@@ -547,21 +548,35 @@ input[type=number] {
   width: 30px;
   position: absolute;
   z-index: 10;
-  background-color: rgba(170, 170, 170, 0.5);
-  border-top: 1px solid var(--gray-default);
-  border-bottom: 1px solid var(--gray-default);
+  background-color: rgba(150, 150, 150, 0.5);
+  border-top: 1px solid var(--background-main);
+  border-bottom: 1px solid var(--background-main);
+  color: var(--background-main);
+}
+.slider button span {
+  width: 30px;
+  height: 30px;
+  position: absolute;
 }
 .slider button:hover {
   background-color: rgba(170, 170, 170, 0.8);
 }
 .slider #prev {
   border-radius: 0 10px 10px 0;
-  border-right: 1px solid var(--gray-default);
+  border-right: 1px solid var(--background-main);
+}
+.slider #prev span {
+  transform: scale(2) rotate(-90deg);
+  margin: -17px 0 0 -5px;
 }
 .slider #next {
   margin-left: calc(100% - 30px);
   border-radius: 10px 0 0 10px;
-  border-left: 1px solid var(--gray-default);
+  border-left: 1px solid var(--background-main);
+}
+.slider #next span {
+  transform: scale(2) rotate(90deg);
+  margin: -17px 0 0 -25px;
 }
 .slider_element {
   height: 400px;
@@ -697,18 +712,26 @@ h4 {
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 110;
 }
+.popup_header {
+  font-size: 22px;
+}
 
 .popup_content {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  background-color: var(--background-secondary);
+  color: var(--text-default);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  transition: 0.2s;
 }
-.popup_content span {
+.popup_content span:not(.text-danger) {
   color: var(--text-default);
   transition: 0.2s;
 }
@@ -716,18 +739,7 @@ h4 {
   color: var(--text-default);
   transition: 0.2s;
 }
-.popup_content form {
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-  padding: 40px;
-  border-radius: 40px;
-  border: 2px solid var(--gray-default);
-  background-color: var(--background-secondary);
-  transition: 0.2s;
-}
-.popup_content form input[type=text] {
+.popup_content input[type=text], .popup_content input[type=number] {
   width: 100%;
   font-size: 16px;
   padding: 9px 12px;
@@ -736,39 +748,20 @@ h4 {
   color: var(--text-default);
   border-radius: 7px;
   transition: 0.2s;
+  margin: 5px 0;
 }
-.popup_content form input[type=password] {
-  width: 100%;
-  font-size: 16px;
-  padding: 9px 12px;
-  background-color: var(--background-main);
-  color: var(--text-default);
-  border: 1px solid var(--gray-default);
-  border-radius: 7px;
-  transition: 0.2s;
-}
-.popup_content form input::placeholder {
+.popup_content input::placeholder {
   color: var(--gray-default);
   transition: 0.2s;
 }
-.popup_content form input[type=checkbox] {
-  display: inline-block;
-  height: 15px;
-  width: 15px;
-  margin-left: 4px;
-}
-.popup_content form label {
+.popup_content label {
   display: block;
   margin: 2px 0 2px 0;
-  font-size: 18px;
+  font-size: 16px;
   transition: 0.2s;
   color: var(--text-default);
 }
-.popup_content form .showpass {
-  margin: 7px 0 0 0;
-  display: flex;
-}
-.popup_content form button {
+.popup_content button {
   padding: 9px 12px;
   font-size: 16px;
   border-radius: 6px;
@@ -776,27 +769,28 @@ h4 {
   color: white;
   transition: 0.2s;
   margin: 5px 0;
+  width: 100%;
 }
-.popup_content form button:hover {
+.popup_content button:hover {
   background-color: var(--green-light);
   transition: 0.2s;
 }
-.popup_content form .log-reg-change {
+.popup_content .log-reg-change {
   width: 100%;
   display: flex;
   justify-content: center;
 }
-.popup_content form a {
+.popup_content a {
   color: var(--text-default);
   text-decoration: underline;
 }
 
 .close {
   position: absolute;
-  top: 10px;
+  top: 3px;
   right: 10px;
   cursor: pointer;
-  font-size: 30px;
+  font-size: 34px;
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -1453,6 +1447,8 @@ body {
   max-width: 890px;
   color: var(--text-default);
   transition: 0.2s;
+  border-radius: 0 16px 0 16px;
+  filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.25));
 }
 .car_container-right {
   display: flex;

@@ -5,12 +5,11 @@ using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using Newtonsoft.Json;
-using System.Security.Claims;
 using System.Web;
 
 namespace car_website.Controllers
 {
-    public class CarController : Controller
+    public class CarController : ExtendedController
     {
         #region Services & ctor
         private readonly ICarRepository _carRepository;
@@ -22,7 +21,7 @@ namespace car_website.Controllers
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly IConfiguration _configuration;
         private readonly IExpressSaleCarRepository _expressSaleCarRepository;
-        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository)
+        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository) : base(userRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -35,9 +34,6 @@ namespace car_website.Controllers
             _expressSaleCarRepository = expressSaleCarRepository;
         }
         #endregion
-
-        private async Task<bool> IsAtorized() =>
-            await GetCurrentUser() != null;
 
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
@@ -342,23 +338,6 @@ namespace car_website.Controllers
                 return Ok(new { Success = true });
             }
             return Ok(new { Success = false });
-        }
-        private async Task<User> GetCurrentUser()
-        {
-            string userId = GetCurrentUserId();
-            if (userId != "")
-            {
-                if (ObjectId.TryParse(userId,
-                    out ObjectId id))
-                    return await _userRepository.GetByIdAsync(id);
-            }
-            return null;
-        }
-        private string GetCurrentUserId()
-        {
-            if (User?.Identity?.IsAuthenticated ?? false)
-                return ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
-            return "";
         }
         private string GetVideoIdFromUrl(string url)
         {

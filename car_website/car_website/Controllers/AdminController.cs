@@ -5,11 +5,10 @@ using car_website.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using System.Security.Claims;
 
 namespace car_website.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : ExtendedController
     {
         #region Services & ctor
         private readonly ICarRepository _carRepository;
@@ -19,7 +18,7 @@ namespace car_website.Controllers
         private readonly IBrandRepository _brandRepository;
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly RoleManager<Role> _roleManager;
-        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, RoleManager<Role> roleManager)
+        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, RoleManager<Role> roleManager) : base(userRepository)
         {
             _carRepository = carRepository;
             _userRepository = userRepository;
@@ -46,14 +45,19 @@ namespace car_website.Controllers
             {
                 await _carRepository.Update(car);
             }*/
-            User userNew = await _userRepository.GetByEmailAsync("dekan0504@gmail.com");
+            /*User userNew = await _userRepository.GetByEmailAsync("dekan0504@gmail.com");
             var users = await _userRepository.GetAll();
             foreach (var user in users)
             {
                 user.SecurityStamp = userNew.SecurityStamp;
                 await _userRepository.Update(user);
             }
-            Console.WriteLine(_roleManager.Roles.Count());
+            Console.WriteLine(_roleManager.Roles.Count());*/
+            var requests = await _buyRequestRepository.GetAll();
+            foreach (var request in requests)
+            {
+                await _buyRequestRepository.Update(request);
+            }
             /*IdentityResult res = await _roleManager.CreateAsync(new Role() { Name = "User" });
             await _roleManager.CreateAsync(new Role() { Name = "Admin" });
             await _roleManager.CreateAsync(new Role() { Name = "Dev" });
@@ -122,51 +126,6 @@ namespace car_website.Controllers
             var car = await _carRepository.GetByIdAsync(carId);
             cars.Add(car);
             return car;
-        }
-
-        private string GetCurrentUserId()
-        {
-            if (User?.Identity?.IsAuthenticated ?? false)
-                return ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
-            return "";
-        }
-        private async Task<User> GetCurrentUser()
-        {
-            string userId = GetCurrentUserId();
-            if (userId != "")
-            {
-                if (ObjectId.TryParse(userId,
-                    out ObjectId id))
-                    return await _userRepository.GetByIdAsync(id);
-            }
-            return null;
-        }
-        private bool IsCurrentUserId(string id)
-        {
-            string userId = GetCurrentUserId();
-            return userId != "" && userId == id;
-        }
-        private async Task<bool> IsAdmin()
-        {
-            if (User?.Identity?.IsAuthenticated ?? false)
-            {
-                if (HttpContext.Session.GetInt32("Role") == null)
-                {
-                    string id = ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
-                    if (id == "") return false;
-                    User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
-                    if (user == null) return false;
-                    int userRole = (int)user.Role;
-                    HttpContext.Session.SetInt32("Role", userRole);
-                    return userRole == 1 || userRole == 2;
-                }
-                else
-                {
-                    return HttpContext.Session.GetInt32("Role") == 1
-                        || HttpContext.Session.GetInt32("Role") == 2;
-                }
-            }
-            return false;
         }
 
         #region Ajax responses
@@ -278,10 +237,19 @@ namespace car_website.Controllers
                 List<BuyRequestViewModel> list = new();
                 foreach (var request in requests)
                 {
-                    User buyer = await GetUser(usersCache, request.BuyerId);
-                    Car car = await GetCar(carsCache, request.CarId);
-                    User seller = await GetUser(usersCache, car.SellerId);
-                    list.Add(new BuyRequestViewModel(car, buyer, seller));
+                    if (request.BuyerId == null)
+                    {
+                        Car car = await GetCar(carsCache, request.CarId);
+                        User seller = await GetUser(usersCache, car.SellerId);
+                        list.Add(new BuyRequestViewModel(car, request.BuyerName ?? "", request.BuyerPhone ?? "", seller));
+                    }
+                    else
+                    {
+                        User buyer = await GetUser(usersCache, request.BuyerId);
+                        Car car = await GetCar(carsCache, request.CarId);
+                        User seller = await GetUser(usersCache, car.SellerId);
+                        list.Add(new BuyRequestViewModel(car, buyer, seller));
+                    }
                 }
                 int totalItems = list.Count();
                 int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);

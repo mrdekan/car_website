@@ -42,13 +42,14 @@
 
     &_buy {
         height: fit-content;
-        width: 200px;
+        min-width: 200px;
         font-size: 20px;
         padding: 7px 15px;
         border-radius: 3px;
         background-color: $green-dark;
         transition: 0.2s;
         color: white;
+        max-width: fit-content;
     }
 
     .cancelBuy {
@@ -68,9 +69,16 @@
         width: 30px;
         position: absolute;
         z-index: 10;
-        background-color: rgba(170,170,170,0.5);
-        border-top: 1px solid $gray-default;
-        border-bottom: 1px solid $gray-default;
+        background-color: rgba(150,150,150,0.5);
+        border-top: 1px solid $background;
+        border-bottom: 1px solid $background;
+        color: $background;
+
+        span {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+        }
 
         &:hover {
             background-color: rgba(170,170,170,0.8);
@@ -80,14 +88,23 @@
     #prev {
         //margin-left: -10px;
         border-radius: 0 10px 10px 0;
-        border-right: 1px solid $gray-default;
+        border-right: 1px solid $background;
+
+        span {
+            transform: scale(2) rotate(-90deg);
+            margin: -17px 0 0 -5px;
+        }
     }
 
     #next {
         margin-left: calc(100% - 30px);
         border-radius: 10px 0 0 10px;
-        border-left: 1px solid $gray-default;
+        border-left: 1px solid $background;
 
+        span {
+            transform: scale(2) rotate(90deg);
+            margin: -17px 0 0 -25px;
+        }
     }
 
     &_element {
@@ -237,8 +254,11 @@ h4 {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    z-index:110;
-
+    z-index: 110;
+    //backdrop-filter: blur(1px);
+    &_header{
+        font-size: 22px;
+    }
 }
 
 .popup_content {
@@ -246,12 +266,17 @@ h4 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    background-color: $background-secondary;
+    color: $text-default;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    transition: 0.2s;
 
-    span {
+    span:not(.text-danger) {
         color: $text-default;
         transition: 0.2s;
     }
@@ -261,98 +286,65 @@ h4 {
         transition: 0.2s;
     }
 
-    form {
-        width: 400px;
-        display: flex;
-        flex-direction: column;
-        gap: 11px;
-        padding: 40px;
-        border-radius: 40px;
-        border: 2px solid $gray-default;
-        background-color: $background-secondary;
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        font-size: 16px;
+        padding: 9px 12px;
+        background-color: $background;
+        border: 1px solid $gray-default;
+        color: $text-default;
+        border-radius: 7px;
         transition: 0.2s;
+        margin: 5px 0;
+    }
 
-        input[type="text"] {
-            width: 100%;
-            font-size: 16px;
-            padding: 9px 12px;
-            background-color: $background;
-            border: 1px solid $gray-default;
-            color: $text-default;
-            border-radius: 7px;
+    input::placeholder {
+        color: $gray-default;
+        transition: 0.2s;
+    }
+
+    label {
+        display: block;
+        margin: 2px 0 2px 0;
+        font-size: 16px;
+        transition: 0.2s;
+        color: $text-default;
+    }
+
+    button {
+        padding: 9px 12px;
+        font-size: 16px;
+        border-radius: 6px;
+        background-color: $green-medium;
+        color: white;
+        transition: 0.2s;
+        margin: 5px 0;
+        width: 100%;
+
+        &:hover {
+            background-color: $green-light;
             transition: 0.2s;
         }
+    }
 
-        input[type="password"] {
-            width: 100%;
-            font-size: 16px;
-            padding: 9px 12px;
-            background-color: $background;
-            color: $text-default;
-            border: 1px solid $gray-default;
-            border-radius: 7px;
-            transition: 0.2s;
-        }
+    .log-reg-change {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 
-        input::placeholder {
-            color: $gray-default;
-            transition: 0.2s;
-        }
-
-        input[type="checkbox"] {
-            display: inline-block;
-            height: 15px;
-            width: 15px;
-            margin-left: 4px;
-        }
-
-        label {
-            display: block;
-            margin: 2px 0 2px 0;
-            font-size: 18px;
-            transition: 0.2s;
-            color: $text-default;
-        }
-
-        .showpass {
-            margin: 7px 0 0 0;
-            display: flex;
-        }
-
-        button {
-            padding: 9px 12px;
-            font-size: 16px;
-            border-radius: 6px;
-            background-color: $green-medium;
-            color: white;
-            transition: 0.2s;
-            margin: 5px 0;
-
-            &:hover {
-                background-color: $green-light;
-                transition: 0.2s;
-            }
-        }
-
-        .log-reg-change {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
-        a {
-            color: $text-default;
-            text-decoration: underline;
-        }
+    a {
+        color: $text-default;
+        text-decoration: underline;
     }
 }
 
 .close {
     position: absolute;
-    top: 10px;
+    top: 3px;
     right: 10px;
     cursor: pointer;
-    font-size:30px;
+    font-size:34px;
 }
 @media (min-width: 768px) and (max-width: 1023px) {
     .wrapper_carDetail {

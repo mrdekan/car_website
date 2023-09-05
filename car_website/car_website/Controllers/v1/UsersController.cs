@@ -5,14 +5,13 @@ using car_website.Services;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using System.Security.Claims;
 
 namespace car_website.Controllers.v1
 {
     [Route("api/v{version:apiVersion}/[controller]/")]
     [ApiController]
     [ApiVersion("1.0")]
-    public class UsersController : ControllerBase
+    public class UsersController : ExtendedApiController
     {
         #region Constants
         private const byte CARS_PER_PAGE = 3;
@@ -46,7 +45,7 @@ namespace car_website.Controllers.v1
             IConfiguration configuration,
             IExpressSaleCarRepository expressSaleCarRepository,
             ILogger<ApiController> logger,
-            IUserService userService)
+            IUserService userService) : base(userRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -300,53 +299,6 @@ namespace car_website.Controllers.v1
                 _logger.LogError("Remove admin error: {0}", ex.ToString());
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
-        }
-        #endregion
-
-        #region Others methods
-        private string GetCurrentUserId()
-        {
-            if (User?.Identity?.IsAuthenticated ?? false)
-                return ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
-            return "";
-        }
-        private async Task<User> GetCurrentUser()
-        {
-            string userId = GetCurrentUserId();
-            if (userId != "")
-            {
-                if (ObjectId.TryParse(userId,
-                    out ObjectId id))
-                    return await _userRepository.GetByIdAsync(id);
-            }
-            return null;
-        }
-        private bool IsCurrentUserId(string id)
-        {
-            string userId = GetCurrentUserId();
-            return userId != "" && userId == id;
-        }
-        private async Task<bool> IsAdmin()
-        {
-            if (User?.Identity?.IsAuthenticated ?? false)
-            {
-                if (HttpContext.Session.GetInt32("Role") == null)
-                {
-                    string id = ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
-                    if (id == "") return false;
-                    User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
-                    if (user == null) return false;
-                    int userRole = (int)user.Role;
-                    HttpContext.Session.SetInt32("Role", userRole);
-                    return userRole == 1 || userRole == 2;
-                }
-                else
-                {
-                    return HttpContext.Session.GetInt32("Role") == 1
-                        || HttpContext.Session.GetInt32("Role") == 2;
-                }
-            }
-            return false;
         }
         #endregion
     }

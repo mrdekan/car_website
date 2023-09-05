@@ -199,6 +199,9 @@ body {
     max-width: 890px;
     color: $text-default;
     transition: 0.2s;
+    border-radius: 0 16px 0 16px;
+    //box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    filter: drop-shadow(0 0 15px rgba(0,0,0, 0.25));
 
     &_container-right {
         display: flex;
@@ -622,6 +625,7 @@ header {
     width: 20px;
     background-size: 20px 20px;
     margin: 0px -30px;
+    
     //filter: invert($icons-invert);
 }
 

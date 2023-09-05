@@ -112,8 +112,9 @@ function showData(data) {
                 container.innerHTML += `<div class="buy-request">
             <div class="buy-request_buyer">
                 <h3>Клієнт:</h3>
-                <a href="/User/Detail/${request.buyerId}">${request.buyerName}</a>
+                ${request.buyerId?`<a href="/User/Detail/${request.buyerId}">${request.buyerName}</a>`: `<p class="buy-request-name">${request.buyerName}</p>`}
                 <p>${request.buyerPhone}</p>
+                ${request.buyerId ? '' : '<p>Не зареєстрований</p>'}
             </div>
             <div class="buy-request_car">
                 <a href="/Car/Detail/${request.carId}">${request.carInfo}</a>

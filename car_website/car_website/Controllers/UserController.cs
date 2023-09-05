@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace car_website.Controllers
 {
-    public class UserController : Controller
+    public class UserController : ExtendedController
     {
         private const byte CARS_PER_PAGE = 10;
         private const byte WAITING_CARS_PER_PAGE = 5;
@@ -30,7 +30,7 @@ namespace car_website.Controllers
         private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<User> _signInManager;
 
-        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository, CurrencyUpdater currencyUpdater, ICarRepository carRepository, IWaitingCarsRepository waitingCarsRepository, IBuyRequestRepository buyRequestRepository, UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager)
+        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository, CurrencyUpdater currencyUpdater, ICarRepository carRepository, IWaitingCarsRepository waitingCarsRepository, IBuyRequestRepository buyRequestRepository, UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager) : base(userRepository)
         {
             _userService = userService;
             _emailService = emailService;
@@ -44,36 +44,6 @@ namespace car_website.Controllers
             _signInManager = signInManager;
         }
         #endregion
-
-        private async Task<bool> IsAdmin()
-        {
-            if (User?.Identity?.IsAuthenticated ?? false)
-            {
-                if (HttpContext.Session.GetInt32("Role") == null)
-                {
-                    string id = ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
-                    if (id == "") return false;
-                    User user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
-                    if (user == null) return false;
-                    int userRole = (int)user.Role;
-                    HttpContext.Session.SetInt32("Role", userRole);
-                    return userRole == 1 || userRole == 2;
-                }
-                else
-                {
-                    return HttpContext.Session.GetInt32("Role") == 1
-                        || HttpContext.Session.GetInt32("Role") == 2;
-                }
-            }
-            return false;
-        }
-
-        private bool IsCurrentUserId(string id)
-        {
-            if (User?.Identity?.IsAuthenticated ?? false)
-                return (((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault(c => c.Type == "Id")?.Value ?? "0") == id;
-            return false;
-        }
 
         public async Task<IActionResult> Detail(string id)
         {
@@ -309,17 +279,6 @@ namespace car_website.Controllers
             return View();
         }
         #endregion
-
-        private async Task<User> GetCurrentUser()
-        {
-            if (User?.Identity?.IsAuthenticated ?? false)
-            {
-                if (ObjectId.TryParse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault().Value,
-                    out ObjectId id))
-                    return await _userRepository.GetByIdAsync(id);
-            }
-            return null;
-        }
 
         private static bool IsValidPhoneNumber(string phoneNumber)
         {

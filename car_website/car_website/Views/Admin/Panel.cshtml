@@ -2,7 +2,7 @@
     ViewData["Title"] = "Панель керування";
 }
 <div style="margin: 50px">
-    @if (ViewContext.HttpContext.Session.GetInt32("UserRole") == 2)
+    @if (ViewContext.HttpContext.Session.GetInt32("Role") == 2)
     {
         <a asp-controller="Admin" asp-action="AdminAction">AdminAction</a>
     }
