@@ -380,7 +380,7 @@ function sendNewName(button) {
     let nameInp = document.getElementById('new-name');
     let surnameInp = document.getElementById('new-surname');
     if (nameInp != null && surnameInp != null) {
-        fetch(`/api/v1/changeName?newName=${nameInp.value}&newSurname=${surnameInp.value}&userId=${userId}`, {
+        fetch(`/api/v1/users/changeName?newName=${nameInp.value}&newSurname=${surnameInp.value}&userId=${userId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -413,7 +413,7 @@ function sendNewPhone(button) {
     var userId = parts[parts.length - 1];
     let phoneInp = document.getElementById('new-phone');
     if (phoneInp != null && phoneInp.value != button.getAttribute('phone')) {
-        fetch(`/api/v1/changePhone?newPhone=${phoneInp.value}&userId=${userId}`, {
+        fetch(`/api/v1/users/changePhone?newPhone=${phoneInp.value}&userId=${userId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

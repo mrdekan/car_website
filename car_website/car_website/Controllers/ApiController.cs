@@ -322,46 +322,6 @@ namespace car_website.Controllers.v1
             return Ok(new { Status = true, Code = HttpCodes.Success, User = new UserViewModel(user) });
         }
 
-        #region EditInfo
-
-        [HttpPut("changeName")]
-        public async Task<ActionResult> ChangeName([FromQuery] string newName,
-            [FromQuery] string newSurname,
-            [FromQuery] string userId)
-        {
-            newName = newName.Trim();
-            newSurname = newSurname.Trim();
-            if (!IsValidName(newName) || !IsValidName(newSurname))
-                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
-            if (!IsCurrentUserId(userId))
-                return Ok(new { Status = false, Code = HttpCodes.Unauthorized });
-            User user = await GetCurrentUser();
-            if (user == null)
-                return Ok(new { Status = false, Code = HttpCodes.Unauthorized });
-            user.SurName = newSurname;
-            user.Name = newName;
-            await _userRepository.Update(user);
-            return Ok(new { Status = true, Code = HttpCodes.Success });
-        }
-
-        [HttpPut("changePhone")]
-        public async Task<ActionResult> ChangePhone([FromQuery] string newPhone,
-            [FromQuery] string userId)
-        {
-            if (!IsValidPhoneNumber(newPhone))
-                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
-            if (!IsCurrentUserId(userId))
-                return Ok(new { Status = false, Code = HttpCodes.Unauthorized });
-            User user = await GetCurrentUser();
-            if (user == null)
-                return Ok(new { Status = false, Code = HttpCodes.Unauthorized });
-            user.PhoneNumber = $"+{newPhone}";
-            await _userRepository.Update(user);
-            return Ok(new { Status = true, Code = HttpCodes.Success });
-        }
-
-        #endregion
-
         #endregion
 
         #region OtherMethods

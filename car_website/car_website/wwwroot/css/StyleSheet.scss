@@ -80,7 +80,7 @@ body {
         color: $text-default;
     }
 
-    .input[type="number"] {
+    .input[type="number"], input[type="text"] {
         height: 32px;
         line-height: 32px;
         font-size: 16px;
@@ -315,6 +315,7 @@ body {
             width: 300px;
             height: 200px;
             object-fit: cover;
+            border-radius: 0 10px 0 10px;
         }
 
         &-info {
@@ -349,6 +350,18 @@ body {
                     }
 
                     &.onDetail {
+                    }
+
+                    &-text {
+                        display: flex;
+                        align-items: center;
+
+                        span {
+                            display: block;
+                            width: 24px;
+                            height: 24px;
+                            margin: 0 8px 0 -20px;
+                        }
                     }
                 }
 
@@ -616,63 +629,6 @@ header {
         margin: 6px -24px;
     }
 }
-.car_container-info-parameters-column-race::before {
-    content: "";
-    background: url('../img/race.svg');
-    display: block;
-    position: absolute;
-    height: 20px;
-    width: 20px;
-    background-size: 20px 20px;
-    margin: 0px -30px;
-    
-    //filter: invert($icons-invert);
-}
-
-.car_container-info-parameters-column-fuel::before {
-    content: "";
-    background: url('../img/fuel.svg');
-    display: block;
-    position: absolute;
-    height: 20px;
-    width: 20px;
-    background-size: 20px 20px;
-    margin: 0px -30px;
-}
-
-.car_container-info-parameters-column-transmission::before {
-    content: "";
-    background: url('../img/transmission.svg');
-    display: block;
-    position: absolute;
-    height: 20px;
-    width: 20px;
-    background-size: 20px 20px;
-    margin: 0px -30px;
-}
-
-.car_container-info-parameters-column-driveline::before {
-    content: "";
-    background: url('../img/transmission.svg');
-    display: block;
-    position: absolute;
-    height: 20px;
-    width: 20px;
-    background-size: 20px 20px;
-    margin: 0px -30px;
-}
-
-.car_container-info-parameters-column-vin::before {
-    content: "";
-    background: url('../img/vin.svg');
-    display: block;
-    position: absolute;
-    height: 20px;
-    width: 20px;
-    background-size: 20px 20px;
-    margin: 0px -30px;
-}
-
 .warning-text {
     font-size: 18px;
     color: #595959;

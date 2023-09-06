@@ -16,7 +16,6 @@ let selectedBrand;
 window.addEventListener('load', function () {
     radioButtons.forEach(function (radio) {
         if (radio.checked) {
-            //selectedRadioButton = radio;
             updateInfo(radio);
         }
     });

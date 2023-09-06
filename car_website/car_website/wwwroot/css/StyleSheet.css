@@ -549,8 +549,6 @@ input[type=number] {
   position: absolute;
   z-index: 10;
   background-color: rgba(150, 150, 150, 0.5);
-  border-top: 1px solid var(--background-main);
-  border-bottom: 1px solid var(--background-main);
   color: var(--background-main);
 }
 .slider button span {
@@ -563,7 +561,6 @@ input[type=number] {
 }
 .slider #prev {
   border-radius: 0 10px 10px 0;
-  border-right: 1px solid var(--background-main);
 }
 .slider #prev span {
   transform: scale(2) rotate(-90deg);
@@ -572,7 +569,6 @@ input[type=number] {
 .slider #next {
   margin-left: calc(100% - 30px);
   border-radius: 10px 0 0 10px;
-  border-left: 1px solid var(--background-main);
 }
 .slider #next span {
   transform: scale(2) rotate(90deg);
@@ -1347,14 +1343,14 @@ body {
   background-color: var(--background-main);
   color: var(--text-default);
 }
-.wrapper .input[type=number] {
+.wrapper .input[type=number], .wrapper input[type=text] {
   height: 32px;
   line-height: 32px;
   font-size: 16px;
   transition: 0.2s;
   width: 300%;
 }
-.wrapper .input[type=number]::placeholder {
+.wrapper .input[type=number]::placeholder, .wrapper input[type=text]::placeholder {
   color: var(--gray-default);
   font-size: 16px;
   transition: 0.2s;
@@ -1542,6 +1538,7 @@ body {
   width: 300px;
   height: 200px;
   object-fit: cover;
+  border-radius: 0 10px 0 10px;
 }
 .car_container-info {
   padding-left: 30px;
@@ -1568,6 +1565,16 @@ body {
 }
 .car_container-info-parameters-column p {
   font-size: 20px;
+}
+.car_container-info-parameters-column-text {
+  display: flex;
+  align-items: center;
+}
+.car_container-info-parameters-column-text span {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 0 8px 0 -20px;
 }
 .car_container-info-parameters.onDetail {
   margin: 30px 0px;
@@ -1805,61 +1812,6 @@ header .header_right-dark-label::before {
   width: 20px;
   background-size: 20px 20px;
   margin: 6px -24px;
-}
-
-.car_container-info-parameters-column-race::before {
-  content: "";
-  background: url("../img/race.svg");
-  display: block;
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  background-size: 20px 20px;
-  margin: 0px -30px;
-}
-
-.car_container-info-parameters-column-fuel::before {
-  content: "";
-  background: url("../img/fuel.svg");
-  display: block;
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  background-size: 20px 20px;
-  margin: 0px -30px;
-}
-
-.car_container-info-parameters-column-transmission::before {
-  content: "";
-  background: url("../img/transmission.svg");
-  display: block;
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  background-size: 20px 20px;
-  margin: 0px -30px;
-}
-
-.car_container-info-parameters-column-driveline::before {
-  content: "";
-  background: url("../img/transmission.svg");
-  display: block;
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  background-size: 20px 20px;
-  margin: 0px -30px;
-}
-
-.car_container-info-parameters-column-vin::before {
-  content: "";
-  background: url("../img/vin.svg");
-  display: block;
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  background-size: 20px 20px;
-  margin: 0px -30px;
 }
 
 .warning-text {
