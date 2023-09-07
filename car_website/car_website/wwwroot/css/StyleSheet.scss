@@ -85,7 +85,7 @@ body {
         line-height: 32px;
         font-size: 16px;
         transition: 0.2s;
-        width: 300%;
+        width: 100%;
 
         &::placeholder {
             color: $gray-default;
@@ -93,7 +93,6 @@ body {
             transition: 0.2s;
         }
     }
-
 
     .filters {
         //background-color: $beige-default;
@@ -372,6 +371,7 @@ body {
         }
     }
 }
+
 #dropdown-menu {
     right: 0;
     top: -650px;
@@ -398,7 +398,8 @@ body {
         top: 50px;
     }
 }
-#open-filters{
+
+#open-filters {
     display: none;
     position: fixed;
     left: 0;
@@ -408,7 +409,8 @@ body {
     background: $green-dark;
     border-radius: 0 8px 8px 0;
     z-index: 50;
-    &::before{
+
+    &::before {
         content: '';
         position: absolute;
         margin: -16px 0 0 -18px;
@@ -418,11 +420,13 @@ body {
         height: 32px;
     }
 }
+
 .separator {
     height: 1px;
     width: 100%;
     background: $gray-default;
 }
+
 footer {
     height: 40px;
     width: 100%;
@@ -471,16 +475,21 @@ header {
                 background-color: inherit;
             }
         }
+    
 
-        a {
-            position: absolute;
-            z-index: 5;
-            margin: -50px 0 0 calc(60px + 4.5vw);
-            color: black;
-            font-size: 26px;
-            font-weight: 400;
-            user-select: none;
-            font-family: 'Noto Sans', sans-serif;
+    a {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        position: absolute;
+        z-index: 5;
+        margin: -50px 0 0 calc(60px + 4.5vw);
+        color: black;
+        font-size: 26px;
+        font-weight: 700;
+        user-select: none;
+        //font-family: 'Noto Sans', sans-serif;
+        &:first-letter {
+                color: $green-medium;
+            }
 
             &::before {
                 content: '';
@@ -602,6 +611,7 @@ header {
         }
     }
 }
+
 #header_right-button, #login-button {
     padding: 0px 13px 0px 35px;
     border-radius: 20px;
@@ -629,6 +639,7 @@ header {
         margin: 6px -24px;
     }
 }
+
 .warning-text {
     font-size: 18px;
     color: #595959;
@@ -1068,21 +1079,25 @@ header {
 
 
 @media (max-width: 767px) {
-    .filters_before{
+    .filters_before {
         position: fixed;
         left: -300px;
         transition: 0.2s;
         z-index: 40;
-        &.open{
+
+        &.open {
             left: 2vw;
         }
     }
+
     #open-filters {
         display: block;
     }
-    #nav-icon2{
+
+    #nav-icon2 {
         display: block;
     }
+
     .header_center {
         a {
             display: none;
@@ -1092,7 +1107,8 @@ header {
     .pb-3 {
         padding: 0 0 0 0;
     }
-    #header_right-button{
+
+    #header_right-button {
         display: none;
     }
 }

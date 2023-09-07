@@ -1348,7 +1348,7 @@ body {
   line-height: 32px;
   font-size: 16px;
   transition: 0.2s;
-  width: 300%;
+  width: 100%;
 }
 .wrapper .input[type=number]::placeholder, .wrapper input[type=text]::placeholder {
   color: var(--gray-default);
@@ -1677,14 +1677,17 @@ header .header_left span::before {
   background-color: inherit;
 }
 header .header_left a {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   position: absolute;
   z-index: 5;
   margin: -50px 0 0 calc(60px + 4.5vw);
   color: black;
   font-size: 26px;
-  font-weight: 400;
+  font-weight: 700;
   user-select: none;
-  font-family: "Noto Sans", sans-serif;
+}
+header .header_left a:first-letter {
+  color: var(--green-medium);
 }
 header .header_left a::before {
   content: "";

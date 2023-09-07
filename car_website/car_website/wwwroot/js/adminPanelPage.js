@@ -55,7 +55,7 @@ function updateInfo(target) {
     }
 }
 function showData(data) {
-    if (data == null || data.success == false)
+    if (data == null || data.status == false || data.success == false)
         container.innerHTML = `<h3 class="warning-text">Помилка при отриманні даних</h3>`;
     else {
         if (data.type == "Users") {
@@ -192,21 +192,24 @@ function getBuyRequests() {
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function getBrands() {
-    fetch(`/Admin/GetBrands?page=${waitingCarsPage}`)
+    fetch(`/api/v1/brands/getAll`)
         .then(response => response.json())
         .then(data => {
+            data.type = "Brands";
             brandsCache = data;
-            showData(brandsCache);
+            showData(brandsCache, "Brands");
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function addModel(button) {
     const input = document.getElementById('new-model-name');
     if (input != null && input.value !== '') {
-        fetch(`/Admin/AddModel?brand=${button.getAttribute('brand')}&model=${input.value}`)
+        fetch(`/api/v1/brands/addModel?brand=${button.getAttribute('brand')}&model=${input.value}`, {
+            method: 'POST',
+        })
             .then(response => response.json())
             .then(data => {
-                if (data != null && data.success == true) {
+                if (data != null && data.status == true) {
                     getModelsOfMark(button.getAttribute('brand'), true);
                 }
             })
@@ -216,10 +219,12 @@ function addModel(button) {
 function addBrand(button) {
     const input = document.getElementById('new-brand-name');
     if (input != null && input.value !== '') {
-        fetch(`/Admin/AddBrand?brand=${input.value}`)
+        fetch(`/api/v1/brands/add?brand=${input.value}`, {
+            method: 'POST',
+        })
             .then(response => response.json())
             .then(data => {
-                if (data != null && data.success == true)
+                if (data != null && data.status == true)
                     getBrands();
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
@@ -227,10 +232,12 @@ function addBrand(button) {
 }
 function deleteBrand(button) {
     if (confirm(`Видалити марку "${button.getAttribute('brand')}"?`)) {
-        fetch(`/Admin/DeleteBrand?brand=${button.getAttribute('brand')}`)
+        fetch(`/api/v1/brands/delete?brand=${button.getAttribute('brand')}`, {
+            method: 'PUT',
+        })
             .then(response => response.json())
             .then(data => {
-                if (data != null && data.success == true)
+                if (data != null && data.status == true)
                     getBrands();
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
@@ -238,10 +245,12 @@ function deleteBrand(button) {
 }
 function deleteModel(button) {
     if (confirm(`Видалити модель "${button.getAttribute('model')}" у марки "${button.getAttribute('brand')}"?`)) {
-        fetch(`/Admin/DeleteModel?brand=${button.getAttribute('brand')}&model=${button.getAttribute('model')}`)
+        fetch(`/api/v1/brands/deleteModel?brand=${button.getAttribute('brand')}&model=${button.getAttribute('model')}`, {
+            method: 'PUT',
+        })
             .then(response => response.json())
             .then(data => {
-                if (data != null && data.success == true)
+                if (data != null && data.status == true)
                     getModelsOfMark(button.getAttribute('brand'), true);
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
@@ -253,10 +262,12 @@ function editModel(button) {
         let newName = input.value;
         let oldName = button.getAttribute('model');
         if (confirm(`Змінити назву моделі з "${oldName}" на "${newName}?"`)) {
-            fetch(`/Admin/EditModel?brand=${button.getAttribute('brand')}&newName=${newName}&oldName=${oldName}`)
+            fetch(`/api/v1/brands/editModel?brand=${button.getAttribute('brand')}&newName=${newName}&oldName=${oldName}`, {
+                method: 'PUT',
+            })
                 .then(response => response.json())
                 .then(data => {
-                    if (data != null && data.success == true)
+                    if (data != null && data.status == true)
                         getModelsOfMark(button.getAttribute('brand'), true);
                 })
                 .catch(error => console.error("An error occurred while retrieving data:", error));

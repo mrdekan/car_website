@@ -43,14 +43,10 @@ const yearLabel = document.getElementById('year-label');
 let carsPage = 1;
 const openFilter = document.getElementById('open-filters');
 const filter = document.querySelector('.filters_before');
-openFilter.addEventListener('click', () => {
-    filter.classList.toggle("open");
-});
 //#endregion
 
 //#region Selects content
-let brands = ["Усі"];
-let models = ["Усі"];
+let brands = ["Усі"], models = ["Усі"];
 let bodies = ["Усі", "Седан", "Позашляховик", "Мінівен", "Хетчбек", "Універсал", "Купе", "Кабріолет", "Пікап", "Ліфтбек", "Фастбек"];
 let transmissions = ["Усі", "Механічна", "Автоматична"];
 let fuels = {};
@@ -79,6 +75,7 @@ addDriveline();
 //#endregion
 
 //#region Pages & Likes
+openFilter.addEventListener('click', () => filter.classList.toggle("open"));
 function updateLikeButtons() {
     likeButtons = document.getElementsByClassName("car_container-right-like-cars");
     Array.from(likeButtons).forEach(like => {
@@ -87,8 +84,8 @@ function updateLikeButtons() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success == false) {
-                        window.location.href = '/User/Login';
                         like.checked = !like.checked;
+                        window.location.href = '/User/Login';
                     }
                 })
                 .catch(error => console.error("An error occurred while retrieving data:", error));
@@ -128,11 +125,8 @@ function updatePagesButtons(number) {
                     buttons_container.innerHTML += `<button ${i === carsPage ? 'class="selected"' : ''} page="${i}"">${i}</button>`;
             }
             Array.from(buttons_container.children).forEach(button => {
-                if (button.tagName === 'BUTTON') {
-                    button.addEventListener('click', () => {
-                        applyFilter(+button.getAttribute("page"));
-                    });
-                }
+                if (button.tagName === 'BUTTON')
+                    button.addEventListener('click', () => applyFilter(+button.getAttribute("page")));
             });
         }
     });
@@ -168,11 +162,9 @@ function clearFilters() {
     maxYearSlider.value = 2023;
     maxYearSlider.setAttribute('min', minYearSlider.getAttribute('min'));
     yearLabel.textContent = `Рік`;
-}
-clear_filters.addEventListener("click", () => {
-    clearFilters();
     applyFilter();
-});
+}
+clear_filters.addEventListener("click", () => clearFilters());
 //#endregion
 
 //#region input fields settings
@@ -195,9 +187,7 @@ minYearSlider.oninput = (() => {
     else
         yearLabel.textContent = `Рік (${minYearSlider.value} — ${maxYearSlider.value})`;
 });
-maxYearSlider.onblur = (() => {
-    maxYearValue.classList.remove("show");
-});
+maxYearSlider.onblur = (() => maxYearValue.classList.remove("show"));
 maxYearSlider.oninput = (() => {
     var valueMax = maxYearSlider.value;
     maxYearValue.textContent = valueMax;
@@ -217,9 +207,7 @@ maxYearSlider.oninput = (() => {
     else
         yearLabel.textContent = `Рік (${minYearSlider.value} — ${maxYearSlider.value})`;
 });
-minYearSlider.onblur = (() => {
-    minYearValue.classList.remove("show");
-});
+minYearSlider.onblur = (() => minYearValue.classList.remove("show"));
 const inputsWithComma = [engineVolume_min_input, engineVolume_max_input];
 inputsWithComma.forEach((inp) => {
     inp.addEventListener('input', function (event) {
@@ -307,8 +295,7 @@ function applyFilter(page = 1) {
                 carsPage = data.page;
                 updatePagesButtons(data.pages);
                 const carList = document.getElementById("carList");
-                carList.innerHTML = ""; //Clean up the old list
-                //Form a block for each machine
+                carList.innerHTML = "";
                 data.cars.forEach(car => {
                     const block = `<div class="car">
                                   <div class="car_container">
@@ -326,7 +313,6 @@ function applyFilter(page = 1) {
                                                     <p class="car_container-info-parameters-column-text"><span>${svgCodes.driveline}</span>${drivelineName(car.driveline)}</p>
                                                     </div>
                                             </div>
-                                            
                                         </div>
                                     </div>
                                     <div class="car_container-right">
@@ -349,61 +335,47 @@ function applyFilter(page = 1) {
                 carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Нічого не знайдено</h3></div>`;
             }
             else {
+                updatePagesButtons(0);
                 carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Щось пішло не так</h3></div>`;
             }
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
-//<img alt="#" src="../img/heart.svg" /> </button>
-
-
-
 //#endregion
 
 //#region info displaying
 function fuelName(id) {
     switch (id) {
-        case 1: {
+        case 1:
             return "Газ";
-        }
-        case 2: {
+        case 2:
             return "Газ/Бензин";
-        }
-        case 3: {
+        case 3:
             return "Бензин";
-        }
-        case 4: {
+        case 4:
             return "Дизель";
-        }
-        case 5: {
+        case 5:
             return "Гібрид";
-        }
-        case 6: {
+        case 6:
             return "Електро";
-        }
     }
 }
 function transmissionName(id) {
     switch (id) {
-        case 1: {
+        case 1:
             return "Механічна";
-        }
-        case 2: {
+        case 2:
             return "Автомат";
-        }
     }
 }
 function drivelineName(id) {
     switch (id) {
-        case 1: {
+        case 1:
             return "Передній";
-        }
-        case 2: {
+        case 2:
             return "Задній";
-        }
-        case 3: {
+        case 3:
             return "Повний";
-        }
     }
 }
 function formatNumberWithThousandsSeparator(number) {
@@ -413,12 +385,10 @@ function formatNumberWithThousandsSeparator(number) {
 
 //#region Custom selects
 function refreshBrands() {
-    if (selectBrandsBtn.firstElementChild.innerText === 'Усі') {
+    if (selectBrandsBtn.firstElementChild.innerText === 'Усі')
         brandsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
-    }
-    else {
+    else
         brandsOptions.innerHTML = '';
-    }
     brands.forEach(brand => {
         if (brand !== 'Усі' || selectBrandsBtn.firstElementChild.innerText !== 'Усі') {
             let isSelected = brand == selectBrandsBtn.firstElementChild.innerText ? "selected" : "";
@@ -428,12 +398,10 @@ function refreshBrands() {
     });
 }
 function refreshModels() {
-    if (selectModelsBtn.firstElementChild.innerText === 'Усі') {
+    if (selectModelsBtn.firstElementChild.innerText === 'Усі')
         modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
-    }
-    else {
+    else
         modelsOptions.innerHTML = '';
-    }
     models.forEach(model => {
         if (model !== 'Усі' || selectModelsBtn.firstElementChild.innerText !== 'Усі') {
             let isSelected = model == selectModelsBtn.firstElementChild.innerText ? "selected" : "";
@@ -469,9 +437,8 @@ function addBrand(selectedBrand) {
         selectModelsBtn.firstElementChild.innerText = 'Усі';
         brandsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
     }
-    else {
+    else
         brandsOptions.innerHTML = '';
-    }
     brands.forEach(brand => {
         if (brand != 'Усі' || selectedBrand) {
             let isSelected = brand == selectedBrand ? "selected" : "";
@@ -485,9 +452,8 @@ function addModel(selectedModel) {
         selectModelsBtn.firstElementChild.innerText = 'Усі';
         modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
     }
-    else {
+    else
         modelsOptions.innerHTML = '';
-    }
     models.forEach(model => {
         if (model != 'Усі' || selectedModel) {
             let isSelected = model == selectedModel ? "selected" : "";
@@ -499,7 +465,7 @@ function addModel(selectedModel) {
 function addBody(selectedBody) {
     bodiesOptions.innerHTML = '';
     bodies.forEach(body => {
-        let isSelected = body == selectedBody || !selectedBody && body=='Усі' ? "selected" : "";
+        let isSelected = body == selectedBody || !selectedBody && body == 'Усі' ? "selected" : "";
         let li = `<li onclick="updateBody(this)" class="${isSelected}">${body}</li>`;
         bodiesOptions.insertAdjacentHTML("beforeend", li);
     });
@@ -534,11 +500,7 @@ function updateName(selectedLi) {
     brandsOptions.parentElement.classList.remove("active");
     selectBrandsBtn.classList.remove("active");
     selectBrandsBtn.firstElementChild.innerText = selectedLi.innerText;
-    if (selectBrandsBtn.firstElementChild.innerText == "Усі")
-        modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
-    else {
-        getModelsOfMark();
-    }
+    getModelsOfMark();
 }
 function updateModel(selectedLi) {
     searchModelInp.value = "";
@@ -673,17 +635,13 @@ document.addEventListener('click', function (event) {
         hideModel();
         refreshModels();
     }
-    if (!selectBodiesBtn.parentElement.contains(event.target)) {
+    if (!selectBodiesBtn.parentElement.contains(event.target))
         hideBody();
-    }
-    if (!selectTransmissionsBtn.parentElement.contains(event.target)) {
+    if (!selectTransmissionsBtn.parentElement.contains(event.target))
         hideTransmission();
-    }
-    if (!selectFuelsBtn.parentElement.contains(event.target)) {
+    if (!selectFuelsBtn.parentElement.contains(event.target))
         hideFuel();
-    }
-    if (!selectDrivelinesBtn.parentElement.contains(event.target)) {
+    if (!selectDrivelinesBtn.parentElement.contains(event.target))
         hideDriveline();
-    }
 });
 //#endregion

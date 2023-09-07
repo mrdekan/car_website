@@ -66,7 +66,7 @@ namespace car_website.Controllers.v1
         }
 
         #region Brands & Models editing
-        [HttpPut("addModel")]
+        [HttpPost("addModel")]
         public async Task<ActionResult<bool>> AddModel(string brand, string model)
         {
             if (!IsAdmin().Result)
@@ -87,7 +87,7 @@ namespace car_website.Controllers.v1
             }
         }
 
-        [HttpPut("addBrand")]
+        [HttpPost("add")]
         public async Task<ActionResult<bool>> AddBrand(string brand)
         {
             if (!IsAdmin().Result)
@@ -129,7 +129,7 @@ namespace car_website.Controllers.v1
             }
         }
 
-        [HttpPut("deleteBrand")]
+        [HttpPut("delete")]
         public async Task<ActionResult<bool>> DeleteBrand(string brand)
         {
             if (!IsAdmin().Result)
