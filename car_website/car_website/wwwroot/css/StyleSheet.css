@@ -1211,12 +1211,16 @@ h4 {
   min-width: 30%;
   max-width: fit-content;
   margin-left: auto;
-  background: var(--green-light);
+  background: var(--green-medium);
   border-radius: 7px;
   padding: 10px;
   transition: 0.2s;
   color: white;
   font-size: 20px;
+}
+.create .sell-button:hover {
+  transition: 0.2s;
+  background: var(--green-light);
 }
 
 .photos-select {
@@ -1314,6 +1318,7 @@ body {
   color: var(--text-default);
   font-weight: 700;
   font-size: 16px;
+  transition: 0.2s;
 }
 .wrapper .filters_before #save_filters {
   padding: 7px 0;
@@ -1507,7 +1512,7 @@ body {
 .car_container-right-price-UAH {
   font-size: 18px;
   color: white;
-  background-color: var(--green-light);
+  background-color: var(--green-medium);
   border-radius: 0 10px 0 10px;
   padding: 5px 0px;
   min-width: 135px;
@@ -1575,6 +1580,7 @@ body {
   width: 24px;
   height: 24px;
   margin: 0 8px 0 -20px;
+  color: var(--beige-default);
 }
 .car_container-info-parameters.onDetail {
   margin: 30px 0px;
@@ -1659,13 +1665,17 @@ header {
   transition: 0.2s;
   z-index: 100;
 }
+header .header_left {
+  display: flex;
+}
 header .header_left span {
   display: block;
   transform: skewX(-20deg);
-  width: calc(170px + 6vw);
-  height: 100px;
-  background-color: #F3EFCA;
+  width: calc(170px + 5vw);
+  height: 150px;
+  background-color: var(--background-secondary);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: 0.2s;
 }
 header .header_left span::before {
   content: "";
@@ -1680,23 +1690,25 @@ header .header_left a {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   position: absolute;
   z-index: 5;
-  margin: -50px 0 0 calc(60px + 4.5vw);
+  margin: -75px 0 0 4.5vw;
   color: black;
   font-size: 26px;
   font-weight: 700;
   user-select: none;
+  align-self: center;
+  justify-self: center;
+  display: block;
 }
 header .header_left a:first-letter {
   color: var(--green-medium);
 }
 header .header_left a::before {
   content: "";
-  width: 75px;
-  height: 75px;
+  width: 120px;
+  height: 120px;
   background: url("/img/logo.png");
   background-size: 100% 100%;
   position: absolute;
-  margin: -25px 0 0 -80px;
 }
 header .header_center {
   display: flex;
@@ -1745,7 +1757,7 @@ header .header_right-separator::before {
   width: 31px;
   margin-left: var(--theme-separator);
   border-radius: var(--custom-border-radius, 7px 0 0 7px);
-  background-color: var(--green-medium);
+  background-color: var(--beige-default);
   position: absolute;
   transition: 0.2s;
 }
@@ -1856,13 +1868,14 @@ header .header_right-dark-label::before {
 }
 .pages_buttons .selected {
   font-weight: 700;
-  outline: 2px solid var(--gray-default);
-  color: var(--gray-default);
+  outline: 2px solid var(--beige-default);
+  color: var(--beige-default);
   font-size: 20px;
+  transition: 0.2s;
   background: var(--background-secondary);
 }
 .pages_buttons .selected:hover {
-  outline: 2px solid var(--gray-default);
+  outline: 2px solid var(--beige-default);
 }
 
 ::-webkit-scrollbar {

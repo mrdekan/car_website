@@ -44,6 +44,7 @@ body {
             color: $text-default;
             font-weight: 700;
             font-size: 16px;
+            transition: 0.2s;
         }
 
         #save_filters {
@@ -277,7 +278,7 @@ body {
             &-UAH {
                 font-size: 18px;
                 color: white;
-                background-color: $green-light;
+                background-color: $green-medium;
                 border-radius: 0 10px 0 10px;
                 padding: 5px 0px;
                 min-width: 135px;
@@ -360,6 +361,7 @@ body {
                             width: 24px;
                             height: 24px;
                             margin: 0 8px 0 -20px;
+                            color: $beige-default;
                         }
                     }
                 }
@@ -456,14 +458,15 @@ header {
     z-index: 100;
 
     .header_left {
+        display: flex;
         span {
             display: block;
             transform: skewX(-20deg);
-            width: calc(170px + 6vw);
-            height: 100px;
-            background-color: #F3EFCA;
+            width: calc(170px + 5vw);
+            height: 150px;
+            background-color: $background-secondary;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-
+            transition: 0.2s;
 
             &::before {
                 content: "";
@@ -481,11 +484,14 @@ header {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         position: absolute;
         z-index: 5;
-        margin: -50px 0 0 calc(60px + 4.5vw);
+        margin: -75px 0 0 4.5vw;
         color: black;
         font-size: 26px;
         font-weight: 700;
         user-select: none;
+        align-self: center;
+        justify-self: center;
+        display: block;
         //font-family: 'Noto Sans', sans-serif;
         &:first-letter {
                 color: $green-medium;
@@ -493,12 +499,12 @@ header {
 
             &::before {
                 content: '';
-                width: 75px;
-                height: 75px;
+                width: 120px;
+                height: 120px;
                 background: url('/img/logo.png');
                 background-size: 100% 100%;
                 position: absolute;
-                margin: -25px 0 0 -80px;
+                //margin: -65px 0 0 0;
             }
         }
     }
@@ -555,7 +561,7 @@ header {
                 width: 31px;
                 margin-left: $theme-separator;
                 border-radius: var(--custom-border-radius, 7px 0 0 7px);
-                background-color: $green-medium;
+                background-color: $beige-default;
                 position: absolute;
                 transition: 0.2s;
 
@@ -682,13 +688,14 @@ header {
 
     .selected {
         font-weight: 700;
-        outline: 2px solid $gray-default;
-        color: $gray-default;
+        outline: 2px solid $beige-default;
+        color: $beige-default;
         font-size: 20px;
+        transition: 0.2s;
         background: $background-secondary;
 
         &:hover {
-            outline: 2px solid $gray-default;
+            outline: 2px solid $beige-default;
         }
     }
 }
