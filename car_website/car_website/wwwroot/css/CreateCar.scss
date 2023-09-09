@@ -10,10 +10,12 @@
     align-items: center;
     min-height: calc(100vh - 90px); //90px = висота header + footer
     max-height: fit-content;
-    &_container{
+
+    &_container {
         display: flex;
         justify-content: space-between;
     }
+
     form {
         margin: 50px auto 0;
         min-width: 60%;
@@ -41,6 +43,11 @@
             font-size: 16px;
             resize: none;
             transition: 0.2s;
+            border: 1px solid transparent;
+
+            &:focus {
+                border: 1px solid $green-medium;
+            }
 
             &::-webkit-scrollbar-thumb {
                 background: $gray-default;
@@ -76,14 +83,20 @@
         display: flex;
         align-items: center;
         gap: 6px;
+
         input {
-        margin-bottom: 10px;
+            margin-bottom: 10px;
             padding: 10px;
             border-radius: 5px;
             background: $background;
             color: $text-default;
             font-size: 16px;
             transition: 0.2s;
+            border: 1px solid transparent;
+
+            &:focus {
+                border: 1px solid $green-medium;
+            }
         }
     }
 
@@ -132,6 +145,11 @@
                 color: $gray-default;
                 border-radius: 7px;
                 transition: 0.2s;
+                border: 1px solid transparent;
+
+                &:focus {
+                    border: 1px solid $green-medium;
+                }
 
                 &::placeholder {
                     color: $gray-default;
@@ -150,9 +168,10 @@
         transition: 0.2s;
         color: white;
         font-size: 20px;
-        &:hover{
-        transition: 0.2s;
-        background: $green-light;
+
+        &:hover {
+            transition: 0.2s;
+            background: $green-light;
         }
     }
 }
@@ -175,7 +194,7 @@
 }
 ::-webkit-file-upload-button {
     font-size: 0;
-    background: $green-light;
+    background: $green-medium;
     height: 30px;
     width: 120px;
     border: none;

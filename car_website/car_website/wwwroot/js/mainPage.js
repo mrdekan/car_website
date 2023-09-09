@@ -214,8 +214,9 @@ inputsWithComma.forEach((inp) => {
         const maxLength = parseInt(event.target.getAttribute('maxlength'));
         let currentValue = event.target.value;
         currentValue = currentValue.replace(/[^\d.,]/g, '');
-        if (currentValue.length > maxLength)
-            currentValue = currentValue.slice(0, maxLength);
+        const currentMaxLength = (currentValue.includes(',') || currentValue.includes('.')) ? maxLength : maxLength - 1;
+        if (currentValue.length > currentMaxLength)
+            currentValue = currentValue.slice(0, currentMaxLength);
         event.target.value = currentValue;
     });
 });

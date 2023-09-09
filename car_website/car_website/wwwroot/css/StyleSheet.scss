@@ -54,7 +54,12 @@ body {
             color: white;
             text-align: center;
             font-size: 16px;
-            transition: 0.3s;
+            transition: 0.2s;
+
+            &:hover {
+                background-color: $green-medium;
+                transition: 0.2s;
+            }
         }
 
         a {
@@ -81,19 +86,6 @@ body {
         color: $text-default;
     }
 
-    .input[type="number"], input[type="text"] {
-        height: 32px;
-        line-height: 32px;
-        font-size: 16px;
-        transition: 0.2s;
-        width: 100%;
-
-        &::placeholder {
-            color: $gray-default;
-            font-size: 16px;
-            transition: 0.2s;
-        }
-    }
 
     .filters {
         //background-color: $beige-default;
@@ -106,6 +98,25 @@ body {
         width: fit-content;
         padding: 10px 17px;
         border-radius: 3px;
+
+        .input[type="number"], input[type="text"] {
+            height: 32px;
+            line-height: 32px;
+            font-size: 16px;
+            transition: 0.2s;
+            width: 100%;
+            border: 1px solid transparent;
+
+            &:focus {
+                border: 1px solid $green-medium;
+            }
+
+            &::placeholder {
+                color: $gray-default;
+                font-size: 16px;
+                transition: 0.2s;
+            }
+        }
 
         .price_input {
             display: flex;
@@ -140,6 +151,7 @@ body {
         }
 
         label {
+            //margin-top: 1px;
             font-size: 16px;
             transition: 0.2s;
             color: $text-default;
@@ -173,7 +185,8 @@ body {
 
             &:hover {
                 transition: 0.2s;
-                background-color: #f7f4d9;
+                border: 2px solid $green-medium;
+                color: $green-medium;
             }
         }
     }
@@ -202,6 +215,10 @@ body {
     border-radius: 0 16px 0 16px;
     //box-shadow: 0 0 15px rgba(0,0,0,0.2);
     filter: drop-shadow(0 0 15px rgba(0,0,0, 0.25));
+
+    &:hover {
+        //transform: scale(1.02);
+    }
 
     &_container-right {
         display: flex;
@@ -316,6 +333,7 @@ body {
             height: 200px;
             object-fit: cover;
             border-radius: 0 10px 0 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
         }
 
         &-info {
@@ -459,6 +477,7 @@ header {
 
     .header_left {
         display: flex;
+
         span {
             display: block;
             transform: skewX(-20deg);
@@ -478,22 +497,22 @@ header {
                 background-color: inherit;
             }
         }
-    
 
-    a {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        position: absolute;
-        z-index: 5;
-        margin: -75px 0 0 4.5vw;
-        color: black;
-        font-size: 26px;
-        font-weight: 700;
-        user-select: none;
-        align-self: center;
-        justify-self: center;
-        display: block;
-        //font-family: 'Noto Sans', sans-serif;
-        &:first-letter {
+
+        a {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: absolute;
+            z-index: 5;
+            margin: -75px 0 0 4.5vw;
+            color: black;
+            font-size: 26px;
+            font-weight: 700;
+            user-select: none;
+            align-self: center;
+            justify-self: center;
+            display: block;
+            //font-family: 'Noto Sans', sans-serif;
+            &:first-letter {
                 color: $green-medium;
             }
 
@@ -504,6 +523,7 @@ header {
                 background: url('/img/logo.png');
                 background-size: 100% 100%;
                 position: absolute;
+                filter: drop-shadow(2px 2px 0 rgba(0,0,0, 0.6));
                 //margin: -65px 0 0 0;
             }
         }
@@ -836,7 +856,7 @@ header {
 }
 
 .search input:focus {
-    border: 1px solid $green-dark;
+    border: 1px solid $green-medium;
 }
 
 .search input::placeholder {
@@ -954,7 +974,7 @@ header {
             border-radius: 5px;
             outline: none;
             border: none;
-
+            cursor: pointer;
             &::-webkit-slider-thumb {
                 -webkit-appearance: none;
                 height: 15px;

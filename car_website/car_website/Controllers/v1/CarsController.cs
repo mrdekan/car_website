@@ -14,7 +14,7 @@ namespace car_website.Controllers.v1
     public class CarsController : ExtendedApiController
     {
         #region Constants
-        private const byte CARS_PER_PAGE = 3;
+        private const byte CARS_PER_PAGE = 5;
         private const byte WAITING_CARS_PER_PAGE = 5;
         private const byte BUY_REQUESTS_PER_PAGE = 5;
         private const byte FAV_CARS_PER_PAGE = 10;

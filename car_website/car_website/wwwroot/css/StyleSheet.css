@@ -826,6 +826,27 @@ h4 {
 .profile_info {
   width: 66%;
   margin: 25px auto;
+  /*#change-role {
+      padding: 7px 0;
+      border-radius: 3px;
+      background-color: $green-dark;
+      color: white;
+      text-align: center;
+      font-size: 16px;
+      display: block;
+      width: 160px;
+      margin: 4px 0;
+      transition: 0.3s;
+
+      &:hover {
+          background-color: $green-medium;
+          transition: 0.2s;
+      }
+
+      &[cancel] {
+          background: $error-main;
+      }
+  }*/
 }
 .profile_info h2 {
   font-size: 28px;
@@ -846,11 +867,11 @@ h4 {
   height: 34px;
   background: var(--background-secondary);
 }
-.profile_info #phone_container button:focus, .profile_info #name_container button:focus {
+.profile_info #phone_container button:active, .profile_info #name_container button:active {
   transition: 0s;
   background: var(--gray-default);
-  color: var(--background-main);
-  border: var(--background-main);
+  color: var(--background-secondary);
+  border: var(--background-secondary);
 }
 .profile_info #phone_container input, .profile_info #name_container input {
   height: 34px;
@@ -915,10 +936,10 @@ h4 {
   color: var(--gray-default);
   transition: 0.2s;
 }
-.profile_info a {
+.profile_info a, .profile_info #change-role {
   padding: 7px 0;
   border-radius: 3px;
-  background-color: #415939;
+  background-color: var(--green-dark);
   color: white;
   text-align: center;
   font-size: 16px;
@@ -927,24 +948,8 @@ h4 {
   margin: 4px 0;
   transition: 0.3s;
 }
-.profile_info a:hover {
-  background-color: #4b6742;
-  transition: 0.2s;
-}
-.profile_info #change-role {
-  padding: 7px 0;
-  border-radius: 3px;
-  background-color: #415939;
-  color: white;
-  text-align: center;
-  font-size: 16px;
-  display: block;
-  width: 160px;
-  margin: 4px 0;
-  transition: 0.3s;
-}
-.profile_info #change-role:hover {
-  background-color: #4b6742;
+.profile_info a:hover, .profile_info #change-role:hover {
+  background-color: var(--green-medium);
   transition: 0.2s;
 }
 .profile_info #change-role[cancel] {
@@ -1123,6 +1128,10 @@ h4 {
   font-size: 16px;
   resize: none;
   transition: 0.2s;
+  border: 1px solid transparent;
+}
+.create form textarea:focus {
+  border: 1px solid var(--green-medium);
 }
 .create form textarea::-webkit-scrollbar-thumb {
   background: var(--gray-default);
@@ -1160,6 +1169,10 @@ h4 {
   color: var(--text-default);
   font-size: 16px;
   transition: 0.2s;
+  border: 1px solid transparent;
+}
+.create_price input:focus {
+  border: 1px solid var(--green-medium);
 }
 .create_photos {
   display: flex;
@@ -1203,6 +1216,10 @@ h4 {
   color: var(--gray-default);
   border-radius: 7px;
   transition: 0.2s;
+  border: 1px solid transparent;
+}
+.create_main-section input[type=number]:focus {
+  border: 1px solid var(--green-medium);
 }
 .create_main-section input[type=number]::placeholder {
   color: var(--gray-default);
@@ -1244,7 +1261,7 @@ h4 {
 
 ::-webkit-file-upload-button {
   font-size: 0;
-  background: var(--green-light);
+  background: var(--green-medium);
   height: 30px;
   width: 120px;
   border: none;
@@ -1327,7 +1344,11 @@ body {
   color: white;
   text-align: center;
   font-size: 16px;
-  transition: 0.3s;
+  transition: 0.2s;
+}
+.wrapper .filters_before #save_filters:hover {
+  background-color: var(--green-medium);
+  transition: 0.2s;
 }
 .wrapper .filters_before a {
   padding: 7px 0;
@@ -1348,18 +1369,6 @@ body {
   background-color: var(--background-main);
   color: var(--text-default);
 }
-.wrapper .input[type=number], .wrapper input[type=text] {
-  height: 32px;
-  line-height: 32px;
-  font-size: 16px;
-  transition: 0.2s;
-  width: 100%;
-}
-.wrapper .input[type=number]::placeholder, .wrapper input[type=text]::placeholder {
-  color: var(--gray-default);
-  font-size: 16px;
-  transition: 0.2s;
-}
 .wrapper .filters {
   background-color: var(--filters-background);
   transition: 0.2s;
@@ -1370,6 +1379,22 @@ body {
   width: fit-content;
   padding: 10px 17px;
   border-radius: 3px;
+}
+.wrapper .filters .input[type=number], .wrapper .filters input[type=text] {
+  height: 32px;
+  line-height: 32px;
+  font-size: 16px;
+  transition: 0.2s;
+  width: 100%;
+  border: 1px solid transparent;
+}
+.wrapper .filters .input[type=number]:focus, .wrapper .filters input[type=text]:focus {
+  border: 1px solid var(--green-medium);
+}
+.wrapper .filters .input[type=number]::placeholder, .wrapper .filters input[type=text]::placeholder {
+  color: var(--gray-default);
+  font-size: 16px;
+  transition: 0.2s;
 }
 .wrapper .filters .price_input {
   display: flex;
@@ -1426,7 +1451,8 @@ body {
 }
 .wrapper .filters #clear_filters:hover {
   transition: 0.2s;
-  background-color: #f7f4d9;
+  border: 2px solid var(--green-medium);
+  color: var(--green-medium);
 }
 .wrapper_right {
   display: flex;
@@ -1544,6 +1570,7 @@ body {
   height: 200px;
   object-fit: cover;
   border-radius: 0 10px 0 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 .car_container-info {
   padding-left: 30px;
@@ -1709,6 +1736,7 @@ header .header_left a::before {
   background: url("/img/logo.png");
   background-size: 100% 100%;
   position: absolute;
+  filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.6));
 }
 header .header_center {
   display: flex;
@@ -2008,7 +2036,7 @@ header .header_right-dark-label::before {
 }
 
 .search input:focus {
-  border: 1px solid var(--green-dark);
+  border: 1px solid var(--green-medium);
 }
 
 .search input::placeholder {
@@ -2118,6 +2146,7 @@ header .header_right-dark-label::before {
   border-radius: 5px;
   outline: none;
   border: none;
+  cursor: pointer;
 }
 .range .field input::-webkit-slider-thumb {
   -webkit-appearance: none;
