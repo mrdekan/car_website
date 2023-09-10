@@ -605,6 +605,25 @@ h4 {
   font-size: 18px;
 }
 
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  max-height: 200px;
+  margin: 20px 0;
+  gap: 3px;
+}
+
+.feature {
+  color: var(--text-default);
+  display: flex;
+  align-items: center;
+  transition: 0.2s;
+}
+.feature span {
+  display: block;
+}
+
 .car_description {
   border-top: 2px solid var(--gray-default);
   border-bottom: 2px solid var(--gray-default);

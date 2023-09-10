@@ -10,6 +10,7 @@ const closeButton = document.getElementById('closePopup');
 const sendNotLoggedInRequest = document.getElementById('notLoggedIngRequestSend');
 const buyRequestNameInp = document.getElementById('request-name');
 const buyRequestPhoneInp = document.getElementById('request-phone');
+
 let currentSlide = 0;
 
 if (buyButtonNotLogged) {
