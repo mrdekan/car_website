@@ -1,4 +1,5 @@
 ﻿@import "Variables.scss";
+
 .title {
     font-weight: 700;
     //font-size: 28px;
@@ -18,7 +19,7 @@
 }
 
 .wrapper_carDetail {
-    width: 50%;
+    width: 60%;
     color: $text-default;
     margin-bottom: 55px;
 }
@@ -135,28 +136,46 @@
         }
     }
 }
+
 h4 {
-    margin: 20px 0 ;
+    margin: 20px 0;
     font-weight: 700;
     font-size: 18px;
 }
-.features{
+
+.features {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     max-height: 200px;
-    margin: 20px 0;
+    margin: 20px auto;
+    width: fit-content;
     gap: 3px;
 }
+
 .feature {
+    flex: 0 0 25%;
     color: $text-default;
     display: flex;
     align-items: center;
     transition: 0.2s;
+    width: 200px;
+    padding: 0 0 0 20px;
+
+    &-installed {
+        color: $success-main;
+    }
+
+    &-not-installed {
+        color: $error-main;
+    }
+
     span {
         display: block;
+        margin-right: 5px;
     }
 }
+
 .car {
     &_description {
         border-top: 2px solid $gray-default;
@@ -213,6 +232,7 @@ h4 {
         }
     }
 }
+
 .buy-request-result {
 
     &-info {
@@ -265,6 +285,7 @@ h4 {
         }
     }
 }
+
 .popup {
     display: none;
     position: fixed;
@@ -275,7 +296,7 @@ h4 {
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 110;
     //backdrop-filter: blur(1px);
-    &_header{
+    &_header {
         font-size: 22px;
     }
 }
@@ -363,11 +384,22 @@ h4 {
     top: 3px;
     right: 10px;
     cursor: pointer;
-    font-size:34px;
+    font-size: 34px;
 }
+
+@media(min-width: 1024px) and (max-width: 1340px) {
+    .features {
+        max-height: 250px;
+    }
+}
+
 @media (min-width: 768px) and (max-width: 1023px) {
     .wrapper_carDetail {
         width: 90%;
+    }
+
+    .features {
+        max-height: 250px;
     }
 }
 
@@ -375,11 +407,16 @@ h4 {
     .wrapper_carDetail {
         width: 100%;
     }
+
     .slider_element {
         height: 300px;
 
         &-image {
             max-height: 300px;
         }
+    }
+
+    .features {
+        max-height: 360px;
     }
 }
