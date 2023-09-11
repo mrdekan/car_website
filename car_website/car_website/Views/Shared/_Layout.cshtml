@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1" />
     <title>@ViewData["Title"] - 1Auto</title>
+    <link rel="icon" type="image/x-icon" href="/img/logo2.png">
     <link rel="stylesheet" href="~/css/StyleSheet.min.css" asp-append-version="true" />
 </head>
 <body>
@@ -15,8 +16,10 @@
         </div>
         <div class="header_center">
             <a asp-controller="Home" asp-action="Index">Головна</a>
-            <a asp-controller="Car" asp-action="Create">Продати авто</a>
+            @*<a asp-controller="Car" asp-action="Create">Продати авто</a>*@
             <a asp-controller="Car" asp-action="CreateExpressSaleCar">Швидка продажа</a>
+            <a href="#">Авто в лізинг</a>
+            <a href="#">Пригон авто</a>
             <a asp-controller="Home" asp-action="Privacy">Про нас</a>
         </div>
         <div class="header_right">
@@ -55,8 +58,10 @@
     </header>
     <div id="dropdown-menu">
         <a asp-controller="Home" asp-action="Index">Головна</a>
-        <a asp-controller="Car" asp-action="Create">Продати авто</a>
+        @*<a asp-controller="Car" asp-action="Create">Продати авто</a>*@
         <a asp-controller="Car" asp-action="CreateExpressSaleCar">Швидка продажа</a>
+        <a href="#">Авто в лізинг</a>
+        <a href="#">Пригон авто</a>
         <a asp-controller="Home" asp-action="Privacy">Про нас</a>
         <div class="separator"></div>
         @if (User?.Identity?.IsAuthenticated ?? false)

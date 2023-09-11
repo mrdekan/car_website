@@ -255,12 +255,13 @@ namespace car_website.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CarCreationPageViewModel carVM)
         {
-            string userId = HttpContext.Session.GetString("UserId") ?? "";
-            if (string.IsNullOrEmpty(userId))
+            User user = await GetCurrentUser();
+            if (user == null)
             {
                 HttpContext.Session.SetString("ReturnUrl", HttpContext.Request.Path);
                 return RedirectToAction("Register", "User");
             }
+            string userId = user.Id.ToString();
             if (ModelState.IsValid)
             {
                 if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
@@ -299,7 +300,8 @@ namespace car_website.Controllers
                     photosNames.Add(photoName);
                 }
                 Car car = new Car(newCar, photosNames, userId);
-                WaitingCar waitingCar = new WaitingCar(car, !string.IsNullOrEmpty(newCar.OtherModelName), !string.IsNullOrEmpty(newCar.OtherBrandName));
+                if ()
+                    WaitingCar waitingCar = new WaitingCar(car, !string.IsNullOrEmpty(newCar.OtherModelName), !string.IsNullOrEmpty(newCar.OtherBrandName));
                 User user = await GetCurrentUser();
                 if (user != null)
                 {

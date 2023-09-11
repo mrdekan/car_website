@@ -17,6 +17,8 @@ namespace car_website.ViewModels
         public string Email { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [DataType(DataType.Password)]
+        [MinLength(6, ErrorMessage = "Пароль занадто короткий")]
+        [MaxLength(16, ErrorMessage = "Пароль занадто довгий")]
         public string Password { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [Compare("Password", ErrorMessage = "Паролі не співпадають")]

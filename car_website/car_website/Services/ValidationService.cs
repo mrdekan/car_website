@@ -11,7 +11,15 @@ namespace car_website.Services
             string pattern = @"^[а-яА-ЯёЁіІїЇєЄ'\s]+$";
             return name.Length < NAME_MAX_LENGTH && Regex.IsMatch(name, pattern);
         }
+        public bool FixPhoneNumber(ref string phone)
+        {
+            if (IsValidPhoneNumber(phone)) return true;
+            if (phone.Length == 10)
+            {
 
+            }
+        }
+        //private bool IsOnly
         public bool IsValidPhoneNumber(string phone)
         {
             string pattern = @"^38\d{10}$";
