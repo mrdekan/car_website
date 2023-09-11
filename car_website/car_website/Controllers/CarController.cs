@@ -209,19 +209,19 @@ namespace car_website.Controllers
         }
         public async Task<IActionResult> CreateExpressSaleCar()
         {
-            if (!await IsAtorized())
-                return RedirectToAction("Register", "User");
-            return View();
+            //if (!await IsAtorized())
+            //return RedirectToAction("Register", "User");
+            return View(new CreateExpressSaleCarViewModel(await IsAtorized()));
         }
         [HttpPost]
         public async Task<IActionResult> CreateExpressSaleCar(CreateExpressSaleCarViewModel carVM)
         {
             User user = await GetCurrentUser();
-            if (user == null)
-                return RedirectToAction("Register", "User");
+            //if (user == null)
+            //  return RedirectToAction("Register", "User");
             if (ModelState.IsValid)
             {
-                List<string> photosNames = new List<string>();
+                List<string> photosNames = new();
                 List<IFormFile> photos = new List<IFormFile> { carVM.Photo1, carVM.Photo2 }
                                                     .Where(photo => photo != null).ToList();
                 foreach (var photo in photos)
@@ -303,12 +303,9 @@ namespace car_website.Controllers
                 //if ()
                 WaitingCar waitingCar = new WaitingCar(car, !string.IsNullOrEmpty(newCar.OtherModelName), !string.IsNullOrEmpty(newCar.OtherBrandName));
                 //User user = await GetCurrentUser();
-                if (user != null)
-                {
-                    await _waitingCarsRepository.Add(waitingCar);
-                    user.CarWithoutConfirmation.Add(waitingCar.Id);
-                    await _userRepository.Update(user);
-                }
+                await _waitingCarsRepository.Add(waitingCar);
+                user.CarWithoutConfirmation.Add(waitingCar.Id);
+                await _userRepository.Update(user);
                 return RedirectToAction("Index", "Home");
             }
             else

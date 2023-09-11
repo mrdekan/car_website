@@ -31,8 +31,8 @@ namespace car_website.Controllers
         #endregion
         public IActionResult Panel()
         {
-            /*if (!IsAdmin)
-                return RedirectToAction("Index", "Home");*/
+            if (!IsAdmin().Result)
+                return RedirectToAction("Index", "Home");
             return View();
         }
 
@@ -111,6 +111,7 @@ namespace car_website.Controllers
 
         private async Task<User> GetUser(List<User> users, string id)
         {
+            users ??= new List<User>();
             ObjectId userId = ObjectId.Parse(id);
             if (users.Count(el => el.Id.ToString() == userId.ToString()) > 0)
                 return users.Find(el => el.Id.ToString() == userId.ToString());
@@ -121,6 +122,7 @@ namespace car_website.Controllers
 
         private async Task<Car> GetCar(List<Car> cars, string id)
         {
+            cars ??= new List<Car>();
             ObjectId carId = ObjectId.Parse(id);
             if (cars.Count(el => el.Id == carId) > 0)
                 return cars.Find(el => el.Id == carId);
@@ -319,121 +321,6 @@ namespace car_website.Controllers
                 });
             }
         }
-
-        #region Brands & Models editing
-        [HttpGet]
-        public async Task<ActionResult<bool>> AddModel(string brand, string model)
-        {
-            if (!IsAdmin().Result)
-                return Ok(new { Success = false });
-            try
-            {
-                brand = brand.Replace('_', ' ');
-                var brandObj = await _brandRepository.GetByName(brand);
-                if (brandObj == null || brandObj.Models.Contains(model))
-                    return Ok(new { Success = false });
-                brandObj.Models.Add(model);
-                await _brandRepository.Update(brandObj);
-                return Ok(new { Success = true });
-            }
-            catch
-            {
-                return Ok(new { Success = false });
-            }
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<bool>> AddBrand(string brand)
-        {
-            if (!IsAdmin().Result)
-                return Ok(new { Success = false });
-            try
-            {
-                var brandObj = new Brand(brand);
-                await _brandRepository.Add(brandObj);
-                return Ok(new { Success = true });
-            }
-            catch
-            {
-                return Ok(new { Success = false });
-            }
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<bool>> DeleteModel(string brand, string model)
-        {
-            if (!IsAdmin().Result)
-                return Ok(new { Success = false });
-            try
-            {
-                brand = brand.Replace('_', ' ');
-                model = model.Replace('_', ' ');
-                var brandObj = await _brandRepository.GetByName(brand);
-                if (brandObj == null || !brandObj.Models.Contains(model))
-                    return Ok(new { Success = false });
-                brandObj.Models.Remove(model);
-                await _brandRepository.Update(brandObj);
-                return Ok(new { Success = true });
-            }
-            catch
-            {
-                return Ok(new { Success = false });
-            }
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<bool>> DeleteBrand(string brand)
-        {
-            if (!IsAdmin().Result)
-                return Ok(new { Success = false });
-            try
-            {
-                brand = brand.Replace('_', ' ');
-                var brandObj = await _brandRepository.GetByName(brand);
-                if (brandObj == null)
-                    return Ok(new { Success = false });
-                await _brandRepository.Delete(brandObj);
-                return Ok(new { Success = true });
-            }
-            catch
-            {
-                return Ok(new { Success = false });
-            }
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<bool>> EditModel(string brand, string newName, string oldName)
-        {
-            if (!IsAdmin().Result)
-                return Ok(new { Success = false });
-            try
-            {
-                brand = brand.Replace('_', ' ');
-                oldName = oldName.Replace('_', ' ');
-                var brandObj = await _brandRepository.GetByName(brand);
-                if (brandObj == null
-                    || !brandObj.Models.Contains(oldName)
-                    || brandObj.Models.Contains(newName))
-                    return Ok(new { Success = false });
-                brandObj.Models[brandObj.Models.IndexOf(oldName)] = newName;
-                await _brandRepository.Update(brandObj);
-                var cars = await _carRepository.GetAll();
-                foreach (var car in cars)
-                {
-                    if (car.Model == oldName)
-                    {
-                        car.Model = newName;
-                        await _carRepository.Update(car);
-                    }
-                }
-                return Ok(new { Success = true });
-            }
-            catch
-            {
-                return Ok(new { Success = false });
-            }
-        }
-        #endregion
         #endregion
     }
 }

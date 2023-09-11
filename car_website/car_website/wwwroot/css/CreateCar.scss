@@ -11,6 +11,21 @@
     min-height: calc(100vh - 90px); //90px = висота header + footer
     max-height: fit-content;
 
+    .input {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        background: $background;
+        color: $text-default;
+        font-size: 16px;
+        transition: 0.2s;
+        border: 1px solid transparent;
+
+        &:focus {
+            border: 1px solid $green-medium;
+        }
+    }
+
     &_container {
         display: flex;
         justify-content: space-between;
@@ -83,21 +98,6 @@
         display: flex;
         align-items: center;
         gap: 6px;
-
-        input {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            background: $background;
-            color: $text-default;
-            font-size: 16px;
-            transition: 0.2s;
-            border: 1px solid transparent;
-
-            &:focus {
-                border: 1px solid $green-medium;
-            }
-        }
     }
 
     &_photos {

@@ -13,14 +13,24 @@ namespace car_website.Services
         }
         public bool FixPhoneNumber(ref string phone)
         {
+            phone = phone.Replace("+", "");
             if (IsValidPhoneNumber(phone)) return true;
-            if (phone.Length == 10)
+            if (IsOnlyLetters(phone))
             {
-
+                if (phone.Length == 10)
+                {
+                    phone = $"38{phone}";
+                    return true;
+                }
+                else if (phone.Length == 9)
+                {
+                    phone = $"380{phone}";
+                    return true;
+                }
             }
             return false;
         }
-        //private bool IsOnly
+        private static bool IsOnlyLetters(string s) => Regex.IsMatch(s, @"^\d+$");
         public bool IsValidPhoneNumber(string phone)
         {
             string pattern = @"^38\d{10}$";

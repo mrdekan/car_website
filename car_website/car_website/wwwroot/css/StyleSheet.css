@@ -1139,6 +1139,19 @@ h4 {
   min-height: calc(100vh - 90px);
   max-height: fit-content;
 }
+.create .input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background: var(--background-main);
+  color: var(--text-default);
+  font-size: 16px;
+  transition: 0.2s;
+  border: 1px solid transparent;
+}
+.create .input:focus {
+  border: 1px solid var(--green-medium);
+}
 .create_container {
   display: flex;
   justify-content: space-between;
@@ -1201,19 +1214,6 @@ h4 {
 .create_price span:not(.text-danger) {
   display: block;
   margin-top: -24px;
-}
-.create_price input {
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  background: var(--background-main);
-  color: var(--text-default);
-  font-size: 16px;
-  transition: 0.2s;
-  border: 1px solid transparent;
-}
-.create_price input:focus {
-  border: 1px solid var(--green-medium);
 }
 .create_photos {
   display: flex;
