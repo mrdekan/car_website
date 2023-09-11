@@ -4,6 +4,10 @@ namespace car_website.ViewModels
 {
     public class CreateExpressSaleCarViewModel
     {
+        public CreateExpressSaleCarViewModel(bool isLogged = false)
+        {
+            IsLogged = isLogged;
+        }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [Range(1, 9999999, ErrorMessage = "Некоректне значення")]
         public uint? Price { get; set; }
@@ -24,5 +28,6 @@ namespace car_website.ViewModels
         public uint? Year { get; set; }
         [MaxLength(500, ErrorMessage = "Занадто довгий опис")]
         public string? Description { get; set; }
+        public bool IsLogged { get; set; }
     }
 }

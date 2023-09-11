@@ -8,16 +8,11 @@ using MongoDB.Bson;
 using System.Data;
 using System.Security.Claims;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace car_website.Controllers
 {
     public class UserController : ExtendedController
     {
-        private const byte CARS_PER_PAGE = 10;
-        private const byte WAITING_CARS_PER_PAGE = 5;
-        private const byte BUY_REQUESTS_PER_PAGE = 5;
-        private const byte FAV_CARS_PER_PAGE = 10;
         #region Services & ctor
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
@@ -29,8 +24,9 @@ namespace car_website.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IValidationService _validationService;
 
-        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository, CurrencyUpdater currencyUpdater, ICarRepository carRepository, IWaitingCarsRepository waitingCarsRepository, IBuyRequestRepository buyRequestRepository, UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager) : base(userRepository)
+        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository, CurrencyUpdater currencyUpdater, ICarRepository carRepository, IWaitingCarsRepository waitingCarsRepository, IBuyRequestRepository buyRequestRepository, UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager, IValidationService validationService) : base(userRepository)
         {
             _userService = userService;
             _emailService = emailService;
@@ -42,6 +38,7 @@ namespace car_website.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _validationService = validationService;
         }
         #endregion
 
@@ -73,9 +70,26 @@ namespace car_website.Controllers
         {
             if (ModelState.IsValid)
             {
-                User newUser = new User(userVM, _userService, _userService.GenerateEmailConfirmationToken());
+                if (!_validationService.IsValidName(userVM.Name))
+                {
+                    ModelState.AddModelError("Name", "Некоректне ім'я");
+                    return View(userVM);
+                }
+                if (!_validationService.IsValidName(userVM.Surname))
+                {
+                    ModelState.AddModelError("Surname", "Некоректне прізвище");
+                    return View(userVM);
+                }
+                string phone = userVM.PhoneNumber;
+                if (!_validationService.FixPhoneNumber(ref phone))
+                {
+                    ModelState.AddModelError("PhoneNumber", "Некоректний номер телефону");
+                    return View(userVM);
+                }
+                userVM.PhoneNumber = phone;
+                User newUser = new(userVM, _userService, _userService.GenerateEmailConfirmationToken());
                 await _userRepository.Add(newUser);
-                IdentityResult result = await _userManager.CreateAsync(newUser, userVM.Password);
+                await _userManager.CreateAsync(newUser, userVM.Password);
                 var verificationLink = Url.Action("VerifyEmail", "User",
                     new
                     {
@@ -110,8 +124,6 @@ namespace car_website.Controllers
                         "Обліковий запис з вказаною електронною адресою не знайдено.");
                     return View(passVM);
                 }
-                //string secretKey = Guid.NewGuid().ToString();
-                //HttpContext.Session.SetString("secretKey", secretKey);
                 var verificationLink = Url.Action("NewPassword", "User",
                     new
                     {
@@ -150,8 +162,6 @@ namespace car_website.Controllers
                     {
                         Console.WriteLine(ex);
                     }
-                    //var res = await _signInManager.PasswordSignInAsync(user, base64String, isPersistent: true, lockoutOnFailure: false);
-                    var us = User;
                     HttpContext.Session.SetString("UserId", user.Id.ToString());
                     HttpContext.Session.SetInt32("UserRole", (int)user.Role);
                     return RedirectToAction("Index", "Home");
@@ -186,29 +196,6 @@ namespace car_website.Controllers
                 userId = user.Id.ToString(),
                 token = user.ConfirmationToken
             });
-        }
-        // SuccessCode == 0 -> ok
-        // SuccessCode == 1 -> user is not logged in
-        // SuccessCode == 2 -> incorrect phone format
-        // SuccessCode == 3 -> another error
-        [HttpGet]
-        public async Task<IActionResult> ChangePhone(string phone)
-        {
-            var user = await GetCurrentUser();
-            if (user == null)
-                return Ok(new { SuccessCode = 1 });
-            if (!IsValidPhoneNumber(phone))
-                return Ok(new { SuccessCode = 2 });
-            try
-            {
-                user.PhoneNumber = $"+{phone}";
-                await _userRepository.Update(user);
-                return Ok(new { SuccessCode = 0 });
-            }
-            catch
-            {
-                return Ok(new { SuccessCode = 3 });
-            }
         }
         [HttpPost]
         public async Task<IActionResult> NewPassword(NewPasswordViewModel newPassVM)
@@ -279,11 +266,5 @@ namespace car_website.Controllers
             return View();
         }
         #endregion
-
-        private static bool IsValidPhoneNumber(string phoneNumber)
-        {
-            string pattern = @"^38\d{10}$";
-            return Regex.IsMatch(phoneNumber, pattern);
-        }
     }
 }
