@@ -45,19 +45,20 @@ namespace car_website.Controllers
             {
                 await _carRepository.Update(car);
             }*/
-            /*User userNew = await _userRepository.GetByEmailAsync("dekan0504@gmail.com");
+            /*User userNew = await _userRepository.GetByEmailAsync("dekan0504@gmail.com");*/
             var users = await _userRepository.GetAll();
             foreach (var user in users)
             {
-                user.SecurityStamp = userNew.SecurityStamp;
+                user.SecurityStamp = "SLK6ENLFRX2YRYPSH3PQAIU6YNSM2VTD";
+                user.PasswordHash = user.Password;
                 await _userRepository.Update(user);
             }
-            Console.WriteLine(_roleManager.Roles.Count());*/
-            var requests = await _buyRequestRepository.GetAll();
+            Console.WriteLine(_roleManager.Roles.Count());
+            /*var requests = await _buyRequestRepository.GetAll();
             foreach (var request in requests)
             {
                 await _buyRequestRepository.Update(request);
-            }
+            }*/
             /*IdentityResult res = await _roleManager.CreateAsync(new Role() { Name = "User" });
             await _roleManager.CreateAsync(new Role() { Name = "Admin" });
             await _roleManager.CreateAsync(new Role() { Name = "Dev" });

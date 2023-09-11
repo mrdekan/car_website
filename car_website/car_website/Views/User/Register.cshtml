@@ -22,12 +22,12 @@
         </div>
         <div class="form-group">
             <label asp-for="Email">Ел. пошта</label>
-            <input asp-for="Email" type="text" class="form-control" placeholder="example@example.com">
+            <input autocomplete="email" asp-for="Email" type="text" class="form-control" placeholder="example@example.com">
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Password">Пароль</label>
-            <input asp-for="Password" type="password" class="form-control" placeholder="Пароль" id="pass">
+            <input autocomplete="new-password" asp-for="Password" type="password" class="form-control" placeholder="Пароль" id="pass">
             <span asp-validation-for="Password" class="text-danger"></span>
             <div class="showpass">
                 <span>Показати пароль? </span>
@@ -36,7 +36,7 @@
         </div>
         <div class="form-group">
             <label asp-for="ConfirmPassword">Підтвердіть пароль</label>
-            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Підтвердіть пароль" id="confirmpass">
+            <input autocomplete="new-password" asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Підтвердіть пароль" id="confirmpass">
             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             <div class="showpass">
                 <span>Показати пароль? </span>

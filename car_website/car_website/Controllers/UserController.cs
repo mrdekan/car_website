@@ -74,7 +74,7 @@ namespace car_website.Controllers
             if (ModelState.IsValid)
             {
                 User newUser = new User(userVM, _userService, _userService.GenerateEmailConfirmationToken());
-                //await _userRepository.Add(newUser);
+                await _userRepository.Add(newUser);
                 IdentityResult result = await _userManager.CreateAsync(newUser, userVM.Password);
                 var verificationLink = Url.Action("VerifyEmail", "User",
                     new

@@ -24,6 +24,8 @@ namespace car_website.Models
             NormalizedEmail = Email;
             SurName = userVM.Surname;
             Password = userService.HashPassword(userVM.Password);
+            PasswordHash = Password;
+            SecurityStamp = "SLK6ENLFRX2YRYPSH3PQAIU6YNSM2VTD";
             EmailConfirmed = false;
             Role = UserRole.User;
             PhoneNumber = userVM.PhoneNumber;
