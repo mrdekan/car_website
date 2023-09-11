@@ -975,6 +975,7 @@ header {
             outline: none;
             border: none;
             cursor: pointer;
+
             &::-webkit-slider-thumb {
                 -webkit-appearance: none;
                 height: 15px;
@@ -1137,5 +1138,58 @@ header {
 
     #header_right-button {
         display: none;
+    }
+
+    .car {
+        //flex-direction: column;
+        max-width: 95vw;
+
+        &_container {
+            min-width: 0;
+            //flex-direction: column;
+            img {
+                width: 200px;
+                height: 150px;
+            }
+
+            &-info {
+                a {
+                    font-size: 20px;
+                }
+
+                &-parameters {
+                    margin: 0;
+
+                    &-column {
+                        gap: 0px;
+
+                        p {
+                            font-size: 10px;
+                        }
+
+                        &-text {
+                            svg {
+                                width: 16px;
+                                height: 16px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &-right {
+                &-price {
+                    &-USD {
+                        font-size: 18px;
+                        min-width: 100px;
+                    }
+
+                    &-UAH {
+                        font-size: 12px;
+                        min-width: 95px;
+                    }
+                }
+            }
+        }
     }
 }

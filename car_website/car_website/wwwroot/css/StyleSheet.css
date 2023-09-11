@@ -2334,4 +2334,38 @@ header .header_right-dark-label::before {
   #header_right-button {
     display: none;
   }
+  .car {
+    max-width: 95vw;
+  }
+  .car_container {
+    min-width: 0;
+  }
+  .car_container img {
+    width: 200px;
+    height: 150px;
+  }
+  .car_container-info a {
+    font-size: 20px;
+  }
+  .car_container-info-parameters {
+    margin: 0;
+  }
+  .car_container-info-parameters-column {
+    gap: 0px;
+  }
+  .car_container-info-parameters-column p {
+    font-size: 10px;
+  }
+  .car_container-info-parameters-column-text svg {
+    width: 16px;
+    height: 16px;
+  }
+  .car_container-right-price-USD {
+    font-size: 18px;
+    min-width: 100px;
+  }
+  .car_container-right-price-UAH {
+    font-size: 12px;
+    min-width: 95px;
+  }
 }

@@ -300,9 +300,9 @@ namespace car_website.Controllers
                     photosNames.Add(photoName);
                 }
                 Car car = new Car(newCar, photosNames, userId);
-                if ()
-                    WaitingCar waitingCar = new WaitingCar(car, !string.IsNullOrEmpty(newCar.OtherModelName), !string.IsNullOrEmpty(newCar.OtherBrandName));
-                User user = await GetCurrentUser();
+                //if ()
+                WaitingCar waitingCar = new WaitingCar(car, !string.IsNullOrEmpty(newCar.OtherModelName), !string.IsNullOrEmpty(newCar.OtherBrandName));
+                //User user = await GetCurrentUser();
                 if (user != null)
                 {
                     await _waitingCarsRepository.Add(waitingCar);
