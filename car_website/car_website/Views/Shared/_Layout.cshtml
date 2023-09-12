@@ -7,6 +7,7 @@
     <title>@ViewData["Title"] - 1Auto</title>
     <link rel="icon" type="image/x-icon" href="/img/logo2.png">
     <link rel="stylesheet" href="~/css/StyleSheet.min.css" asp-append-version="true" />
+    <script src="~/js/loadTheme.js" asp-append-version="true"></script>
 </head>
 <body>
     <header>
@@ -24,21 +25,21 @@
         </div>
         <div class="header_right">
             <div class="header_right-theme">
-            <label for="light" class="header_right-light-label"></label>
-            <input id="light" class="header_right-light" type="radio" name="theme" theme="light" />
-            <div class="header_right-separator"></div>
-            <label for="dark" class="header_right-dark-label"></label>
-            <input id="dark" class="header_right-dark" type="radio" name="theme" theme="dark" />
-    <script src="~/js/loadTheme.js" asp-append-version="true"></script>
+                <label for="light" class="header_right-light-label"></label>
+                <input id="light" class="header_right-light" type="radio" name="theme" theme="light" />
+                <div class="header_right-separator"></div>
+                <script src="~/js/themeSeparator.js" asp-append-version="true"></script>
+                <label for="dark" class="header_right-dark-label"></label>
+                <input id="dark" class="header_right-dark" type="radio" name="theme" theme="dark" />
             </div>
             @{
                 string userId = "";
-                if (User != null && User.Identity!=null)
+                if (User != null && User.Identity != null)
                     userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
 
             }
 
-            @if (User?.Identity?.IsAuthenticated??false)
+            @if (User?.Identity?.IsAuthenticated ?? false)
             {
                 <a asp-controller="User" asp-action="Detail" asp-route-id=@userId class="header_right-button" id="header_right-button">Кабінет</a>
             }

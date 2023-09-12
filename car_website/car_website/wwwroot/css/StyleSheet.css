@@ -104,16 +104,16 @@ input[type=number] {
 }
 
 .login-wrapper {
-  height: 100%;
+  height: calc(100vh - 90px);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin: 0;
-  padding: 10%;
   background-color: var(--background-main);
   transition: 0.2s;
 }
-.login-wrapper span {
+.login-wrapper span:not(.text-danger) {
   color: var(--text-default);
   transition: 0.2s;
 }
@@ -128,27 +128,27 @@ input[type=number] {
   gap: 11px;
   padding: 40px;
   border-radius: 40px;
-  border: 2px solid var(--gray-default);
   background-color: var(--background-secondary);
   transition: 0.2s;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+  /*input[type="password"] {
+      width: 100%;
+      font-size: 16px;
+      padding: 9px 12px;
+      background-color: $background;
+      color: $text-default;
+      border: 1px solid $gray-default;
+      border-radius: 7px;
+      transition: 0.2s;
+  }*/
 }
-.login-wrapper form input[type=text] {
+.login-wrapper form input[type=text], .login-wrapper form input[type=password] {
   width: 100%;
   font-size: 16px;
   padding: 9px 12px;
   background-color: var(--background-main);
   border: 1px solid var(--gray-default);
   color: var(--text-default);
-  border-radius: 7px;
-  transition: 0.2s;
-}
-.login-wrapper form input[type=password] {
-  width: 100%;
-  font-size: 16px;
-  padding: 9px 12px;
-  background-color: var(--background-main);
-  color: var(--text-default);
-  border: 1px solid var(--gray-default);
   border-radius: 7px;
   transition: 0.2s;
 }
@@ -186,6 +186,29 @@ input[type=number] {
   background-color: var(--green-light);
   transition: 0.2s;
 }
+.login-wrapper form .form-group-pass {
+  display: flex;
+}
+.login-wrapper form .form-group-pass input {
+  border-radius: 7px 0 0 7px;
+}
+.login-wrapper form .form-group-pass button {
+  width: 39px;
+  height: 39px;
+  border-radius: 0 7px 7px 0;
+  background: var(--background-main);
+  margin: 0;
+  border-top: 1px solid var(--gray-default);
+  border-right: 1px solid var(--gray-default);
+  border-bottom: 1px solid var(--gray-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-wrapper form .form-group-pass button span {
+  height: 30px;
+  display: block;
+}
 .login-wrapper form .log-reg-change {
   width: 100%;
   display: flex;
@@ -198,6 +221,7 @@ input[type=number] {
 
 .text-danger {
   display: block;
+  margin-top: 4px;
   color: var(--error-main);
 }
 
@@ -1140,7 +1164,6 @@ h4 {
   max-height: fit-content;
 }
 .create .input {
-  margin-bottom: 10px;
   padding: 10px;
   border-radius: 5px;
   background: var(--background-main);
@@ -1148,9 +1171,13 @@ h4 {
   font-size: 16px;
   transition: 0.2s;
   border: 1px solid transparent;
+  width: 100%;
 }
 .create .input:focus {
   border: 1px solid var(--green-medium);
+}
+.create .input::placeholder {
+  color: var(--gray-default);
 }
 .create_container {
   display: flex;
@@ -1163,11 +1190,11 @@ h4 {
   padding: 2%;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
   background: var(--background-secondary);
   transition: 0.2s;
-  border: 1px solid var(--gray-default);
   border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
 }
 .create form span:not(.text-danger) {
   color: var(--gray-default);
@@ -1205,6 +1232,7 @@ h4 {
   transition: 0.2s;
   font-size: 18px;
   display: block;
+  white-space: nowrap;
 }
 .create_price {
   display: flex;
@@ -1248,22 +1276,24 @@ h4 {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-.create_main-section input[type=number] {
-  height: 32px;
-  padding: 0 10px;
-  font-size: 16px;
-  background: var(--background-main);
-  color: var(--gray-default);
-  border-radius: 7px;
-  transition: 0.2s;
-  border: 1px solid transparent;
-}
-.create_main-section input[type=number]:focus {
-  border: 1px solid var(--green-medium);
-}
-.create_main-section input[type=number]::placeholder {
-  color: var(--gray-default);
+  /*input[type="number"] {
+      height: 32px;
+      padding: 0 10px;
+      font-size: 16px;
+      background: $background;
+      color: $gray-default;
+      border-radius: 7px;
+      transition: 0.2s;
+      border: 1px solid transparent;
+
+      &:focus {
+          border: 1px solid $green-medium;
+      }
+
+      &::placeholder {
+          color: $gray-default;
+      }
+  }*/
 }
 .create .sell-button {
   min-width: 30%;
@@ -1318,9 +1348,22 @@ h4 {
   .create form {
     border-radius: 0;
     border: none;
-    margin: 0;
+    margin: 0 auto;
     width: 100%;
     height: 100%;
+  }
+  .create_main {
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .create_main-section {
+    width: 47%;
+  }
+  .create .info-text {
+    display: none;
+  }
+  .create label {
+    font-size: 16px;
   }
 }
 :root {
@@ -1979,6 +2022,11 @@ header .header_right-dark-label::before {
   border-radius: 7px;
   justify-content: space-between;
   transition: 0.2s;
+  min-width: 153px;
+}
+
+.select-btn[large] {
+  height: 41px;
 }
 
 .select-btn input {
@@ -2339,6 +2387,7 @@ header .header_right-dark-label::before {
   }
   .car_container {
     min-width: 0;
+    margin: 8px;
   }
   .car_container img {
     width: 200px;

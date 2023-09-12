@@ -291,16 +291,20 @@ namespace car_website.Controllers
                 var newCar = carVM.CreateCarViewModel;
                 if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
                     newCar.VideoURL = $"https://www.youtube.com/embed/{GetVideoIdFromUrl(newCar.VideoURL)}";
-                List<string> photosNames = new List<string>();
-                List<IFormFile> photos = new List<IFormFile>() { newCar.Photo1, newCar.Photo2, newCar.Photo3, newCar.Photo4, newCar.Photo5 };
+                List<string> photosNames = new();
+                List<IFormFile> photos = new() { newCar.Photo1, newCar.Photo2, newCar.Photo3, newCar.Photo4, newCar.Photo5 };
                 photos = photos.Where(photo => photo != null).ToList();
                 foreach (var photo in photos)
                 {
                     var photoName = await _imageService.UploadPhotoAsync(photo);
                     photosNames.Add(photoName);
                 }
-                Car car = new Car(newCar, photosNames, userId);
-                //if ()
+                Car car = new(newCar, photosNames, userId);
+                if (user.Role != Data.Enum.UserRole.User)
+                {
+                    await _carRepository.Add(car);
+                    return RedirectToAction("Index", "Home");
+                }
                 WaitingCar waitingCar = new WaitingCar(car, !string.IsNullOrEmpty(newCar.OtherModelName), !string.IsNullOrEmpty(newCar.OtherBrandName));
                 //User user = await GetCurrentUser();
                 await _waitingCarsRepository.Add(waitingCar);
@@ -320,7 +324,7 @@ namespace car_website.Controllers
         {
             if (!await IsAtorized())
                 return Ok(new { Success = false });
-            User user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("UserId")));
+            User user = await GetCurrentUser();
             Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(carId));
             if (user != null && car != null)
             {
@@ -338,17 +342,18 @@ namespace car_website.Controllers
             }
             return Ok(new { Success = false });
         }
-        private string GetVideoIdFromUrl(string url)
+        private static string GetVideoIdFromUrl(string url)
         {
+            if (url == null) return "";
             try
             {
                 Uri uri = new Uri(url);
                 string queryString = uri.Query;
                 var queryParameters = HttpUtility.ParseQueryString(queryString);
                 string videoId = queryParameters["v"];
-                return videoId;
+                return videoId ?? "";
             }
-            catch (Exception ex)
+            catch
             {
                 return "";
             }

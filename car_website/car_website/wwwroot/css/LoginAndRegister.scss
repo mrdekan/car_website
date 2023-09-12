@@ -1,16 +1,17 @@
 ﻿@import "Variables.scss";
 
 .login-wrapper {
-    height: 100%;
+    height: calc(100vh - 90px);
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     margin: 0;
-    padding: 10%;
+    //padding: 10%;
     background-color: $background;
     transition: 0.2s;
 
-    span {
+    span:not(.text-danger) {
         color: $text-default;
         transition: 0.2s;
     }
@@ -27,11 +28,12 @@
         gap: 11px;
         padding: 40px;
         border-radius: 40px;
-        border: 2px solid $gray-default;
+        //border: 2px solid $gray-default;
         background-color: $background-secondary;
         transition: 0.2s;
+        box-shadow: 0 0 15px rgba(0,0,0, 0.25);
 
-        input[type="text"] {
+        input[type="text"], input[type="password"] {
             width: 100%;
             font-size: 16px;
             padding: 9px 12px;
@@ -41,8 +43,7 @@
             border-radius: 7px;
             transition: 0.2s;
         }
-
-        input[type="password"] {
+        /*input[type="password"] {
             width: 100%;
             font-size: 16px;
             padding: 9px 12px;
@@ -51,7 +52,7 @@
             border: 1px solid $gray-default;
             border-radius: 7px;
             transition: 0.2s;
-        }
+        }*/
 
         input::placeholder {
             color: $gray-default;
@@ -93,6 +94,32 @@
             }
         }
 
+        .form-group-pass {
+            display: flex;
+
+            input {
+                border-radius: 7px 0 0 7px;
+            }
+
+            button {
+                width: 39px;
+                height: 39px;
+                border-radius: 0 7px 7px 0;
+                background: $background;
+                margin: 0;
+                border-top: 1px solid $gray-default;
+                border-right: 1px solid $gray-default;
+                border-bottom: 1px solid $gray-default;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                span{
+                    height: 30px;
+                    display: block;
+                }
+            }
+        }
+
         .log-reg-change {
             width: 100%;
             display: flex;
@@ -108,5 +135,6 @@
 
 .text-danger {
     display: block;
+    margin-top: 4px;
     color: $error-main;
 }

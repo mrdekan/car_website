@@ -46,14 +46,14 @@ namespace car_website.Controllers
                 await _carRepository.Update(car);
             }*/
             /*User userNew = await _userRepository.GetByEmailAsync("dekan0504@gmail.com");*/
-            var users = await _userRepository.GetAll();
+            /*var users = await _userRepository.GetAll();
             foreach (var user in users)
             {
                 user.SecurityStamp = "SLK6ENLFRX2YRYPSH3PQAIU6YNSM2VTD";
                 user.PasswordHash = user.Password;
                 await _userRepository.Update(user);
             }
-            Console.WriteLine(_roleManager.Roles.Count());
+            Console.WriteLine(_roleManager.Roles.Count());*/
             /*var requests = await _buyRequestRepository.GetAll();
             foreach (var request in requests)
             {

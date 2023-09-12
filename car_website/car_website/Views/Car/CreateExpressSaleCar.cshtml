@@ -11,7 +11,7 @@
             <div class="create_main">
                 <div class="create_main-section">
                     <label>Як до Вас звертатися?</label>
-                    <input class="input" type="text" placeholder="Іванов Іван Іванович" />
+                    <input class="input" type="text" placeholder="Прізвище ім'я" />
                 </div>
                 <div class="create_main-section">
                     <label>Номер телефону</label>
@@ -23,7 +23,7 @@
             <div class="create_main-section">
                 <label>Марка</label>
                 <div class="custom-select">
-                    <div class="select-btn" id="brandsButton">
+                    <div class="select-btn" id="brandsButton" large>
                         @if (Model == null || string.IsNullOrEmpty(Model.Brand))
                         {
                             <span>Не обрано</span>
@@ -48,7 +48,7 @@
             <div class="create_main-section">
                 <label>Модель</label>
                 <div class="custom-select">
-                    <div class="select-btn" id="modelsButton">
+                    <div class="select-btn" id="modelsButton" large>
                         @if (Model == null || string.IsNullOrEmpty(Model.Model))
                         {
                             <span>Не обрано</span>
@@ -72,26 +72,24 @@
             </div>
             <div class="create_main-section">
                 <label>Рік</label>
-                <input asp-for=Year type="number" id="year-input" placeholder="Рік" />
+                <input class="input" asp-for=Year type="number" id="year-input" placeholder="Рік" />
                 <span asp-validation-for=Year class="text-danger"></span>
             </div>
         </div>
-        <p>Вкажіть бажану ціну ($)</p>
-        <div class="create_price">
-            <div>
-                <input class="input" asp-for=Price id="price-input" type="number" placeholder="Ціна" />
-                <span asp-validation-for=Price class="text-danger"></span>
-            </div>
-            <span id="price-uah"></span>
+        <div class="create_main-section">
+            <label>Вкажіть бажану ціну ($)</label>
+                    <input class="input" asp-for=Price id="price-input" type="number" placeholder="Ціна" />
+                    <span asp-validation-for=Price class="text-danger"></span>
+                <span id="price-uah"></span>
         </div>
-        <p>Додайте два фото</p>
+        <label>Додайте два фото</label>
         <div class="create_photos">
             <input type="file" text="Оберіть фото" asp-for=Photo1 />
             <span asp-validation-for=Photo1 class="text-danger"></span>
             <input type="file" text="Оберіть фото" asp-for=Photo2 />
             <span asp-validation-for=Photo2 class="text-danger"></span>
         </div>
-        <p>За необхідності додайте опис</p>
+        <label>За необхідності додайте опис</label>
         <textarea asp-for=Description placeholder="Додатковий опис" rows="4" maxlength="500" id="description"></textarea>
         <span id="description-limit">0/500</span>
         <span asp-validation-for=Description class="text-danger"></span>
