@@ -174,6 +174,37 @@ namespace car_website.Controllers.v1
             });
         }
 
+        [HttpGet("getExpressSaleCars")]
+        public async Task<ActionResult<IEnumerable<Car>>> GetExpressSaleCars([FromQuery] int? page = null,
+            [FromQuery] int? perPage = null)
+        {
+            try
+            {
+                IEnumerable<ExpressSaleCar> cars = await _expressSaleCarRepository.GetAll();
+                int _page = page ?? 1;
+                int _perPage = perPage ?? cars.Count();
+                int totalItems = cars.Count();
+                int totalPages = (int)Math.Ceiling(totalItems / (double)_perPage);
+                int skip = (_page - 1) * _perPage;
+                cars = cars.Skip(skip).Take(_perPage);
+                User user = await GetCurrentUser();
+                var carsRes = cars.Select(car => new ExpressSaleCarViewModel(car, _currencyUpdater, IsAdmin().Result)).ToList();
+                return Ok(new
+                {
+                    Status = true,
+                    Code = HttpCodes.Success,
+                    Cars = carsRes,
+                    Pages = totalPages,
+                    Page = _page,
+                    PerPage = _perPage
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Get express sale cars error: {0}", ex.ToString());
+                return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
+            }
+        }
         #region Buy requests
         [HttpPut("buyRequestLoggedIn")]
         public async Task<ActionResult<byte>> BuyRequest(string carId, bool cancel)
