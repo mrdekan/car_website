@@ -11,11 +11,13 @@
             <div class="create_main">
                 <div class="create_main-section">
                     <label>Як до Вас звертатися?</label>
-                    <input class="input" type="text" placeholder="Прізвище ім'я" />
+                    <input asp-for=Name class="input" type="text" placeholder="Прізвище ім'я" />
+                    <span asp-validation-for=Name class="text-danger"></span>
                 </div>
                 <div class="create_main-section">
                     <label>Номер телефону</label>
-                    <input class="input" type="text" placeholder="+380xxxxxxxxx" />
+                    <input asp-for=Phone class="input" type="text" placeholder="+380xxxxxxxxx" />
+                    <span asp-validation-for=Phone class="text-danger"></span>
                 </div>
             </div>
         }

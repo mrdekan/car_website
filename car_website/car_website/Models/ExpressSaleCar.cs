@@ -6,6 +6,7 @@ namespace car_website.Models
 {
     public class ExpressSaleCar
     {
+        // For authorized users
         public ExpressSaleCar(CreateExpressSaleCarViewModel carVM, string sellerId, List<string> photos)
         {
             SellerId = sellerId;
@@ -16,6 +17,18 @@ namespace car_website.Models
             Year = carVM.Year ?? 0;
             Description = carVM.Description;
         }
+        // Not authorized users
+        public ExpressSaleCar(CreateExpressSaleCarViewModel carVM, List<string> photos)
+        {
+            PhotosURL = photos.ToArray();
+            Brand = carVM.Brand;
+            Model = carVM.Model;
+            Price = carVM.Price ?? 0;
+            Year = carVM.Year ?? 0;
+            Description = carVM.Description;
+            SellerName = carVM.Name;
+            Phone = carVM.Phone;
+        }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
@@ -25,6 +38,8 @@ namespace car_website.Models
         public string? Model { get; set; }
         public uint Year { get; set; }
         public string? Description { get; set; }
-        public string SellerId { get; set; }
+        public string? SellerId { get; set; }
+        public string? SellerName { get; set; }
+        public string? Phone { get; set; }
     }
 }

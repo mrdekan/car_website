@@ -4,10 +4,18 @@ namespace car_website.ViewModels
 {
     public class CreateExpressSaleCarViewModel
     {
+        public CreateExpressSaleCarViewModel()
+        {
+
+        }
         public CreateExpressSaleCarViewModel(bool isLogged = false)
         {
             IsLogged = isLogged;
         }
+        [MaxLength(30, ErrorMessage = "Не більше 30 символів")]
+        public string? Name { get; set; }
+        [MaxLength(13, ErrorMessage = "Не більше 13 символів")]
+        public string? Phone { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [Range(1, 9999999, ErrorMessage = "Некоректне значення")]
         public uint? Price { get; set; }
