@@ -174,7 +174,21 @@ function showData(data) {
             else {
                 container.innerHTML = '';
                 data.cars.forEach(car => {
-                    container.innerHTML += `<p>${car.brand} ${car.model} ${car.year}</p>`;
+                    container.innerHTML += `<div class="car">
+                                  <div class="car_container">
+                                        <img  alt="photo" src="${car.photosURL[0]}" />
+                                    <div class="car_container-info">
+                                        <a href="#">${car.brand} ${car.model} ${car.year}</a>
+                                    </div>
+                                  </div>
+                                  <div class="car_container-right">
+                                    <div class="car_container-right-price">
+                                         <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
+                                         <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
+                                    </div>
+                                  </div>
+                                  </div>
+                                </div>`;
                 });
             }
         }
@@ -183,9 +197,10 @@ function showData(data) {
 
 //#region Ajax requests
 function getUsers() {
-    fetch(`/Admin/GetUsers?page=${usersPage}`)
+    fetch(`/api/v1/users/getAll?page=${usersPage}`)
         .then(response => response.json())
         .then(data => {
+            data.type = "Users";
             usersCache = data;
             showData(usersCache);
         })
@@ -215,7 +230,7 @@ function getBrands() {
         .then(data => {
             data.type = "Brands";
             brandsCache = data;
-            showData(brandsCache, "Brands");
+            showData(brandsCache);
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }

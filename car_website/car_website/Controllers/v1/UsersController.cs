@@ -19,7 +19,7 @@ namespace car_website.Controllers.v1
         private const byte CARS_PER_PAGE = 3;
         private const byte FAV_CARS_PER_PAGE = 10;
         private const byte WAITING_CARS_PER_PAGE = 5;
-
+        private const byte USERS_PER_PAGE = 10;
         #endregion Constants
 
         #region Services & ctor
@@ -64,6 +64,44 @@ namespace car_website.Controllers.v1
         }
 
         #endregion Services & ctor
+
+        [HttpGet("getAll")]
+        public async Task<ActionResult<IEnumerable<UserViewModel>>> GetUsers([FromQuery] int? page = null,
+            [FromQuery] int? perPage = null)
+        {
+            if (!IsAdmin().Result)
+                return Ok(new
+                {
+                    Status = false,
+                    Code = HttpCodes.InsufficientPermissions
+                });
+            try
+            {
+                var users = await _userRepository.GetAll();
+                int _page = page ?? 1;
+                int _perPage = page == null ? users.Count() : perPage ?? USERS_PER_PAGE;
+                int totalItems = users.Count();
+                int totalPages = (int)Math.Ceiling(totalItems / (double)_perPage);
+                int skip = (_page - 1) * _perPage;
+                users = users.Skip(skip).Take(_perPage);
+                return Ok(new
+                {
+                    Status = true,
+                    Code = HttpCodes.Success,
+                    Users = users.Select(el => new UserViewModel(el)).ToList(),
+                    Pages = totalPages,
+                    Page = _page
+                });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new
+                {
+                    Status = false,
+                    Code = HttpCodes.InternalServerError
+                });
+            }
+        }
 
         [HttpGet("getById/{id}")]
         public async Task<ActionResult<Car>> GetUserById(string id)
