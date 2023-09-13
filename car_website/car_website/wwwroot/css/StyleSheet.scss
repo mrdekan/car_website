@@ -756,8 +756,11 @@ header {
     border-radius: 7px;
     justify-content: space-between;
     transition: 0.2s;
+    min-width: 153px;
 }
-
+.select-btn[large] {
+    height: 41px;
+}
 .select-btn input {
     font-size: 18px;
     border: none;
@@ -1146,6 +1149,7 @@ header {
 
         &_container {
             min-width: 0;
+            margin: 8px;
             //flex-direction: column;
             img {
                 width: 200px;

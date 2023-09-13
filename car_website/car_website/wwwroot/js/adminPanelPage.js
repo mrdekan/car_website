@@ -11,6 +11,7 @@ let buyRequestsPage = 1, buyRequestsCache;
 let waitingCarsPage = 1, waitingCarsCache;
 let usersPage = 1, usersCache;
 let brandsPage = 1, brandsCache;
+let expressCarsPage = 1, expressCarsCache;
 let modelsCache = {};
 let selectedBrand;
 window.addEventListener('load', function () {
@@ -52,6 +53,13 @@ function updateInfo(target) {
             getBrands();
         else
             showData(brandsCache);
+    }
+    else if (target.id == "expressSales") {
+        if (expressCarsCache == null)
+            getExpressSaleCars();
+        else {
+            showData(expressCarsCache);
+        }
     }
 }
 function showData(data) {
@@ -111,7 +119,7 @@ function showData(data) {
                 container.innerHTML += `<div class="buy-request">
             <div class="buy-request_buyer">
                 <h3>Клієнт:</h3>
-                ${request.buyerId?`<a href="/User/Detail/${request.buyerId}">${request.buyerName}</a>`: `<p class="buy-request-name">${request.buyerName}</p>`}
+                ${request.buyerId ? `<a href="/User/Detail/${request.buyerId}">${request.buyerName}</a>` : `<p class="buy-request-name">${request.buyerName}</p>`}
                 <p>${request.buyerPhone}</p>
                 ${request.buyerId ? '' : '<p>Не зареєстрований</p>'}
             </div>
@@ -160,6 +168,16 @@ function showData(data) {
                 });
             }
         }
+        else if (data.type == "Express") {
+            if (data.cars.length == 0)
+                container.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
+            else {
+                container.innerHTML = '';
+                data.cars.forEach(car => {
+                    container.innerHTML += `<p>${car.brand} ${car.model} ${car.year}</p>`;
+                });
+            }
+        }
     }
 }
 
@@ -198,6 +216,16 @@ function getBrands() {
             data.type = "Brands";
             brandsCache = data;
             showData(brandsCache, "Brands");
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
+function getExpressSaleCars() {
+    fetch(`/api/v1/cars/getExpressSaleCars?page=${expressCarsPage}`)
+        .then(response => response.json())
+        .then(data => {
+            data.type = "Express";
+            expressCarsCache = data;
+            showData(expressCarsCache);
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }

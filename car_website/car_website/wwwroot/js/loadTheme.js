@@ -1,5 +1,5 @@
 ﻿const root = document.documentElement;
-const themeSeparator = document.querySelector('.header_right-separator');
+
 if (localStorage.getItem('theme') == 'dark') {
     setDark();
 }
@@ -50,7 +50,9 @@ function setLight() {
     root.style.setProperty('--filters-background', '#F3EFCA');
 }*/
 function setDark() {
-    themeSeparator.style.setProperty('--custom-border-radius', '0 7px 7px 0');
+    const themeSeparator = document.querySelector('.header_right-separator');
+    if (themeSeparator)
+        themeSeparator.style.setProperty('--custom-border-radius', '0 7px 7px 0');
     root.style.setProperty('--green-light', '#6b9160');
     root.style.setProperty('--green-medium', '#5A7A51');
     root.style.setProperty('--green-dark', '#4C6C47');
@@ -68,7 +70,9 @@ function setDark() {
     root.style.setProperty('--filters-background', '#303030');
 }
 function setLight() {
-    themeSeparator.style.setProperty('--custom-border-radius', '7px 0 0 7px');
+    const themeSeparator = document.querySelector('.header_right-separator');
+    if (themeSeparator)
+        themeSeparator.style.setProperty('--custom-border-radius', '7px 0 0 7px');
     root.style.setProperty('--green-light', '#537049');
     root.style.setProperty('--green-medium', '#4b6742');
     root.style.setProperty('--green-dark', '#415939');

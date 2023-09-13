@@ -21,7 +21,8 @@ namespace car_website.Controllers
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly IConfiguration _configuration;
         private readonly IExpressSaleCarRepository _expressSaleCarRepository;
-        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository) : base(userRepository)
+        private readonly IValidationService _validationService;
+        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository, IValidationService validationService) : base(userRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -32,6 +33,7 @@ namespace car_website.Controllers
             _currencyUpdater = currencyUpdater;
             _configuration = configuration;
             _expressSaleCarRepository = expressSaleCarRepository;
+            _validationService = validationService;
         }
         #endregion
 
@@ -216,11 +218,34 @@ namespace car_website.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateExpressSaleCar(CreateExpressSaleCarViewModel carVM)
         {
-            User user = await GetCurrentUser();
-            //if (user == null)
-            //  return RedirectToAction("Register", "User");
             if (ModelState.IsValid)
             {
+                User user = await GetCurrentUser();
+                if (user == null)
+                {
+                    if (string.IsNullOrEmpty(carVM.Name))
+                    {
+                        ModelState.AddModelError("Name", "Обов'язкове поле");
+                        return View(carVM);
+                    }
+                    if (!_validationService.IsValidName(carVM.Name))
+                    {
+                        ModelState.AddModelError("Name", "Некорекнті дані");
+                        return View(carVM);
+                    }
+                    if (string.IsNullOrEmpty(carVM.Phone))
+                    {
+                        ModelState.AddModelError("Phone", "Обов'язкове поле");
+                        return View(carVM);
+                    }
+                    string phone = carVM.Phone;
+                    if (!_validationService.FixPhoneNumber(ref phone))
+                    {
+                        ModelState.AddModelError("Phone", "Некорекнті дані");
+                        return View(carVM);
+                    }
+                    carVM.Phone = phone;
+                }
                 List<string> photosNames = new();
                 List<IFormFile> photos = new List<IFormFile> { carVM.Photo1, carVM.Photo2 }
                                                     .Where(photo => photo != null).ToList();
@@ -229,12 +254,17 @@ namespace car_website.Controllers
                     var photoName = await _imageService.UploadPhotoAsync(photo);
                     photosNames.Add(photoName);
                 }
-                var newCar = new ExpressSaleCar(carVM, user.Id.ToString(), photosNames);
                 if (user != null)
                 {
+                    var newCar = new ExpressSaleCar(carVM, user.Id.ToString(), photosNames);
                     await _expressSaleCarRepository.Add(newCar);
                     user.ExpressSaleCars.Add(newCar.Id);
                     await _userRepository.Update(user);
+                }
+                else
+                {
+                    var newCar = new ExpressSaleCar(carVM, photosNames);
+                    await _expressSaleCarRepository.Add(newCar);
                 }
                 return RedirectToAction("Index", "Home");
             }
@@ -291,18 +321,21 @@ namespace car_website.Controllers
                 var newCar = carVM.CreateCarViewModel;
                 if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
                     newCar.VideoURL = $"https://www.youtube.com/embed/{GetVideoIdFromUrl(newCar.VideoURL)}";
-                List<string> photosNames = new List<string>();
-                List<IFormFile> photos = new List<IFormFile>() { newCar.Photo1, newCar.Photo2, newCar.Photo3, newCar.Photo4, newCar.Photo5 };
+                List<string> photosNames = new();
+                List<IFormFile> photos = new() { newCar.Photo1, newCar.Photo2, newCar.Photo3, newCar.Photo4, newCar.Photo5 };
                 photos = photos.Where(photo => photo != null).ToList();
                 foreach (var photo in photos)
                 {
                     var photoName = await _imageService.UploadPhotoAsync(photo);
                     photosNames.Add(photoName);
                 }
-                Car car = new Car(newCar, photosNames, userId);
-                //if ()
-                WaitingCar waitingCar = new WaitingCar(car, !string.IsNullOrEmpty(newCar.OtherModelName), !string.IsNullOrEmpty(newCar.OtherBrandName));
-                //User user = await GetCurrentUser();
+                Car car = new(newCar, photosNames, userId);
+                if (user.Role != Data.Enum.UserRole.User)
+                {
+                    await _carRepository.Add(car);
+                    return RedirectToAction("Index", "Home");
+                }
+                WaitingCar waitingCar = new(car, !string.IsNullOrEmpty(newCar.OtherModelName), !string.IsNullOrEmpty(newCar.OtherBrandName));
                 await _waitingCarsRepository.Add(waitingCar);
                 user.CarWithoutConfirmation.Add(waitingCar.Id);
                 await _userRepository.Update(user);
@@ -320,7 +353,7 @@ namespace car_website.Controllers
         {
             if (!await IsAtorized())
                 return Ok(new { Success = false });
-            User user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("UserId")));
+            User user = await GetCurrentUser();
             Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(carId));
             if (user != null && car != null)
             {
@@ -338,17 +371,18 @@ namespace car_website.Controllers
             }
             return Ok(new { Success = false });
         }
-        private string GetVideoIdFromUrl(string url)
+        private static string GetVideoIdFromUrl(string url)
         {
+            if (url == null) return "";
             try
             {
                 Uri uri = new Uri(url);
                 string queryString = uri.Query;
                 var queryParameters = HttpUtility.ParseQueryString(queryString);
                 string videoId = queryParameters["v"];
-                return videoId;
+                return videoId ?? "";
             }
-            catch (Exception ex)
+            catch
             {
                 return "";
             }
