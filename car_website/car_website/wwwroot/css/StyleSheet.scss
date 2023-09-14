@@ -1191,11 +1191,15 @@ header {
                         gap: 10px;
 
                         p {
-                            font-size: 12px;
+                            font-size: 14px;
                         }
 
                         &-text {
                             gap: 5px;
+
+                            &.vin {
+                                display: none;
+                            }
 
                             span {
                                 margin: 0 0px 0 -20px;

@@ -2422,10 +2422,13 @@ header .header_right-dark-label::before {
     gap: 10px;
   }
   .car_container-info-parameters-column p {
-    font-size: 12px;
+    font-size: 14px;
   }
   .car_container-info-parameters-column-text {
     gap: 5px;
+  }
+  .car_container-info-parameters-column-text.vin {
+    display: none;
   }
   .car_container-info-parameters-column-text span {
     margin: 0 0px 0 -20px;
