@@ -18,9 +18,9 @@ namespace car_website.Repository
         public async Task<IEnumerable<User>> GetAll() => await _dbContext.Users.Find(user => true).ToListAsync();
         public async Task<User> GetByIdAsync(ObjectId id) => await _dbContext.Users.Find(user => user.Id == id).FirstOrDefaultAsync();
         public async Task<User> GetByEmailAsync(string email) => await _dbContext.Users.Find(user => user.Email == email).FirstOrDefaultAsync();
+        public async Task<User> GetByPhoneAsync(string phone) => await _dbContext.Users.Find(user => user.PhoneNumber == phone).FirstOrDefaultAsync();
         public async Task<bool> IsEmailTaken(string email) => await _dbContext.Users.Find(user => user.Email == email).FirstOrDefaultAsync() != null;
         public async Task<bool> IsPhoneTaken(string phone) => await _dbContext.Users.Find(user => user.PhoneNumber == phone).FirstOrDefaultAsync() != null;
-        public async Task<User> GetByPhoneAsync(string phone) => await _dbContext.Users.Find(user => user.PhoneNumber == phone).FirstOrDefaultAsync();
         public async Task Add(User user) => await _dbContext.Users.InsertOneAsync(user);
         public async Task Update(User user)
         {
