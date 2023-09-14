@@ -299,10 +299,11 @@ function applyFilter(page = 1) {
                 carList.innerHTML = "";
                 data.cars.forEach(car => {
                     const block = `<div class="car">
+                                  <a class="car_name" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
                                   <div class="car_container">
                                         <img  alt="photo" src="${car.photosURL[0]}" />
                                     <div class="car_container-info">
-                                        <a href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
+                                        <a class="car_container-info-name" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
                                             <div class="car_container-info-parameters">
                                                 <div class="car_container-info-parameters-column">
                                                     <p class="car_container-info-parameters-column-text"><span>${svgCodes.race}</span>${car.mileage} тис. км</p>

@@ -220,6 +220,10 @@ body {
         //transform: scale(1.02);
     }
 
+    &_name {
+        display: none;
+    }
+
     &_container-right {
         display: flex;
         flex-direction: column;
@@ -758,9 +762,11 @@ header {
     transition: 0.2s;
     min-width: 153px;
 }
+
 .select-btn[large] {
     height: 41px;
 }
+
 .select-btn input {
     font-size: 18px;
     border: none;
@@ -1144,12 +1150,25 @@ header {
     }
 
     .car {
-        //flex-direction: column;
+        flex-direction: column;
         max-width: 95vw;
+        align-items: start;
+        padding: 10px;
+        gap: 10px;
+
+        &_name {
+            display: block;
+            color: var(--text-default);
+            transition: .2s;
+            font-size: 20px;
+            align-self: center;
+            //margin-top: 10px;
+        }
 
         &_container {
             min-width: 0;
-            margin: 8px;
+            //margin: 10px 20px;
+            margin: 0;
             //flex-direction: column;
             img {
                 width: 200px;
@@ -1157,24 +1176,36 @@ header {
             }
 
             &-info {
+                align-self: center;
+
                 a {
-                    font-size: 20px;
+                    display: none;
                 }
 
                 &-parameters {
                     margin: 0;
+                    flex-direction: column-reverse;
+                    gap: 10px;
 
                     &-column {
-                        gap: 0px;
+                        gap: 10px;
 
                         p {
-                            font-size: 10px;
+                            font-size: 12px;
                         }
 
                         &-text {
+                            gap: 5px;
+
+                            span {
+                                margin: 0 0px 0 -20px;
+                                width: 18px;
+                                height: 18px;
+                            }
+
                             svg {
-                                width: 16px;
-                                height: 16px;
+                                width: 18px;
+                                height: 18px;
                             }
                         }
                     }
@@ -1182,7 +1213,13 @@ header {
             }
 
             &-right {
+                flex-direction: row;
+                width: 100%;
+                //padding: 0 20px 20px 20px;
+
                 &-price {
+                    margin: 0;
+
                     &-USD {
                         font-size: 18px;
                         min-width: 100px;
@@ -1192,6 +1229,15 @@ header {
                         font-size: 12px;
                         min-width: 95px;
                     }
+                }
+
+                &-like {
+                    margin: 0;
+                    align-self: start;
+                }
+
+                &-span {
+                    position: static;
                 }
             }
         }
