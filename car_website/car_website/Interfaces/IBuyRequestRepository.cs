@@ -9,5 +9,6 @@ namespace car_website.Interfaces
         Task<BuyRequest> GetByIdAsync(ObjectId id);
         Task<BuyRequest> GetByBuyerAndCarAsync(string buyerId, string carId);
         Task<IEnumerable<BuyRequest>> GetByIdListAsync(IEnumerable<ObjectId> ids);
+        Task<ExpressSaleCar> GetByCarIdAndPhone(string carId, string phone);
     }
 }

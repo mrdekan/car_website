@@ -14,7 +14,6 @@ namespace car_website.Repository
         {
             _dbContext = dbContext;
         }
-
         public async Task<IEnumerable<ExpressSaleCar>> GetAll() => await _dbContext.ExpressSaleCars.Find(car => true).ToListAsync();
         public async Task<ExpressSaleCar> GetByIdAsync(ObjectId id) => await _dbContext.ExpressSaleCars.Find(car => car.Id == id).FirstOrDefaultAsync();
         public async Task Add(ExpressSaleCar car) => await _dbContext.ExpressSaleCars.InsertOneAsync(car);

@@ -87,6 +87,16 @@ namespace car_website.Controllers
                     return View(userVM);
                 }
                 userVM.PhoneNumber = phone;
+                if (_userRepository.IsEmailTaken(userVM.Email).Result)
+                {
+                    ModelState.AddModelError("Email", "Адрес вже використовується");
+                    return View(userVM);
+                }
+                if (_userRepository.IsPhoneTaken(userVM.PhoneNumber).Result)
+                {
+                    ModelState.AddModelError("PhoneNumber", "Номер вже використовується");
+                    return View(userVM);
+                }
                 User newUser = new(userVM, _userService, _userService.GenerateEmailConfirmationToken());
                 await _userRepository.Add(newUser);
                 await _userManager.CreateAsync(newUser, userVM.Password);

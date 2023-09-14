@@ -50,5 +50,13 @@ namespace car_website.Repository
         {
             return await _dbContext.BuyRequests.Find(request => request.BuyerId == buyerId && request.CarId == carId).FirstOrDefaultAsync();
         }
+        public async Task<ExpressSaleCar> GetByCarIdAndPhone(string carId, string phone)
+        {
+            if (ObjectId.TryParse(carId, out ObjectId id) && phone != null)
+            {
+                await _dbContext.ExpressSaleCars.Find(car => car.Id == id && car.Phone == phone).FirstOrDefaultAsync();
+            }
+            return null;
+        }
     }
 }

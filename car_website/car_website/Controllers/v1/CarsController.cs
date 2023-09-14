@@ -253,6 +253,8 @@ namespace car_website.Controllers.v1
                     || !_validationService.IsValidName(name)
                     || !_validationService.IsValidPhoneNumber(phone))
                     return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+                if (_buyRequestRepository.GetByCarIdAndPhone(carId, phone) != null)
+                    return Ok(new { Status = false, Code = HttpCodes.Conflict });
                 Car car = await _carRepository.GetByIdAsync(carObjId);
                 if (car == null)
                     return Ok(new { Status = false, Code = HttpCodes.NotFound });
