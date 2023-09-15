@@ -32,7 +32,7 @@ namespace car_website.Controllers
         public async Task<IActionResult> Index()
         {
             await IsAdmin();
-            var name = User.Identity.Name;
+            //var name = User.Identity.Name;
             var carsCount = _carRepository.GetCount();
             IndexPageViewModel vm = new() { CarsCount = carsCount };
             return View(vm);

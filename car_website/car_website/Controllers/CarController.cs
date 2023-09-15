@@ -36,7 +36,14 @@ namespace car_website.Controllers
             _validationService = validationService;
         }
         #endregion
-
+        public IActionResult Leasing()
+        {
+            return View();
+        }
+        public IActionResult ImportingCar()
+        {
+            return View();
+        }
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {
