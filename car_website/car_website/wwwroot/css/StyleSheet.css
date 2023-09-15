@@ -2415,7 +2415,7 @@ header .header_right-dark-label::before {
   }
   .car_container-info-parameters {
     margin: 0;
-    flex-direction: column-reverse;
+    flex-direction: column;
     gap: 10px;
   }
   .car_container-info-parameters-column {
