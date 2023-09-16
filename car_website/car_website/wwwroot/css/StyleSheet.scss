@@ -485,7 +485,7 @@ header {
         span {
             display: block;
             transform: skewX(-20deg);
-            width: calc(170px + 5vw);
+            width: 240px;
             height: 150px;
             background-color: $background-secondary;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -507,7 +507,7 @@ header {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             position: absolute;
             z-index: 5;
-            margin: -75px 0 0 4.5vw;
+            margin: -75px 0 0 50px;
             color: black;
             font-size: 26px;
             font-weight: 700;
@@ -522,10 +522,11 @@ header {
 
             &::before {
                 content: '';
-                width: 120px;
-                height: 120px;
+                width: 127px;
+                height: 100px;
                 background: url('/img/logo2.png');
                 background-size: 100% 100%;
+                margin: 10px 0 0 0;
                 position: absolute;
                 //filter: drop-shadow(2px 2px 0 rgba(0,0,0, 0.6));
                 //margin: -65px 0 0 0;
@@ -1116,6 +1117,36 @@ header {
 
 
 @media (max-width: 767px) {
+    header {
+        .header_left {
+            span {
+                display: block;
+                transform: skewX(-20deg);
+                width: 150px;
+                height: 100px;
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: -30px;
+                    width: 130px;
+                    height: 100%;
+                    background-color: inherit;
+                }
+            }
+
+            a {
+                margin: -75px 0 0 28px;
+
+                &::before {
+                    width: 89px;
+                    height: 70px;
+                    margin: 15px 0 0 0;
+                }
+            }
+        }
+    }
     .filters_before {
         position: fixed;
         left: -300px;
