@@ -420,3 +420,27 @@ h4 {
         max-height: 360px;
     }
 }
+
+@media (max-width: 767px) {
+    .priceBuy {
+        &_buy {
+            font-size: 16px;
+            padding: 5px 10px;
+            min-width: 0;
+        }
+
+        a {
+            font-size: 16px;
+            padding: 5px 10px;
+        }
+    }
+
+    h4 {
+        font-size: 14px;
+        padding-left: 10px;
+    }
+    .car_description {
+        padding-left: 10px;
+    }
+
+}

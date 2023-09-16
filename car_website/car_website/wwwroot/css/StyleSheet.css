@@ -870,6 +870,24 @@ h4 {
     max-height: 360px;
   }
 }
+@media (max-width: 767px) {
+  .priceBuy_buy {
+    font-size: 16px;
+    padding: 5px 10px;
+    min-width: 0;
+  }
+  .priceBuy a {
+    font-size: 16px;
+    padding: 5px 10px;
+  }
+  h4 {
+    font-size: 14px;
+    padding-left: 10px;
+  }
+  .car_description {
+    padding-left: 10px;
+  }
+}
 :root {
   --green-light: #537049;
   --green-medium: #4b6742;
@@ -2393,6 +2411,9 @@ header .header_right-dark-label::before {
   }
   .filters_before.open {
     left: 2vw;
+    background: var(--background-main);
+    border-radius: 0 10px 0 10px;
+    position: absolute;
   }
   #open-filters {
     display: block;
@@ -2441,6 +2462,9 @@ header .header_right-dark-label::before {
     margin: 0;
     flex-direction: column;
     gap: 10px;
+  }
+  .car_container-info-parameters.onDetail {
+    flex-direction: row;
   }
   .car_container-info-parameters-column {
     gap: 10px;

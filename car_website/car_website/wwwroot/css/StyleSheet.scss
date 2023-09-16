@@ -1147,6 +1147,7 @@ header {
             }
         }
     }
+
     .filters_before {
         position: fixed;
         left: -300px;
@@ -1155,6 +1156,9 @@ header {
 
         &.open {
             left: 2vw;
+            background: $background;
+            border-radius: 0 10px 0 10px;
+            position: absolute;
         }
     }
 
@@ -1218,8 +1222,14 @@ header {
                     flex-direction: column;
                     gap: 10px;
 
+                    &.onDetail {
+                        flex-direction: row;
+                    }
+
                     &-column {
                         gap: 10px;
+
+
 
                         p {
                             font-size: 14px;
