@@ -131,16 +131,6 @@ input[type=number] {
   background-color: var(--background-secondary);
   transition: 0.2s;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
-  /*input[type="password"] {
-      width: 100%;
-      font-size: 16px;
-      padding: 9px 12px;
-      background-color: $background;
-      color: $text-default;
-      border: 1px solid $gray-default;
-      border-radius: 7px;
-      transition: 0.2s;
-  }*/
 }
 .login-wrapper form input[type=text], .login-wrapper form input[type=password] {
   width: 100%;
@@ -225,6 +215,27 @@ input[type=number] {
   color: var(--error-main);
 }
 
+@media (max-width: 767px) {
+  .login-wrapper {
+    height: calc(100vh - 90px);
+  }
+  .login-wrapper form {
+    width: 100%;
+    min-height: calc(100vh - 90px);
+    border-radius: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-wrapper form .form-group {
+    min-width: 200px;
+    width: 80vw;
+  }
+  .login-wrapper form .sell-button {
+    min-width: 200px;
+    width: 80vw;
+  }
+}
 :root {
   --green-light: #537049;
   --green-medium: #4b6742;
@@ -886,6 +897,9 @@ h4 {
   }
   .car_description {
     padding-left: 10px;
+  }
+  .popup_content {
+    width: 80%;
   }
 }
 :root {

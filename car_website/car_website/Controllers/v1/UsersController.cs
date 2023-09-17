@@ -373,7 +373,7 @@ namespace car_website.Controllers.v1
         public async Task<ActionResult> ChangePhone([FromQuery] string newPhone,
             [FromQuery] string userId)
         {
-            if (!_validationService.IsValidPhoneNumber(newPhone))
+            if (!_validationService.FixPhoneNumber(ref newPhone))
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });
             if (!IsCurrentUserId(userId))
                 return Ok(new { Status = false, Code = HttpCodes.Unauthorized });

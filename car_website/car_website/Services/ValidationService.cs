@@ -6,11 +6,8 @@ namespace car_website.Services
     public class ValidationService : IValidationService
     {
         private const int NAME_MAX_LENGTH = 30;
-        public bool IsValidName(string name)
-        {
-            string pattern = @"^[а-яА-ЯёЁіІїЇєЄ'\s]+$";
-            return name.Length < NAME_MAX_LENGTH && Regex.IsMatch(name, pattern);
-        }
+        private const string NAME_PATTERN = @"^[а-яА-ЯёЁіІїЇєЄ'\s]+$";
+        private const string PHONE_PATTERN = @"^38\d{10}$";
         public bool FixPhoneNumber(ref string phone)
         {
             phone = phone.Replace("+", "");
@@ -30,11 +27,11 @@ namespace car_website.Services
             }
             return false;
         }
-        private static bool IsOnlyLetters(string s) => Regex.IsMatch(s, @"^\d+$");
-        public bool IsValidPhoneNumber(string phone)
-        {
-            string pattern = @"^38\d{10}$";
-            return Regex.IsMatch(phone, pattern);
-        }
+        public bool IsValidName(string name) =>
+             name.Length < NAME_MAX_LENGTH && Regex.IsMatch(name, NAME_PATTERN);
+        public bool IsValidPhoneNumber(string phone) =>
+            Regex.IsMatch(phone, PHONE_PATTERN);
+        private static bool IsOnlyLetters(string s) =>
+            Regex.IsMatch(s, @"^\d+$");
     }
 }

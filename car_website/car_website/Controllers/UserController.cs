@@ -110,7 +110,7 @@ namespace car_website.Controllers
                 await _emailService.SendEmailAsync(newUser.Email, "Підтвердження пошти", message);
                 HttpContext.Session.SetString("UserId", newUser.Id.ToString());
                 HttpContext.Session.SetInt32("UserRole", (int)newUser.Role);
-                await _signInManager.PasswordSignInAsync(newUser, newUser.PasswordHash, isPersistent: true, false);
+                await _signInManager.SignInAsync(newUser, isPersistent: true);
                 return RedirectToAction("RegistrationSuccess");
             }
             else

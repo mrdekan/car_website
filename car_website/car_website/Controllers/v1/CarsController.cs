@@ -251,7 +251,7 @@ namespace car_website.Controllers.v1
                 phone = phone.Replace("+", "");
                 if (!ObjectId.TryParse(carId, out ObjectId carObjId)
                     || !_validationService.IsValidName(name)
-                    || !_validationService.IsValidPhoneNumber(phone))
+                    || !_validationService.FixPhoneNumber(ref phone))
                     return Ok(new { Status = false, Code = HttpCodes.BadRequest });
                 if (_buyRequestRepository.GetByCarIdAndPhone(carId, phone) != null)
                     return Ok(new { Status = false, Code = HttpCodes.Conflict });

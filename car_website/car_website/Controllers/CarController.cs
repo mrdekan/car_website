@@ -225,9 +225,9 @@ namespace car_website.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateExpressSaleCar(CreateExpressSaleCarViewModel carVM)
         {
+            User user = await GetCurrentUser();
             if (ModelState.IsValid)
             {
-                User user = await GetCurrentUser();
                 if (user == null)
                 {
                     if (string.IsNullOrEmpty(carVM.Name))
@@ -277,6 +277,13 @@ namespace car_website.Controllers
             }
             else
             {
+                if (user == null)
+                {
+                    if (string.IsNullOrEmpty(carVM.Name))
+                        ModelState.AddModelError("Name", "Обов'язкове поле");
+                    if (string.IsNullOrEmpty(carVM.Phone))
+                        ModelState.AddModelError("Phone", "Обов'язкове поле");
+                }
                 return View(carVM);
             }
         }
