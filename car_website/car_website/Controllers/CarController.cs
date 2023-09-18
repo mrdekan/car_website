@@ -291,7 +291,7 @@ namespace car_website.Controllers
         {
             if (!await IsAtorized())
             {
-                return RedirectToAction("Register", "User");
+                return RedirectToAction("CreateExpressSaleCar");
             }
             var brands = await _brandRepository.GetAll();
             return View(new CarCreationPageViewModel() { CarBrands = brands.ToList(), CreateCarViewModel = new CreateCarViewModel() });

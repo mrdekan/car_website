@@ -5,124 +5,126 @@
 }
 <button id="open-filters"></button>
 <div class="wrapper">
-    <div class="filters_before">
-        <p>Авто в продажі : @Model.CarsCount</p>
-        <a asp-controller="Car" asp-action="Create">Продати авто</a>
-        <div class="filters">
-            <label>Тип кузова</label>
-            <div class="custom-select">
-                <div class="select-btn" id="bodiesButton">
-                    <span>Усі</span>
-                    <i class="uil uil-angle-down"></i>
-                </div>
-                <div class="content">
-                    <ul class="options" id="bodies"></ul>
-                </div>
-            </div>
-            <label>Марка</label>
-            <div class="custom-select">
-                <div class="select-btn" id="brandsButton">
-                    <span>Усі</span>
-                    <i class="uil uil-angle-down"></i>
-                </div>
-                <div class="content">
-                    <div class="search">
-                        <i class="uil uil-search"></i>
-                        <input spellcheck="false" type="text" placeholder="Пошук" id="searchCar">
+    <div class="filters_wrapper">
+        <div class="filters_before">
+            <p>Авто у продажуу: @Model.CarsCount</p>
+            <a asp-controller="Car" asp-action="Create">Продати авто</a>
+            <div class="filters">
+                <label>Тип кузова</label>
+                <div class="custom-select">
+                    <div class="select-btn" id="bodiesButton">
+                        <span>Усі</span>
+                        <i class="uil uil-angle-down"></i>
                     </div>
-                    <ul class="options" id="brands"></ul>
-                </div>
-            </div>
-            <label>Модель</label>
-            <div class="custom-select">
-                <div class="select-btn" id="modelsButton">
-                    <span>Усі</span>
-                    <i class="uil uil-angle-down"></i>
-                </div>
-                <div class="content">
-                    <div class="search">
-                        <i class="uil uil-search"></i>
-                        <input spellcheck="false" type="text" placeholder="Пошук" id="searchModel">
-                    </div>
-                    <ul class="options" id="models"></ul>
-                </div>
-            </div>
-            <label id="year-label">Рік</label>
-            <div class="range-slider">
-                <span>Від:</span>
-                <div class="range">
-                    <div class="rangeValue">
-                        <span id="min-year-value">2000</span>
-                    </div>
-                    <div class="field">
-                        <div class="value left">2000</div>
-                        <input type="range" id="min-year-slider" min="2000" max="@DateTime.Now.Year" value="1980" step="1" />
-                        <div class="value right" id="min-max-year">@DateTime.Now.Year</div>
+                    <div class="content">
+                        <ul class="options" id="bodies"></ul>
                     </div>
                 </div>
-            </div>
-            <div class="range-slider">
-                <span>До:</span>
-                <div class="range">
-                    <div class="rangeValue">
-                        <span id="max-year-value">@DateTime.Now.Year</span>
+                <label>Марка</label>
+                <div class="custom-select">
+                    <div class="select-btn" id="brandsButton">
+                        <span>Усі</span>
+                        <i class="uil uil-angle-down"></i>
                     </div>
-                    <div class="field">
-                        <div class="value left" id="max-min-year">2000</div>
-                        <input type="range" id="max-year-slider" min="2000" max="@DateTime.Now.Year" value="@DateTime.Now.Year" step="1" />
-                        <div class="value right">@DateTime.Now.Year</div>
+                    <div class="content">
+                        <div class="search">
+                            <i class="uil uil-search"></i>
+                            <input spellcheck="false" type="text" placeholder="Пошук" id="searchCar">
+                        </div>
+                        <ul class="options" id="brands"></ul>
                     </div>
                 </div>
-            </div>
-            <label>Ціна ($)</label>
-            <div class="price_input">
-                <input class="input" type="number" maxlength="9" id="price_min-input" placeholder="Від" />
-                <input class="input" type="number" maxlength="9" id="price_max-input" placeholder="До" />
-            </div>
-            <label>Пробіг (тис. км)</label>
-            <div class="price_input">
-                <input class="input" type="number" maxlength="3" id="race_min-input" placeholder="Від" />
-                <input class="input" type="number" maxlength="3" id="race_max-input" placeholder="До" />
-            </div>
-            <label>Тип трансмісії</label>
-            <div class="custom-select">
-                <div class="select-btn" id="transmissionsButton">
-                    <span>Усі</span>
-                    <i class="uil uil-angle-down"></i>
+                <label>Модель</label>
+                <div class="custom-select">
+                    <div class="select-btn" id="modelsButton">
+                        <span>Усі</span>
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <div class="search">
+                            <i class="uil uil-search"></i>
+                            <input spellcheck="false" type="text" placeholder="Пошук" id="searchModel">
+                        </div>
+                        <ul class="options" id="models"></ul>
+                    </div>
                 </div>
-                <div class="content">
-                    <ul class="options" id="transmissions"></ul>
+                <label id="year-label">Рік</label>
+                <div class="range-slider">
+                    <span>Від:</span>
+                    <div class="range">
+                        <div class="rangeValue">
+                            <span id="min-year-value">2000</span>
+                        </div>
+                        <div class="field">
+                            <div class="value left">2000</div>
+                            <input type="range" id="min-year-slider" min="2000" max="@DateTime.Now.Year" value="1980" step="1" />
+                            <div class="value right" id="min-max-year">@DateTime.Now.Year</div>
+                        </div>
+                    </div>
                 </div>
+                <div class="range-slider">
+                    <span>До:</span>
+                    <div class="range">
+                        <div class="rangeValue">
+                            <span id="max-year-value">@DateTime.Now.Year</span>
+                        </div>
+                        <div class="field">
+                            <div class="value left" id="max-min-year">2000</div>
+                            <input type="range" id="max-year-slider" min="2000" max="@DateTime.Now.Year" value="@DateTime.Now.Year" step="1" />
+                            <div class="value right">@DateTime.Now.Year</div>
+                        </div>
+                    </div>
+                </div>
+                <label>Ціна ($)</label>
+                <div class="price_input">
+                    <input class="input" type="number" maxlength="9" id="price_min-input" placeholder="Від" />
+                    <input class="input" type="number" maxlength="9" id="price_max-input" placeholder="До" />
+                </div>
+                <label>Пробіг (тис. км)</label>
+                <div class="price_input">
+                    <input class="input" type="number" maxlength="3" id="race_min-input" placeholder="Від" />
+                    <input class="input" type="number" maxlength="3" id="race_max-input" placeholder="До" />
+                </div>
+                <label>Тип трансмісії</label>
+                <div class="custom-select">
+                    <div class="select-btn" id="transmissionsButton">
+                        <span>Усі</span>
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <ul class="options" id="transmissions"></ul>
+                    </div>
+                </div>
+                <label>Тип палива</label>
+                <div class="custom-select">
+                    <div class="select-btn" id="fuelsButton">
+                        <span>Усі</span>
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <ul class="options" id="fuels"></ul>
+                    </div>
+                </div>
+                <label>Тип приводу</label>
+                <div class="custom-select">
+                    <div class="select-btn" id="drivelinesButton">
+                        <span>Усі</span>
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <ul class="options" id="drivelines"></ul>
+                    </div>
+                </div>
+                <label>Об’єм двигуна (л.)</label>
+                <div class="price_input">
+                    <input class="input" type="text" maxlength="3" id="engineVolume_min-input" placeholder="Від" />
+                    <input class="input" type="text" maxlength="3" id="engineVolume_max-input" placeholder="До" />
+                </div>
+                <button id="refresh_cars">Пошук</button>
+                <button id="clear_filters">Очистити</button>
             </div>
-            <label>Тип палива</label>
-            <div class="custom-select">
-                <div class="select-btn" id="fuelsButton">
-                    <span>Усі</span>
-                    <i class="uil uil-angle-down"></i>
-                </div>
-                <div class="content">
-                    <ul class="options" id="fuels"></ul>
-                </div>
-            </div>
-            <label>Тип приводу</label>
-            <div class="custom-select">
-                <div class="select-btn" id="drivelinesButton">
-                    <span>Усі</span>
-                    <i class="uil uil-angle-down"></i>
-                </div>
-                <div class="content">
-                    <ul class="options" id="drivelines"></ul>
-                </div>
-            </div>
-            <label>Об’єм двигуна (л.)</label>
-            <div class="price_input">
-                <input class="input" type="text" maxlength="3" id="engineVolume_min-input" placeholder="Від" />
-                <input class="input" type="text" maxlength="3" id="engineVolume_max-input" placeholder="До" />
-            </div>
-            <button id="refresh_cars">Пошук</button>
-            <button id="clear_filters">Очистити</button>
+            <button id="save_filters">Розмістити запит</button>
         </div>
-        <button id="save_filters">Розмістити запит</button>
     </div>
     <div class="wrapper_right">
         <div class="pages_buttons"></div>

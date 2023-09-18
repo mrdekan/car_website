@@ -1377,12 +1377,18 @@ h4 {
   .create {
     background: var(--background-secondary);
   }
+  .create .sell-button {
+    margin: 0 auto;
+    min-width: 90%;
+  }
   .create form {
     border-radius: 0;
     border: none;
     margin: 0 auto;
     width: 100%;
     height: 100%;
+    padding-top: 30px;
+    max-width: 100%;
   }
   .create_main {
     justify-content: space-between;
@@ -2417,17 +2423,36 @@ header .header_right-dark-label::before {
     height: 70px;
     margin: 15px 0 0 0;
   }
+  .filters {
+    align-self: center;
+  }
+  .filters_wrapper {
+    width: 100vw;
+    height: calc(100vh + 40px);
+    position: fixed;
+    z-index: 15;
+    top: -25px;
+    overflow: scroll;
+  }
   .filters_before {
     position: fixed;
     left: -300px;
     transition: 0.2s;
     z-index: 40;
+    top: 50px;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
   .filters_before.open {
-    left: 2vw;
+    left: 0;
     background: var(--background-main);
     border-radius: 0 10px 0 10px;
     position: absolute;
+    width: 100%;
+    width: 100%;
+    max-width: 100%;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
   #open-filters {
     display: block;

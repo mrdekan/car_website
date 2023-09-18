@@ -98,7 +98,7 @@ body {
         width: fit-content;
         padding: 10px 17px;
         border-radius: 3px;
-
+        
         .input[type="number"], input[type="text"] {
             height: 32px;
             line-height: 32px;
@@ -1147,21 +1147,40 @@ header {
             }
         }
     }
+    .filters {
+        align-self: center;
 
-    .filters_before {
-        position: fixed;
-        left: -300px;
-        transition: 0.2s;
-        z-index: 40;
+        &_wrapper {
+            width: 100vw;
+            height: calc(100vh + 40px);
+            position: fixed;
+            z-index: 15;
+            top: -25px;
+            overflow: scroll;
+        }
 
-        &.open {
-            left: 2vw;
-            background: $background;
-            border-radius: 0 10px 0 10px;
-            position: absolute;
+        &_before {
+            position: fixed;
+            left: -300px;
+            transition: 0.2s;
+            z-index: 40;
+            top: 50px;
+            padding-top: 40px;
+            padding-bottom: 40px;
+
+            &.open {
+                left: 0;
+                background: $background;
+                border-radius: 0 10px 0 10px;
+                position: absolute;
+                width: 100%;
+                width: 100%;
+                max-width: 100%;
+                padding-top: 40px;
+                padding-bottom: 40px;
+            }
         }
     }
-
     #open-filters {
         display: block;
     }
