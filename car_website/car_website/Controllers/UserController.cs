@@ -70,6 +70,9 @@ namespace car_website.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                // Validation
+                userVM.Email = userVM.Email.Replace(" ", "");
                 if (!_validationService.IsValidName(userVM.Name))
                 {
                     ModelState.AddModelError("Name", "Некоректне ім'я");
@@ -83,10 +86,11 @@ namespace car_website.Controllers
                 string phone = userVM.PhoneNumber;
                 if (!_validationService.FixPhoneNumber(ref phone))
                 {
+                    userVM.PhoneNumber = phone.Replace("+", "");
                     ModelState.AddModelError("PhoneNumber", "Некоректний номер телефону");
                     return View(userVM);
                 }
-                userVM.PhoneNumber = phone;
+                userVM.PhoneNumber = phone.Replace("+", "");
                 if (_userRepository.IsEmailTaken(userVM.Email).Result)
                 {
                     ModelState.AddModelError("Email", "Адрес вже використовується");
@@ -97,6 +101,8 @@ namespace car_website.Controllers
                     ModelState.AddModelError("PhoneNumber", "Номер вже використовується");
                     return View(userVM);
                 }
+
+                // Creating a new user
                 User newUser = new(userVM, _userService, _userService.GenerateEmailConfirmationToken());
                 await _userRepository.Add(newUser);
                 await _userManager.CreateAsync(newUser, userVM.Password);
@@ -107,10 +113,19 @@ namespace car_website.Controllers
                         token = newUser.ConfirmationToken
                     }, Request.Scheme);
                 var message = $"Будь ласка, щоб підтвердити ел. пошту перейдіть за посиланням: {verificationLink}";
-                await _emailService.SendEmailAsync(newUser.Email, "Підтвердження пошти", message);
+                try
+                {
+                    await _emailService.SendEmailAsync(newUser.Email, "Підтвердження пошти", message);
+                    var claims = new Claim[]
+                    {
+                    new Claim("Id",newUser.Id.ToString()),
+                    new Claim("Role",newUser.Role.ToString())
+                    };
+                    await _signInManager.SignInWithClaimsAsync(newUser, isPersistent: true, claims);
+                }
+                catch { }
                 HttpContext.Session.SetString("UserId", newUser.Id.ToString());
                 HttpContext.Session.SetInt32("UserRole", (int)newUser.Role);
-                await _signInManager.SignInAsync(newUser, isPersistent: true);
                 return RedirectToAction("RegistrationSuccess");
             }
             else
