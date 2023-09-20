@@ -11,17 +11,23 @@ namespace car_website.ViewModels
         public uint Price { get; set; }
         [Range(0, 999, ErrorMessage = "Некоректне значення")]
         public uint Mileage { get; set; }
-        [Required(ErrorMessage = "Додайте не менше одного фото")]
+        [Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile Photo1 { get; set; }
+        [Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile? Photo2 { get; set; }
+        [Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile? Photo3 { get; set; }
+        [Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile? Photo4 { get; set; }
+        [Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile? Photo5 { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [RegularExpression(@"^(?!Any$).*", ErrorMessage = "Виберіть марку")]
+        [MaxLength(30, ErrorMessage = "Занадто довга назва")]
         public string Brand { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [RegularExpression(@"^(?!Any$).*", ErrorMessage = "Виберіть модель")]
+        [MaxLength(30, ErrorMessage = "Занадто довга назва")]
         public string Model { get; set; }
         [Range(1, 100, ErrorMessage = "Оберіть значення")]
         public Transmission CarTransmission { get; set; }
@@ -38,11 +44,11 @@ namespace car_website.ViewModels
         public string? Description { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         public float EngineCapacity { get; set; }
-        [Required(ErrorMessage = "Обов'язкове поле")]
+        [MaxLength(17, ErrorMessage = "Довжина VIN номеру — 17 символів")]
         public string? VIN { get; set; }
-        [MaxLength(20, ErrorMessage = "Занадто довга назва")]
+        [MaxLength(30, ErrorMessage = "Занадто довга назва")]
         public string? OtherBrandName { get; set; }
-        [MaxLength(20, ErrorMessage = "Занадто довга назва")]
+        [MaxLength(30, ErrorMessage = "Занадто довга назва")]
         public string? OtherModelName { get; set; }
         public CarFeatures Features { get; set; } = new CarFeatures();
         public string? VideoURL { get; set; }

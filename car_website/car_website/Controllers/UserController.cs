@@ -112,6 +112,8 @@ namespace car_website.Controllers
                         userId = newUser.Id.ToString(),
                         token = newUser.ConfirmationToken
                     }, Request.Scheme);
+
+                // Sending email
                 var message = $"Будь ласка, щоб підтвердити ел. пошту перейдіть за посиланням: {verificationLink}";
                 try
                 {

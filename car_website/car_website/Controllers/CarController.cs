@@ -11,6 +11,7 @@ namespace car_website.Controllers
 {
     public class CarController : ExtendedController
     {
+        private const int MAX_PHOTO_SIZE = 20; //Mb
         #region Services & ctor
         private readonly ICarRepository _carRepository;
         private readonly IImageService _imageService;
@@ -302,12 +303,50 @@ namespace car_website.Controllers
             User user = await GetCurrentUser();
             if (user == null)
             {
-                HttpContext.Session.SetString("ReturnUrl", HttpContext.Request.Path);
-                return RedirectToAction("Register", "User");
+                return RedirectToAction("CreateExpressSaleCar");
             }
             string userId = user.Id.ToString();
             if (ModelState.IsValid)
             {
+                if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VIN) && carVM.CreateCarViewModel.VIN.Length < 17)
+                {
+                    ModelState.AddModelError("VIN", "Довжина VIN номеру — 17 символів");
+                    return View(carVM);
+                }
+                bool photosIsValid = true;
+                if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo1))
+                {
+                    photosIsValid = false;
+                    ModelState.AddModelError("Photo1", $"Не більше {MAX_PHOTO_SIZE}Мб");
+                }
+                if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo2))
+                {
+                    photosIsValid = false;
+                    ModelState.AddModelError("Photo2", $"Не більше {MAX_PHOTO_SIZE}Мб");
+                }
+                if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo3))
+                {
+                    photosIsValid = false;
+                    ModelState.AddModelError("Photo3", $"Не більше {MAX_PHOTO_SIZE}Мб");
+                }
+                if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo4))
+                {
+                    photosIsValid = false;
+                    ModelState.AddModelError("Photo4", $"Не більше {MAX_PHOTO_SIZE}Мб");
+                }
+                if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo5))
+                {
+                    photosIsValid = false;
+                    ModelState.AddModelError("Photo5", $"Не більше {MAX_PHOTO_SIZE}Мб");
+                }
+                if (!photosIsValid)
+                {
+                    var brands = await _brandRepository.GetAll();
+                    carVM.CarBrands = brands.ToList();
+                    return View(carVM);
+                }
+
+
                 if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
                 {
                     using HttpClient client = new();
@@ -401,6 +440,13 @@ namespace car_website.Controllers
                 return "";
             }
         }
+        /// <summary>
+        /// By default compares with 20Mb
+        /// </summary>
+        /// <returns>True if less or False if not</returns>
+        private static bool IsLessThenNMb(IFormFile file, int maxSizeMb = MAX_PHOTO_SIZE) =>
+            file != null && ((double)file.Length / (1048576)) <= maxSizeMb;
+        // 1048576 = 1024 * 1024 (b => Mb)
     }
     internal class VideoDetailsResponse
     {

@@ -1165,6 +1165,12 @@ h4 {
   .profile_pages {
     width: 100%;
   }
+  .profile_pages label {
+    font-size: 16px;
+  }
+  .profile_pages label span::before {
+    display: none;
+  }
 }
 :root {
   --green-light: #537049;
@@ -1376,6 +1382,9 @@ h4 {
 @media (max-width: 767px) {
   .create {
     background: var(--background-secondary);
+  }
+  .create_container {
+    flex-direction: column-reverse;
   }
   .create .sell-button {
     margin: 0 auto;
@@ -1774,14 +1783,19 @@ body {
   border-radius: 0 8px 8px 0;
   z-index: 50;
 }
+#open-filters span {
+  display: block;
+  margin: 3px 0 0 -3px;
+}
 #open-filters::before {
   content: "";
   position: absolute;
-  margin: -16px 0 0 -18px;
-  background: url("/img/find.svg");
-  background-size: 100% 100%;
-  width: 32px;
-  height: 32px;
+  margin: -8px 0 0 8px;
+  background: var(--beige-default);
+  border-radius: 50%;
+  width: 17px;
+  height: 17px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .separator {
@@ -2423,36 +2437,33 @@ header .header_right-dark-label::before {
     height: 70px;
     margin: 15px 0 0 0;
   }
-  .filters {
+  .wrapper .filters {
     align-self: center;
+    max-width: 100%;
   }
-  .filters_wrapper {
+  .wrapper .filters_wrapper {
     width: 100vw;
     height: calc(100vh + 40px);
     position: fixed;
     z-index: 15;
     top: -25px;
     overflow: scroll;
+    left: -100%;
+    transition: 0.15s ease-in;
   }
-  .filters_before {
-    position: fixed;
-    left: -300px;
+  .wrapper .filters_wrapper.open {
+    left: 0;
+  }
+  .wrapper .filters_before {
     transition: 0.2s;
     z-index: 40;
     top: 50px;
     padding-top: 40px;
     padding-bottom: 40px;
-  }
-  .filters_before.open {
-    left: 0;
-    background: var(--background-main);
-    border-radius: 0 10px 0 10px;
     position: absolute;
     width: 100%;
-    width: 100%;
     max-width: 100%;
-    padding-top: 40px;
-    padding-bottom: 40px;
+    background: var(--background-main);
   }
   #open-filters {
     display: block;

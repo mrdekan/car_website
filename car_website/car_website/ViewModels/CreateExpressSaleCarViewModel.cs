@@ -21,6 +21,7 @@ namespace car_website.ViewModels
         public uint? Price { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile? Photo1 { get; set; }
+        [Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile? Photo2 { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [RegularExpression(@"^(?!Any$).*", ErrorMessage = "Виберіть марку")]

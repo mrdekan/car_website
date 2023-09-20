@@ -84,7 +84,13 @@ window.addEventListener('load', function () {
     });
     selectedRadioIndex = selectedIndex;
     var computedStyle = getComputedStyle(pages_profile);
-    pageUnderline.style.width = `${radioButtons.length == 4 ? 16.5 : 22}%`;
+    //pageUnderline.style.width = `${radioButtons.length == 4 ? 16.5 : 22}%`;
+    let num;
+    if (mediaQuery.matches)
+        num = 100;
+    else
+        num = 66;
+    pageUnderline.style.width = `${num / radioButtons.length}%`;
     offset = radioButtons.length == 4 ? 300 : 200;
     let percent = selectedIndex * (offset / (radioButtons.length - 1));
     pageUnderline.style.transform = `translateX(${percent}%)`;
@@ -248,65 +254,11 @@ function SetCarsFromData(data, waitingCarsList = false) {
         favList.innerHTML = "";
         data.cars.forEach(car => {
             if (!waitingCarsList) {
-                const block = `<div class="car">
-                                  <div class="car_container">
-                                        <img  alt="photo" src="${car.photosURL[0]}" />
-                                    <div class="car_container-info">
-                                        <a href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
-                                            <div class="car_container-info-parameters">
-                                                <div class="car_container-info-parameters-column">
-                                                    <p class="car_container-info-parameters-column-race">${car.mileage} тис. км</p>
-                                                    <p class="car_container-info-parameters-column-fuel">${fuelName(car.fuel)}, ${car.engineCapacity} л.</p>
-                                                    <p class="car_container-info-parameters-column-vin">${car.vin}</p>
-                                                    </div>
-                                                <div class="car_container-info-parameters-column">
-                                                    <p class="car_container-info-parameters-column-transmission">${transmissionName(car.carTransmission)}</p>
-                                                    <p class="car_container-info-parameters-column-driveline">${drivelineName(car.driveline)}</p>
-                                                    </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="car_container-right">
-                                    <div class="car_container-right-price">
-                                                <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
-                                                <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
-                                            </div>
-                                  <div class="car_container-right-like">
-                                  <input type="checkbox" class="car_container-right-like-cars" carId="${car.id}" carId="${car.id}" ${car.liked ? "checked" : ""}/>
-                                  <span class="car_container-right-span"></span>
-                                  </div>
-                                  </div>
-                                </div>`;
+                const block = formCar(car,false);
                 favList.innerHTML += block;
             }
             else {
-                const block = `<div class="car">
-                                  <div class="car_container">
-                                        <img  alt="photo" src="${car.car.photosURL[0]}" />
-                                    <div class="car_container-info">
-                                        <a href="/Car/WaitingCarDetail/${car.id}">${car.car.brand} ${car.car.model} ${car.car.year}</a>
-                                            <div class="car_container-info-parameters">
-                                                <div class="car_container-info-parameters-column">
-                                                    <p class="car_container-info-parameters-column-race">${car.car.mileage} тис. км</p>
-                                                    <p class="car_container-info-parameters-column-transmission">${transmissionName(car.car.carTransmission)}</p>
-                                                    <p class="car_container-info-parameters-column-vin">${car.car.vin}</p>
-                                                    </div>
-                                                <div class="car_container-info-parameters-column">
-                                                    <p class="car_container-info-parameters-column-fuel">${fuelName(car.car.fuel)}, ${car.car.engineCapacity} л.</p>
-                                                    <p class="car_container-info-parameters-column-driveline">${drivelineName(car.car.driveline)}</p>
-                                                    </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="car_container-right">
-                                    <div class="car_container-right-price">
-                                                <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.car.price)} $</p>
-                                                <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.car.priceUAH)} грн</p>
-                                            </div>
-                                  </div>
-                                  </div>
-                                </div>`;
+                const block = formCar(car.car, true);
                 favList.innerHTML += block;
             }
         });
@@ -315,6 +267,37 @@ function SetCarsFromData(data, waitingCarsList = false) {
         favList.innerHTML = `<h3 class="warning-text">Щось пішло не так</h3>`;
     else
         favList.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
+}
+function formCar(car,waiting) {
+    return `<div class="car">
+                   <div class="car_container">
+                   <img  alt="photo" src="${car.photosURL[0]}" />
+                   <div class="car_container-info">
+                         <a href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
+                             <div class="car_container-info-parameters">
+                                 <div class="car_container-info-parameters-column">
+                                     <p class="car_container-info-parameters-column-race">${car.mileage} тис. км</p>
+                                     <p class="car_container-info-parameters-column-fuel">${fuelName(car.fuel)}, ${car.engineCapacity} л.</p>
+                                     <p class="car_container-info-parameters-column-vin">${car.vin}</p>
+                                     </div>
+                                 <div class="car_container-info-parameters-column">
+                                     <p class="car_container-info-parameters-column-transmission">${transmissionName(car.carTransmission)}</p>
+                                     <p class="car_container-info-parameters-column-driveline">${drivelineName(car.driveline)}</p>
+                                     </div>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="car_container-right">
+                     <div class="car_container-right-price">
+                                 <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
+                                 <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
+                             </div>
+                   <div class="car_container-right-like">
+                   ${(waiting ? '' : `<input type="checkbox" class="car_container-right-like-cars" carId="${car.id}" carId="${car.id}" ${car.liked ? "checked" : ""}/>
+                   <span class="car_container-right-span"></span>`)}
+                   </div>
+                   </div>
+                 </div>`;
 }
 function fuelName(id) {
     switch (id) {

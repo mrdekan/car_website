@@ -282,6 +282,12 @@
 
         &_pages {
             width: 100%;
+            label{
+                font-size: 16px;
+                span::before{
+                    display: none;
+                }
+            }
         }
     }
 }

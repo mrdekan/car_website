@@ -213,10 +213,16 @@
 @media (max-width: 767px) {
     .create {
         background: $background-secondary;
-        .sell-button{
-            margin:0 auto;
+
+        &_container {
+            flex-direction: column-reverse;
+        }
+
+        .sell-button {
+            margin: 0 auto;
             min-width: 90%;
         }
+
         form {
             //background: $background;
             border-radius: 0;
@@ -236,10 +242,12 @@
                 width: 47%;
             }
         }
-        .info-text{
+
+        .info-text {
             display: none;
         }
-        label{
+
+        label {
             font-size: 16px;
         }
     }

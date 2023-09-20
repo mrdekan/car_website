@@ -42,7 +42,7 @@ const currentYear = minYearSlider.getAttribute('max');
 const yearLabel = document.getElementById('year-label');
 let carsPage = 1;
 const openFilter = document.getElementById('open-filters');
-const filter = document.querySelector('.filters_before');
+const filter = document.querySelector('.filters_wrapper');
 //#endregion
 
 //#region Selects content
@@ -266,6 +266,7 @@ function getMarks() {
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function applyFilter(page = 1) {
+    filter.classList.remove("open");
     const filters = {
         body: bodies.indexOf(selectBodiesBtn.firstElementChild.innerHTML),
         brand: selectBrandsBtn.firstElementChild.innerText,
