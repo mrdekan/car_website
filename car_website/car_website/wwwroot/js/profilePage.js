@@ -86,7 +86,7 @@ window.addEventListener('load', function () {
     var computedStyle = getComputedStyle(pages_profile);
     //pageUnderline.style.width = `${radioButtons.length == 4 ? 16.5 : 22}%`;
     let num;
-    if (mediaQuery.matches)
+    if (    )
         num = 100;
     else
         num = 66;
