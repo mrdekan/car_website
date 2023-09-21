@@ -89,9 +89,8 @@ window.addEventListener('load', function () {
     });
     selectedRadioIndex = selectedIndex;
     var computedStyle = getComputedStyle(pages_profile);
-    //pageUnderline.style.width = `${radioButtons.length == 4 ? 16.5 : 22}%`;
     let num;
-    if (window.innerWidth <769)
+    if (window.matchMedia('(max-width: 768px)').matches)
         num = 100;
     else
         num = 66;

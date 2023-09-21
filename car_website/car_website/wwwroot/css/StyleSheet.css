@@ -776,6 +776,18 @@ h4 {
 .popup_header {
   font-size: 22px;
 }
+.popup_images {
+  width: 75%;
+  height: 100%;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 auto;
+}
+.popup_images img {
+  width: 100%;
+}
 
 .popup_content {
   position: absolute;
@@ -852,6 +864,7 @@ h4 {
   right: 10px;
   cursor: pointer;
   font-size: 34px;
+  color: var(--text-default);
 }
 
 @media (min-width: 1024px) and (max-width: 1340px) {
@@ -891,6 +904,9 @@ h4 {
     font-size: 16px;
     padding: 5px 10px;
   }
+  .popup_images {
+    width: 100%;
+  }
   h4 {
     font-size: 14px;
     padding-left: 10px;
@@ -923,6 +939,8 @@ h4 {
 .profile_info {
   width: 66%;
   margin: 25px auto;
+  display: flex;
+  justify-content: space-between;
   /*#change-role {
       padding: 7px 0;
       border-radius: 3px;
@@ -1153,7 +1171,16 @@ h4 {
   justify-content: center;
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 769px) and (max-width: 1400px) {
+  .profile_info {
+    padding-top: 25px;
+  }
+  .profile_pages label {
+    font-size: 18px;
+  }
+  .profile_pages label span::before {
+    display: none;
+  }
   .label_counter {
     display: none;
   }
@@ -1161,6 +1188,8 @@ h4 {
 @media (max-width: 768px) {
   .profile_info {
     width: 100%;
+    flex-direction: column;
+    padding-left: 10px;
   }
   .profile_pages {
     width: 100%;
@@ -1169,6 +1198,9 @@ h4 {
     font-size: 16px;
   }
   .profile_pages label span::before {
+    display: none;
+  }
+  .label_counter {
     display: none;
   }
 }

@@ -299,6 +299,19 @@ h4 {
     &_header {
         font-size: 22px;
     }
+
+    &_images{
+        width: 75%;
+        height: 100%;
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 0 auto;
+        img{
+            width: 100%;
+        }
+    }
 }
 
 .popup_content {
@@ -385,6 +398,7 @@ h4 {
     right: 10px;
     cursor: pointer;
     font-size: 34px;
+    color: $text-default;
 }
 
 @media(min-width: 1024px) and (max-width: 1340px) {
@@ -434,7 +448,11 @@ h4 {
             padding: 5px 10px;
         }
     }
-
+    .popup {
+        &_images{
+            width: 100%;
+        }
+    }
     h4 {
         font-size: 14px;
         padding-left: 10px;

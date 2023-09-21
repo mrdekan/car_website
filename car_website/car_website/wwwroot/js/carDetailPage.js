@@ -10,9 +10,16 @@ const closeButton = document.getElementById('closePopup');
 const sendNotLoggedInRequest = document.getElementById('notLoggedIngRequestSend');
 const buyRequestNameInp = document.getElementById('request-name');
 const buyRequestPhoneInp = document.getElementById('request-phone');
-
+const imagesFullscreen = document.getElementById('img_full');
+const photos = document.querySelectorAll('.slider_element-image');
 let currentSlide = 0;
 
+Array.from(photos).forEach(photo => {
+    photo.addEventListener('click', () => {
+        disableScrolling();
+        imagesFullscreen.style.display = "block";
+    });
+});
 if (buyButtonNotLogged) {
     buyButtonNotLogged.addEventListener('click', () => {
         popup.style.display = "block";
@@ -21,6 +28,15 @@ if (buyButtonNotLogged) {
         buyRequestPhoneInp.value = localStorage.getItem('phone');
     });
 }
+imagesFullscreen.addEventListener("click", function (event) {
+    if (event.target.tagName != 'IMG')
+        imagesFullscreen.style.display = "none";
+    else {
+        var newTab = window.open(event.target.getAttribute('src'), '_blank');
+        newTab.focus();
+    }
+    enableScrolling();
+});
 closeButton.addEventListener("click", function () {
     popup.style.display = "none";
     enableScrolling();

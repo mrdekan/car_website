@@ -4,7 +4,8 @@
     &_info {
         width: 66%;
         margin: 25px auto;
-
+        display: flex;
+        justify-content: space-between;
         h2 {
             font-size: 28px;
             color: $text-default;
@@ -268,7 +269,22 @@
     justify-content: center;
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 769px) and (max-width: 1400px) {
+    .profile {
+        &_info {
+            padding-top: 25px;
+        }
+
+        &_pages {
+            label {
+                font-size: 18px;
+
+                span::before {
+                    display: none;
+                }
+            }
+        }
+    }
     .label_counter {
         display: none;
     }
@@ -278,6 +294,8 @@
     .profile {
         &_info {
             width: 100%;
+            flex-direction: column;
+            padding-left: 10px;
         }
 
         &_pages {
@@ -289,5 +307,8 @@
                 }
             }
         }
+    }
+    .label_counter {
+        display: none;
     }
 }
