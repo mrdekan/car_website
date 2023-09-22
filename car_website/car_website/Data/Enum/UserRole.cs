@@ -4,6 +4,7 @@
     {
         User,
         Admin,
-        Dev
+        Dev,
+        Moderator
     }
 }

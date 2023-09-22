@@ -58,7 +58,7 @@
 .user_container-element {
     padding: 15px;
     background-color: $background-secondary;
-    width: 300px;
+    min-width: 300px;
 
     a {
         color: $text-default;
@@ -70,6 +70,7 @@
     p {
         color: $gray-default;
         font-size: 16px;
+        margin: 4px 0;
     }
 }
 

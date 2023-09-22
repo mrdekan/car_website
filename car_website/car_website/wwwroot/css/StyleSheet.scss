@@ -1118,8 +1118,24 @@ header {
     top: 13px;
 }
 //--------------------Custom burger icon end--
-
-
+.confirmed::before{
+    content:'';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: url('../img/confirmed.svg');
+    background-size: 100% 100%;
+    margin-left: 6px;
+}
+.role{
+    padding: 6px 10px;
+    color: $gray-default;
+    border: 1px solid $gray-default;
+    border-radius: 20px;
+    display: block;
+    width: fit-content;
+    margin-top: 5px;
+}
 
 
 @media (max-width: 767px) {
@@ -1158,6 +1174,7 @@ header {
         .filters {
             align-self: center;
             max-width: 100%;
+
             &_wrapper {
                 width: 100vw;
                 height: calc(100vh + 40px);

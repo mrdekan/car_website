@@ -304,7 +304,7 @@ input[type=number] {
 .user_container-element {
   padding: 15px;
   background-color: var(--background-secondary);
-  width: 300px;
+  min-width: 300px;
 }
 .user_container-element a {
   color: var(--text-default);
@@ -315,6 +315,7 @@ input[type=number] {
 .user_container-element p {
   color: var(--gray-default);
   font-size: 16px;
+  margin: 4px 0;
 }
 
 .admin {
@@ -2443,6 +2444,26 @@ header .header_right-dark-label::before {
 #nav-icon2.open span:nth-child(6) {
   left: calc(50% - 0px);
   top: 13px;
+}
+
+.confirmed::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: url("../img/confirmed.svg");
+  background-size: 100% 100%;
+  margin-left: 6px;
+}
+
+.role {
+  padding: 6px 10px;
+  color: var(--gray-default);
+  border: 1px solid var(--gray-default);
+  border-radius: 20px;
+  display: block;
+  width: fit-content;
+  margin-top: 5px;
 }
 
 @media (max-width: 767px) {

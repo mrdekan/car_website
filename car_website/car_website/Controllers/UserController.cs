@@ -70,7 +70,6 @@ namespace car_website.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 // Validation
                 userVM.Email = userVM.Email.Replace(" ", "");
                 if (!_validationService.IsValidName(userVM.Name))

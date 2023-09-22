@@ -18,7 +18,8 @@ namespace car_website.Controllers
         private readonly IBrandRepository _brandRepository;
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly RoleManager<Role> _roleManager;
-        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, RoleManager<Role> roleManager) : base(userRepository)
+        private readonly IValidationService _validationService;
+        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, RoleManager<Role> roleManager, IValidationService validationService) : base(userRepository)
         {
             _carRepository = carRepository;
             _userRepository = userRepository;
@@ -27,6 +28,7 @@ namespace car_website.Controllers
             _brandRepository = brandRepository;
             _currencyUpdater = currencyUpdater;
             _roleManager = roleManager;
+            _validationService = validationService;
         }
         #endregion
         public IActionResult Panel()
@@ -46,14 +48,17 @@ namespace car_website.Controllers
                 await _carRepository.Update(car);
             }*/
             /*User userNew = await _userRepository.GetByEmailAsync("dekan0504@gmail.com");*/
-            /*var users = await _userRepository.GetAll();
+            var users = await _userRepository.GetAll();
             foreach (var user in users)
             {
-                user.SecurityStamp = "SLK6ENLFRX2YRYPSH3PQAIU6YNSM2VTD";
-                user.PasswordHash = user.Password;
-                await _userRepository.Update(user);
+                string phone = user.PhoneNumber;
+                if (phone != null && _validationService.FixPhoneNumber(ref phone))
+                {
+                    user.PhoneNumber = phone;
+                    await _userRepository.Update(user);
+                }
             }
-            Console.WriteLine(_roleManager.Roles.Count());*/
+            //Console.WriteLine(_roleManager.Roles.Count());
             /*var requests = await _buyRequestRepository.GetAll();
             foreach (var request in requests)
             {

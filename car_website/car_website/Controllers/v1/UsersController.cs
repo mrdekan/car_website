@@ -380,7 +380,11 @@ namespace car_website.Controllers.v1
             User user = await GetCurrentUser();
             if (user == null)
                 return Ok(new { Status = false, Code = HttpCodes.Unauthorized });
-            user.PhoneNumber = $"+{newPhone}";
+            if (user.PhoneNumber == newPhone)
+                return Ok(new { Status = true, Code = HttpCodes.Success });
+            else if (_userRepository.IsPhoneTaken(newPhone).Result)
+                return Ok(new { Status = false, Code = HttpCodes.Conflict });
+            user.PhoneNumber = newPhone;
             await _userRepository.Update(user);
             return Ok(new { Status = true, Code = HttpCodes.Success });
         }

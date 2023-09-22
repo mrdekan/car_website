@@ -10,7 +10,7 @@ namespace car_website.Services
         private const string PHONE_PATTERN = @"^38\d{10}$";
         public bool FixPhoneNumber(ref string phone)
         {
-            phone = phone.Replace("+", "");
+            phone = phone.Replace("+", "").Replace(" ", "");
             if (IsValidPhoneNumber(phone)) return true;
             if (IsOnlyLetters(phone))
             {

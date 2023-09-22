@@ -77,8 +77,10 @@ function showData(data) {
                 container.innerHTML = `<h3 class="warning-text">Тут ще нікого немає</h3>`;
             data.users.forEach(user => {
                 container.innerHTML += `<div class="user_container-element">
-                <a href="/User/Detail/${user.id}">${user.name} ${user.surname}</a>
-                <p>${user.phoneNumber}</p>
+                <a href="/User/Detail/${user.id}">${user.name} ${user.surname}${user.emailConfirmed?'<span class="confirmed"></span>':''}</a>
+                <p>+${user.phoneNumber}</p>
+                <p>${user.email}</p>
+                ${user.role != 0 ? user.role == 1 ? '<span class="role">Адмін</span>' : user.role == 2 ? '<span class="role">Розробник</span>' :'<span class="role">Модератор</span>' : ''}
             </div>`;
             });
         }
