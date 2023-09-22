@@ -385,6 +385,20 @@ namespace car_website.Controllers
                 Car car = new(newCar, photosNames, userId);
                 if (user.Role != Data.Enum.UserRole.User)
                 {
+                    if (!string.IsNullOrEmpty(newCar.OtherBrandName))
+                    {
+                        Brand newBrand = new Brand(newCar.OtherBrandName);
+                        await _brandRepository.Add(newBrand);
+                    }
+                    if (!string.IsNullOrEmpty(newCar.OtherModelName))
+                    {
+                        Brand brand = await _brandRepository.GetByName(string.IsNullOrEmpty(newCar.OtherBrandName) ? car.Brand : newCar.OtherBrandName);
+                        if (brand != null && !brand.Models.Contains(newCar.OtherModelName))
+                        {
+                            brand.Models.Add(car.Car.Model);
+                            await _brandRepository.Update(brand);
+                        }
+                    }
                     await _carRepository.Add(car);
                     user.CarsForSell.Add(car.Id);
                     await _userRepository.Update(user);

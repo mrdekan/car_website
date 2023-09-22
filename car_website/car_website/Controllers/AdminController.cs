@@ -47,8 +47,10 @@ namespace car_website.Controllers
             {
                 await _carRepository.Update(car);
             }*/
-            /*User userNew = await _userRepository.GetByEmailAsync("dekan0504@gmail.com");*/
-            var users = await _userRepository.GetAll();
+            /*User userNew = await _userRepository.GetByEmailAsync("shektoly@gmail.com");
+            userNew.CarsForSell.Add(ObjectId.Parse("650dbdad6845be71c1a3ffa2"));
+            await _userRepository.Update(userNew);*/
+            /*var users = await _userRepository.GetAll();
             foreach (var user in users)
             {
                 string phone = user.PhoneNumber;
@@ -57,7 +59,7 @@ namespace car_website.Controllers
                     user.PhoneNumber = phone;
                     await _userRepository.Update(user);
                 }
-            }
+            }*/
             //Console.WriteLine(_roleManager.Roles.Count());
             /*var requests = await _buyRequestRepository.GetAll();
             foreach (var request in requests)
