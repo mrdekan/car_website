@@ -386,6 +386,8 @@ namespace car_website.Controllers
                 if (user.Role != Data.Enum.UserRole.User)
                 {
                     await _carRepository.Add(car);
+                    user.CarsForSell.Add(car.Id);
+                    await _userRepository.Update(user);
                     return RedirectToAction("Index", "Home");
                 }
                 WaitingCar waitingCar = new(car, !string.IsNullOrEmpty(newCar.OtherModelName), !string.IsNullOrEmpty(newCar.OtherBrandName));
