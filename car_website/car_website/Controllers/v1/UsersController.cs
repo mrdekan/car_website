@@ -20,6 +20,12 @@ namespace car_website.Controllers.v1
         private const byte FAV_CARS_PER_PAGE = 10;
         private const byte WAITING_CARS_PER_PAGE = 5;
         private const byte USERS_PER_PAGE = 10;
+        private readonly List<string> _importantIds = new List<string>() {
+            "64c13fdbc749ae227de382a2",
+            "64c6b5b68924f3866c514978",
+            "64fee1c081693dba26ad5141",
+            "6506d111a915427980fe3e0d"
+        };
         #endregion Constants
 
         #region Services & ctor
@@ -125,6 +131,30 @@ namespace car_website.Controllers.v1
                 Code = HttpCodes.Success,
                 UsersCount = _userRepository.GetCount()
             });
+        }
+        [HttpDelete("deleteUser/{id}")]
+        public async Task<ActionResult<Car>> DeleteUser(string id)
+        {
+            if (_importantIds.Contains(id))
+                return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
+            if (!IsAdmin().Result)
+                return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
+            if (!ObjectId.TryParse(id, out ObjectId userId))
+                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+            User user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+                return Ok(new { Status = false, Code = HttpCodes.NotFound });
+            var cars = await _carRepository.GetByIdListAsync(user.CarsForSell);
+            var waitingCars = await _waitingCarsRepository.GetByIdListAsync(user.CarWithoutConfirmation);
+            var requests = await _buyRequestRepository.GetByIdListAsync(user.SendedBuyRequest);
+            foreach (var car in cars)
+                await _carRepository.Delete(car);
+            foreach (var waitingCar in waitingCars)
+                await _waitingCarsRepository.Delete(waitingCar);
+            foreach (var request in requests)
+                await _buyRequestRepository.Delete(request);
+            await _userRepository.Delete(user);
+            return Ok(new { Status = true, Code = HttpCodes.Success });
         }
         #region Get user's cars lists
 

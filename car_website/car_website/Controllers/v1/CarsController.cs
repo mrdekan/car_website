@@ -268,5 +268,28 @@ namespace car_website.Controllers.v1
             }
         }
         #endregion
+        #region Waiting cars
+        [HttpPut("rejectWaitingCar")]
+        public async Task<ActionResult<byte>> RejectWaitingCar(string carId, string reason)
+        {
+            try
+            {
+                if (!IsAdmin().Result)
+                    return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
+                if (reason.Length > 300 || !ObjectId.TryParse(carId, out ObjectId carObjId))
+                    return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+                WaitingCar car = await _waitingCarsRepository.GetByIdAsync(carObjId);
+                if (car == null)
+                    return Ok(new { Status = false, Code = HttpCodes.NotFound });
+                car.Reject(reason);
+                await _waitingCarsRepository.Update(car);
+                return Ok(new { Status = true, Code = HttpCodes.Success });
+            }
+            catch
+            {
+                return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
+            }
+        }
+        #endregion
     }
 }
