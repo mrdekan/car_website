@@ -3,9 +3,11 @@
 .profile {
     &_info {
         width: 66%;
-        margin: 25px auto;
+        padding: 23px 0;
+        margin: 0 auto;
         display: flex;
         justify-content: space-between;
+
         h2 {
             font-size: 28px;
             color: $text-default;

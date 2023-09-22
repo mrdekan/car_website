@@ -30,7 +30,9 @@ body {
     display: flex;
     justify-content: center;
     gap: 50px;
-
+    &.profile{
+        margin:0;
+    }
     .filters_before {
         display: flex;
         flex-direction: column;

@@ -258,12 +258,16 @@ input[type=number] {
   display: flex;
   gap: 30px;
   color: var(--gray-default);
+  border-radius: 0 16px 0 16px;
+  background: var(--background-secondary);
+  padding: 15px;
 }
 .buy-request a, .buy-request .buy-request-name {
   display: block;
   color: var(--text-default);
   margin: 0 0 7px;
   font-size: 20px;
+  width: fit-content;
 }
 .buy-request h3 {
   margin-bottom: 15px;
@@ -272,16 +276,24 @@ input[type=number] {
   font-size: 16px;
   color: var(--gray-default);
 }
+.buy-request_buyer {
+  min-width: 200px;
+}
+.buy-request_seller {
+  min-width: 200px;
+}
 .buy-request_car {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 200px;
 }
 .buy-request_car img {
-  width: 160px;
-  height: 120px;
+  width: 200px;
+  height: 150px;
   object-fit: cover;
   border-radius: 15px;
+  border-radius: 0 16px 0 16px;
 }
 
 .waiting-car img {
@@ -328,6 +340,16 @@ input[type=number] {
   gap: 10px;
   padding: 10px;
   margin-right: 3%;
+  margin-top: 50px;
+}
+.admin_left a {
+  font-size: 20px;
+  color: #969696;
+  cursor: pointer;
+  width: 100%;
+  padding: 10px 0;
+  display: block;
+  transition: 0.2s;
 }
 .admin_left label {
   font-size: 20px;
@@ -967,7 +989,8 @@ h4 {
 
 .profile_info {
   width: 66%;
-  margin: 25px auto;
+  padding: 23px 0;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   /*#change-role {
@@ -1514,6 +1537,9 @@ body {
   display: flex;
   justify-content: center;
   gap: 50px;
+}
+.wrapper.profile {
+  margin: 0;
 }
 .wrapper .filters_before {
   display: flex;

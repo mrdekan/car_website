@@ -2,12 +2,6 @@
 @{
     ViewData["Title"] = "Панель керування";
 }
-<div style="margin: 50px">
-    @if (ViewContext.HttpContext.Session.GetInt32("Role") == 2)
-    {
-        <a asp-controller="Admin" asp-action="AdminAction">AdminAction</a>
-    }
-</div>
 <div class="admin">
     <div class="admin_left">
         <div class="admin_left-buttons">
@@ -35,6 +29,12 @@
                 <input type="radio" id="expressSales"
                        name="action" value="expressSales">
                 <label for="expressSales" id="expressSaless-label">Швидкий викуп</label>
+            </div>
+            <div class="radio">
+                @if (ViewContext.HttpContext.Session.GetInt32("Role") == 2)
+                {
+                    <a asp-controller="Admin" asp-action="AdminAction">AdminAction</a>
+                }
             </div>
         </div>
     </div>
