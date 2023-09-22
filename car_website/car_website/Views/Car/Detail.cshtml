@@ -148,6 +148,11 @@
                 }
             </div>
         }
+        @if (isAdmin)
+        {
+            <div id="seller" sellerId=@Model.SellerId></div>
+            <script src="~/js/getUser.js" asp-append-version="true"></script>
+        }
         <h4>Вас може зацікавити:</h4>
         <div class="car_similar" id="similar-cars" carId="@Model.Id">
         </div>
@@ -180,7 +185,5 @@
         <div class="log-reg-change"><p>Або <a asp-controller="User" asp-action="Register">зареєструйтесь</a></p></div>
     </div>
 </div>
+
 <script src="~/js/carDetailPage.js" asp-append-version="true"></script>
-@if (isAdmin){
-    <script src="~/js/getUser.js" asp-append-version="true"></script>
-}

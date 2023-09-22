@@ -13,6 +13,8 @@ namespace car_website.ViewModels
             Id = user.Id.ToString();
             EmailConfirmed = user.EmailConfirmed;
             Role = (int)user.Role;
+            CarsInSaleCount = user.CarsForSell.Count();
+            WaitingCarsCount = user.CarWithoutConfirmation.Count();
         }
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -21,5 +23,7 @@ namespace car_website.ViewModels
         public string Id { get; set; }
         public bool EmailConfirmed { get; set; }
         public int Role { get; set; }
+        public int CarsInSaleCount { get; set; }
+        public int WaitingCarsCount { get; set; }
     }
 }

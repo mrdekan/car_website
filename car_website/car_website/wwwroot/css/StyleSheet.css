@@ -645,10 +645,12 @@ h4 {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  max-height: 200px;
-  margin: 20px auto;
-  width: fit-content;
+  max-height: 240px;
+  padding: 20px 0;
+  width: 100%;
   gap: 3px;
+  border-bottom: 2px solid var(--gray-default);
+  border-top: 2px solid var(--gray-default);
 }
 
 .feature {
@@ -673,7 +675,6 @@ h4 {
 
 .car_description {
   border-top: 2px solid var(--gray-default);
-  border-bottom: 2px solid var(--gray-default);
   padding: 20px 0;
   font-size: 16px;
 }
@@ -868,9 +869,38 @@ h4 {
   color: var(--text-default);
 }
 
+#seller {
+  display: flex;
+  gap: 10%;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--gray-default);
+}
+#seller a {
+  color: var(--text-default);
+  font-size: 20px;
+}
+#seller span {
+  color: var(--gray-default);
+  display: block;
+  font-size: 16px;
+  margin-top: 8px;
+}
+#seller p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+#seller div:nth-child(2) {
+  padding-top: 48px;
+}
+#seller div:nth-child(2) span {
+  display: inline;
+  color: var(--text-default);
+  font-weight: 700;
+}
+
 @media (min-width: 1024px) and (max-width: 1340px) {
   .features {
-    max-height: 250px;
+    max-height: 290px;
   }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -878,7 +908,7 @@ h4 {
     width: 90%;
   }
   .features {
-    max-height: 250px;
+    max-height: 290px;
   }
 }
 @media (max-width: 767px) {
@@ -892,10 +922,8 @@ h4 {
     max-height: 300px;
   }
   .features {
-    max-height: 360px;
+    max-height: 410px;
   }
-}
-@media (max-width: 767px) {
   .priceBuy_buy {
     font-size: 16px;
     padding: 5px 10px;
