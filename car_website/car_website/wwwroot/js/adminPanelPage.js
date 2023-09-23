@@ -127,7 +127,7 @@ function showData(data) {
             <div class="buy-request_buyer">
                 <h3>Клієнт:</h3>
                 ${request.buyerId ? `<a href="/User/Detail/${request.buyerId}">${request.buyerName}</a>` : `<p class="buy-request-name">${request.buyerName}</p>`}
-                <p>${request.buyerPhone}</p>
+                <p>+${request.buyerPhone}</p>
                 ${request.buyerId ? '' : '<p>Не зареєстрований</p>'}
             </div>
             <div class="buy-request_car">
@@ -137,7 +137,7 @@ function showData(data) {
             <div class="buy-request_seller">
                 <h3>Власник:</h3>
                 <a href="/User/Detail/${request.sellerId}">${request.sellerName}</a>
-                <p>${request.sellerPhone}</p>
+                <p>+${request.sellerPhone}</p>
             </div>
         </div>`;
             });

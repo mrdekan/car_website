@@ -12,8 +12,12 @@ const buyRequestNameInp = document.getElementById('request-name');
 const buyRequestPhoneInp = document.getElementById('request-phone');
 const imagesFullscreen = document.getElementById('img_full');
 const photos = document.querySelectorAll('.slider_element-image');
+const vin = document.getElementById('vin');
 let currentSlide = 0;
-
+vin.addEventListener('click', () => {
+    var newTab = window.open(`https://bidfax.info/?do=search&subaction=search&story=${vin.getAttribute('vin')}`, '_blank');
+    newTab.focus();
+});
 Array.from(photos).forEach(photo => {
     photo.addEventListener('click', () => {
         disableScrolling();

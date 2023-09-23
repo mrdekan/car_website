@@ -97,17 +97,17 @@
             <div class="radio">
                 <input type="radio" id="for-sell"
                        name="page" value="for-sell" checked>
-                <label for="for-sell" id="for-sell-label"><span class="label_span">Авто у продажі<span class="label_counter"> (@Model.CarsForSell.Count)</span></span></label>
+                <label for="for-sell" id="for-sell-label"><span class="label_span">Авто у продажі</span><span class="label_span-mobile">Продаж</span><span class="label_counter"> (@Model.CarsForSell.Count)</span></label>
             </div>
             <div class="radio">
                 <input type="radio" id="waiting"
                        name="page" value="waiting">
-                <label for="waiting" id="waiting-label"><span class="label_span">Очікують на модерацію<span class="label_counter"> (@Model.CarWithoutConfirmation.Count)</span></span></label>
+                <label for="waiting" id="waiting-label"><span class="label_span">Очікують на модерацію</span><span class="label_span-mobile">Очікують</span><span class="label_counter"> (@Model.CarWithoutConfirmation.Count)</span></label>
             </div>
             <div class="radio">
                 <input type="radio" id="requests"
                        name="page" value="requests">
-                <label for="requests" id="requests-label"><span class="label_span">Запити на покупку<span class="label_counter"> (@Model.SendedBuyRequest.Count)</span></span></label>
+                <label for="requests" id="requests-label"><span class="label_span">Запити на покупку</span><span class="label_span-mobile">Запити</span><span class="label_counter"> (@Model.SendedBuyRequest.Count)</span></label>
             </div>
             @if (isSelfAccount)
             {
@@ -115,8 +115,8 @@
                     <input type="radio" id="favorite"
                            name="page" value="favorite">
                     <label for="favorite" id="favorite-label">
-                        <span class="label_span">Обрані авто<span class="label_counter"> (@Model.Favorites.Count)</span></span>
-
+                        <span class="label_span">Обрані авто</span><span class="label_span-mobile">Обране</span><span class="label_counter"> (@Model.Favorites.Count)</span>
+                        
                     </label>
                 </div>
             }

@@ -159,7 +159,9 @@
     &_pages {
         width: 66%;
         margin: 15px auto;
-
+        .label_span-mobile{
+            display: none;
+        }
         &_buttons {
             display: flex;
             justify-content: space-around;
@@ -189,7 +191,7 @@
             }
 
             input[type="radio"]:checked + label {
-                color: $gray-default;
+                color: $beige-default;
                 transition: 0.22s;
             }
         }
@@ -210,7 +212,7 @@
     #line {
         height: 3px;
         border-radius: 0 0 4px 4px;
-        background-color: $gray-default;
+        background-color: $beige-default;
         width: 30%;
         position: absolute;
         transition: transform 0.22s ease;
@@ -302,15 +304,28 @@
 
         &_pages {
             width: 100%;
-            label{
+
+            label {
                 font-size: 16px;
-                span::before{
+
+                span::before {
                     display: none;
                 }
+            }
+            .label_span{
+                display: none;
+            }
+            .label_span-mobile {
+                display: inline;
             }
         }
     }
     .label_counter {
-        display: none;
+        display: inline;
     }
 }
+@media (max-width: 385px) {
+    .label_counter {
+        display: none;
+    }
+    }

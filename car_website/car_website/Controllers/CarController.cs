@@ -395,7 +395,7 @@ namespace car_website.Controllers
                         Brand brand = await _brandRepository.GetByName(string.IsNullOrEmpty(newCar.OtherBrandName) ? car.Brand : newCar.OtherBrandName);
                         if (brand != null && !brand.Models.Contains(newCar.OtherModelName))
                         {
-                            brand.Models.Add(car.Car.Model);
+                            brand.Models.Add(newCar.OtherModelName);
                             await _brandRepository.Update(brand);
                         }
                     }

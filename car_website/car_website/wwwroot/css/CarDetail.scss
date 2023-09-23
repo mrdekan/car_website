@@ -195,12 +195,11 @@ h4 {
             align-items: center;
             gap: 10px;
             background-color: $background-secondary;
-            background-color: var(--background-secondary);
             padding: 10px;
-            border: 1px solid;
-            border-radius: 15px;
+            border-radius: 0 16px 0 16px;
             min-width: 150px;
             max-width: 242px;
+            box-shadow: 0 0 15px rgba(0,0,0, 0.25);
 
             &_container-after {
                 display: flex;
@@ -214,7 +213,7 @@ h4 {
                 font-size: 16px;
                 display: block;
                 font-weight: 700;
-                border-bottom: 2px solid;
+                //border-bottom: 2px solid;
                 padding-bottom: 2px;
             }
 
@@ -444,6 +443,23 @@ h4 {
 }
 
 @media (max-width: 767px) {
+    #seller {
+        padding: 0 10px;
+        justify-content: space-between;
+        gap: 0;
+
+        p {
+            font-size: 14px;
+        }
+
+        h4 {
+            padding: 0;
+        }
+
+        a {
+            font-size: 18px;
+        }
+    }
     .wrapper_carDetail {
         width: 100%;
     }

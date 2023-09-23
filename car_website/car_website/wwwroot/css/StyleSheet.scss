@@ -30,9 +30,11 @@ body {
     display: flex;
     justify-content: center;
     gap: 50px;
-    &.profile{
-        margin:0;
+
+    &.profile {
+        margin: 0;
     }
+
     .filters_before {
         display: flex;
         flex-direction: column;
@@ -215,12 +217,7 @@ body {
     color: $text-default;
     transition: 0.2s;
     border-radius: 0 16px 0 16px;
-    //box-shadow: 0 0 15px rgba(0,0,0,0.2);
     filter: drop-shadow(0 0 15px rgba(0,0,0, 0.25));
-
-    &:hover {
-        //transform: scale(1.02);
-    }
 
     &_name {
         display: none;
@@ -1120,8 +1117,8 @@ header {
     top: 13px;
 }
 //--------------------Custom burger icon end--
-.confirmed::before{
-    content:'';
+.confirmed::before {
+    content: '';
     position: absolute;
     width: 20px;
     height: 20px;
@@ -1129,7 +1126,8 @@ header {
     background-size: 100% 100%;
     margin-left: 6px;
 }
-.role{
+
+.role {
     padding: 6px 10px;
     color: $gray-default;
     border: 1px solid $gray-default;
@@ -1139,7 +1137,21 @@ header {
     margin-top: 5px;
 }
 
-
+@media (max-width: 1000px) {
+    .home-btn{
+        display: none;
+    }
+}
+@media (max-width: 880px) {
+    .privacy-btn {
+        display: none;
+    }
+    header {
+        .header_center a {
+            font-size: 16px;
+        }
+    }
+}
 @media (max-width: 767px) {
     header {
         .header_left {
@@ -1173,6 +1185,7 @@ header {
     }
 
     .wrapper {
+        margin: 0;
         .filters {
             align-self: center;
             max-width: 100%;
@@ -1183,8 +1196,8 @@ header {
                 position: fixed;
                 z-index: 15;
                 top: -25px;
-                overflow: scroll;
-                left: -100%;
+                overflow-y: scroll;
+                left: -105%;
                 transition: 0.15s ease-in;
 
                 &.open {
@@ -1196,8 +1209,8 @@ header {
                 transition: 0.2s;
                 z-index: 40;
                 top: 50px;
-                padding-top: 40px;
-                padding-bottom: 40px;
+                padding-top: 30px;
+                padding-bottom: 80px;
                 position: absolute;
                 width: 100%;
                 max-width: 100%;
@@ -1231,6 +1244,7 @@ header {
     .car {
         flex-direction: column;
         max-width: 95vw;
+        min-width: 370px;
         align-items: start;
         padding: 10px;
         gap: 10px;
