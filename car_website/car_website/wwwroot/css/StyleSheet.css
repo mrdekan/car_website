@@ -588,13 +588,21 @@ input[type=number] {
   font-size: 20px;
   padding: 7px 15px;
   border-radius: 3px;
-  background-color: var(--green-dark);
+  background: var(--green-dark);
   transition: 0.2s;
   color: white;
   max-width: fit-content;
 }
+.priceBuy_buy:hover {
+  background: var(--green-medium);
+  transition: 0.2s;
+}
 .priceBuy .cancelBuy {
   background-color: var(--error-main);
+  transition: 0.2s;
+}
+.priceBuy .cancelBuy:hover {
+  background: #ff5959;
   transition: 0.2s;
 }
 
@@ -1764,6 +1772,17 @@ body {
   width: 40px;
   height: 40px;
 }
+.car_container-right-top {
+  background: var(--beige-default);
+  width: 60px;
+  text-align: center;
+  padding: 4px 0;
+  font-size: 26px;
+  border-radius: 0 10px 0 10px;
+  align-self: center;
+  margin: -20px 0 0 40px;
+  color: white;
+}
 .car_container-right-price {
   margin: 30px 0 0 20px;
 }
@@ -2694,6 +2713,9 @@ header .header_right-dark-label::before {
   .car_container-right {
     flex-direction: row;
     width: 100%;
+  }
+  .car_container-right-top {
+    font-size: 18px;
   }
   .car_container-right-price {
     margin: 0;

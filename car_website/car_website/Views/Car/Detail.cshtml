@@ -78,7 +78,20 @@
             <div class="priceBuy_right">
                 @if (isSelf || isAdmin)
                 {
-                    <a class="fix_carDetail" asp-controller="Car" asp-action="Edit" asp-route-id=@Model.Id>Редагувати</a>
+                    <a class="priceBuy_buy" asp-controller="Car" asp-action="Edit" asp-route-id=@Model.Id>Редагувати</a>
+                }
+                
+                @if (isAdmin)
+                {
+                    if (Model.Priority == 1)
+                    {
+                        <button id="top" class="priceBuy_buy" carId="@Model.Id">В топ</button>
+                    }
+                    else
+                    {
+                        <button id="top" class="priceBuy_buy cancelBuy" cancel carId="@Model.Id">Прибрати з топу</button>
+                    }
+                    <script src="~/js/moveToTop.js" asp-append-version="true"></script>
                 }
                 @if (!isSelf)
                 {

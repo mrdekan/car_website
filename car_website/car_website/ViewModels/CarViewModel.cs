@@ -27,6 +27,7 @@ namespace car_website.ViewModels
             Mileage = car.Mileage;
             Liked = liked;
             SellerId = isAdmin ? car.SellerId : "";
+            Priority = car.Priority ?? 1;
         }
         public string Id { get; set; }
         public uint Price { get; set; }
@@ -47,5 +48,6 @@ namespace car_website.ViewModels
         public CarOptions[] Options { get; set; }
         public bool Liked { get; set; }
         public string SellerId { get; set; }
+        public int Priority { get; set; }
     }
 }

@@ -46,7 +46,12 @@ namespace car_website.Controllers
             foreach (var car in cars)
             {
                 await _carRepository.Update(car);
+                car.Priority = 1;
+                await _carRepository.Update(car);
             }*/
+            var car = await _carRepository.GetByIdAsync(ObjectId.Parse("64cd39e120782f15caafd533"));
+            car.Priority = 2;
+            await _carRepository.Update(car);
             /*User userNew = await _userRepository.GetByEmailAsync("shektoly@gmail.com");
             userNew.CarsForSell.Add(ObjectId.Parse("650dbdad6845be71c1a3ffa2"));
             await _userRepository.Update(userNew);*/

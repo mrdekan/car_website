@@ -65,6 +65,7 @@ namespace car_website.Controllers.v1
             try
             {
                 IEnumerable<Car> filteredCars = await _carRepository.GetAll();
+                filteredCars = filteredCars.OrderByDescending(car => car.Priority ?? 1).ToList();
                 int perPage = filter.Page <= 0 ? filteredCars.Count() : filter.PerPage ?? CARS_PER_PAGE;
                 int page = filter.Page <= 0 ? 1 : filter.Page;
                 if (!string.IsNullOrEmpty(filter.Brand) && filter.Brand != "Усі")
@@ -205,6 +206,20 @@ namespace car_website.Controllers.v1
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
         }
+
+        [HttpPut("setPriority")]
+        public async Task<ActionResult<byte>> SetPriority(string carId, bool cancel)
+        {
+            if (!IsAdmin().Result)
+                return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
+            if (!ObjectId.TryParse(carId, out var id))
+                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+            Car car = await _carRepository.GetByIdAsync(id);
+            car.Priority = cancel ? 1 : 2;
+            await _carRepository.Update(car);
+            return Ok(new { Status = true, Code = HttpCodes.Success });
+        }
+
         #region Buy requests
         [HttpPut("buyRequestLoggedIn")]
         public async Task<ActionResult<byte>> BuyRequest(string carId, bool cancel)

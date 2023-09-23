@@ -34,6 +34,7 @@ namespace car_website.Models
                 this.Model = carVM.OtherModelName;
             SellerId = sellerId;
             VideoURL = carVM.VideoURL;
+            Priority = 1;
         }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -55,5 +56,6 @@ namespace car_website.Models
         public uint Mileage { get; set; }
         public string SellerId { get; set; }
         public string? VideoURL { get; set; }
+        public int? Priority { get; set; }
     }
 }

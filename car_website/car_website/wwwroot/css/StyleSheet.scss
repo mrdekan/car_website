@@ -269,6 +269,18 @@ body {
             height: 40px;
         }
 
+        &-top {
+            background: $beige-default;
+            width: 60px;
+            text-align: center;
+            padding: 4px 0;
+            font-size: 26px;
+            border-radius: 0 10px 0 10px;
+            align-self: center;
+            margin: -20px 0 0 40px;
+            color: white;
+        }
+
         &-price {
             margin: 30px 0 0 20px;
 
@@ -1319,7 +1331,9 @@ header {
                 flex-direction: row;
                 width: 100%;
                 //padding: 0 20px 20px 20px;
-
+                &-top{
+                    font-size: 18px;
+                }
                 &-price {
                     margin: 0;
 

@@ -46,15 +46,25 @@
         font-size: 20px;
         padding: 7px 15px;
         border-radius: 3px;
-        background-color: $green-dark;
+        background: $green-dark;
         transition: 0.2s;
         color: white;
         max-width: fit-content;
+
+        &:hover {
+            background: $green-medium;
+            transition: 0.2s;
+        }
     }
 
     .cancelBuy {
         background-color: $error-main;
         transition: 0.2s;
+
+        &:hover {
+            background: #ff5959;
+            transition: 0.2s;
+        }
     }
 }
 
