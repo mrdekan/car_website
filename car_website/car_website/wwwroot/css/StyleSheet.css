@@ -1338,6 +1338,9 @@ h4 {
 .create .input::placeholder {
   color: var(--gray-default);
 }
+.create .form-group label {
+  margin-bottom: 6px;
+}
 .create_container {
   display: flex;
   justify-content: space-between;
@@ -1369,6 +1372,8 @@ h4 {
   resize: none;
   transition: 0.2s;
   border: 1px solid transparent;
+  width: 100%;
+  height: 100px;
 }
 .create form textarea:focus {
   border: 1px solid var(--green-medium);
@@ -1435,24 +1440,6 @@ h4 {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  /*input[type="number"] {
-      height: 32px;
-      padding: 0 10px;
-      font-size: 16px;
-      background: $background;
-      color: $gray-default;
-      border-radius: 7px;
-      transition: 0.2s;
-      border: 1px solid transparent;
-
-      &:focus {
-          border: 1px solid $green-medium;
-      }
-
-      &::placeholder {
-          color: $gray-default;
-      }
-  }*/
 }
 .create .sell-button {
   min-width: 30%;
@@ -1505,7 +1492,7 @@ h4 {
     background: var(--background-secondary);
   }
   .create_container {
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
   .create .sell-button {
     margin: 0 auto;
@@ -2582,6 +2569,45 @@ header .header_right-dark-label::before {
     font-size: 16px;
   }
 }
+.error-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 90px);
+  flex-direction: column;
+  gap: 15px;
+}
+.error-block h1, .error-block h2, .error-block h3 {
+  color: var(--text-default);
+  font-weight: 700;
+  transition: 0.2s;
+}
+.error-block h1 {
+  font-size: 190px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+}
+.error-block h2 {
+  font-size: 70px;
+}
+.error-block h3 {
+  color: var(--text-default);
+  font-weight: 700;
+  font-size: 26px;
+  transition: 0.2s;
+}
+.error-block a {
+  color: var(--text-default);
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: var(--green-dark);
+  transition: 0.2s;
+  font-size: 18px;
+}
+.error-block a:hover {
+  background: var(--green-medium);
+  transition: 0.2s;
+}
+
 @media (max-width: 767px) {
   header .header_left span {
     display: block;

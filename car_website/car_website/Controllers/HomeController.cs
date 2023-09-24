@@ -4,7 +4,6 @@ using car_website.Services;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using System.Diagnostics;
 
 namespace car_website.Controllers
 {
@@ -135,9 +134,18 @@ namespace car_website.Controllers
             return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        /*public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }*/
+        public IActionResult Error(int? statusCode)
+        {
+            if (statusCode.HasValue && statusCode.Value == 404)
+            {
+                return View("NotFound");
+            }
+
+            return View("Error");
         }
     }
 }

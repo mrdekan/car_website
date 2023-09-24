@@ -1164,6 +1164,48 @@ header {
         }
     }
 }
+.error-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 90px);
+    flex-direction: column;
+    gap: 15px;
+    h1,h2,h3{
+        color: $text-default;
+        font-weight: 700;
+        transition: 0.2s;
+    }
+    h1 {
+        font-size: 190px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    h2 {
+        font-size: 70px;
+    }
+
+    h3 {
+        color: $text-default;
+        font-weight: 700;
+        font-size: 26px;
+        transition: 0.2s;
+    }
+
+    a {
+        color: $text-default;
+        padding: 10px 15px;
+        border-radius: 8px;
+        background: $green-dark;
+        transition: 0.2s;
+        font-size: 18px;
+
+        &:hover {
+            background: $green-medium;
+            transition: 0.2s;
+        }
+    }
+}
 @media (max-width: 767px) {
     header {
         .header_left {
@@ -1198,6 +1240,7 @@ header {
 
     .wrapper {
         margin: 0;
+
         .filters {
             align-self: center;
             max-width: 100%;
@@ -1331,9 +1374,10 @@ header {
                 flex-direction: row;
                 width: 100%;
                 //padding: 0 20px 20px 20px;
-                &-top{
+                &-top {
                     font-size: 18px;
                 }
+
                 &-price {
                     margin: 0;
 

@@ -48,7 +48,11 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {
-            var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
+            if (!ObjectId.TryParse(id, out ObjectId carId))
+                return RedirectToAction("NotFound", "Home");
+            var car = await _carRepository.GetByIdAsync(carId);
+            if (car == null)
+                return RedirectToAction("NotFound", "Home");
             var user = await GetCurrentUser();
             bool requested = false;
             if (user != null)
