@@ -1314,6 +1314,10 @@ h4 {
 .info-text {
   color: var(--gray-default);
   font-size: 16px;
+  line-height: 20px;
+}
+.info-text strong {
+  color: var(--text-default);
 }
 
 .create {
@@ -1487,16 +1491,13 @@ h4 {
   transition: 0.2s;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1510px) {
   .create {
     background: var(--background-secondary);
+    width: 100vw;
   }
   .create_container {
     flex-direction: column;
-  }
-  .create .sell-button {
-    margin: 0 auto;
-    min-width: 90%;
   }
   .create form {
     border-radius: 0;
@@ -1504,9 +1505,14 @@ h4 {
     margin: 0 auto;
     width: 100%;
     height: 100%;
-    padding-top: 30px;
-    max-width: 100%;
+    padding-top: 55px;
     box-shadow: none;
+  }
+}
+@media (max-width: 767px) {
+  .create .sell-button {
+    margin: 0 auto;
+    min-width: 90%;
   }
   .create_main {
     justify-content: space-between;
@@ -1514,9 +1520,6 @@ h4 {
   }
   .create_main-section {
     width: 47%;
-  }
-  .create .info-text {
-    display: none;
   }
   .create label {
     font-size: 16px;
@@ -2553,6 +2556,46 @@ header .header_right-dark-label::before {
   border-radius: 20px;
   display: block;
   width: fit-content;
+  margin-top: 5px;
+}
+
+.info_block {
+  color: var(--text-default);
+  transition: 0.2s;
+  width: 70%;
+  margin: auto;
+  min-height: calc(100vh - 90px);
+  display: flex;
+  align-items: center;
+}
+.info_block-content {
+  padding: 20px;
+  background: var(--background-secondary);
+  transition: 0.2s;
+  border-radius: 0 16px 0 16px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+}
+.info_block-content h1 {
+  font-size: 30px;
+}
+.info_block-content p {
+  font-size: 16px;
+  line-height: 18px;
+  margin-top: 15px;
+}
+.info_block-content p strong {
+  font-size: 18px;
+  margin-bottom: 5px;
+  display: block;
+}
+.info_block-content ul {
+  padding-left: 20px;
+}
+.info_block-content ul li {
+  display: list-item;
+  list-style: disc;
+  font-size: 16px;
+  line-height: 18px;
   margin-top: 5px;
 }
 

@@ -1148,9 +1148,53 @@ header {
     width: fit-content;
     margin-top: 5px;
 }
+.info_block {
+    color: $text-default;
+    transition: 0.2s;
+    width: 70%;
+    margin: auto;
+    min-height: calc(100vh - 90px);
+    display: flex;
+    align-items: center;
 
+    &-content {
+        padding: 20px;
+        background: $background-secondary;
+        transition: 0.2s;
+        border-radius: 0 16px 0 16px;
+        box-shadow: 0 0 15px rgba(0,0,0, 0.25);
+
+        h1 {
+            font-size: 30px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 18px;
+            margin-top: 15px;
+
+            strong {
+                font-size: 18px;
+                margin-bottom: 5px;
+                display: block;
+            }
+        }
+
+        ul {
+            padding-left: 20px;
+
+            li {
+                display: list-item;
+                list-style: disc;
+                font-size: 16px;
+                line-height: 18px;
+                margin-top: 5px;
+            }
+        }
+    }
+}
 @media (max-width: 1000px) {
-    .home-btn{
+    .home-btn {
         display: none;
     }
 }

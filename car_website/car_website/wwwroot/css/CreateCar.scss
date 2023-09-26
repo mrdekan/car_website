@@ -3,6 +3,11 @@
 .info-text {
     color: $gray-default;
     font-size: 16px;
+    line-height: 20px;
+
+    strong {
+        color: $text-default;
+    }
 }
 
 .create {
@@ -31,11 +36,12 @@
         }
     }
 
-    .form-group{
-        label{
+    .form-group {
+        label {
             margin-bottom: 6px;
         }
-    } 
+    }
+
     &_container {
         display: flex;
         justify-content: space-between;
@@ -170,23 +176,28 @@
         }
     }
 }
+
 .photos-select {
     display: flex;
-    &-example{
+
+    &-example {
         display: flex;
         align-items: center;
         padding: 6px;
         gap: 20px;
-        img{
+
+        img {
             width: 250px;
         }
     }
 }
-.checkbox-group{
+
+.checkbox-group {
     display: flex;
     flex-direction: row-reverse;
     width: fit-content;
 }
+
 ::-webkit-file-upload-button {
     font-size: 0;
     background: $green-medium;
@@ -198,30 +209,33 @@
     transition: 0.2s;
 }
 
-
-@media (max-width: 767px) {
+@media (max-width: 1510px) {
     .create {
         background: $background-secondary;
+        width: 100vw;
 
         &_container {
             flex-direction: column;
         }
 
-        .sell-button {
-            margin: 0 auto;
-            min-width: 90%;
-        }
-
         form {
-            //background: $background;
             border-radius: 0;
             border: none;
             margin: 0 auto;
             width: 100%;
             height: 100%;
-            padding-top: 30px;
-            max-width: 100%;
+            padding-top: 55px;
             box-shadow: none;
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .create {
+
+        .sell-button {
+            margin: 0 auto;
+            min-width: 90%;
         }
 
         &_main {
@@ -234,7 +248,7 @@
         }
 
         .info-text {
-            display: none;
+            //display: none;
         }
 
         label {
