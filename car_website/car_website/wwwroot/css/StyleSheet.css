@@ -1201,48 +1201,6 @@ h4 {
   transition: transform 0.22s ease;
 }
 
-#for-sell:checked + label .label_span::before {
-  background-image: url("../img/car.svg");
-}
-
-#for-sell-label .label_span::before {
-  content: "";
-  background: url("../img/car-inactive.svg");
-  position: absolute;
-  height: 26px;
-  width: 26px;
-  background-size: 26px 26px;
-  margin: -4px 0 0 -35px;
-}
-
-#waiting:checked + label .label_span::before {
-  background-image: url("../img/time.svg");
-}
-
-#waiting-label .label_span::before {
-  content: "";
-  background: url("../img/time-inactive.svg");
-  position: absolute;
-  height: 26px;
-  width: 26px;
-  background-size: 26px 26px;
-  margin: -4px 0 0 -34px;
-}
-
-#favorite:checked + label .label_span::before {
-  background-image: url("../img/heart-gray.svg");
-}
-
-#favorite-label .label_span::before {
-  content: "";
-  background: url("../img/heart-inactive.svg");
-  position: absolute;
-  height: 26px;
-  width: 26px;
-  background-size: 26px 26px;
-  margin: -4px 0 0 -32px;
-}
-
 .profile_content {
   width: 100%;
   display: flex;
@@ -1288,6 +1246,15 @@ h4 {
     display: inline;
   }
 }
+.span_svg {
+  position: relative;
+}
+.span_svg svg {
+  position: absolute;
+  top: 0;
+  right: 5px;
+}
+
 @media (max-width: 385px) {
   .label_counter {
     display: none;
