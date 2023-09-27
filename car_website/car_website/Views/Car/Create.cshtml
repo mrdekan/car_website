@@ -17,7 +17,7 @@
     <form method="post" asp-action="Create" enctype="multipart/form-data">
         <h2 class="info-text">@phrases[new Random().Next(0,phrases.Count)]</h2>
         <div class="create_container">
-            
+
             <div class="create_container-left">
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Brand">Марка<span class="required"></span></label>
@@ -89,11 +89,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.CarTransmission">Трансмісія<span class="required"></span></label>
-                    <select asp-for="CreateCarViewModel.CarTransmission" class="form-select">
-                        <option value="1">Механіка</option>
-                        <option value="2">Автоматична</option>
-                        <option value="0" selected>Не обрано</option>
-                    </select>
+                    <input asp-for="CreateCarViewModel.CarTransmission" type="hidden" id="real-transmission-inp" value="0" />
                     <div class="custom-select">
                         <div class="select-btn" id="transmissionsButton" large>
                             <span>Не обрано</span>
@@ -107,18 +103,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Body">Тип кузову<span class="required"></span></label>
-                    <select asp-for="CreateCarViewModel.Body" class="form-select">
-                        <option value="1">Седан</option>
-                        <option value="2">Позашляховик</option>
-                        <option value="3">Мінівен</option>
-                        <option value="4">Хетчбек</option>
-                        <option value="5">Універсал</option>
-                        <option value="6">Купе</option>
-                        <option value="7">Кабріолет</option>
-                        <option value="8">Пікап</option>
-                        <option value="9">Ліфтбек</option>
-                        <option value="0" selected>Не обрано</option>
-                    </select>
+                    <input asp-for="CreateCarViewModel.Body" type="hidden" id="real-body-inp" value="0" />
                     <div class="custom-select">
                         <div class="select-btn" id="bodiesButton" large>
                             <span>Не обрано</span>
@@ -132,15 +117,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Fuel">Тип палива<span class="required"></span></label>
-                    <select asp-for="CreateCarViewModel.Fuel" class="form-select">
-                        <option value="3">Бензин</option>
-                        <option value="4">Дизель</option>
-                        <option value="1">Газ</option>
-                        <option value="2">Газ/бензин</option>
-                        <option value="5">Гібрид</option>
-                        <option value="6">Електро</option>
-                        <option value="0" selected>Не обрано</option>
-                    </select>
+                    <input asp-for="CreateCarViewModel.Fuel" type="hidden" id="real-fuel-inp" value="0" />
                     <div class="custom-select">
                         <div class="select-btn" id="fuelsButton" large>
                             <span>Не обрано</span>
@@ -154,13 +131,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Driveline">Тип приводу<span class="required"></span></label>
-                    <select asp-for="CreateCarViewModel.Driveline" class="form-select">
-                        <option value="1">Передній</option>
-                        <option value="2">Задній</option>
-                        <option value="3">Повний</option>
-                        <option value="0" selected>Не обрано</option>
-                    </select>
-                    <span asp-validation-for="CreateCarViewModel.Driveline" class="text-danger"></span>
+                    <input asp-for="CreateCarViewModel.Driveline" type="hidden" id="real-driveline-inp" value="0" />
                 </div>
                 <div class="custom-select">
                     <div class="select-btn" id="drivelinesButton" large>
@@ -171,22 +142,10 @@
                         <ul class="options" id="drivelines"></ul>
                     </div>
                 </div>
+                <span asp-validation-for="CreateCarViewModel.Driveline" class="text-danger"></span>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.CarColor">Колір<span class="required"></span></label>
-                    <select asp-for="CreateCarViewModel.CarColor" class="form-select">
-                        <option value="0">Бежевий</option>
-                        <option value="1">Чорний</option>
-                        <option value="2">Синій</option>
-                        <option value="3">Коричневий</option>
-                        <option value="4">Зелений</option>
-                        <option value="5">Сірий</option>
-                        <option value="6">Помаранчевий</option>
-                        <option value="7">Фіолетовий</option>
-                        <option value="8">Червоний</option>
-                        <option value="9">Білий</option>
-                        <option value="10">Жовтий</option>
-                        <option value="11" selected>Не обрано</option>
-                    </select>
+                    <input asp-for="CreateCarViewModel.CarColor" type="hidden" id="real-color-inp" value="11" />
                     <div class="custom-select">
                         <div class="select-btn" id="colorsButton" large>
                             <span>Не обрано</span>
@@ -224,7 +183,7 @@
                     <span id="descriptionLength">0/500</span>
                     <span asp-validation-for="CreateCarViewModel.Description" class="text-danger"></span>
                 </div>
-                <button type="submit" class="sell-button">Опублікувати оголошення</button>
+
             </div>
             <div class="create_container-right">
                 <div id="photos-select">
@@ -410,6 +369,7 @@
 
             </div>
         </div>
+        <button type="submit" class="sell-button">Опублікувати оголошення</button>
     </form>
 </div>
 <script src="~/js/creationCarPage.js" asp-append-version="true"></script>
