@@ -20,12 +20,7 @@
             
             <div class="create_container-left">
                 <div class="form-group">
-                    <label asp-for="CreateCarViewModel.VideoURL">Посилання на відео з оглядом на YouTube</label>
-                    <input asp-for="CreateCarViewModel.VideoURL" class="input"/>
-                    <span asp-validation-for="CreateCarViewModel.VideoURL" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CreateCarViewModel.Brand">Марка</label>
+                    <label asp-for="CreateCarViewModel.Brand">Марка<span class="required"></span></label>
                     <select asp-for="CreateCarViewModel.Brand" id="brand-select">
                         <option value="Any">Не обрано</option>
                         @foreach (var str in Model.CarBrands ?? new List<string>())
@@ -35,7 +30,7 @@
                     </select>
                     <div class="custom-select">
                         <div class="select-btn" id="brandsButton" large>
-                            <span>Усі</span>
+                            <span>Не обрано</span>
                             <i class="uil uil-angle-down"></i>
                         </div>
                         <div class="content">
@@ -49,13 +44,13 @@
                     <span asp-validation-for="CreateCarViewModel.Brand" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreateCarViewModel.Model">Модель</label>
+                    <label asp-for="CreateCarViewModel.Model">Модель<span class="required"></span></label>
                     <select asp-for="CreateCarViewModel.Model" id="model-select">
                         <option value="Any">Не обрано</option>
                     </select>
                     <div class="custom-select">
                         <div class="select-btn" id="modelsButton" large>
-                            <span>Усі</span>
+                            <span>Не обрано</span>
                             <i class="uil uil-angle-down"></i>
                         </div>
                         <div class="content">
@@ -67,6 +62,16 @@
                         </div>
                     </div>
                     <span asp-validation-for="CreateCarViewModel.Model" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.Year">Рік<span class="required"></span></label>
+                    <input class="input" asp-for=CreateCarViewModel.Year type="number" id="year-input" placeholder="Рік" value="@DateTime.Now.Year" />
+                    <span asp-validation-for="CreateCarViewModel.Year" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.Price">Ціна ($)<span class="required"></span></label>
+                    <input asp-for="CreateCarViewModel.Price" type="number" class="input" />
+                    <span asp-validation-for="CreateCarViewModel.Price" class="text-danger"></span>
                 </div>
                 <div id="other-brand">
                     <div class="form-group">
@@ -83,7 +88,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreateCarViewModel.CarTransmission">Трансмісія</label>
+                    <label asp-for="CreateCarViewModel.CarTransmission">Трансмісія<span class="required"></span></label>
                     <select asp-for="CreateCarViewModel.CarTransmission" class="form-select">
                         <option value="1">Механіка</option>
                         <option value="2">Автоматична</option>
@@ -91,7 +96,7 @@
                     </select>
                     <div class="custom-select">
                         <div class="select-btn" id="transmissionsButton" large>
-                            <span>Усі</span>
+                            <span>Не обрано</span>
                             <i class="uil uil-angle-down"></i>
                         </div>
                         <div class="content">
@@ -101,7 +106,7 @@
                     <span asp-validation-for="CreateCarViewModel.CarTransmission" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreateCarViewModel.Body">Тип кузову</label>
+                    <label asp-for="CreateCarViewModel.Body">Тип кузову<span class="required"></span></label>
                     <select asp-for="CreateCarViewModel.Body" class="form-select">
                         <option value="1">Седан</option>
                         <option value="2">Позашляховик</option>
@@ -116,7 +121,7 @@
                     </select>
                     <div class="custom-select">
                         <div class="select-btn" id="bodiesButton" large>
-                            <span>Усі</span>
+                            <span>Не обрано</span>
                             <i class="uil uil-angle-down"></i>
                         </div>
                         <div class="content">
@@ -126,7 +131,7 @@
                     <span asp-validation-for="CreateCarViewModel.Body" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreateCarViewModel.Fuel">Тип палива</label>
+                    <label asp-for="CreateCarViewModel.Fuel">Тип палива<span class="required"></span></label>
                     <select asp-for="CreateCarViewModel.Fuel" class="form-select">
                         <option value="3">Бензин</option>
                         <option value="4">Дизель</option>
@@ -138,7 +143,7 @@
                     </select>
                     <div class="custom-select">
                         <div class="select-btn" id="fuelsButton" large>
-                            <span>Усі</span>
+                            <span>Не обрано</span>
                             <i class="uil uil-angle-down"></i>
                         </div>
                         <div class="content">
@@ -148,7 +153,7 @@
                     <span asp-validation-for="CreateCarViewModel.Fuel" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreateCarViewModel.Driveline">Тип приводу</label>
+                    <label asp-for="CreateCarViewModel.Driveline">Тип приводу<span class="required"></span></label>
                     <select asp-for="CreateCarViewModel.Driveline" class="form-select">
                         <option value="1">Передній</option>
                         <option value="2">Задній</option>
@@ -159,7 +164,7 @@
                 </div>
                 <div class="custom-select">
                     <div class="select-btn" id="drivelinesButton" large>
-                        <span>Усі</span>
+                        <span>Не обрано</span>
                         <i class="uil uil-angle-down"></i>
                     </div>
                     <div class="content">
@@ -167,7 +172,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreateCarViewModel.CarColor">Колір</label>
+                    <label asp-for="CreateCarViewModel.CarColor">Колір<span class="required"></span></label>
                     <select asp-for="CreateCarViewModel.CarColor" class="form-select">
                         <option value="0">Бежевий</option>
                         <option value="1">Чорний</option>
@@ -182,22 +187,26 @@
                         <option value="10">Жовтий</option>
                         <option value="11" selected>Не обрано</option>
                     </select>
+                    <div class="custom-select">
+                        <div class="select-btn" id="colorsButton" large>
+                            <span>Не обрано</span>
+                            <i class="uil uil-angle-down"></i>
+                        </div>
+                        <div class="content">
+                            <ul class="options" id="colors"></ul>
+                        </div>
+                    </div>
                     <span asp-validation-for="CreateCarViewModel.CarColor" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreateCarViewModel.Year">Рік</label>
-                    <select asp-for="CreateCarViewModel.Year" class="form-select">
-                        @for (int i = DateTime.Now.Year; i >= 1900; i--)
-                        {
-                            <option value=@i>@i</option>
-                        }
-                    </select>
-                    <span asp-validation-for="CreateCarViewModel.Year" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CreateCarViewModel.EngineCapacity">Об'єм двигуна</label>
+                    <label asp-for="CreateCarViewModel.EngineCapacity">Об'єм двигуна (л.)<span class="required"></span></label>
                     <input asp-for="CreateCarViewModel.EngineCapacity" class="input" />
                     <span asp-validation-for="CreateCarViewModel.EngineCapacity" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateCarViewModel.Mileage">Пробіг (тис.км)<span class="required"></span></label>
+                    <input asp-for="CreateCarViewModel.Mileage" type="number" class="input" />
+                    <span asp-validation-for="CreateCarViewModel.Mileage" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.VIN">VIN номер</label>
@@ -205,14 +214,9 @@
                     <span asp-validation-for="CreateCarViewModel.VIN" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreateCarViewModel.Mileage">Пробіг</label>
-                    <input asp-for="CreateCarViewModel.Mileage" type="number" class="input" />
-                    <span asp-validation-for="CreateCarViewModel.Mileage" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CreateCarViewModel.Price">Ціна</label>
-                    <input asp-for="CreateCarViewModel.Price" type="number" class="input" />
-                    <span asp-validation-for="CreateCarViewModel.Price" class="text-danger"></span>
+                    <label asp-for="CreateCarViewModel.VideoURL">Посилання на відео з оглядом на YouTube</label>
+                    <input asp-for="CreateCarViewModel.VideoURL" class="input" />
+                    <span asp-validation-for="CreateCarViewModel.VideoURL" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Description">Додатковий опис</label>
@@ -225,7 +229,7 @@
             <div class="create_container-right">
                 <div id="photos-select">
                     <div class="img-group">
-                        <p>Зробіть фото схоже до прикладу:</p>
+                        <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
                         <div class="photos-select-example">
                             <img alt="Приклад" src="~/img/1pos.png" />
                             <input asp-for="CreateCarViewModel.Photo1" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
@@ -233,7 +237,7 @@
                         <span asp-validation-for="CreateCarViewModel.Photo1" class="text-danger"></span>
                     </div>
                     <div class="img-group">
-                        <p>Зробіть фото схоже до прикладу:</p>
+                        <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
                         <div class="photos-select-example">
                             <img alt="Приклад" src="~/img/3pos.png" />
                             <input asp-for="CreateCarViewModel.Photo2" id="Photo2" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
@@ -241,7 +245,7 @@
                         <span asp-validation-for="CreateCarViewModel.Photo2" class="text-danger"></span>
                     </div>
                     <div class="img-group">
-                        <p>Зробіть фото схоже до прикладу:</p>
+                        <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
                         <div class="photos-select-example">
                             <img alt="Приклад" src="~/img/4pos.png" />
                             <input asp-for="CreateCarViewModel.Photo3" id="Photo3" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
@@ -249,7 +253,7 @@
                         <span asp-validation-for="CreateCarViewModel.Photo3" class="text-danger"></span>
                     </div>
                     <div class="img-group">
-                        <p>Зробіть фото схоже до прикладу:</p>
+                        <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
                         <div class="photos-select-example">
                             <img alt="Приклад" src="~/img/2pos.png" />
                             <input asp-for="CreateCarViewModel.Photo4" id="Photo4" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
@@ -257,7 +261,7 @@
                         <span asp-validation-for="CreateCarViewModel.Photo4" class="text-danger"></span>
                     </div>
                     <div class="img-group">
-                        <p>Зробіть фото схоже до прикладу:</p>
+                        <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
                         <div class="photos-select-example">
                             <img alt="Приклад" src="~/img/5pos.png" />
                             <input asp-for="CreateCarViewModel.Photo5" id="Photo5" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">

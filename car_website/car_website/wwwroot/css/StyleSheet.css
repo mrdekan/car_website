@@ -2546,6 +2546,12 @@ header .header_right-dark-label::before {
 .info_block-content h1 {
   font-size: 30px;
 }
+.info_block-content h2 {
+  font-size: 26px;
+}
+.info_block-content h2 a {
+  color: inherit;
+}
 .info_block-content p {
   font-size: 16px;
   line-height: 18px;
@@ -2635,7 +2641,7 @@ header .header_right-dark-label::before {
   transition: 0.2s;
 }
 .faq_question.open .faq_question-content-wrapper {
-  max-height: 500px;
+  max-height: 120px;
   transition: 0.2s;
 }
 .faq_question.open i {
@@ -2643,6 +2649,12 @@ header .header_right-dark-label::before {
 }
 .faq_question.open .faq_question-btn i {
   transform: rotate(-90deg);
+}
+
+.required::before {
+  content: "*";
+  color: var(--error-main);
+  margin: 3px 0 0 5px;
 }
 
 @media (max-width: 1000px) {

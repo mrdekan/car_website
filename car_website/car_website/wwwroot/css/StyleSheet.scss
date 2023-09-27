@@ -1169,7 +1169,12 @@ header {
         h1 {
             font-size: 30px;
         }
-
+        h2{
+            font-size: 26px;
+            a{
+                color: inherit;
+            }
+        }
         p {
             font-size: 16px;
             line-height: 18px;
@@ -1277,7 +1282,7 @@ header {
     }
 
     .faq_question-content-wrapper {
-        max-height: 500px;
+        max-height: 120px;
         transition: 0.2s;
     }
 
@@ -1291,7 +1296,11 @@ header {
         }
     }
 }
-
+.required::before{
+    content: '*';
+    color: $error-main;
+    margin: 3px 0 0 5px;
+}
 @media (max-width: 1000px) {
     .home-btn {
         display: none;

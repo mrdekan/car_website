@@ -12,25 +12,28 @@ const selectFuelsBtn = document.getElementById("fuelsButton"),
     fuelsOptions = document.getElementById("fuels");
 const selectDrivelinesBtn = document.getElementById("drivelinesButton"),
     drivelinesOptions = document.getElementById("drivelines");
+const selectColorsBtn = document.getElementById("colorsButton"),
+    colorsOptions = document.getElementById("colors");
 
 
-let brands = ["Усі"];
-let models = ["Усі"];
-let bodies = ["Усі", "Седан", "Позашляховик", "Мінівен", "Хетчбек", "Універсал", "Купе", "Кабріолет", "Пікап", "Ліфтбек", "Фастбек"];
-let transmissions = ["Усі", "Механічна", "Автоматична"];
+let brands = ["Не обрано"];
+let models = ["Не обрано"];
+let bodies = ["Не обрано", "Седан", "Позашляховик", "Мінівен", "Хетчбек", "Універсал", "Купе", "Кабріолет", "Пікап", "Ліфтбек"];
+let colors = ["Не обрано", "Бежевий", "Чорний", "Синій", "Коричневий", "Зелений", "Сірий", "Помаранчевий", "Фіолетовий", "Червоний", "Білий", "Жовтий"];
+let transmissions = ["Не обрано", "Механічна", "Автоматична"];
 let fuels = {};
-fuels["Усі"] = 0;
+fuels["Не обрано"] = 0;
 fuels["Бензин"] = 3;
 fuels["Дизель"] = 4;
 fuels["Газ"] = 1;
 fuels["Газ/Бензин"] = 2;
 fuels["Гібрид"] = 5;
 fuels["Електро"] = 6;
-let drivelines = ["Усі", "Передній", "Задній", "Повний"];
+let drivelines = ["Не обрано", "Передній", "Задній", "Повний"];
 let modelsCache = {};
 
 getMarks();
-if (selectBrandsBtn.firstElementChild.innerText != "Усі")
+if (selectBrandsBtn.firstElementChild.innerText != "Не обрано")
     getModelsOfMark();
 addBrand();
 addModel();
@@ -38,14 +41,14 @@ addBody();
 addTransmission();
 addFuel();
 addDriveline();
-
+addColor();
 function getModelsOfMark() {
     var brand = selectBrandsBtn.firstElementChild.innerText;
     if (modelsCache[brand] == null) {
         fetch(`/home/GetModels?brand=${brand}`)
             .then(response => response.json())
             .then(data => {
-                models = ["Усі"];
+                models = ["Не обрано"];
                 models = models.concat(data.models);
                 models = models.filter((n) => { return n != 'Інше' });
                 modelsCache[brand] = models;
@@ -62,7 +65,7 @@ function getMarks() {
     fetch(`/home/GetBrands`)
         .then(response => response.json())
         .then(data => {
-            brands = ["Усі"];
+            brands = ["Не обрано"];
             brands = brands.concat(data.brands);
             brands = brands.filter((n) => { return n != 'Інше' });
             addBrand();
@@ -71,14 +74,14 @@ function getMarks() {
 }
 //#region Custom selects
 function refreshBrands() {
-    if (selectBrandsBtn.firstElementChild.innerText === 'Усі') {
-        brandsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
+    if (selectBrandsBtn.firstElementChild.innerText === 'Не обрано') {
+        brandsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
     }
     else {
         brandsOptions.innerHTML = '';
     }
     brands.forEach(brand => {
-        if (brand !== 'Усі' || selectBrandsBtn.firstElementChild.innerText !== 'Усі') {
+        if (brand !== 'Не обрано' || selectBrandsBtn.firstElementChild.innerText !== 'Не обрано') {
             let isSelected = brand == selectBrandsBtn.firstElementChild.innerText ? "selected" : "";
             let li = `<li onclick="updateName(this)" class="${isSelected}">${brand}</li>`;
             brandsOptions.insertAdjacentHTML("beforeend", li);
@@ -86,14 +89,14 @@ function refreshBrands() {
     });
 }
 function refreshModels() {
-    if (selectModelsBtn.firstElementChild.innerText === 'Усі') {
-        modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
+    if (selectModelsBtn.firstElementChild.innerText === 'Не обрано') {
+        modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
     }
     else {
         modelsOptions.innerHTML = '';
     }
     models.forEach(model => {
-        if (model !== 'Усі' || selectModelsBtn.firstElementChild.innerText !== 'Усі') {
+        if (model !== 'Не обрано' || selectModelsBtn.firstElementChild.innerText !== 'Не обрано') {
             let isSelected = model == selectModelsBtn.firstElementChild.innerText ? "selected" : "";
             let li = `<li onclick="updateModel(this)" class="${isSelected}">${model}</li>`;
             modelsOptions.insertAdjacentHTML("beforeend", li);
@@ -124,14 +127,14 @@ searchModelInp.addEventListener("keyup", () => {
 });
 function addBrand(selectedBrand) {
     if (!selectedBrand) {
-        selectModelsBtn.firstElementChild.innerText = 'Усі';
-        brandsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
+        selectModelsBtn.firstElementChild.innerText = 'Не обрано';
+        brandsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
     }
     else {
         brandsOptions.innerHTML = '';
     }
     brands.forEach(brand => {
-        if (brand != 'Усі' || selectedBrand) {
+        if (brand != 'Не обрано' || selectedBrand) {
             let isSelected = brand == selectedBrand ? "selected" : "";
             let li = `<li onclick="updateName(this)" class="${isSelected}">${brand}</li>`;
             brandsOptions.insertAdjacentHTML("beforeend", li);
@@ -140,14 +143,14 @@ function addBrand(selectedBrand) {
 }
 function addModel(selectedModel) {
     if (!selectedModel) {
-        selectModelsBtn.firstElementChild.innerText = 'Усі';
-        modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
+        selectModelsBtn.firstElementChild.innerText = 'Не обрано';
+        modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
     }
     else {
         modelsOptions.innerHTML = '';
     }
     models.forEach(model => {
-        if (model != 'Усі' || selectedModel) {
+        if (model != 'Не обрано' || selectedModel) {
             let isSelected = model == selectedModel ? "selected" : "";
             let li = `<li onclick="updateModel(this)" class="${isSelected}">${model}</li>`;
             modelsOptions.insertAdjacentHTML("beforeend", li);
@@ -157,7 +160,7 @@ function addModel(selectedModel) {
 function addBody(selectedBody) {
     bodiesOptions.innerHTML = '';
     bodies.forEach(body => {
-        let isSelected = body == selectedBody || !selectedBody && body == 'Усі' ? "selected" : "";
+        let isSelected = body == selectedBody || !selectedBody && body == 'Не обрано' ? "selected" : "";
         let li = `<li onclick="updateBody(this)" class="${isSelected}">${body}</li>`;
         bodiesOptions.insertAdjacentHTML("beforeend", li);
     });
@@ -165,7 +168,7 @@ function addBody(selectedBody) {
 function addTransmission(selectedTransmission) {
     transmissionsOptions.innerHTML = '';
     transmissions.forEach(transmission => {
-        let isSelected = transmission == selectedTransmission || !selectedTransmission && transmission == 'Усі' ? "selected" : "";
+        let isSelected = transmission == selectedTransmission || !selectedTransmission && transmission == 'Не обрано' ? "selected" : "";
         let li = `<li onclick="updateTransmission(this)" class="${isSelected}">${transmission}</li>`;
         transmissionsOptions.insertAdjacentHTML("beforeend", li);
     });
@@ -173,7 +176,7 @@ function addTransmission(selectedTransmission) {
 function addFuel(selectedFuel) {
     fuelsOptions.innerHTML = '';
     for (const [key, value] of Object.entries(fuels)) {
-        let isSelected = key == selectedFuel || !selectedFuel && key == 'Усі' ? "selected" : "";
+        let isSelected = key == selectedFuel || !selectedFuel && key == 'Не обрано' ? "selected" : "";
         let li = `<li onclick="updateFuel(this)" class="${isSelected}">${key}</li>`;
         fuelsOptions.insertAdjacentHTML("beforeend", li);
     }
@@ -181,9 +184,17 @@ function addFuel(selectedFuel) {
 function addDriveline(selectedDriveline) {
     drivelinesOptions.innerHTML = '';
     drivelines.forEach(driveline => {
-        let isSelected = driveline == selectedDriveline || !selectedDriveline && driveline == 'Усі' ? "selected" : "";
+        let isSelected = driveline == selectedDriveline || !selectedDriveline && driveline == 'Не обрано' ? "selected" : "";
         let li = `<li onclick="updateDriveline(this)" class="${isSelected}">${driveline}</li>`;
         drivelinesOptions.insertAdjacentHTML("beforeend", li);
+    });
+}
+function addColor(selectedColor) {
+    colorsOptions.innerHTML = '';
+    colors.forEach(color => {
+        let isSelected = color == selectedColor || !selectedColor && color == 'Не обрано' ? "selected" : "";
+        let li = `<li onclick="updateColor(this)" class="${isSelected}">${color}</li>`;
+        colorsOptions.insertAdjacentHTML("beforeend", li);
     });
 }
 function updateName(selectedLi) {
@@ -192,8 +203,8 @@ function updateName(selectedLi) {
     brandsOptions.parentElement.classList.remove("active");
     selectBrandsBtn.classList.remove("active");
     selectBrandsBtn.firstElementChild.innerText = selectedLi.innerText;
-    if (selectBrandsBtn.firstElementChild.innerText == "Усі")
-        modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Усі</li>`;
+    if (selectBrandsBtn.firstElementChild.innerText == "Не обрано")
+        modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
     else {
         getModelsOfMark();
     }
@@ -206,28 +217,39 @@ function updateModel(selectedLi) {
     selectModelsBtn.firstElementChild.innerText = selectedLi.innerText;
 }
 function updateBody(selectedLi) {
+    if (selectedLi.innerText != "Не обрано") bodies = bodies.filter(c => c !== 'Не обрано');
     addBody(selectedLi.innerText);
     bodiesOptions.parentElement.classList.remove("active");
     selectBodiesBtn.classList.remove("active");
     selectBodiesBtn.firstElementChild.innerText = selectedLi.innerText;
 }
 function updateTransmission(selectedLi) {
+    if (selectedLi.innerText != "Не обрано") transmissions = transmissions.filter(c => c !== 'Не обрано');
     addTransmission(selectedLi.innerText);
     transmissionsOptions.parentElement.classList.remove("active");
     selectTransmissionsBtn.classList.remove("active");
     selectTransmissionsBtn.firstElementChild.innerText = selectedLi.innerText;
 }
 function updateFuel(selectedLi) {
+    if (selectedLi.innerText != "Не обрано") delete fuels["Не обрано"];
     addFuel(selectedLi.innerText);
     fuelsOptions.parentElement.classList.remove("active");
     selectFuelsBtn.classList.remove("active");
     selectFuelsBtn.firstElementChild.innerText = selectedLi.innerText;
 }
 function updateDriveline(selectedLi) {
+    if (selectedLi.innerText != "Не обрано") drivelines = drivelines.filter(c => c !== 'Не обрано');
     addDriveline(selectedLi.innerText);
     drivelinesOptions.parentElement.classList.remove("active");
     selectDrivelinesBtn.classList.remove("active");
     selectDrivelinesBtn.firstElementChild.innerText = selectedLi.innerText;
+}
+function updateColor(selectedLi) {
+    if (selectedLi.innerText != "Не обрано") colors = colors.filter(c => c !== 'Не обрано');
+    addColor(selectedLi.innerText);
+    colorsOptions.parentElement.classList.remove("active");
+    selectColorsBtn.classList.remove("active");
+    selectColorsBtn.firstElementChild.innerText = selectedLi.innerText;
 }
 function hideBrand() {
     searchBrandInp.value = "";
@@ -259,6 +281,11 @@ function hideFuel() {
     selectFuelsBtn.classList.remove("active");
     fuelsOptions.scrollTop = 0;
 }
+function hideColor() {
+    colorsOptions.parentElement.classList.remove("active");
+    selectColorsBtn.classList.remove("active");
+    colorsOptions.scrollTop = 0;
+}
 //#endregion
 
 //#region Click events
@@ -266,61 +293,36 @@ selectBrandsBtn.addEventListener("click", () => {
     searchBrandInp.value = "";
     brandsOptions.parentElement.classList.toggle("active");
     selectBrandsBtn.classList.toggle("active");
-    hideModel();
-    hideBody();
-    hideTransmission();
-    hideFuel();
-    hideDriveline();
 });
 selectModelsBtn.addEventListener("click", () => {
     searchModelInp.value = "";
     modelsOptions.parentElement.classList.toggle("active");
     selectModelsBtn.classList.toggle("active");
-    hideBrand();
-    hideBody();
-    hideTransmission();
-    hideFuel();
-    hideDriveline();
 });
 selectBodiesBtn.addEventListener("click", () => {
     bodiesOptions.parentElement.classList.toggle("active");
     selectBodiesBtn.classList.toggle("active");
     bodiesOptions.scrollTop = 0;
-    hideBrand();
-    hideModel();
-    hideTransmission();
-    hideFuel();
-    hideDriveline();
 });
 selectTransmissionsBtn.addEventListener("click", () => {
     transmissionsOptions.parentElement.classList.toggle("active");
     selectTransmissionsBtn.classList.toggle("active");
     transmissionsOptions.scrollTop = 0;
-    hideBody();
-    hideBrand();
-    hideModel();
-    hideFuel();
-    hideDriveline();
 });
 selectFuelsBtn.addEventListener("click", () => {
     fuelsOptions.parentElement.classList.toggle("active");
     selectFuelsBtn.classList.toggle("active");
     fuelsOptions.scrollTop = 0;
-    hideBody();
-    hideBrand();
-    hideModel();
-    hideTransmission();
-    hideDriveline();
 });
 selectDrivelinesBtn.addEventListener("click", () => {
     drivelinesOptions.parentElement.classList.toggle("active");
     selectDrivelinesBtn.classList.toggle("active");
     drivelinesOptions.scrollTop = 0;
-    hideBody();
-    hideBrand();
-    hideModel();
-    hideTransmission();
-    hideFuel();
+});
+selectColorsBtn.addEventListener("click", () => {
+    colorsOptions.parentElement.classList.toggle("active");
+    selectColorsBtn.classList.toggle("active");
+    colorsOptions.scrollTop = 0;
 });
 document.addEventListener('click', function (event) {
     if (!selectBrandsBtn.parentElement.contains(event.target)) {
@@ -342,6 +344,9 @@ document.addEventListener('click', function (event) {
     }
     if (!selectDrivelinesBtn.parentElement.contains(event.target)) {
         hideDriveline();
+    }
+    if (!selectColorsBtn.parentElement.contains(event.target)) {
+        hideColor();
     }
 });
 //#endregion
