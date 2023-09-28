@@ -2882,4 +2882,29 @@ header .header_right-dark-label::before {
   .car_container-right-span {
     position: static;
   }
+  .info_block {
+    width: 90%;
+    margin: 35px auto 15px;
+  }
+  .info_block-content {
+    padding: 0px;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0px;
+  }
+  .faq_question.open .faq_question-content-wrapper {
+    max-height: 200px;
+  }
+  .info_block-content .faq {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  .info_block-content .faq_question {
+    background: var(--background-secondary);
+    transition: background 0.2s;
+    border-radius: 0 10px 0 10px;
+  }
 }

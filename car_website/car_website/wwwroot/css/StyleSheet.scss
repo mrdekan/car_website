@@ -1169,12 +1169,15 @@ header {
         h1 {
             font-size: 30px;
         }
-        h2{
+
+        h2 {
             font-size: 26px;
-            a{
+
+            a {
                 color: inherit;
             }
         }
+
         p {
             font-size: 16px;
             line-height: 18px;
@@ -1296,11 +1299,13 @@ header {
         }
     }
 }
-.required::before{
+
+.required::before {
     content: '*';
     color: $error-main;
     margin: 3px 0 0 5px;
 }
+
 @media (max-width: 1000px) {
     .home-btn {
         display: none;
@@ -1558,6 +1563,40 @@ header {
                 &-span {
                     position: static;
                 }
+            }
+        }
+    }
+
+    .info_block {
+        width: 90%;
+        margin: 35px auto 15px;
+
+        &-content {
+            padding: 0px;
+            background: none;
+            border-radius: 0;
+            box-shadow: none;
+            margin: 0px;
+        }
+    }
+
+    .faq_question.open {
+        .faq_question-content-wrapper {
+            max-height: 200px;
+        }
+    }
+
+    .info_block-content {
+        .faq {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+
+            &_question {
+                background: $background-secondary;
+                transition: background 0.2s;
+                border-radius: 0 10px 0 10px;
             }
         }
     }
