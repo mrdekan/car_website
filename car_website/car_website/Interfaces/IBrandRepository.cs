@@ -8,5 +8,6 @@ namespace car_website.Interfaces
         Task<IEnumerable<string>> GetAll();
         Task<Brand> GetByIdAsync(ObjectId id);
         Task<Brand> GetByName(string name);
+        Task AddIfDoesntExist(string brand, string model);
     }
 }

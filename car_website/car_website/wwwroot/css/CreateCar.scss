@@ -208,7 +208,25 @@
     padding: 11px 0 0 0;
     transition: 0.2s;
 }
-
+.other-input {
+    width: calc(100% - 16px);
+    outline: 1px solid $background;
+    border-radius: 4px;
+    background: $background;
+    transition: 0.2s;
+    color: $text-default;
+    height: 28px;
+    margin-left: -9px;
+    padding-left: 8px;
+    display: none;
+    &::placeholder{
+        font-size: 16px;
+        color: $gray-default;
+    }
+    &:focus {
+        outline: 1px solid $green-medium;
+    }
+}
 @media (max-width: 1510px) {
     .create {
         background: $background-secondary;

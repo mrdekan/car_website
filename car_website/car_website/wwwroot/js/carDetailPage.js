@@ -14,10 +14,20 @@ const imagesFullscreen = document.getElementById('img_full');
 const photos = document.querySelectorAll('.slider_element-image');
 const vin = document.getElementById('vin');
 let currentSlide = 0;
-vin.addEventListener('click', () => {
-    var newTab = window.open(`https://bidfax.info/?do=search&subaction=search&story=${vin.getAttribute('vin')}`, '_blank');
-    newTab.focus();
-});
+window.addEventListener("keydown", escKeyPress);
+function escKeyPress(event) {
+    //27 == ESC
+    if (event.keyCode === 27) {
+        imagesFullscreen.style.display = "none";
+        enableScrolling();
+    }
+}
+if (vin != null) {
+    vin.addEventListener('click', () => {
+        var newTab = window.open(`https://bidfax.info/?do=search&subaction=search&story=${vin.getAttribute('vin')}`, '_blank');
+        newTab.focus();
+    });
+}
 Array.from(photos).forEach(photo => {
     photo.addEventListener('click', () => {
         disableScrolling();
@@ -33,13 +43,14 @@ if (buyButtonNotLogged) {
     });
 }
 imagesFullscreen.addEventListener("click", function (event) {
-    if (event.target.tagName != 'IMG')
+    if (event.target.tagName != 'IMG') {
         imagesFullscreen.style.display = "none";
+        enableScrolling();
+    }
     else {
         var newTab = window.open(event.target.getAttribute('src'), '_blank');
         newTab.focus();
     }
-    enableScrolling();
 });
 closeButton.addEventListener("click", function () {
     popup.style.display = "none";

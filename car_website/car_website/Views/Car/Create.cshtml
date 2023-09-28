@@ -17,20 +17,21 @@
     <form method="post" asp-action="Create" enctype="multipart/form-data">
         <h2 class="info-text">@phrases[new Random().Next(0,phrases.Count)]</h2>
         <div class="create_container">
-
             <div class="create_container-left">
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Brand">Марка<span class="required"></span></label>
-                    <select asp-for="CreateCarViewModel.Brand" id="brand-select">
+                    @*<select asp-for="CreateCarViewModel.Brand" id="brand-select">
                         <option value="Any">Не обрано</option>
                         @foreach (var str in Model.CarBrands ?? new List<string>())
                         {
                             <option value=@str>@str</option>
                         }
-                    </select>
+                    </select>*@
+                            <input asp-for="CreateCarViewModel.Brand" type="hidden" id="real-brand-inp" value="Any" />
                     <div class="custom-select">
                         <div class="select-btn" id="brandsButton" large>
                             <span>Не обрано</span>
+                            <input type="text" id="other-brand-inp" class="other-input" placeholder="Напишіть марку" />
                             <i class="uil uil-angle-down"></i>
                         </div>
                         <div class="content">
@@ -45,12 +46,14 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Model">Модель<span class="required"></span></label>
-                    <select asp-for="CreateCarViewModel.Model" id="model-select">
+                    @*<select asp-for="CreateCarViewModel.Model" id="model-select">
                         <option value="Any">Не обрано</option>
-                    </select>
+                    </select>*@
+                            <input asp-for="CreateCarViewModel.Model" type="hidden" id="real-model-inp" value="Any" />
                     <div class="custom-select">
                         <div class="select-btn" id="modelsButton" large>
                             <span>Не обрано</span>
+                            <input type="text" id="other-model-inp" class="other-input" placeholder="Напишіть модель"/>
                             <i class="uil uil-angle-down"></i>
                         </div>
                         <div class="content">
@@ -73,7 +76,7 @@
                     <input asp-for="CreateCarViewModel.Price" type="number" class="input" />
                     <span asp-validation-for="CreateCarViewModel.Price" class="text-danger"></span>
                 </div>
-                <div id="other-brand">
+                @*<div id="other-brand">
                     <div class="form-group">
                         <label asp-for="CreateCarViewModel.OtherBrandName">Ваша марка</label>
                         <input asp-for="CreateCarViewModel.OtherBrandName" />
@@ -86,7 +89,7 @@
                         <input asp-for="CreateCarViewModel.OtherModelName" />
                         <span asp-validation-for="CreateCarViewModel.OtherModelName" class="text-danger"></span>
                     </div>
-                </div>
+                </div>*@
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.CarTransmission">Трансмісія<span class="required"></span></label>
                     <input asp-for="CreateCarViewModel.CarTransmission" type="hidden" id="real-transmission-inp" value="0" />

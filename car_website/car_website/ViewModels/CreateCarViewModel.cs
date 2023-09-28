@@ -24,10 +24,12 @@ namespace car_website.ViewModels
         [Required(ErrorMessage = "Обов'язкове поле")]
         [RegularExpression(@"^(?!Any$).*", ErrorMessage = "Виберіть марку")]
         [MaxLength(30, ErrorMessage = "Занадто довга назва")]
+        [MinLength(1, ErrorMessage = "Виберіть марку")]
         public string Brand { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [RegularExpression(@"^(?!Any$).*", ErrorMessage = "Виберіть модель")]
         [MaxLength(30, ErrorMessage = "Занадто довга назва")]
+        [MinLength(1, ErrorMessage = "Виберіть модель")]
         public string Model { get; set; }
         [Range(1, 100, ErrorMessage = "Оберіть значення")]
         public Transmission CarTransmission { get; set; }

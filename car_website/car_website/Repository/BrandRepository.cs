@@ -45,5 +45,19 @@ namespace car_website.Repository
             var filter = Builders<Brand>.Filter.Eq(b => b.Id, brand.Id);
             await _dbContext.Brands.DeleteOneAsync(filter);
         }
+        public async Task AddIfDoesntExist(string brand, string model)
+        {
+            Brand br = await GetByName(brand);
+            if (br == null)
+            {
+                br = new Brand(brand);
+                await Add(br);
+            }
+            if (!br.Models.Contains(model))
+            {
+                br.Models.Add(model);
+                await Update(br);
+            }
+        }
     }
 }

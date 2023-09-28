@@ -1458,6 +1458,26 @@ h4 {
   transition: 0.2s;
 }
 
+.other-input {
+  width: calc(100% - 16px);
+  outline: 1px solid var(--background-main);
+  border-radius: 4px;
+  background: var(--background-main);
+  transition: 0.2s;
+  color: var(--text-default);
+  height: 28px;
+  margin-left: -9px;
+  padding-left: 8px;
+  display: none;
+}
+.other-input::placeholder {
+  font-size: 16px;
+  color: var(--gray-default);
+}
+.other-input:focus {
+  outline: 1px solid var(--green-medium);
+}
+
 @media (max-width: 1510px) {
   .create {
     background: var(--background-secondary);
@@ -2164,7 +2184,7 @@ header .header_right-dark-label::before {
 
 .select-btn {
   height: 32px;
-  padding: 0 10px;
+  padding: 0 14px;
   font-size: 16px;
   background: var(--background-main);
   color: var(--gray-default);

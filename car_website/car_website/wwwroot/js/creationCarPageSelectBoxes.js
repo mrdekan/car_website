@@ -19,7 +19,11 @@ const colorRealInp = document.getElementById('real-color-inp'),
     drivelineRealInp = document.getElementById('real-driveline-inp'),
     fuelRealInp = document.getElementById('real-fuel-inp'),
     bodyRealInp = document.getElementById('real-body-inp'),
-    transmissionRealInp = document.getElementById('real-transmission-inp');
+    transmissionRealInp = document.getElementById('real-transmission-inp'),
+    brandRealInp = document.getElementById('real-brand-inp'),
+    modelRealInp = document.getElementById('real-model-inp'),
+    otherModelInp = document.getElementById('other-model-inp'),
+    otherBrandInp = document.getElementById('other-brand-inp');
 
 let brands = ["Не обрано"];
 let models = ["Не обрано"];
@@ -47,6 +51,17 @@ addTransmission();
 addFuel();
 addDriveline();
 addColor();
+
+otherModelInp.addEventListener('input', function () {
+    if (otherModelInp.value.length > 30)
+        otherModelInp.value = otherModelInp.value.slice(0, 30);
+    modelRealInp.value = otherModelInp.value;
+});
+otherBrandInp.addEventListener('input', function () {
+    if (otherBrandInp.value.length > 30)
+        otherBrandInp.value = otherBrandInp.value.slice(0, 30);
+    brandRealInp.value = otherBrandInp.value;
+});
 function getModelsOfMark() {
     var brand = selectBrandsBtn.firstElementChild.innerText;
     if (modelsCache[brand] == null) {
@@ -117,7 +132,7 @@ searchBrandInp.addEventListener("keyup", () => {
         let isSelected = data == selectBrandsBtn.firstElementChild.innerText ? "selected" : "";
         return `<li onclick="updateName(this)" class="${isSelected}">${data}</li>`;
     }).join("");
-    brandsOptions.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Марку не знайдено.</p>`;
+    brandsOptions.innerHTML = arr ? arr : `<li onclick="updateName(this)">Інше</li>`;
 });
 searchModelInp.addEventListener("keyup", () => {
     let arr = [];
@@ -128,7 +143,7 @@ searchModelInp.addEventListener("keyup", () => {
         let isSelected = data == selectModelsBtn.firstElementChild.innerText ? "selected" : "";
         return `<li onclick="updateModel(this)" class="${isSelected}">${data}</li>`;
     }).join("");
-    modelsOptions.innerHTML = arr ? arr : `<p style="margin-top: 10px;">Модель не знайдено.</p>`;
+    modelsOptions.innerHTML = arr ? arr : `<li onclick="updateModel(this)">Інше</li>`;
 });
 function addBrand(selectedBrand) {
     if (!selectedBrand) {
@@ -203,6 +218,21 @@ function addColor(selectedColor) {
     });
 }
 function updateName(selectedLi) {
+    if (selectedLi.innerText != "Не обрано" && selectedLi.innerText != "Інше") {
+        brands = brands.filter(c => c !== 'Не обрано');
+        brandRealInp.value = selectedLi.innerText;
+        otherBrandInp.style.display = 'none';
+        selectBrandsBtn.querySelector('span').style.display = 'block';
+    }
+    else {
+        if (selectedLi.innerText == 'Інше') {
+            otherBrandInp.value = "";
+            otherBrandInp.style.display = 'block';
+            selectBrandsBtn.querySelector('span').style.display = 'none';
+        }
+        brandRealInp.value = "Any";
+    }
+
     searchBrandInp.value = "";
     addBrand(selectedLi.innerText);
     brandsOptions.parentElement.classList.remove("active");
@@ -215,6 +245,20 @@ function updateName(selectedLi) {
     }
 }
 function updateModel(selectedLi) {
+    if (selectedLi.innerText != "Не обрано" && selectedLi.innerText != "Інше") {
+        models = models.filter(c => c !== 'Не обрано');
+        modelRealInp.value = selectedLi.innerText;
+        otherModelInp.style.display = 'none';
+        selectModelsBtn.querySelector('span').style.display = 'block';
+    }
+    else {
+        if (selectedLi.innerText == 'Інше') {
+            otherModelInp.value = "";
+            otherModelInp.style.display = 'block';
+            selectModelsBtn.querySelector('span').style.display = 'none';
+        }
+        modelRealInp.value = "Any";
+    }
     searchModelInp.value = "";
     addModel(selectedLi.innerText);
     modelsOptions.parentElement.classList.remove("active");
@@ -309,12 +353,14 @@ function hideColor() {
 //#endregion
 
 //#region Click events
-selectBrandsBtn.addEventListener("click", () => {
-    searchBrandInp.value = "";
-    brandsOptions.parentElement.classList.toggle("active");
-    selectBrandsBtn.classList.toggle("active");
+selectBrandsBtn.addEventListener("click", (e) => {
+    if (e.target.tagName != 'INPUT') {
+        searchBrandInp.value = "";
+        brandsOptions.parentElement.classList.toggle("active");
+        selectBrandsBtn.classList.toggle("active");
+    }
 });
-selectModelsBtn.addEventListener("click", () => {
+selectModelsBtn.addEventListener("click", (e) => {
     searchModelInp.value = "";
     modelsOptions.parentElement.classList.toggle("active");
     selectModelsBtn.classList.toggle("active");
