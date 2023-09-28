@@ -15,6 +15,11 @@ const selectDrivelinesBtn = document.getElementById("drivelinesButton"),
 const selectColorsBtn = document.getElementById("colorsButton"),
     colorsOptions = document.getElementById("colors");
 
+const colorRealInp = document.getElementById('real-color-inp'),
+    drivelineRealInp = document.getElementById('real-driveline-inp'),
+    fuelRealInp = document.getElementById('real-fuel-inp'),
+    bodyRealInp = document.getElementById('real-body-inp'),
+    transmissionRealInp = document.getElementById('real-transmission-inp');
 
 let brands = ["Не обрано"];
 let models = ["Не обрано"];
@@ -217,35 +222,50 @@ function updateModel(selectedLi) {
     selectModelsBtn.firstElementChild.innerText = selectedLi.innerText;
 }
 function updateBody(selectedLi) {
-    if (selectedLi.innerText != "Не обрано") bodies = bodies.filter(c => c !== 'Не обрано');
+    if (selectedLi.innerText != "Не обрано") {
+        bodies = bodies.filter(c => c !== 'Не обрано');
+        bodyRealInp.value = bodies.indexOf(selectedLi.innerText)+1;
+    }
     addBody(selectedLi.innerText);
     bodiesOptions.parentElement.classList.remove("active");
     selectBodiesBtn.classList.remove("active");
     selectBodiesBtn.firstElementChild.innerText = selectedLi.innerText;
 }
 function updateTransmission(selectedLi) {
-    if (selectedLi.innerText != "Не обрано") transmissions = transmissions.filter(c => c !== 'Не обрано');
+    if (selectedLi.innerText != "Не обрано") {
+        transmissions = transmissions.filter(c => c !== 'Не обрано');
+        transmissionRealInp.value = transmissions.indexOf(selectedLi.innerText)+1;
+    }
     addTransmission(selectedLi.innerText);
     transmissionsOptions.parentElement.classList.remove("active");
     selectTransmissionsBtn.classList.remove("active");
     selectTransmissionsBtn.firstElementChild.innerText = selectedLi.innerText;
 }
 function updateFuel(selectedLi) {
-    if (selectedLi.innerText != "Не обрано") delete fuels["Не обрано"];
+    if (selectedLi.innerText != "Не обрано") {
+        delete fuels["Не обрано"];
+        fuelRealInp.value = fuels[selectedLi.innerText];
+    }
     addFuel(selectedLi.innerText);
     fuelsOptions.parentElement.classList.remove("active");
     selectFuelsBtn.classList.remove("active");
     selectFuelsBtn.firstElementChild.innerText = selectedLi.innerText;
 }
 function updateDriveline(selectedLi) {
-    if (selectedLi.innerText != "Не обрано") drivelines = drivelines.filter(c => c !== 'Не обрано');
+    if (selectedLi.innerText != "Не обрано") {
+        drivelines = drivelines.filter(c => c !== 'Не обрано');
+        drivelineRealInp.value = drivelines.indexOf(selectedLi.innerText)+1;
+    }
     addDriveline(selectedLi.innerText);
     drivelinesOptions.parentElement.classList.remove("active");
     selectDrivelinesBtn.classList.remove("active");
     selectDrivelinesBtn.firstElementChild.innerText = selectedLi.innerText;
 }
 function updateColor(selectedLi) {
-    if (selectedLi.innerText != "Не обрано") colors = colors.filter(c => c !== 'Не обрано');
+    if (selectedLi.innerText != "Не обрано") {
+        colors = colors.filter(c => c !== 'Не обрано');
+        colorRealInp.value = colors.indexOf(selectedLi.innerText);
+    }
     addColor(selectedLi.innerText);
     colorsOptions.parentElement.classList.remove("active");
     selectColorsBtn.classList.remove("active");
