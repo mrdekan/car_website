@@ -14,6 +14,11 @@ const selectDrivelinesBtn = document.getElementById("drivelinesButton"),
     drivelinesOptions = document.getElementById("drivelines");
 const selectColorsBtn = document.getElementById("colorsButton"),
     colorsOptions = document.getElementById("colors");
+const engineVolumeInp = document.getElementById('engine-volume'),
+    mileage = document.getElementById('mileage'),
+    vin = document.getElementById('vin'),
+    year = document.getElementById('year'),
+    price = document.getElementById('price');
 
 const colorRealInp = document.getElementById('real-color-inp'),
     drivelineRealInp = document.getElementById('real-driveline-inp'),
@@ -52,6 +57,30 @@ addFuel();
 addDriveline();
 addColor();
 
+let inps = [ mileage, vin, year, price ];
+inps.forEach(inp => {
+    inp.addEventListener('input', function (event) {
+        const maxLength = +event.target.getAttribute('maxlength');
+        let currentValue = event.target.value;
+        if (currentValue.length > maxLength)
+            currentValue = currentValue.slice(0, maxLength);
+        event.target.value = currentValue;
+    });
+});
+
+engineVolumeInp.addEventListener('input', function (event) {
+    let value = event.target.value.replace(/[^\d.,]/g, '');;
+    value = value.replace(',', '.');
+    if (value.includes('.'))
+        value = value.slice(0, 3);
+    else
+        value = value.slice(0, 2);
+    event.target.value = value;
+});
+engineVolumeInp.addEventListener('keydown', (e) => {
+    if ((e.target.value.includes('.') || e.target.value == '' || e.target.value.length >= '2') && (e.key == '.' || e.key == ','))
+        e.preventDefault();
+});
 otherModelInp.addEventListener('input', function () {
     if (otherModelInp.value.length > 30)
         otherModelInp.value = otherModelInp.value.slice(0, 30);
@@ -70,7 +99,6 @@ function getModelsOfMark() {
             .then(data => {
                 models = ["Не обрано"];
                 models = models.concat(data.models);
-                models = models.filter((n) => { return n != 'Інше' });
                 modelsCache[brand] = models;
                 addModel();
             })
@@ -87,7 +115,6 @@ function getMarks() {
         .then(data => {
             brands = ["Не обрано"];
             brands = brands.concat(data.brands);
-            brands = brands.filter((n) => { return n != 'Інше' });
             addBrand();
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
@@ -109,6 +136,7 @@ function refreshBrands() {
     });
 }
 function refreshModels() {
+    if (selectModelsBtn.firstElementChild.innerText === 'Інше') return;
     if (selectModelsBtn.firstElementChild.innerText === 'Не обрано') {
         modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
     }
@@ -161,8 +189,14 @@ function addBrand(selectedBrand) {
         }
     });
 }
-function addModel(selectedModel) {
+function addModel(selectedModel, onlyOther) {
+    if (onlyOther) {
+        modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Інше</li>`;
+        return;
+    }
     if (!selectedModel) {
+        otherModelInp.style.display = 'none';
+        selectModelsBtn.querySelector('span').style.display = 'block';
         selectModelsBtn.firstElementChild.innerText = 'Не обрано';
         modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
     }
@@ -218,29 +252,39 @@ function addColor(selectedColor) {
     });
 }
 function updateName(selectedLi) {
-    if (selectedLi.innerText != "Не обрано" && selectedLi.innerText != "Інше") {
+    if (selectedLi.innerText != "Не обрано") {
         brands = brands.filter(c => c !== 'Не обрано');
         brandRealInp.value = selectedLi.innerText;
         otherBrandInp.style.display = 'none';
         selectBrandsBtn.querySelector('span').style.display = 'block';
     }
-    else {
-        if (selectedLi.innerText == 'Інше') {
-            otherBrandInp.value = "";
-            otherBrandInp.style.display = 'block';
-            selectBrandsBtn.querySelector('span').style.display = 'none';
-        }
+    if (selectedLi.innerText == 'Інше') {
+        otherBrandInp.value = "";
+        otherBrandInp.style.display = 'block';
+        selectBrandsBtn.querySelector('span').style.display = 'none';
+        addBrand();
+        selectBrandsBtn.firstElementChild.innerText = `Інше`
+        otherModelInp.value = "";
+        otherModelInp.style.display = 'block';
+        selectModelsBtn.querySelector('span').style.display = 'none';
+        modelRealInp.value = "Any";
         brandRealInp.value = "Any";
+        selectModelsBtn.firstElementChild.innerText = 'Інше'
+        models = models.filter(c => c !== 'Не обрано');
+        addModel("Інше",true);
     }
+    else
+        addModel();
 
     searchBrandInp.value = "";
     addBrand(selectedLi.innerText);
     brandsOptions.parentElement.classList.remove("active");
     selectBrandsBtn.classList.remove("active");
     selectBrandsBtn.firstElementChild.innerText = selectedLi.innerText;
-    if (selectBrandsBtn.firstElementChild.innerText == "Не обрано")
+    if (selectBrandsBtn.firstElementChild.innerText == "Не обрано") {
         modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
-    else {
+    }
+    else if (selectedLi.innerText != 'Інше') {
         getModelsOfMark();
     }
 }
@@ -268,7 +312,7 @@ function updateModel(selectedLi) {
 function updateBody(selectedLi) {
     if (selectedLi.innerText != "Не обрано") {
         bodies = bodies.filter(c => c !== 'Не обрано');
-        bodyRealInp.value = bodies.indexOf(selectedLi.innerText)+1;
+        bodyRealInp.value = bodies.indexOf(selectedLi.innerText) + 1;
     }
     addBody(selectedLi.innerText);
     bodiesOptions.parentElement.classList.remove("active");
@@ -278,7 +322,7 @@ function updateBody(selectedLi) {
 function updateTransmission(selectedLi) {
     if (selectedLi.innerText != "Не обрано") {
         transmissions = transmissions.filter(c => c !== 'Не обрано');
-        transmissionRealInp.value = transmissions.indexOf(selectedLi.innerText)+1;
+        transmissionRealInp.value = transmissions.indexOf(selectedLi.innerText) + 1;
     }
     addTransmission(selectedLi.innerText);
     transmissionsOptions.parentElement.classList.remove("active");
@@ -298,7 +342,7 @@ function updateFuel(selectedLi) {
 function updateDriveline(selectedLi) {
     if (selectedLi.innerText != "Не обрано") {
         drivelines = drivelines.filter(c => c !== 'Не обрано');
-        drivelineRealInp.value = drivelines.indexOf(selectedLi.innerText)+1;
+        drivelineRealInp.value = drivelines.indexOf(selectedLi.innerText) + 1;
     }
     addDriveline(selectedLi.innerText);
     drivelinesOptions.parentElement.classList.remove("active");
@@ -361,9 +405,11 @@ selectBrandsBtn.addEventListener("click", (e) => {
     }
 });
 selectModelsBtn.addEventListener("click", (e) => {
-    searchModelInp.value = "";
-    modelsOptions.parentElement.classList.toggle("active");
-    selectModelsBtn.classList.toggle("active");
+    if (e.target.tagName != 'INPUT') {
+        searchModelInp.value = "";
+        modelsOptions.parentElement.classList.toggle("active");
+        selectModelsBtn.classList.toggle("active");
+    }
 });
 selectBodiesBtn.addEventListener("click", () => {
     bodiesOptions.parentElement.classList.toggle("active");

@@ -1333,6 +1333,9 @@ h4 {
   color: var(--gray-default);
   font-size: 16px;
 }
+.create form label {
+  margin-top: 10px;
+}
 .create form textarea {
   padding: 10px;
   border-radius: 5px;
@@ -1813,7 +1816,7 @@ body {
   overflow: hidden;
 }
 .car_container img {
-  width: 300px;
+  min-width: 300px;
   height: 200px;
   object-fit: cover;
   border-radius: 0 10px 0 10px;
@@ -1821,6 +1824,7 @@ body {
 }
 .car_container-info {
   padding-left: 30px;
+  width: 100%;
 }
 .car_container-info a {
   color: var(--text-default);
@@ -1834,8 +1838,9 @@ body {
 }
 .car_container-info-parameters {
   margin: 30px 0 0 34px;
-  justify-content: space-around;
+  justify-content: space-between;
   display: flex;
+  width: 100%;
 }
 .car_container-info-parameters-column {
   display: flex;

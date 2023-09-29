@@ -20,14 +20,7 @@
             <div class="create_container-left">
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Brand">Марка<span class="required"></span></label>
-                    @*<select asp-for="CreateCarViewModel.Brand" id="brand-select">
-                        <option value="Any">Не обрано</option>
-                        @foreach (var str in Model.CarBrands ?? new List<string>())
-                        {
-                            <option value=@str>@str</option>
-                        }
-                    </select>*@
-                            <input asp-for="CreateCarViewModel.Brand" type="hidden" id="real-brand-inp" value="Any" />
+                    <input asp-for="CreateCarViewModel.Brand" type="hidden" id="real-brand-inp" value="Any" />
                     <div class="custom-select">
                         <div class="select-btn" id="brandsButton" large>
                             <span>Не обрано</span>
@@ -46,14 +39,11 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Model">Модель<span class="required"></span></label>
-                    @*<select asp-for="CreateCarViewModel.Model" id="model-select">
-                        <option value="Any">Не обрано</option>
-                    </select>*@
-                            <input asp-for="CreateCarViewModel.Model" type="hidden" id="real-model-inp" value="Any" />
+                    <input asp-for="CreateCarViewModel.Model" type="hidden" id="real-model-inp" value="Any" />
                     <div class="custom-select">
                         <div class="select-btn" id="modelsButton" large>
                             <span>Не обрано</span>
-                            <input type="text" id="other-model-inp" class="other-input" placeholder="Напишіть модель"/>
+                            <input type="text" id="other-model-inp" class="other-input" placeholder="Напишіть модель" />
                             <i class="uil uil-angle-down"></i>
                         </div>
                         <div class="content">
@@ -68,28 +58,14 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Year">Рік<span class="required"></span></label>
-                    <input class="input" asp-for=CreateCarViewModel.Year type="number" id="year-input" placeholder="Рік" value="@DateTime.Now.Year" />
+                    <input class="input" asp-for=CreateCarViewModel.Year type="number" id="year" maxlength="4" placeholder="Рік" value="@DateTime.Now.Year" />
                     <span asp-validation-for="CreateCarViewModel.Year" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Price">Ціна ($)<span class="required"></span></label>
-                    <input asp-for="CreateCarViewModel.Price" type="number" class="input" />
+                    <input asp-for="CreateCarViewModel.Price" type="number" class="input" id="price" maxlength="6" placeholder="Ціна" />
                     <span asp-validation-for="CreateCarViewModel.Price" class="text-danger"></span>
                 </div>
-                @*<div id="other-brand">
-                    <div class="form-group">
-                        <label asp-for="CreateCarViewModel.OtherBrandName">Ваша марка</label>
-                        <input asp-for="CreateCarViewModel.OtherBrandName" />
-                        <span asp-validation-for="CreateCarViewModel.OtherBrandName" class="text-danger"></span>
-                    </div>
-                </div>
-                <div id="other-model">
-                    <div class="form-group">
-                        <label asp-for="CreateCarViewModel.OtherModelName">Ваша модель</label>
-                        <input asp-for="CreateCarViewModel.OtherModelName" />
-                        <span asp-validation-for="CreateCarViewModel.OtherModelName" class="text-danger"></span>
-                    </div>
-                </div>*@
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.CarTransmission">Трансмісія<span class="required"></span></label>
                     <input asp-for="CreateCarViewModel.CarTransmission" type="hidden" id="real-transmission-inp" value="0" />
@@ -162,27 +138,27 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.EngineCapacity">Об'єм двигуна (л.)<span class="required"></span></label>
-                    <input asp-for="CreateCarViewModel.EngineCapacity" class="input" />
+                    <input asp-for="CreateCarViewModel.EngineCapacity" placeholder="Об'єм двигуна'" class="input" id="engine-volume" type="text"/>
                     <span asp-validation-for="CreateCarViewModel.EngineCapacity" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Mileage">Пробіг (тис.км)<span class="required"></span></label>
-                    <input asp-for="CreateCarViewModel.Mileage" type="number" class="input" />
+                    <input asp-for="CreateCarViewModel.Mileage" type="number" placeholder="Пробіг" class="input" id="mileage" maxlength="3" />
                     <span asp-validation-for="CreateCarViewModel.Mileage" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.VIN">VIN номер</label>
-                    <input asp-for="CreateCarViewModel.VIN" type="text" class="input" />
+                    <input asp-for="CreateCarViewModel.VIN" type="text" placeholder="VIN" class="input" id="vin" maxlength="17" />
                     <span asp-validation-for="CreateCarViewModel.VIN" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.VideoURL">Посилання на відео з оглядом на YouTube</label>
-                    <input asp-for="CreateCarViewModel.VideoURL" class="input" />
+                    <input asp-for="CreateCarViewModel.VideoURL" placeholder="Посилання" class="input" />
                     <span asp-validation-for="CreateCarViewModel.VideoURL" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreateCarViewModel.Description">Додатковий опис</label>
-                    <textarea id="description" asp-for="CreateCarViewModel.Description" maxlength="500" style="resize: none;"></textarea>
+                    <label asp-for="CreateCarViewModel.Description">За необхідності додайте опис</label>
+                    <textarea id="description" asp-for="CreateCarViewModel.Description" placeholder="Додатковий опис" maxlength="500" style="resize: none;"></textarea>
                     <span id="descriptionLength">0/500</span>
                     <span asp-validation-for="CreateCarViewModel.Description" class="text-danger"></span>
                 </div>

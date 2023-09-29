@@ -309,7 +309,7 @@ function applyFilter(page = 1) {
                                                 <div class="car_container-info-parameters-column">
                                                     <p class="car_container-info-parameters-column-text"><span>${svgCodes.race}</span>${car.mileage} тис. км</p>
                                                     <p class="car_container-info-parameters-column-text"><span>${svgCodes.fuel}</span>${fuelName(car.fuel)}, ${car.engineCapacity} л.</p>
-                                                    <p class="car_container-info-parameters-column-text vin"><span>${svgCodes.car}</span>${car.vin}</p>
+                                                    ${car.vin == null ? `` : `<p class="car_container-info-parameters-column-text vin"><span>${svgCodes.car}</span>${car.vin}</p>`}
                                                     </div>
                                                 <div class="car_container-info-parameters-column">
                                                     <p class="car_container-info-parameters-column-text"><span>${svgCodes.transmission}</span>${transmissionName(car.carTransmission)}</p>
