@@ -305,6 +305,7 @@ namespace car_website.Controllers
         public async Task<IActionResult> Create(CarCreationPageViewModel carVM)
         {
             User user = await GetCurrentUser();
+            var f = float.Parse(carVM.CreateCarViewModel.EngineCapacity);
             if (user == null)
             {
                 return RedirectToAction("CreateExpressSaleCar");

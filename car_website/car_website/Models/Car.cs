@@ -20,7 +20,7 @@ namespace car_website.Models
             CarColor = carVM.CarColor;
             Year = carVM.Year;
             Description = carVM.Description ?? "";
-            EngineCapacity = carVM.EngineCapacity;
+            EngineCapacity = float.Parse(carVM.EngineCapacity);
             VIN = carVM.VIN;
             Mileage = carVM.Mileage;
             Options = carVM.Features.GetType()
