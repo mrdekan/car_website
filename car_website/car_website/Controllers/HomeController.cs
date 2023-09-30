@@ -2,6 +2,7 @@
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -27,11 +28,10 @@ namespace car_website.Controllers
             _configuration = configuration;
         }
         #endregion
-
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             await IsAdmin();
-            //var name = User.Identity.Name;
             var carsCount = _carRepository.GetCount();
             IndexPageViewModel vm = new() { CarsCount = carsCount };
             return View(vm);

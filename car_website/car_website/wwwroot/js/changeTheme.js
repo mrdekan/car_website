@@ -1,19 +1,13 @@
-﻿/*const themeSeparator = document.querySelector('.header_right-separator');
-
-if (localStorage.getItem('theme') == 'dark' && themeSeparator) {
-    themeSeparator.style.setProperty('--custom-border-radius', '0 7px 7px 0');
-}
-else if (themeSeparator) {
-    themeSeparator.style.setProperty('--custom-border-radius', '7px 0 0 7px');
-}*/
-const themeRadios = document.querySelectorAll('input[name="theme"]');
+﻿const themeRadiosLight = document.getElementById('light');
+const themeRadiosDark = document.getElementById('dark');
 if (localStorage.getItem('theme') == 'dark') {
-    themeRadios[1].checked = true;
+    themeRadiosDark.checked = true;
 }
 else {
-    themeRadios[0].checked = true;
+    themeRadiosLight.checked = true;
 }
 function handleRadioChange(radio) {
+    console.log(radio.target.getAttribute('theme'))
     if (radio.target.getAttribute('theme') == 'dark') {
         localStorage.setItem('theme', 'dark');
         setDark();
@@ -23,6 +17,5 @@ function handleRadioChange(radio) {
         setLight();
     }
 }
-themeRadios.forEach(function (radio) {
-    radio.addEventListener('change', handleRadioChange);
-});
+themeRadiosDark.addEventListener('click', handleRadioChange);
+themeRadiosLight.addEventListener('click', handleRadioChange);

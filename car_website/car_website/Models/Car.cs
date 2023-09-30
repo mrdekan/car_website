@@ -2,6 +2,7 @@
 using car_website.ViewModels;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Globalization;
 
 namespace car_website.Models
 {
@@ -20,7 +21,7 @@ namespace car_website.Models
             CarColor = carVM.CarColor;
             Year = carVM.Year;
             Description = carVM.Description ?? "";
-            EngineCapacity = float.Parse(carVM.EngineCapacity);
+            EngineCapacity = float.Parse(carVM.EngineCapacity, CultureInfo.InvariantCulture);
             VIN = carVM.VIN;
             Mileage = carVM.Mileage;
             Options = carVM.Features.GetType()
