@@ -7,7 +7,5 @@ namespace car_website.Interfaces
         Task<float> GetCurrencyRate();
         Task SetCurrencyRate(float newCurrencyRate);
         Task<AppSettingsDb> GetSettings();
-        // Temp method, delete after using
-        Task Add(AppSettingsDb initial);
     }
 }

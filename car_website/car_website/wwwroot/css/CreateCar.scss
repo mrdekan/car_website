@@ -9,32 +9,32 @@
         color: $text-default;
     }
 }
+.input {
+    //margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background: $background;
+    color: $text-default;
+    font-size: 16px;
+    transition: 0.2s;
+    border: 1px solid transparent;
+    width: 100%;
 
+    &:focus {
+        border: 1px solid $green-medium;
+    }
+
+    &::placeholder {
+        color: $gray-default;
+    }
+}
 .create {
     display: flex;
     align-items: center;
     min-height: calc(100vh - 90px); //90px = висота header + footer
     max-height: fit-content;
 
-    .input {
-        //margin-bottom: 10px;
-        padding: 10px;
-        border-radius: 5px;
-        background: $background;
-        color: $text-default;
-        font-size: 16px;
-        transition: 0.2s;
-        border: 1px solid transparent;
-        width: 100%;
-
-        &:focus {
-            border: 1px solid $green-medium;
-        }
-
-        &::placeholder {
-            color: $gray-default;
-        }
-    }
+    
 
     .form-group {
         label {

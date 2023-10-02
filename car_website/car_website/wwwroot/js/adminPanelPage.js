@@ -66,6 +66,21 @@ function updateInfo(target) {
             showData(expressCarsCache);
         }
     }
+    else if (target.id == "currencyRate") {
+        showCurrencyEditor();
+    }
+}
+function showCurrencyEditor() {
+    let currency, offCurrency;
+    fetch(`/api/v1/main/getCurrencyRate`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            currency = data.currencyRate;
+            offCurrency = data.officialCurrencyRate;
+            container.innerHTML = `<div class="currency"><p>Задати курс</p><input class="input" type="text" placeholder=${offCurrency} value=${currency}></div>`;
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function showData(data) {
     if (data == null || data.status == false || data.success == false)

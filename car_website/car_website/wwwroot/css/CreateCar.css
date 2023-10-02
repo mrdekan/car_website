@@ -26,13 +26,7 @@
   color: var(--text-default);
 }
 
-.create {
-  display: flex;
-  align-items: center;
-  min-height: calc(100vh - 90px);
-  max-height: fit-content;
-}
-.create .input {
+.input {
   padding: 10px;
   border-radius: 5px;
   background: var(--background-main);
@@ -42,11 +36,18 @@
   border: 1px solid transparent;
   width: 100%;
 }
-.create .input:focus {
+.input:focus {
   border: 1px solid var(--green-medium);
 }
-.create .input::placeholder {
+.input::placeholder {
   color: var(--gray-default);
+}
+
+.create {
+  display: flex;
+  align-items: center;
+  min-height: calc(100vh - 90px);
+  max-height: fit-content;
 }
 .create .form-group label {
   margin-bottom: 6px;

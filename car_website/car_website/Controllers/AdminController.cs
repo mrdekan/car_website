@@ -19,7 +19,8 @@ namespace car_website.Controllers
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly RoleManager<Role> _roleManager;
         private readonly IValidationService _validationService;
-        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, RoleManager<Role> roleManager, IValidationService validationService) : base(userRepository)
+        private readonly IAppSettingsDbRepository _appSettingsDbRepository;
+        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, RoleManager<Role> roleManager, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository) : base(userRepository)
         {
             _carRepository = carRepository;
             _userRepository = userRepository;
@@ -29,6 +30,7 @@ namespace car_website.Controllers
             _currencyUpdater = currencyUpdater;
             _roleManager = roleManager;
             _validationService = validationService;
+            _appSettingsDbRepository = appSettingsDbRepository;
         }
         #endregion
         public IActionResult Panel()
@@ -49,9 +51,9 @@ namespace car_website.Controllers
                 car.Priority = 1;
                 await _carRepository.Update(car);
             }*/
-            var car = await _carRepository.GetByIdAsync(ObjectId.Parse("64cd39e120782f15caafd533"));
+            /*var car = await _carRepository.GetByIdAsync(ObjectId.Parse("64cd39e120782f15caafd533"));
             car.Priority = 2;
-            await _carRepository.Update(car);
+            await _carRepository.Update(car);*/
             /*User userNew = await _userRepository.GetByEmailAsync("shektoly@gmail.com");
             userNew.CarsForSell.Add(ObjectId.Parse("650dbdad6845be71c1a3ffa2"));
             await _userRepository.Update(userNew);*/

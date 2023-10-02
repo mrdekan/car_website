@@ -30,6 +30,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IWaitingCarsRepository, WaitingCarsRepository>();
 builder.Services.AddScoped<IBuyRequestRepository, BuyRequestRepository>();
 builder.Services.AddScoped<IExpressSaleCarRepository, ExpressSaleCarRepository>();
+builder.Services.AddScoped<IAppSettingsDbRepository, AppSettingsDbRepository>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient<IEmailService, EmailService>();

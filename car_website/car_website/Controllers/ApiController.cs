@@ -1,23 +1,14 @@
 ﻿using car_website.Data.Enum;
 using car_website.Interfaces;
-using car_website.Models;
 using car_website.Services;
-using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using MongoDB.Bson;
-using System.Data;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System.Text.RegularExpressions;
 //API v1
 namespace car_website.Controllers.v1
 {
     [Route("api/v{version:apiVersion}/[controller]/")]
     [ApiController]
     [ApiVersion("1.0")]
-    public class ApiController : ControllerBase
+    public class ApiController : ExtendedApiController
     {
         #region Constants
         private const byte CARS_PER_PAGE = 3;
@@ -41,6 +32,7 @@ namespace car_website.Controllers.v1
         private readonly IExpressSaleCarRepository _expressSaleCarRepository;
         private readonly ILogger<ApiController> _logger;
         private readonly IUserService _userService;
+        private readonly IAppSettingsDbRepository _appSettingsDbRepository;
         public ApiController(ICarRepository carRepository,
             IBrandRepository brandRepository,
             IImageService imageService,
@@ -51,7 +43,8 @@ namespace car_website.Controllers.v1
             IConfiguration configuration,
             IExpressSaleCarRepository expressSaleCarRepository,
             ILogger<ApiController> logger,
-            IUserService userService)
+            IUserService userService,
+            IAppSettingsDbRepository appSettingsDbRepository) : base(userRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -64,6 +57,7 @@ namespace car_website.Controllers.v1
             _expressSaleCarRepository = expressSaleCarRepository;
             _logger = logger;
             _userService = userService;
+            _appSettingsDbRepository = appSettingsDbRepository;
         }
         #endregion
 
@@ -71,10 +65,33 @@ namespace car_website.Controllers.v1
 
         [HttpGet("ping")]
         public IActionResult Ping() => Ok(new { Status = true, Code = HttpCodes.Success });
+        [HttpGet("getCurrencyRate")]
+        public async Task<IActionResult> GetCurrencyRate()
+        {
+            float customCurrency = await _appSettingsDbRepository.GetCurrencyRate();
+            float officialCurrency = (float)Math.Round(_currencyUpdater.CurrencyRate, 2);
+            return Ok(new
+            {
+                Status = true,
+                Code = HttpCodes.Success,
+                CurrencyRate = customCurrency,
+                OfficialCurrencyRate = officialCurrency
+            });
+        }
+        [HttpPut("setCurrencyRate")]
+        public async Task<IActionResult> SetCurrencyRate(float newCurrency)
+        {
+            if (!await IsAdmin())
+                return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
+            if (newCurrency < 0)
+                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+            await _appSettingsDbRepository.SetCurrencyRate(newCurrency);
+            return Ok(new { Status = true, Code = HttpCodes.Success });
 
+        }
         #endregion
 
-        #region Cars
+        /*#region Cars
 
         [HttpGet("getCarsCount")]
         public ActionResult<long> GetCarsCount()
@@ -360,7 +377,7 @@ namespace car_website.Controllers.v1
             string pattern = @"^[а-яА-ЯёЁіІїЇєЄ'\s]+$";
             return name.Length < NAME_MAX_LENGTH && Regex.IsMatch(name, pattern);
         }
-        #endregion
+        #endregion*/
     }
 }
 

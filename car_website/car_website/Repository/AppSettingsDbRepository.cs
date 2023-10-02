@@ -13,10 +13,6 @@ namespace car_website.Repository
         {
             _dbContext = dbContext;
         }
-        public async Task Add(AppSettingsDb initial)
-        {
-            await _dbContext.AppSettingsDbCollection.InsertOneAsync(initial);
-        }
 
         public async Task<float> GetCurrencyRate()
         {
