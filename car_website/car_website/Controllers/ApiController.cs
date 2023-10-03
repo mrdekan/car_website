@@ -69,7 +69,7 @@ namespace car_website.Controllers.v1
         public async Task<IActionResult> GetCurrencyRate()
         {
             float customCurrency = await _appSettingsDbRepository.GetCurrencyRate();
-            float officialCurrency = (float)Math.Round(_currencyUpdater.CurrencyRate, 2);
+            float officialCurrency = (float)Math.Round(_currencyUpdater.OfficialCurrencyRate, 2);
             return Ok(new
             {
                 Status = true,

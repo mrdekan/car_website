@@ -317,7 +317,7 @@
         }
     }
 }
-.currency{
+.currency {
     background: $background-secondary;
     padding: 20px;
     border-radius: 0 16px 0 16px;
@@ -325,9 +325,23 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    p{
+
+    p {
         color: $text-default;
         transition: color 0.2s;
         font-size: 16px;
+    }
+
+    button {
+        padding: 6px;
+        border-radius: 8px;
+        background: $green-medium;
+        transition: 0.2s;
+        color: white;
+        font-size: 16px;
+        &:hover {
+            background: $green-light;
+            transition: 0.2s;
+        }
     }
 }

@@ -23,7 +23,8 @@ namespace car_website.Controllers
         private readonly IConfiguration _configuration;
         private readonly IExpressSaleCarRepository _expressSaleCarRepository;
         private readonly IValidationService _validationService;
-        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository, IValidationService validationService) : base(userRepository)
+        private readonly IAppSettingsDbRepository _appSettingsDbRepository;
+        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository) : base(userRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -35,6 +36,7 @@ namespace car_website.Controllers
             _configuration = configuration;
             _expressSaleCarRepository = expressSaleCarRepository;
             _validationService = validationService;
+            _appSettingsDbRepository = appSettingsDbRepository;
         }
         #endregion
         public IActionResult Leasing()
@@ -60,7 +62,7 @@ namespace car_website.Controllers
                 var request = await _buyRequestRepository.GetByBuyerAndCarAsync(user.Id.ToString(), id);
                 if (request != null) requested = true;
             }
-            return View(new CarDetailViewModel(car, _currencyUpdater, requested));
+            return View(new CarDetailViewModel(car, _currencyUpdater, requested, _appSettingsDbRepository));
         }
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
@@ -96,7 +98,7 @@ namespace car_website.Controllers
                 {
                     Success = true,
                     Cars = similarCars.Select(el =>
-                    new LiteCarViewModel(el, _currencyUpdater)).ToList()
+                    new LiteCarViewModel(el, _currencyUpdater, _appSettingsDbRepository)).ToList()
                 });
             }
             catch

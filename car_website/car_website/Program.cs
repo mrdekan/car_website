@@ -35,9 +35,9 @@ builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IValidationService, ValidationService>();
+builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddSingleton<CurrencyUpdater>();
 builder.Services.AddHostedService<CurrencyUpdateService>();
-builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromDays(2);

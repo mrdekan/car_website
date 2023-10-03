@@ -75,10 +75,22 @@ function showCurrencyEditor() {
     fetch(`/api/v1/main/getCurrencyRate`)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             currency = data.currencyRate;
             offCurrency = data.officialCurrencyRate;
-            container.innerHTML = `<div class="currency"><p>Задати курс</p><input class="input" type="text" placeholder=${offCurrency} value=${currency}></div>`;
+            container.innerHTML = `<div class="currency"><p>Задати курс</p><input id="currency-inp" class="input" type="number" placeholder=${offCurrency} value=${currency}><button onclick="sendNewCurrency()">Застосувати</button></div>`;
+            document.getElementById('currency-inp').addEventListener('keydown', (e) => {
+                if (e.key == ',') e.preventDefault();
+            });
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
+function sendNewCurrency() {
+    fetch(`/api/v1/main/setCurrencyRate?newCurrency=${document.getElementById('currency-inp').value}`, {
+        method: 'PUT'
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }

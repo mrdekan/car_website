@@ -1,4 +1,5 @@
 ﻿using car_website.Data.Enum;
+using car_website.Interfaces;
 using car_website.Models;
 using car_website.Services;
 
@@ -6,11 +7,11 @@ namespace car_website.ViewModels
 {
     public class CarViewModel
     {
-        public CarViewModel(Car car, CurrencyUpdater currencyUpdater, bool liked, bool isAdmin = false)
+        public CarViewModel(Car car, CurrencyUpdater currencyUpdater, bool liked, IAppSettingsDbRepository appSettingsDbRepository, bool isAdmin = false)
         {
             Id = car.Id.ToString();
             Price = car.Price;
-            PriceUAH = currencyUpdater.ConvertToUAH(Price);
+            PriceUAH = currencyUpdater.ConvertToUAH(Price, appSettingsDbRepository);
             PhotosURL = car.PhotosURL;
             Brand = car.Brand;
             Model = car.Model;

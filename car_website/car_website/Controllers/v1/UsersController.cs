@@ -42,6 +42,7 @@ namespace car_website.Controllers.v1
         private readonly IUserService _userService;
         private readonly IWaitingCarsRepository _waitingCarsRepository;
         private readonly IValidationService _validationService;
+        private readonly IAppSettingsDbRepository _appSettingsDbRepository;
         public UsersController(ICarRepository carRepository,
             IBrandRepository brandRepository,
             IImageService imageService,
@@ -53,7 +54,8 @@ namespace car_website.Controllers.v1
             IExpressSaleCarRepository expressSaleCarRepository,
             ILogger<ApiController> logger,
             IUserService userService,
-            IValidationService validationService) : base(userRepository)
+            IValidationService validationService,
+            IAppSettingsDbRepository appSettingsDbRepository) : base(userRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -67,6 +69,7 @@ namespace car_website.Controllers.v1
             _logger = logger;
             _userService = userService;
             _validationService = validationService;
+            _appSettingsDbRepository = appSettingsDbRepository;
         }
 
         #endregion Services & ctor
@@ -187,8 +190,9 @@ namespace car_website.Controllers.v1
                     Status = true,
                     Code = HttpCodes.Success,
                     Cars = carsRes.Select(car => new CarViewModel(car,
-                        _currencyUpdater,
-                        user.Favorites.Contains(car.Id))).ToList(),
+                    _currencyUpdater,
+                        user.Favorites.Contains(car.Id),
+                        _appSettingsDbRepository)).ToList(),
                     Pages = totalPages,
                     Page = page
                 });
@@ -229,7 +233,8 @@ namespace car_website.Controllers.v1
                 cars = cars.Skip(skip).Take(perPage);
                 var carsRes = cars.Select(car => new CarViewModel(car,
                     _currencyUpdater,
-                    currentUser.Favorites.Contains(car.Id))).ToList();
+                    currentUser.Favorites.Contains(car.Id),
+                    _appSettingsDbRepository)).ToList();
                 return Ok(new
                 {
                     Status = true,
@@ -269,7 +274,7 @@ namespace car_website.Controllers.v1
                 int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
                 int skip = (page - 1) * perPage;
                 favoriteCars = favoriteCars.Skip(skip).Take(perPage);
-                var carsRes = favoriteCars.Select(car => new CarViewModel(car, _currencyUpdater, true, IsAdmin().Result)).ToList();
+                var carsRes = favoriteCars.Select(car => new CarViewModel(car, _currencyUpdater, true, _appSettingsDbRepository, IsAdmin().Result)).ToList();
                 return Ok(new
                 {
                     Status = true,
@@ -310,7 +315,7 @@ namespace car_website.Controllers.v1
                 cars = cars.Skip(skip).Take(perPage);
                 var carsRes = cars.Select(car => new WaitingCarViewModel()
                 {
-                    Car = new CarViewModel(car.Car, _currencyUpdater, false),
+                    Car = new CarViewModel(car.Car, _currencyUpdater, false, _appSettingsDbRepository),
                     Id = car.Id.ToString()
                 }).ToList();
                 return Ok(new

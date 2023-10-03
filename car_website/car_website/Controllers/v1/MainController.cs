@@ -2,6 +2,7 @@
 using car_website.Interfaces;
 using car_website.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace car_website.Controllers.v1
 {
@@ -56,7 +57,7 @@ namespace car_website.Controllers.v1
         public async Task<IActionResult> GetCurrencyRate()
         {
             float customCurrency = await _appSettingsDbRepository.GetCurrencyRate();
-            float officialCurrency = (float)Math.Round(_currencyUpdater.CurrencyRate, 2);
+            float officialCurrency = (float)Math.Round(_currencyUpdater.OfficialCurrencyRate, 2);
             return Ok(new
             {
                 Status = true,
@@ -66,13 +67,14 @@ namespace car_website.Controllers.v1
             });
         }
         [HttpPut("setCurrencyRate")]
-        public async Task<IActionResult> SetCurrencyRate(float newCurrency)
+        public async Task<IActionResult> SetCurrencyRate(string newCurrency)
         {
+            float currency = float.Parse(newCurrency, CultureInfo.InvariantCulture);
             if (!await IsAdmin())
                 return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
-            if (newCurrency < 0)
+            if (currency < 0)
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });
-            await _appSettingsDbRepository.SetCurrencyRate(newCurrency);
+            await _appSettingsDbRepository.SetCurrencyRate(currency);
             return Ok(new { Status = true, Code = HttpCodes.Success });
 
         }

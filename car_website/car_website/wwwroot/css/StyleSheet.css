@@ -540,6 +540,18 @@ input[type=number] {
   transition: color 0.2s;
   font-size: 16px;
 }
+.currency button {
+  padding: 6px;
+  border-radius: 8px;
+  background: var(--green-medium);
+  transition: 0.2s;
+  color: white;
+  font-size: 16px;
+}
+.currency button:hover {
+  background: var(--green-light);
+  transition: 0.2s;
+}
 
 :root {
   --green-light: #537049;
