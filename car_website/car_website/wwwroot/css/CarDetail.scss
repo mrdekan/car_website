@@ -30,6 +30,7 @@
     justify-content: space-between;
     margin: 20px 0;
 
+
     a {
         height: 38px;
         font-size: 20px;
@@ -486,15 +487,30 @@ h4 {
         max-height: 410px;
     }
     .priceBuy {
+        margin-left: 10px;
+        margin-right: 10px;
+
+        &_right {
+            display: flex;
+            flex-direction: column;
+            align-items: end;
+            width: 155px;
+            gap: 5px;
+        }
+
         &_buy {
             font-size: 16px;
             padding: 5px 10px;
             min-width: 0;
+            min-width: 155px;
+            height: 30px;
+            text-align: center;
         }
 
         a {
             font-size: 16px;
             padding: 5px 10px;
+            height: 30px;
         }
     }
     .popup {
@@ -513,5 +529,8 @@ h4 {
 
     .popup_content {
         width: 80%;
+    }
+    .car_similar{
+        display:none;
     }
 }

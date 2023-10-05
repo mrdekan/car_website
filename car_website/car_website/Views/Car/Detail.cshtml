@@ -76,11 +76,6 @@
                 <p class="car_container-right-price-UAH">≈ @Model.PriceUAH грн</p>
             </div>
             <div class="priceBuy_right">
-                @if (isSelf || isAdmin)
-                {
-                    <a class="priceBuy_buy" asp-controller="Car" asp-action="Edit" asp-route-id=@Model.Id>Редагувати</a>
-                }
-                
                 @if (isAdmin)
                 {
                     if (Model.Priority == 1)
@@ -93,6 +88,12 @@
                     }
                     <script src="~/js/moveToTop.js" asp-append-version="true"></script>
                 }
+                @if (isSelf || isAdmin)
+                {
+                    <a class="priceBuy_buy" asp-controller="Car" asp-action="Edit" asp-route-id=@Model.Id>Редагувати</a>
+                }
+                
+               
                 @if (!isSelf)
                 {
                     if (!string.IsNullOrEmpty(userId))
