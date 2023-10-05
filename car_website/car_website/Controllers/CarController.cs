@@ -1,4 +1,5 @@
-﻿using car_website.Interfaces;
+﻿using car_website.Data.Enum;
+using car_website.Interfaces;
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
@@ -81,6 +82,9 @@ namespace car_website.Controllers
             {
                 var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
                 var cars = await _carRepository.GetAll();
+                var user = await GetCurrentUser();
+                if (user == null || user.Role != UserRole.Dev)
+                    cars = cars.Where(car => car.Priority > 0);
                 var tasks = new List<Task<Tuple<Car, byte>>>();
                 foreach (var el in cars)
                 {
@@ -207,6 +211,8 @@ namespace car_website.Controllers
                 else
                 {
                     Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
+                    if (user.Role != Data.Enum.UserRole.Dev && (car.Priority ?? 0) < 0)
+                        return Ok(new { SuccessCode = 2 });
                     BuyRequest buyRequest = new()
                     {
                         BuyerId = user.Id.ToString(),

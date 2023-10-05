@@ -68,13 +68,16 @@ namespace car_website.Controllers.v1
             try
             {
                 IEnumerable<Car> filteredCars = await _carRepository.GetAll();
+                var user = await GetCurrentUser();
+                if (user == null || user.Role != UserRole.Dev)
+                    filteredCars = filteredCars.Where(car => car.Priority > 0);
                 if (filter.SortingType == null || filter.SortingType == SortingType.Default)
                     filteredCars = filteredCars.Reverse();
                 else if (filter.SortingType == SortingType.PriceToLower)
                     filteredCars = filteredCars.OrderByDescending(car => car.Price);
                 else if (filter.SortingType == SortingType.PriceToHigher)
                     filteredCars = filteredCars.OrderBy(car => car.Price);
-                filteredCars = filteredCars.OrderByDescending(car => car.Priority ?? 1).ToList();
+                filteredCars = filteredCars.OrderByDescending(car => (car.Priority ?? 0) < 0 ? 0 : (car.Priority ?? 0)).ToList();
                 int perPage = filter.Page <= 0 ? filteredCars.Count() : filter.PerPage ?? CARS_PER_PAGE;
                 int page = filter.Page <= 0 ? 1 : filter.Page;
                 if (!string.IsNullOrEmpty(filter.Brand) && filter.Brand != "Усі")
@@ -109,7 +112,7 @@ namespace car_website.Controllers.v1
                 int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
                 int skip = (page - 1) * perPage;
                 filteredCars = filteredCars.Skip(skip).Take(perPage);
-                User user = await GetCurrentUser();
+                //User user = await GetCurrentUser();
                 var carsRes = filteredCars
                     .Select(car =>
                         new CarViewModel(car, _currencyUpdater, user != null
@@ -172,6 +175,8 @@ namespace car_website.Controllers.v1
             if (car == null)
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });
             User user = await GetCurrentUser();
+            if ((user == null || user.Role != UserRole.Dev) && (car.Priority ?? 0) < 0)
+                return Ok(new { Status = false, Code = HttpCodes.NotFound });
             return Ok(new
             {
                 Status = true,
