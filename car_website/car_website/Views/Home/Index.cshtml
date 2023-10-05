@@ -26,6 +26,16 @@
         <div class="filters_before">
             <p>Авто у продажу: @Model.CarsCount</p>
             <a asp-controller="Car" asp-action="Create">Продати авто</a>
+            
+            <div class="custom-select">
+                <div class="select-btn sorting-btn" id="sortingButton">
+                    <span>Сортування</span>
+                    <i class="uil uil-angle-down"></i>
+                </div>
+                <div class="content">
+                    <ul class="options" id="sortings"></ul>
+                </div>
+            </div>
             <div class="filters">
                 <label>Тип кузова</label>
                 <div class="custom-select">

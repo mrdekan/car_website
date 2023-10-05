@@ -813,7 +813,12 @@ header {
 .select-btn.active i {
     transform: rotate(-90deg);
 }
-
+.sorting-btn {
+    background: $background-secondary;
+    border-radius: 3px;
+    color: $text-default;
+    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+}
 .custom-select {
     width: 100%;
     position: relative;
@@ -839,6 +844,7 @@ header {
 .content.active {
     display: block;
     transform: scaleY(1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
 }
 
 

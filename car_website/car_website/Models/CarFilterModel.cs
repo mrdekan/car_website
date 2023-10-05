@@ -20,7 +20,7 @@ namespace car_website.Models
         public uint MaxMileage { get; set; }
         public int Page { get; set; }
         public int? PerPage { get; set; }
-        public SortingType? sortingType { get; set; }
+        public SortingType? SortingType { get; set; }
 
     }
 }

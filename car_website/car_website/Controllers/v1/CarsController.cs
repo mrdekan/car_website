@@ -68,6 +68,12 @@ namespace car_website.Controllers.v1
             try
             {
                 IEnumerable<Car> filteredCars = await _carRepository.GetAll();
+                if (filter.SortingType == null || filter.SortingType == SortingType.Default)
+                    filteredCars = filteredCars.Reverse();
+                else if (filter.SortingType == SortingType.PriceToLower)
+                    filteredCars = filteredCars.OrderByDescending(car => car.Price);
+                else if (filter.SortingType == SortingType.PriceToHigher)
+                    filteredCars = filteredCars.OrderBy(car => car.Price);
                 filteredCars = filteredCars.OrderByDescending(car => car.Priority ?? 1).ToList();
                 int perPage = filter.Page <= 0 ? filteredCars.Count() : filter.PerPage ?? CARS_PER_PAGE;
                 int page = filter.Page <= 0 ? 1 : filter.Page;

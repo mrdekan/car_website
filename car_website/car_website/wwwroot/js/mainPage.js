@@ -20,6 +20,8 @@ const selectFuelsBtn = document.getElementById("fuelsButton"),
     fuelsOptions = document.getElementById("fuels");
 const selectDrivelinesBtn = document.getElementById("drivelinesButton"),
     drivelinesOptions = document.getElementById("drivelines");
+const selectSortingBtn = document.getElementById("sortingButton"),
+    sortingOptions = document.getElementById("sortings");
 const apply_button = document.getElementById("refresh_cars");
 const year_min_select = document.getElementById("year_min-select");
 const year_max_select = document.getElementById("year_max-select");
@@ -49,6 +51,7 @@ const filter = document.querySelector('.filters_wrapper');
 let brands = ["Усі"], models = ["Усі"];
 let bodies = ["Усі", "Седан", "Позашляховик", "Мінівен", "Хетчбек", "Універсал", "Купе", "Кабріолет", "Пікап", "Ліфтбек"];
 let transmissions = ["Усі", "Механічна", "Автоматична"];
+let sortings = ["За датою додавання", "За спаданням ціни", "За зростанням ціни"];
 let fuels = {};
 fuels["Усі"] = 0;
 fuels["Бензин"] = 3;
@@ -72,6 +75,7 @@ addBody();
 addTransmission();
 addFuel();
 addDriveline();
+addSorting();
 //#endregion
 
 //#region Pages & Likes
@@ -140,6 +144,8 @@ function clearFilters() {
     race_min_input.value = "";
     selectBrandsBtn.firstElementChild.innerText = "Усі";
     addBrand();
+    selectSortingBtn.firstElementChild.innerText = "Сортування";
+    addSorting();
     selectBodiesBtn.firstElementChild.innerText = "Усі";
     addBody();
     bodiesOptions.scrollTop = 0;
@@ -282,7 +288,8 @@ function applyFilter(page = 1) {
         maxEngineCapacity: Number(engineVolume_max_input.value),
         minMileage: Number(race_min_input.value),
         maxMileage: Number(race_max_input.value),
-        page: page
+        page: page,
+        sortingType: sortings.includes(selectSortingBtn.innerText) ? sortings.indexOf(selectSortingBtn.innerText) : 0,
     };
     fetch(`/api/v1/cars/getFiltered`, {
         method: "POST",
@@ -498,6 +505,14 @@ function addDriveline(selectedDriveline) {
         drivelinesOptions.insertAdjacentHTML("beforeend", li);
     });
 }
+function addSorting(selectedSorting) {
+    sortingOptions.innerHTML = '';
+    sortings.forEach(sorting => {
+        let isSelected = sorting == selectedSorting || !selectedSorting && sorting == 'За датою додавання' ? "selected" : "";
+        let li = `<li onclick="updateSorting(this)" class="${isSelected}">${sorting}</li>`;
+        sortingOptions.insertAdjacentHTML("beforeend", li);
+    });
+}
 function updateName(selectedLi) {
     searchBrandInp.value = "";
     addBrand(selectedLi.innerText);
@@ -537,6 +552,13 @@ function updateDriveline(selectedLi) {
     selectDrivelinesBtn.classList.remove("active");
     selectDrivelinesBtn.firstElementChild.innerText = selectedLi.innerText;
 }
+function updateSorting(selectedLi) {
+    addSorting(selectedLi.innerText);
+    sortingOptions.parentElement.classList.remove("active");
+    selectSortingBtn.classList.remove("active");
+    selectSortingBtn.firstElementChild.innerText = selectedLi.innerText;
+    applyFilter();
+}
 function hideBrand() {
     searchBrandInp.value = "";
     brandsOptions.parentElement.classList.remove("active");
@@ -562,6 +584,11 @@ function hideDriveline() {
     selectDrivelinesBtn.classList.remove("active");
     drivelinesOptions.scrollTop = 0;
 }
+function hideSorting() {
+    sortingOptions.parentElement.classList.remove("active");
+    selectSortingBtn.classList.remove("active");
+    sortingOptions.scrollTop = 0;
+}
 function hideFuel() {
     fuelsOptions.parentElement.classList.remove("active");
     selectFuelsBtn.classList.remove("active");
@@ -574,61 +601,36 @@ selectBrandsBtn.addEventListener("click", () => {
     searchBrandInp.value = "";
     brandsOptions.parentElement.classList.toggle("active");
     selectBrandsBtn.classList.toggle("active");
-    hideModel();
-    hideBody();
-    hideTransmission();
-    hideFuel();
-    hideDriveline();
 });
 selectModelsBtn.addEventListener("click", () => {
     searchModelInp.value = "";
     modelsOptions.parentElement.classList.toggle("active");
     selectModelsBtn.classList.toggle("active");
-    hideBrand();
-    hideBody();
-    hideTransmission();
-    hideFuel();
-    hideDriveline();
 });
 selectBodiesBtn.addEventListener("click", () => {
     bodiesOptions.parentElement.classList.toggle("active");
     selectBodiesBtn.classList.toggle("active");
     bodiesOptions.scrollTop = 0;
-    hideBrand();
-    hideModel();
-    hideTransmission();
-    hideFuel();
-    hideDriveline();
 });
 selectTransmissionsBtn.addEventListener("click", () => {
     transmissionsOptions.parentElement.classList.toggle("active");
     selectTransmissionsBtn.classList.toggle("active");
     transmissionsOptions.scrollTop = 0;
-    hideBody();
-    hideBrand();
-    hideModel();
-    hideFuel();
-    hideDriveline();
 });
 selectFuelsBtn.addEventListener("click", () => {
     fuelsOptions.parentElement.classList.toggle("active");
     selectFuelsBtn.classList.toggle("active");
     fuelsOptions.scrollTop = 0;
-    hideBody();
-    hideBrand();
-    hideModel();
-    hideTransmission();
-    hideDriveline();
 });
 selectDrivelinesBtn.addEventListener("click", () => {
     drivelinesOptions.parentElement.classList.toggle("active");
     selectDrivelinesBtn.classList.toggle("active");
     drivelinesOptions.scrollTop = 0;
-    hideBody();
-    hideBrand();
-    hideModel();
-    hideTransmission();
-    hideFuel();
+});
+selectSortingBtn.addEventListener("click", () => {
+    sortingOptions.parentElement.classList.toggle("active");
+    selectSortingBtn.classList.toggle("active");
+    sortingOptions.scrollTop = 0;
 });
 document.addEventListener('click', function (event) {
     if (!selectBrandsBtn.parentElement.contains(event.target)) {
@@ -647,5 +649,7 @@ document.addEventListener('click', function (event) {
         hideFuel();
     if (!selectDrivelinesBtn.parentElement.contains(event.target))
         hideDriveline();
+    if (!selectSortingBtn.parentElement.contains(event.target))
+        hideSorting();
 });
 //#endregion

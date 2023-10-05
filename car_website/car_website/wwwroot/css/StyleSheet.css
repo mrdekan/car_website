@@ -2257,6 +2257,13 @@ header .header_right-dark-label::before {
   transform: rotate(-90deg);
 }
 
+.sorting-btn {
+  background: var(--background-secondary);
+  border-radius: 3px;
+  color: var(--text-default);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+}
+
 .custom-select {
   width: 100%;
   position: relative;
@@ -2282,6 +2289,7 @@ header .header_right-dark-label::before {
 .content.active {
   display: block;
   transform: scaleY(1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 }
 
 .content .search {
