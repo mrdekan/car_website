@@ -31,6 +31,12 @@ body {
     justify-content: center;
     gap: 50px;
 
+    &-content{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items:center;
+    } 
     &.profile {
         margin: 0;
     }
@@ -1609,5 +1615,9 @@ header {
                 border-radius: 0 10px 0 10px;
             }
         }
+    }
+    .cars-not-found{
+        width: 95vw;
+        margin-top: 15px;
     }
 }

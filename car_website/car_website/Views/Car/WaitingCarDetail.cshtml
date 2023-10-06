@@ -1,10 +1,79 @@
-﻿@model WaitingCar
+﻿@using System.Security.Claims;
+@model WaitingCar
 @{
     ViewData["Title"] = Model.Car.Brand + " " + Model.Car.Model;
+    string userId = "";
+    if (User != null && User.Identity != null)
+        userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
+    bool isSelf = userId == Model.Car.SellerId;
+    string[] features = new string[]
+        {
+            "Протитуманні фари",
+            "Сенсор дощу",
+            "Кондиціонер",
+            "Центральний замок",
+            "Підігрів сидінь",
+            "Датчик світла",
+            "Сигналізація",
+            "Шкіряний салон",
+            "Круїз контроль",
+            "Навігація GPS",
+            "Підсилювач керма",
+            "Другий комплект гуми",
+            "Сервісна книга",
+            "Електродзеркала",
+            "Діод",
+            "Парктронік",
+            "ABS",
+            "Тонування",
+            "Склопідйомники",
+            "Пневмопідвіска",
+            "ESP",
+            "Автомагнітола",
+            "Легкосплавні диски"
+        };
 }
+<div class="wrapper_carDetail-before">
+    <div class="wrapper_carDetail">
+        <h2 class="title">@Model.Car.Brand @Model.Car.Model @Model.Car.Year</h2>
+        <div class="slider">
+            <button id="prev">
+                <span>
+                    <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.29289 0.292893C6.68342 -0.0976311 7.31658 -0.0976311 7.70711 0.292893L13.7071 6.29289C14.0976 6.68342 14.0976 7.31658 13.7071 7.70711C13.3166 8.09763 12.6834 8.09763 12.2929 7.70711L7 2.41421L1.70711 7.70711C1.31658 8.09763 0.683418 8.09763 0.292893 7.70711C-0.0976311 7.31658 -0.0976311 6.68342 0.292893 6.29289L6.29289 0.292893Z" fill="currentColor" />
+                    </svg>
+                </span>
+            </button>
+            @foreach (var photo in Model.Car.PhotosURL)
+            {
+                <div class="slider_element">
+                    <img src="@photo" class="slider_element-image" alt="photo" />
+                    <img src="@photo" class="slider_element-background" alt="photo" />
+                </div>
+            }
+            @*@if (!string.IsNullOrEmpty(Model.Car.VideoUrl))
+            {
+                <div class="slider_element">
+                    <iframe src="@Model.Car.VideoUrl" frameborder="0" allowfullscreen></iframe>
+                </div>
+            }*@
+            <button id="next">
+                <span>
+                    <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.29289 0.292893C6.68342 -0.0976311 7.31658 -0.0976311 7.70711 0.292893L13.7071 6.29289C14.0976 6.68342 14.0976 7.31658 13.7071 7.70711C13.3166 8.09763 12.6834 8.09763 12.2929 7.70711L7 2.41421L1.70711 7.70711C1.31658 8.09763 0.683418 8.09763 0.292893 7.70711C-0.0976311 7.31658 -0.0976311 6.68342 0.292893 6.29289L6.29289 0.292893Z" fill="currentColor" />
+                    </svg>
+                </span>
+            </button>
+        </div>
+        </div>
+        </div>
 <h2 class="title">@Model.Car.Brand @Model.Car.Model @Model.Car.Year</h2>
 @foreach (var photo in Model.Car.PhotosURL)
 {
     <img src="@photo" alt="photo" height="400" />
 }
 <a asp-controller="Admin" asp-action="ApproveCar" asp-route-id=@Model.Id.ToString()>Підтвердити</a>
+<textarea placeholder="Причина відмови" maxlength="300"></textarea>
+<span id="reject-symbols">0/300</span>
+<button>Відхилити</button>
+<script src="~/js/waitingCarDetailPage.js" asp-append-version="true"></script>

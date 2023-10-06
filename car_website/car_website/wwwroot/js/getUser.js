@@ -3,7 +3,6 @@
 fetch(`/api/v1/users/getById/${sellerBlock.getAttribute('sellerId')}`)
     .then(response => response.json())
     .then(data => {
-        console.log(data)
         if (data != null && data.status == true) {
         sellerBlock.innerHTML = `<div><h4>Продавець:</h4>
         <a href="/user/detail/${data.user.id}">${data.user.surname} ${data.user.name}</a>

@@ -78,7 +78,7 @@
             <div class="priceBuy_right">
                 @if (isAdmin)
                 {
-                    if (Model.Priority == 1)
+                    if (Model.Priority < 2)
                     {
                         <button id="top" class="priceBuy_buy" carId="@Model.Id">В топ</button>
                     }

@@ -314,6 +314,13 @@ input[type=number] {
   margin: 40px 0 0 5%;
 }
 
+.user-downloading {
+  width: 300px;
+  color: var(--text-default);
+  transition: color 0.2s;
+  font-size: 16px;
+}
+
 .user_container-element {
   padding: 15px;
   background-color: var(--background-secondary);
@@ -573,7 +580,7 @@ input[type=number] {
 
 .title {
   font-weight: 700;
-  font-size: 3vh;
+  font-size: 30px;
   border-bottom: 2px solid var(--gray-default);
   line-height: 1.1;
   margin-bottom: 20px;
@@ -1601,6 +1608,12 @@ body {
   display: flex;
   justify-content: center;
   gap: 50px;
+}
+.wrapper-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
 }
 .wrapper.profile {
   margin: 0;
@@ -2966,5 +2979,9 @@ header .header_right-dark-label::before {
     background: var(--background-secondary);
     transition: background 0.2s;
     border-radius: 0 10px 0 10px;
+  }
+  .cars-not-found {
+    width: 95vw;
+    margin-top: 15px;
   }
 }

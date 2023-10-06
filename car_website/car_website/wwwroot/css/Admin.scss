@@ -69,13 +69,19 @@
     gap: 15px;
     margin: 40px 0 0 5%;
 }
-
+.user-downloading {
+    width: 300px;
+    color: $text-default;
+    transition: color 0.2s;
+    font-size: 16px;
+}
 .user_container-element {
     padding: 15px;
     background-color: $background-secondary;
     min-width: 300px;
     box-shadow: 0 0 15px rgba(0,0,0, 0.25);
     border-radius: 0 16px 0 16px;
+
     a {
         color: $text-default;
         font-size: 20px;

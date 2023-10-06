@@ -19,9 +19,12 @@ let brandsPage = 1, brandsCache;
 let expressCarsPage = 1, expressCarsCache;
 let modelsCache = {};
 let selectedBrand;
+const pages_buttons_containers = document.getElementsByClassName("pages_buttons");
+let selectedRadio;
 window.addEventListener('load', function () {
     radioButtons.forEach(function (radio) {
         if (radio.checked) {
+            selectedRadio = radio;
             updateInfo(radio);
         }
     });
@@ -31,13 +34,17 @@ radioButtons.forEach(function (radio) {
     radio.addEventListener('change', handleRadioChange);
 });
 function handleRadioChange(event) {
+    selectedRadio = event.target;
     updateInfo(event.target);
 }
-function updateInfo(target) {
+function updateInfo(target,page=1) {
     container.innerHTML = "";
     if (target.id == "users") {
-        if (usersCache == null)
+        usersPage = page;
+        if (usersCache == null || usersCache.page != page) {
+            container.innerHTML = "<p class='user-downloading'>Завантажується</p>";
             getUsers();
+        }
         else
             showData(usersCache);
     }
@@ -70,34 +77,12 @@ function updateInfo(target) {
         showCurrencyEditor();
     }
 }
-function showCurrencyEditor() {
-    let currency, offCurrency;
-    fetch(`/api/v1/main/getCurrencyRate`)
-        .then(response => response.json())
-        .then(data => {
-            currency = data.currencyRate;
-            offCurrency = data.officialCurrencyRate;
-            container.innerHTML = `<div class="currency"><p>Задати курс</p><input id="currency-inp" class="input" type="number" placeholder=${offCurrency} value=${currency}><button onclick="sendNewCurrency()">Застосувати</button></div>`;
-            document.getElementById('currency-inp').addEventListener('keydown', (e) => {
-                if (e.key == ',') e.preventDefault();
-            });
-        })
-        .catch(error => console.error("An error occurred while retrieving data:", error));
-}
-function sendNewCurrency() {
-    fetch(`/api/v1/main/setCurrencyRate?newCurrency=${document.getElementById('currency-inp').value}`, {
-        method: 'PUT'
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-        })
-        .catch(error => console.error("An error occurred while retrieving data:", error));
-}
 function showData(data) {
     if (data == null || data.status == false || data.success == false)
         container.innerHTML = `<h3 class="warning-text">Помилка при отриманні даних</h3>`;
     else {
+        updatePagesButtons(data.pages)
+        console.log(usersPage)
         if (data.type == "Users") {
             container.innerHTML = "";
             if (data.users.length == 0)
@@ -228,7 +213,58 @@ function showData(data) {
         }
     }
 }
-
+function updatePagesButtons(number) {
+    Array.from(pages_buttons_containers).forEach(buttons_container => {
+        buttons_container.innerHTML = "";
+        if (number > 1) {
+            let currentPage = 1;
+            if (selectedRadio.id == "users")
+                currentPage = usersPage;
+            else if (selectedRadio.id == "waitingCars")
+                currentPage = waitingCarsPage;
+            else if (selectedRadio.id == "buyRequests")
+                currentPage = buyRequestsPage;
+            else if (selectedRadio.id == "expressSales")
+                currentPage = expressCarsPage;
+            if (number > 7) {
+                if (currentPage >= 5 && number - currentPage > 4) {
+                    buttons_container.innerHTML += `<button ${1 === currentPage ? 'class="selected"' : ''} page="${1}"">${1}</button>`;
+                    buttons_container.innerHTML += `<p class="pages_buttons-space">...</p>`;
+                    for (let i = currentPage - 1; i <= (number > currentPage + 4 ? currentPage + 2 : number); i++) {
+                        buttons_container.innerHTML += `<button ${i === currentPage ? 'class="selected"' : ''} page="${i}"">${i}</button>`;
+                    }
+                    if (number > currentPage + 4) {
+                        buttons_container.innerHTML += `<p class="pages_buttons-space">...</p>`;
+                        buttons_container.innerHTML += `<button ${number === currentPage ? 'class="selected"' : ''} page="${number}"">${number}</button>`;
+                    }
+                }
+                else if (currentPage <= 4) {
+                    for (let i = 1; i <= 6; i++) {
+                        buttons_container.innerHTML += `<button ${i === currentPage ? 'class="selected"' : ''} page="${i}"">${i}</button>`;
+                    }
+                    buttons_container.innerHTML += `<p class="pages_buttons-space">...</p>`;
+                    buttons_container.innerHTML += `<button ${number === currentPage ? 'class="selected"' : ''} page="${number}"">${number}</button>`;
+                }
+                else if (number - currentPage <= 4) {
+                    buttons_container.innerHTML += `<button ${1 === currentPage ? 'class="selected"' : ''} page="${1}"">${1}</button>`;
+                    buttons_container.innerHTML += `<p class="pages_buttons-space">...</p>`;
+                    for (let i = number - 5; i <= number; i++) {
+                        buttons_container.innerHTML += `<button ${i === currentPage ? 'class="selected"' : ''} page="${i}"">${i}</button>`;
+                    }
+                }
+            }
+            else {
+                for (let i = 1; i <= number; i++) {
+                    buttons_container.innerHTML += `<button ${i === currentPage ? 'class="selected"' : ''} page="${i}"">${i}</button>`;
+                }
+            }
+            Array.from(buttons_container.children).forEach(button => {
+                if (button.tagName === 'BUTTON')
+                    button.addEventListener('click', () => updateInfo(selectedRadio, +button.getAttribute('page')));
+            });
+        }
+    });
+}
 //#region Ajax requests
 function getUsers() {
     fetch(`/api/v1/users/getAll?page=${usersPage}`)
@@ -236,6 +272,7 @@ function getUsers() {
         .then(data => {
             data.type = "Users";
             usersCache = data;
+            updatePagesButtons(data.pages);
             showData(usersCache);
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
@@ -350,6 +387,30 @@ function editModel(button) {
                 .catch(error => console.error("An error occurred while retrieving data:", error));
         }
     }
+}
+function showCurrencyEditor() {
+    let currency, offCurrency;
+    fetch(`/api/v1/main/getCurrencyRate`)
+        .then(response => response.json())
+        .then(data => {
+            currency = data.currencyRate;
+            offCurrency = data.officialCurrencyRate;
+            container.innerHTML = `<div class="currency"><p>Задати курс</p><input id="currency-inp" class="input" type="number" placeholder=${offCurrency} value=${currency}><button onclick="sendNewCurrency()">Застосувати</button></div>`;
+            document.getElementById('currency-inp').addEventListener('keydown', (e) => {
+                if (e.key == ',') e.preventDefault();
+            });
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
+function sendNewCurrency() {
+    fetch(`/api/v1/main/setCurrencyRate?newCurrency=${document.getElementById('currency-inp').value}`, {
+        method: 'PUT'
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function changeModelToEditMode(button) {
     showModels(button.getAttribute('brand'));

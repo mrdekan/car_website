@@ -19,7 +19,7 @@ namespace car_website.Controllers.v1
         private const byte CARS_PER_PAGE = 3;
         private const byte FAV_CARS_PER_PAGE = 10;
         private const byte WAITING_CARS_PER_PAGE = 5;
-        private const byte USERS_PER_PAGE = 10;
+        private const byte USERS_PER_PAGE = 5;
         private readonly List<string> _importantIds = new List<string>() {
             "64c13fdbc749ae227de382a2",
             "64c6b5b68924f3866c514978",

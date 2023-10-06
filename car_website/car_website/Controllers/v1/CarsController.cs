@@ -230,6 +230,8 @@ namespace car_website.Controllers.v1
             if (!ObjectId.TryParse(carId, out var id))
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });
             Car car = await _carRepository.GetByIdAsync(id);
+            if ((car.Priority ?? 0) < 0)
+                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
             car.Priority = cancel ? 1 : 2;
             await _carRepository.Update(car);
             return Ok(new { Status = true, Code = HttpCodes.Success });
