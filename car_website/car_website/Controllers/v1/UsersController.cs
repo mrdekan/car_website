@@ -194,7 +194,7 @@ namespace car_website.Controllers.v1
                     Cars = carsRes.Select(car => new CarViewModel(car,
                     _currencyUpdater,
                         user.Favorites.Contains(car.Id),
-                        _appSettingsDbRepository, _imageService)).ToList(),
+                        _appSettingsDbRepository)).ToList(),
                     Pages = totalPages,
                     Page = page
                 });
@@ -238,7 +238,7 @@ namespace car_website.Controllers.v1
                 var carsRes = cars.Select(car => new CarViewModel(car,
                     _currencyUpdater,
                     currentUser.Favorites.Contains(car.Id),
-                    _appSettingsDbRepository, _imageService)).ToList();
+                    _appSettingsDbRepository)).ToList();
                 return Ok(new
                 {
                     Status = true,
@@ -280,7 +280,7 @@ namespace car_website.Controllers.v1
                 int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
                 int skip = (page - 1) * perPage;
                 favoriteCars = favoriteCars.Skip(skip).Take(perPage);
-                var carsRes = favoriteCars.Select(car => new CarViewModel(car, _currencyUpdater, true, _appSettingsDbRepository, _imageService, IsAdmin().Result)).ToList();
+                var carsRes = favoriteCars.Select(car => new CarViewModel(car, _currencyUpdater, true, _appSettingsDbRepository, IsAdmin().Result)).ToList();
                 return Ok(new
                 {
                     Status = true,
@@ -321,7 +321,7 @@ namespace car_website.Controllers.v1
                 cars = cars.Skip(skip).Take(perPage);
                 var carsRes = cars.Select(car => new WaitingCarViewModel()
                 {
-                    Car = new CarViewModel(car.Car, _currencyUpdater, false, _appSettingsDbRepository, _imageService),
+                    Car = new CarViewModel(car.Car, _currencyUpdater, false, _appSettingsDbRepository),
                     Id = car.Id.ToString()
                 }).ToList();
                 return Ok(new

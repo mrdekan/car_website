@@ -8,7 +8,7 @@ namespace car_website.Models
 {
     public class Car
     {
-        public Car(CreateCarViewModel carVM, List<string> urlPhotos, string sellerId)
+        public Car(CreateCarViewModel carVM, List<string> urlPhotos, string sellerId, float aspectRatio)
         {
             Price = carVM.Price;
             PhotosURL = urlPhotos.ToArray();
@@ -36,6 +36,7 @@ namespace car_website.Models
             SellerId = sellerId;
             VideoURL = carVM.VideoURL;
             Priority = 1;
+            PreviewAspectRatio = aspectRatio;
         }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -58,5 +59,6 @@ namespace car_website.Models
         public string SellerId { get; set; }
         public string? VideoURL { get; set; }
         public int? Priority { get; set; }
+        public float? PreviewAspectRatio { get; set; }
     }
 }

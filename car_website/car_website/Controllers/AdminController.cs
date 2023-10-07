@@ -49,11 +49,18 @@ namespace car_website.Controllers
             var cars = await _carRepository.GetAll();
             foreach (var car in cars)
             {
-                if (car.Id != ObjectId.Parse("6516c685b24b85bc3500fa25"))
+                await _carRepository.Update(car);
+                float aspect;
+                try
                 {
-                    car.Priority = -1;
-                    await _carRepository.Update(car);
+                    aspect = _imageService.GetPhotoAspectRatio(car.PhotosURL[0]);
                 }
+                catch
+                {
+                    aspect = 0;
+                }
+                car.PreviewAspectRatio = aspect;
+                await _carRepository.Update(car);
             }
             /*var car = await _carRepository.GetByIdAsync(ObjectId.Parse("64cd39e120782f15caafd533"));
             car.Priority = 2;
@@ -213,7 +220,7 @@ namespace car_website.Controllers
                 cars = cars.Skip(skip).Take(perPage);
                 var carsRes = cars.Select(car => new WaitingCarViewModel()
                 {
-                    Car = new CarViewModel(car.Car, _currencyUpdater, false, _appSettingsDbRepository, _imageService, true),
+                    Car = new CarViewModel(car.Car, _currencyUpdater, false, _appSettingsDbRepository, true),
                     Id = car.Id.ToString(),
                 }).ToList();
                 return Ok(new
