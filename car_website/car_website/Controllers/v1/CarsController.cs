@@ -299,6 +299,25 @@ namespace car_website.Controllers.v1
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
         }
+        [HttpDelete("deleteBuyRequest")]
+        public async Task<ActionResult> DeleteBuyRequest(string id)
+        {
+            if (!IsAdmin().Result)
+                return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
+            if (!ObjectId.TryParse(id, out var brId))
+                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+            var request = await _buyRequestRepository.GetByIdAsync(brId);
+            if (request == null)
+                return Ok(new { Status = false, Code = HttpCodes.NotFound });
+            if (request.BuyerId != null && ObjectId.TryParse(request.BuyerId, out var bId))
+            {
+                var buyer = await _userRepository.GetByIdAsync(bId);
+                buyer.SendedBuyRequest = buyer.SendedBuyRequest.Where(el => el.ToString() != id).ToList();
+                await _userRepository.Update(buyer);
+            }
+            await _buyRequestRepository.Delete(request);
+            return Ok(new { Status = true, Code = HttpCodes.NotFound });
+        }
         #endregion
         #region Waiting cars
         [HttpPut("rejectWaitingCar")]

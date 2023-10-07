@@ -4,8 +4,9 @@ namespace car_website.ViewModels
 {
     public class BuyRequestViewModel
     {
-        public BuyRequestViewModel(Car car, User buyer, User seller)
+        public BuyRequestViewModel(Car car, User buyer, User seller, string id)
         {
+            Id = id;
             CarId = car.Id.ToString();
             CarInfo = $"{car.Brand} {car.Model} {car.Year}";
             CarPhotoURL = car.PhotosURL[0];
@@ -16,8 +17,9 @@ namespace car_website.ViewModels
             SellerPhone = seller.PhoneNumber;
             SellerName = $"{seller.SurName} {seller.Name}";
         }
-        public BuyRequestViewModel(Car car, string buyerName, string buyerPhone, User seller)
+        public BuyRequestViewModel(Car car, string buyerName, string buyerPhone, User seller, string id)
         {
+            Id = id;
             CarId = car.Id.ToString();
             CarInfo = $"{car.Brand} {car.Model} {car.Year}";
             CarPhotoURL = car.PhotosURL[0];
@@ -27,6 +29,7 @@ namespace car_website.ViewModels
             SellerPhone = seller.PhoneNumber;
             SellerName = $"{seller.SurName} {seller.Name}";
         }
+        public string Id { get; set; }
         public string CarId { get; set; }
         public string CarInfo { get; set; }
         public string CarPhotoURL { get; set; }

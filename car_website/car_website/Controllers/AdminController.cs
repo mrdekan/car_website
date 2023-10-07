@@ -46,7 +46,7 @@ namespace car_website.Controllers
         {
             /*if (HttpContext.Session.GetInt32("UserRole") != 2)
                 return RedirectToAction("Index", "Home");*/
-            var cars = await _carRepository.GetAll();
+            /*var cars = await _carRepository.GetAll();
             foreach (var car in cars)
             {
                 await _carRepository.Update(car);
@@ -61,13 +61,13 @@ namespace car_website.Controllers
                 }
                 car.PreviewAspectRatio = aspect;
                 await _carRepository.Update(car);
-            }
+            }*/
             /*var car = await _carRepository.GetByIdAsync(ObjectId.Parse("64cd39e120782f15caafd533"));
             car.Priority = 2;
             await _carRepository.Update(car);*/
-            /*User userNew = await _userRepository.GetByEmailAsync("shektoly@gmail.com");
-            userNew.CarsForSell.Add(ObjectId.Parse("650dbdad6845be71c1a3ffa2"));
-            await _userRepository.Update(userNew);*/
+            User userNew = await _userRepository.GetByEmailAsync("yehor0504@gmail.com");
+            userNew.SendedBuyRequest = userNew.SendedBuyRequest.Where(el => el.ToString() != "64df1aaa7c3d3dd1bf8fd4ee").ToList();
+            await _userRepository.Update(userNew);
             /*var users = await _userRepository.GetAll();
             foreach (var user in users)
             {
@@ -269,14 +269,14 @@ namespace car_website.Controllers
                     {
                         Car car = await GetCar(carsCache, request.CarId);
                         User seller = await GetUser(usersCache, car.SellerId);
-                        list.Add(new BuyRequestViewModel(car, request.BuyerName ?? "", request.BuyerPhone ?? "", seller));
+                        list.Add(new BuyRequestViewModel(car, request.BuyerName ?? "", request.BuyerPhone ?? "", seller, request.Id.ToString()));
                     }
                     else
                     {
                         User buyer = await GetUser(usersCache, request.BuyerId);
                         Car car = await GetCar(carsCache, request.CarId);
                         User seller = await GetUser(usersCache, car.SellerId);
-                        list.Add(new BuyRequestViewModel(car, buyer, seller));
+                        list.Add(new BuyRequestViewModel(car, buyer, seller, request.Id.ToString()));
                     }
                 }
                 int totalItems = list.Count();

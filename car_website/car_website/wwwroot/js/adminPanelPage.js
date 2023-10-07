@@ -77,6 +77,20 @@ function updateInfo(target,page=1) {
         showCurrencyEditor();
     }
 }
+function deleteRequest(sender) {
+    if (confirm(`Видалити цей запрос на ${sender.getAttribute('car')}?`)) {
+        fetch(`/api/v1/cars/deleteBuyRequest?id=${sender.getAttribute('id') }`, {
+            method: 'DELETE',
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if (data != null && data.status == true)
+                    sender.parentElement.remove();
+            })
+            .catch(error => console.error("An error occurred while retrieving data:", error));
+    }
+}
 function showData(data) {
     if (data == null || data.status == false || data.success == false)
         container.innerHTML = `<h3 class="warning-text">Помилка при отриманні даних</h3>`;
@@ -151,6 +165,7 @@ function showData(data) {
                 <a href="/User/Detail/${request.sellerId}">${request.sellerName}</a>
                 <p>+${request.sellerPhone}</p>
             </div>
+            <button id=${request.id} car="${request.carInfo}" onclick="deleteRequest(this)">Видалити</button>
         </div>`;
             });
         }
