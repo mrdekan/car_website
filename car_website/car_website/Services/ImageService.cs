@@ -1,4 +1,5 @@
 ﻿using car_website.Interfaces;
+using ImageMagick;
 
 namespace car_website.Services
 {
@@ -28,6 +29,20 @@ namespace car_website.Services
         {
             var photoUrl = Path.Combine("/Photos", photoName);
             return Task.FromResult(photoUrl);
+        }
+
+        public float GetPhotoAspectRatio(string photoName)
+        {
+            var filePath = _webHostEnvironment.WebRootPath + photoName.Replace("/", "\\");
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException("Фотография не найдена.", filePath);
+            }
+
+            using (var image = new MagickImage(filePath))
+            {
+                return (float)image.Width / image.Height;
+            }
         }
     }
 }

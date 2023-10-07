@@ -20,7 +20,8 @@ namespace car_website.Controllers
         private readonly RoleManager<Role> _roleManager;
         private readonly IValidationService _validationService;
         private readonly IAppSettingsDbRepository _appSettingsDbRepository;
-        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, RoleManager<Role> roleManager, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository) : base(userRepository)
+        private readonly IImageService _imageService;
+        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, RoleManager<Role> roleManager, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository, IImageService imageService) : base(userRepository)
         {
             _carRepository = carRepository;
             _userRepository = userRepository;
@@ -31,6 +32,7 @@ namespace car_website.Controllers
             _roleManager = roleManager;
             _validationService = validationService;
             _appSettingsDbRepository = appSettingsDbRepository;
+            _imageService = imageService;
         }
         #endregion
         public IActionResult Panel()
@@ -211,7 +213,7 @@ namespace car_website.Controllers
                 cars = cars.Skip(skip).Take(perPage);
                 var carsRes = cars.Select(car => new WaitingCarViewModel()
                 {
-                    Car = new CarViewModel(car.Car, _currencyUpdater, false, _appSettingsDbRepository, true),
+                    Car = new CarViewModel(car.Car, _currencyUpdater, false, _appSettingsDbRepository, _imageService, true),
                     Id = car.Id.ToString(),
                 }).ToList();
                 return Ok(new

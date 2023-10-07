@@ -116,7 +116,7 @@ namespace car_website.Controllers.v1
                 var carsRes = filteredCars
                     .Select(car =>
                         new CarViewModel(car, _currencyUpdater, user != null
-                            && user.Favorites.Contains(car.Id), _appSettingsDbRepository, IsAdmin().Result))
+                            && user.Favorites.Contains(car.Id), _appSettingsDbRepository, _imageService, IsAdmin().Result))
                     .ToList();
                 return Ok(new
                 {
@@ -148,7 +148,7 @@ namespace car_website.Controllers.v1
                 int skip = (_page - 1) * _perPage;
                 cars = cars.Skip(skip).Take(_perPage);
                 User user = await GetCurrentUser();
-                var carsRes = cars.Select(car => new CarViewModel(car, _currencyUpdater, user != null && user.Favorites.Contains(car.Id), _appSettingsDbRepository, IsAdmin().Result)).ToList();
+                var carsRes = cars.Select(car => new CarViewModel(car, _currencyUpdater, user != null && user.Favorites.Contains(car.Id), _appSettingsDbRepository, _imageService, IsAdmin().Result)).ToList();
                 return Ok(new
                 {
                     Status = true,
@@ -186,6 +186,7 @@ namespace car_website.Controllers.v1
                     _currencyUpdater,
                     user != null && user.Favorites.Contains(car.Id),
                     _appSettingsDbRepository,
+                    _imageService,
                     IsAdmin().Result)
             });
         }

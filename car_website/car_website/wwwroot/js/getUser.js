@@ -7,8 +7,8 @@ fetch(`/api/v1/users/getById/${sellerBlock.getAttribute('sellerId')}`)
         sellerBlock.innerHTML = `<div><h4>Продавець:</h4>
         <a href="/user/detail/${data.user.id}">${data.user.surname} ${data.user.name}</a>
         <span>+${data.user.phoneNumber}</span></div><div>
-        <p>Авто у продажі: <span>${data.user.carsInSaleCount}</span></p>
-        <p>Авто очікують модерації: <span>${data.user.waitingCarsCount}</span></p>
+        <p>У продажі: <span>${data.user.carsInSaleCount}</span></p>
+        <p>Очікують: <span>${data.user.waitingCarsCount}</span></p>
         <p>Роль: <span>${roleName(data.user.role)}</span></p>
         </div>`;
         }

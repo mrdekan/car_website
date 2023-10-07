@@ -7,7 +7,7 @@ namespace car_website.ViewModels
 {
     public class CarViewModel
     {
-        public CarViewModel(Car car, CurrencyUpdater currencyUpdater, bool liked, IAppSettingsDbRepository appSettingsDbRepository, bool isAdmin = false)
+        public CarViewModel(Car car, CurrencyUpdater currencyUpdater, bool liked, IAppSettingsDbRepository appSettingsDbRepository, IImageService imageService, bool isAdmin = false)
         {
             Id = car.Id.ToString();
             Price = car.Price;
@@ -29,6 +29,14 @@ namespace car_website.ViewModels
             Liked = liked;
             SellerId = isAdmin ? car.SellerId : "";
             Priority = car.Priority ?? 1;
+            try
+            {
+                AspectRatio = imageService.GetPhotoAspectRatio(PhotosURL[0]);
+            }
+            catch
+            {
+                AspectRatio = 0;
+            }
         }
         public string Id { get; set; }
         public uint Price { get; set; }
@@ -50,5 +58,6 @@ namespace car_website.ViewModels
         public bool Liked { get; set; }
         public string SellerId { get; set; }
         public int Priority { get; set; }
+        public float AspectRatio { get; set; }
     }
 }

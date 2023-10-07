@@ -62,6 +62,8 @@ fuels["Гібрид"] = 5;
 fuels["Електро"] = 6;
 let drivelines = ["Усі", "Передній", "Задній", "Повний"];
 let modelsCache = {};
+let carsCache = {};
+let filters = {};
 //#endregion
 
 //#region Functions' calls
@@ -272,8 +274,9 @@ function getMarks() {
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function applyFilter(page = 1) {
+    
     filter.classList.remove("open");
-    const filters = {
+    filters = {
         body: bodies.indexOf(selectBodiesBtn.firstElementChild.innerHTML),
         brand: selectBrandsBtn.firstElementChild.innerText,
         model: selectModelsBtn.firstElementChild.innerText,
@@ -291,25 +294,54 @@ function applyFilter(page = 1) {
         page: page,
         sortingType: sortings.includes(selectSortingBtn.innerText) ? sortings.indexOf(selectSortingBtn.innerText) : 0,
     };
-    fetch(`/api/v1/cars/getFiltered`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(filters)
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data != null && data.status == true && data.cars.length > 0) {
-                carsPage = data.page;
-                updatePagesButtons(data.pages);
-                const carList = document.getElementById("carList");
-                carList.innerHTML = "";
-                data.cars.forEach(car => {
-                    const block = `<div class="car">
+    console.log(filters)
+    if (carsCache[filters] == null || carsCache[filters].status == false || carsCache[filters].cars.length == 0) {
+        fetch(`/api/v1/cars/getFiltered`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(filters)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data != null && data.status == true && data.cars.length > 0) {
+                    carsPage = data.page;
+                    updatePagesButtons(data.pages);
+                    const carList = document.getElementById("carList");
+                    carList.innerHTML = "";
+                    data.cars.forEach(car => {
+                        const block = formCar(car);
+                        carList.innerHTML += block;
+                    });
+                    carsCache[filters] = data;
+                    updateLikeButtons();
+                }
+                else if (data != null && data.status == true) {
+                    updatePagesButtons(0);
+                    carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Нічого не знайдено</h3></div>`;
+                }
+                else {
+                    updatePagesButtons(0);
+                    carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Щось пішло не так</h3></div>`;
+                }
+            })
+            .catch(error => console.error("An error occurred while retrieving data:", error));
+    }
+    else {
+        carsCache[filters].cars.forEach(car => {
+            const block = formCar(car);
+            carList.innerHTML += block;
+        });
+        updateLikeButtons();
+    }
+}
+//#endregion
+function formCar(car) {
+    return `<div class="car">
                                   <a class="car_name" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
                                   <div class="car_container">
-                                        <img  alt="photo" src="${car.photosURL[0]}" />
+                                       <div class="car_container-img"> <div class="car_container-img-${car.aspectRatio < 1.5 ? 'portrait' : 'landscape'}"><img  alt="photo" src="${car.photosURL[0]}" /></div></div>
                                     <div class="car_container-info">
                                         <a class="car_container-info-name" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
                                             <div class="car_container-info-parameters">
@@ -330,30 +362,14 @@ function applyFilter(page = 1) {
                                                 <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
                                                 <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
                                             </div>
-                                            ${car.priority>0?'<span class="car_container-right-top">Топ</span>':''}
+                                            ${car.priority > 0 ? '<span class="car_container-right-top">Топ</span>' : ''}
                                   <div class="car_container-right-like">
                                   <input type="checkbox" class="car_container-right-like-cars" carId="${car.id}" ${car.liked ? "checked" : ""}/>
                                   <span class="car_container-right-span"></span>
                                   </div>
                                   </div>
                                 </div>`;
-                    carList.innerHTML += block;
-                });
-                updateLikeButtons();
-            }
-            else if (data != null && data.status == true) {
-                updatePagesButtons(0);
-                carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Нічого не знайдено</h3></div>`;
-            }
-            else {
-                updatePagesButtons(0);
-                carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Щось пішло не так</h3></div>`;
-            }
-        })
-        .catch(error => console.error("An error occurred while retrieving data:", error));
 }
-//#endregion
-
 //#region info displaying
 function fuelName(id) {
     switch (id) {

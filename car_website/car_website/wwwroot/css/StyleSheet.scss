@@ -31,12 +31,13 @@ body {
     justify-content: center;
     gap: 50px;
 
-    &-content{
+    &-content {
         display: flex;
         flex-direction: column;
         gap: 8px;
-        align-items:center;
-    } 
+        align-items: center;
+    }
+
     &.profile {
         margin: 0;
     }
@@ -235,7 +236,7 @@ body {
         justify-content: space-between;
         align-items: end;
         height: 100%;
-
+        margin-left: 30px;
         &-like input:checked ~ .car_container-right-span {
             background-image: url("/img/heart-checked.svg");
         }
@@ -340,31 +341,55 @@ body {
 
     &_container {
         display: flex;
-        margin: 30px;
+        margin: 30px 0 30px 30px;
         min-width: 720px;
 
-        &-image-wrap {
+        &-img {
             width: 300px;
             height: 200px;
             overflow: hidden;
-        }
-
-        img {
-            min-width: 300px;
-            height: 200px;
-            object-fit: cover;
             border-radius: 0 10px 0 10px;
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+
+            &-portrait {
+                min-width: 100%;
+                min-height: 100%;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+
+                img {
+                    max-width: 100%;
+                    min-height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            &-landscape {
+                display: flex;
+                justify-content: center;
+                object-fit: cover;
+                height: 100%;
+                width: 100%;
+
+                img {
+                    height: 100%;
+                    object-fit: contain;
+                }
+            }
         }
+
 
         &-info {
             padding-left: 30px;
-            width: 100%;
+            //width: 100%;
 
             a {
                 color: $text-default;
                 transition: 0.2s;
-                font-size: 32px;
+                font-size: 28px;
             }
 
             &-all {
@@ -820,12 +845,14 @@ header {
 .select-btn.active i {
     transform: rotate(-90deg);
 }
+
 .sorting-btn {
     background: $background-secondary;
     border-radius: 3px;
     color: $text-default;
     box-shadow: 0 0 15px rgba(0,0,0,0.25);
 }
+
 .custom-select {
     width: 100%;
     position: relative;
@@ -1616,7 +1643,8 @@ header {
             }
         }
     }
-    .cars-not-found{
+
+    .cars-not-found {
         width: 95vw;
         margin-top: 15px;
     }

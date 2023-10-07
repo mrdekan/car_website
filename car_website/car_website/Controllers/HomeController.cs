@@ -19,7 +19,8 @@ namespace car_website.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
         private readonly IAppSettingsDbRepository _appSettingsDbRepository;
-        public HomeController(ILogger<HomeController> logger, ICarRepository carRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, IUserRepository userRepository, IConfiguration configuration, IAppSettingsDbRepository appSettingsDbRepository) : base(userRepository)
+        private readonly IImageService _imageService;
+        public HomeController(ILogger<HomeController> logger, ICarRepository carRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, IUserRepository userRepository, IConfiguration configuration, IAppSettingsDbRepository appSettingsDbRepository, IImageService imageService) : base(userRepository)
         {
             _logger = logger;
             _carRepository = carRepository;
@@ -28,6 +29,7 @@ namespace car_website.Controllers
             _userRepository = userRepository;
             _configuration = configuration;
             _appSettingsDbRepository = appSettingsDbRepository;
+            _imageService = imageService;
         }
         #endregion
         [AllowAnonymous]
@@ -81,7 +83,7 @@ namespace car_website.Controllers
                 User? user = null;
                 if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
                     user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("UserId")));
-                var carsRes = filteredCars.Select(car => new CarViewModel(car, _currencyUpdater, user != null && user.Favorites.Contains(car.Id), _appSettingsDbRepository)).ToList();
+                var carsRes = filteredCars.Select(car => new CarViewModel(car, _currencyUpdater, user != null && user.Favorites.Contains(car.Id), _appSettingsDbRepository, _imageService)).ToList();
                 return Ok(new { Success = true, Cars = carsRes, Pages = totalPages, Page = page });
             }
             catch (Exception ex)
