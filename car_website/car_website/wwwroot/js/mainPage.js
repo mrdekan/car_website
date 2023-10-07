@@ -328,7 +328,7 @@ function applyFilter(page = 1) {
 }
 //#endregion
 function formCar(car) {
-    return `<div class="car">
+    return `<div class="car mainPageCar">
                                   <a class="car_name" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
                                   <div class="car_container">
                                        <div class="car_container-img"> <div class="car_container-img-${car.aspectRatio < 1.5 ? 'portrait' : 'landscape'}"><img  alt="photo" src="${car.photosURL[0]}" /></div></div>
