@@ -63,7 +63,6 @@ fuels["Електро"] = 6;
 let drivelines = ["Усі", "Передній", "Задній", "Повний"];
 let modelsCache = {};
 let carsCache = {};
-let filters = {};
 //#endregion
 
 //#region Functions' calls
@@ -276,7 +275,7 @@ function getMarks() {
 function applyFilter(page = 1) {
     
     filter.classList.remove("open");
-    filters = {
+    const filters = {
         body: bodies.indexOf(selectBodiesBtn.firstElementChild.innerHTML),
         brand: selectBrandsBtn.firstElementChild.innerText,
         model: selectModelsBtn.firstElementChild.innerText,
@@ -294,8 +293,6 @@ function applyFilter(page = 1) {
         page: page,
         sortingType: sortings.includes(selectSortingBtn.innerText) ? sortings.indexOf(selectSortingBtn.innerText) : 0,
     };
-    console.log(filters)
-    if (carsCache[filters] == null || carsCache[filters].status == false || carsCache[filters].cars.length == 0) {
         fetch(`/api/v1/cars/getFiltered`, {
             method: "POST",
             headers: {
@@ -327,14 +324,7 @@ function applyFilter(page = 1) {
                 }
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
-    }
-    else {
-        carsCache[filters].cars.forEach(car => {
-            const block = formCar(car);
-            carList.innerHTML += block;
-        });
-        updateLikeButtons();
-    }
+    
 }
 //#endregion
 function formCar(car) {

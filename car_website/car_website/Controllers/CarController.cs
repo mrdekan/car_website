@@ -394,7 +394,7 @@ namespace car_website.Controllers
                     var photoName = await _imageService.UploadPhotoAsync(photo);
                     photosNames.Add(photoName);
                 }
-                Car car = new(newCar, photosNames, userId);
+                Car car = new(newCar, photosNames, userId, _imageService.GetPhotoAspectRatio(photosNames[0]));
                 if (user.Role != Data.Enum.UserRole.User)
                 {
                     /*if (!string.IsNullOrEmpty(newCar.OtherBrandName))
