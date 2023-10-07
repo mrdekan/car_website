@@ -1347,6 +1347,122 @@ header {
     color: $error-main;
     margin: 3px 0 0 5px;
 }
+@media (max-width: 1400px) {
+    .car {
+        flex-direction: column;
+        max-width: 95vw;
+        min-width: 370px;
+        align-items: start;
+        padding: 10px;
+        gap: 10px;
+
+        &_name {
+            display: block;
+            color: var(--text-default);
+            transition: .2s;
+            font-size: 20px;
+            align-self: center;
+            //margin-top: 10px;
+        }
+
+        &_container {
+            min-width: 0;
+            //margin: 10px 20px;
+            margin: 0;
+            //flex-direction: column;
+            &-img{
+                width:190px;
+                height:140px;
+            }
+            img {
+                min-width: 190px;
+                height: 140px;
+            }
+
+            &-info {
+                align-self: center;
+
+                a {
+                    display: none;
+                }
+
+                &-parameters {
+                    margin: 0;
+                    flex-direction: column;
+                    gap: 10px;
+
+
+                    &.onDetail {
+                        flex-direction: row;
+                    }
+
+                    &-column {
+                        gap: 10px;
+
+
+
+                        p {
+                            font-size: 14px;
+                        }
+
+                        &-text {
+                            gap: 5px;
+
+                            &.vin {
+                                display: none;
+                            }
+
+                            span {
+                                margin: 0 0px 0 -20px;
+                                width: 18px;
+                                height: 18px;
+                            }
+
+                            svg {
+                                width: 18px;
+                                height: 18px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &-right {
+                flex-direction: row;
+                width: 100%;
+                margin:0;
+                //padding: 0 20px 20px 20px;
+                &-top {
+                    font-size: 18px;
+                    margin:0;
+                }
+
+                &-price {
+                    margin: 0;
+
+                    &-USD {
+                        font-size: 18px;
+                        min-width: 100px;
+                    }
+
+                    &-UAH {
+                        font-size: 12px;
+                        min-width: 95px;
+                    }
+                }
+
+                &-like {
+                    margin: 0;
+                    align-self: start;
+                }
+
+                &-span {
+                    position: static;
+                }
+            }
+        }
+    }
+}
 
 @media (max-width: 1000px) {
     .home-btn {
