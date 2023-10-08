@@ -138,7 +138,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.EngineCapacity">Об'єм двигуна (л.)<span class="required"></span></label>
-                    <input asp-for="CreateCarViewModel.EngineCapacity" placeholder="Об'єм двигуна'" class="input" id="engine-volume" type="text"/>
+                    <input asp-for="CreateCarViewModel.EngineCapacity" placeholder="Об'єм двигуна" class="input" id="engine-volume" type="text"/>
                     <span asp-validation-for="CreateCarViewModel.EngineCapacity" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -166,43 +166,63 @@
             </div>
             <div class="create_container-right">
                 <div id="photos-select">
-                    <div class="img-group">
+                    <div class="img-upload">
                         <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
-                        <div class="photos-select-example">
+                        <div class="img-upload-content">
                             <img alt="Приклад" src="~/img/1pos.png" />
-                            <input asp-for="CreateCarViewModel.Photo1" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+                            <div class="custom-file-uploader">
+                                <input asp-for="CreateCarViewModel.Photo1" id="Photo1" type="file" name="photoInp" accept="image/*" class="form-control">
+                                <div class="custom-file-uploader-btn">+</div>
+                                <img src="" alt="preview" id="Photo1-preview" />
+                            </div>
                         </div>
                         <span asp-validation-for="CreateCarViewModel.Photo1" class="text-danger"></span>
                     </div>
-                    <div class="img-group">
+                    <div class="img-upload">
                         <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
-                        <div class="photos-select-example">
+                        <div class="img-upload-content">
                             <img alt="Приклад" src="~/img/3pos.png" />
-                            <input asp-for="CreateCarViewModel.Photo2" id="Photo2" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+                            <div class="custom-file-uploader">
+                                <input asp-for="CreateCarViewModel.Photo2" id="Photo2" type="file" name="photoInp" accept="image/*" class="form-control">
+                                <div class="custom-file-uploader-btn">+</div>
+                                <img src="" alt="preview" id="Photo2-preview" />
+                            </div>
                         </div>
                         <span asp-validation-for="CreateCarViewModel.Photo2" class="text-danger"></span>
                     </div>
-                    <div class="img-group">
+                    <div class="img-upload">
                         <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
-                        <div class="photos-select-example">
+                        <div class="img-upload-content">
                             <img alt="Приклад" src="~/img/4pos.png" />
-                            <input asp-for="CreateCarViewModel.Photo3" id="Photo3" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+                            <div class="custom-file-uploader">
+                                <input asp-for="CreateCarViewModel.Photo3" id="Photo3" type="file" name="photoInp" accept="image/*" class="form-control">
+                                <div class="custom-file-uploader-btn">+</div>
+                                <img src="" alt="preview" id="Photo3-preview" />
+                            </div>
                         </div>
                         <span asp-validation-for="CreateCarViewModel.Photo3" class="text-danger"></span>
                     </div>
-                    <div class="img-group">
+                    <div class="img-upload">
                         <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
-                        <div class="photos-select-example">
+                        <div class="img-upload-content">
                             <img alt="Приклад" src="~/img/2pos.png" />
-                            <input asp-for="CreateCarViewModel.Photo4" id="Photo4" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+                            <div class="custom-file-uploader">
+                                <input asp-for="CreateCarViewModel.Photo4" id="Photo4" type="file" name="photoInp" accept="image/*" class="form-control">
+                                <div class="custom-file-uploader-btn">+</div>
+                                <img src="" alt="preview" id="Photo4-preview" />
+                            </div>
                         </div>
                         <span asp-validation-for="CreateCarViewModel.Photo4" class="text-danger"></span>
                     </div>
-                    <div class="img-group">
+                    <div class="img-upload">
                         <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
-                        <div class="photos-select-example">
+                        <div class="img-upload-content">
                             <img alt="Приклад" src="~/img/5pos.png" />
-                            <input asp-for="CreateCarViewModel.Photo5" id="Photo5" type="file" accept="image/*" class="form-control" placeholder="Виберіть фото">
+                            <div class="custom-file-uploader">
+                                <input asp-for="CreateCarViewModel.Photo5" id="Photo5" type="file" name="photoInp" accept="image/*" class="form-control">
+                                <div class="custom-file-uploader-btn">+</div>
+                                <img src="" alt="preview" id="Photo5-preview" />
+                            </div>
                         </div>
                         <span asp-validation-for="CreateCarViewModel.Photo5" class="text-danger"></span>
                     </div>
@@ -352,4 +372,5 @@
     </form>
 </div>
 <script src="~/js/creationCarPage.js" asp-append-version="true"></script>
+<script src="~/js/imagesPreviews.js" asp-append-version="true"></script>
 <script src="~/js/creationCarPageSelectBoxes.js" asp-append-version="true"></script>

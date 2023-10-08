@@ -65,9 +65,9 @@ namespace car_website.Controllers
             /*var car = await _carRepository.GetByIdAsync(ObjectId.Parse("64cd39e120782f15caafd533"));
             car.Priority = 2;
             await _carRepository.Update(car);*/
-            User userNew = await _userRepository.GetByEmailAsync("yehor0504@gmail.com");
+            /*User userNew = await _userRepository.GetByEmailAsync("yehor0504@gmail.com");
             userNew.SendedBuyRequest = userNew.SendedBuyRequest.Where(el => el.ToString() != "64df1aaa7c3d3dd1bf8fd4ee").ToList();
-            await _userRepository.Update(userNew);
+            await _userRepository.Update(userNew);*/
             /*var users = await _userRepository.GetAll();
             foreach (var user in users)
             {

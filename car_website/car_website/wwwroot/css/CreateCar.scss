@@ -9,6 +9,7 @@
         color: $text-default;
     }
 }
+
 .input {
     //margin-bottom: 10px;
     padding: 10px;
@@ -28,13 +29,14 @@
         color: $gray-default;
     }
 }
+
 .create {
     display: flex;
     align-items: center;
     min-height: calc(100vh - 90px); //90px = висота header + footer
     max-height: fit-content;
 
-    
+
 
     .form-group {
         label {
@@ -65,9 +67,11 @@
             color: $gray-default;
             font-size: 16px;
         }
-        label{
+
+        label {
             margin-top: 10px;
         }
+
         textarea {
             padding: 10px;
             border-radius: 5px;
@@ -190,6 +194,8 @@
 
         img {
             width: 250px;
+            height: 140px;
+            object-fit: contain;
         }
     }
 }
@@ -210,6 +216,7 @@
     padding: 11px 0 0 0;
     transition: 0.2s;
 }
+
 .other-input {
     width: calc(100% - 16px);
     outline: 1px solid $background;
@@ -221,14 +228,72 @@
     margin-left: -9px;
     padding-left: 8px;
     display: none;
-    &::placeholder{
+
+    &::placeholder {
         font-size: 16px;
         color: $gray-default;
     }
+
     &:focus {
         outline: 1px solid $green-medium;
     }
 }
+
+.img-upload {
+    &-content {
+        img {
+            width: 300px;
+            height: 200px;
+            object-fit: contain;
+        }
+
+        display: flex;
+    }
+}
+
+.custom-file-uploader {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-btn {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        border-radius: 18px;
+        border: 5px dashed $gray-default;
+        color: $gray-default;
+        font-size: 120px;
+        text-align: center;
+        line-height: 190px;
+        transition: 0.2s;
+    }
+
+    input[type="file"] {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        opacity: 0;
+        z-index: 4;
+
+        &:hover + .custom-file-uploader-btn {
+            filter: contrast(2.5);
+        }
+    }
+
+    img {
+        display: none;
+        height: 192px;
+        width: 192px;
+        object-fit: contain;
+        position: absolute;
+        border-radius: 13px;
+    }
+}
+
 @media (max-width: 1510px) {
     .create {
         background: $background-secondary;
@@ -251,6 +316,28 @@
 }
 
 @media (max-width: 767px) {
+    .img-upload {
+        &-content {
+            img {
+                width: 45vw;
+                height: 45vw;
+            }
+        }
+    }
+    .custom-file-uploader {
+        width: 45vw;
+        height: 45vw;
+
+        &-btn {
+            font-size: 20vw;
+            line-height: calc(45vw - 5px);
+        }
+
+        img {
+            height: calc(45vw - 8px);
+            width: calc(45vw - 8px);
+        }
+    }
     .create {
 
         .sell-button {
