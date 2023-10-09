@@ -1363,7 +1363,7 @@ h4 {
   max-height: fit-content;
 }
 .create .form-group label {
-  margin-bottom: 6px;
+  margin: 10px 0 6px;
 }
 .create_container {
   display: flex;
@@ -1385,9 +1385,6 @@ h4 {
 .create form span:not(.text-danger) {
   color: var(--gray-default);
   font-size: 16px;
-}
-.create form label {
-  margin-top: 10px;
 }
 .create form textarea {
   padding: 10px;
@@ -1503,6 +1500,67 @@ h4 {
   display: flex;
   flex-direction: row-reverse;
   width: fit-content;
+  align-items: center;
+  margin-top: 6px;
+}
+.checkbox-group label {
+  margin: 0;
+}
+.checkbox-group-container {
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-radius: 5px;
+  width: 26px;
+  height: 26px;
+  margin-right: 8px;
+}
+.checkbox-group-container .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 3px;
+  transition: 0.2s;
+  border: 2px solid var(--gray-default);
+}
+.checkbox-group-container .checkmark svg {
+  color: transparent;
+  transition: 0.2s;
+  margin: 1px 0 0 1px;
+}
+.checkbox-group-container .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: url("/img/");
+}
+.checkbox-group-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 26px;
+  width: 26px;
+  top: -2px;
+  left: -2px;
+  z-index: 3;
+}
+.checkbox-group-container:hover input ~ .checkmark {
+  background-color: var(--background-main);
+}
+.checkbox-group-container input:checked ~ .checkmark {
+  background-color: var(--gray-default);
+}
+.checkbox-group-container input:checked ~ .checkmark svg {
+  color: var(--background-secondary);
+  width: 19px;
+  height: 19px;
 }
 
 ::-webkit-file-upload-button {
@@ -1537,6 +1595,7 @@ h4 {
 }
 
 .img-upload-content {
+  gap: 10px;
   display: flex;
 }
 .img-upload-content img {
@@ -1605,6 +1664,7 @@ h4 {
 @media (max-width: 767px) {
   .img-upload-content {
     margin: 10px 0;
+    justify-content: space-between;
   }
   .img-upload-content img {
     width: 45vw;

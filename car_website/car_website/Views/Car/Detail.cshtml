@@ -51,10 +51,19 @@
             </button>
             @foreach (var photo in Model.PhotosURL)
             {
+                    @if(photo==Model.PhotosURL[0]){
                 <div class="slider_element">
                     <img src="@photo" class="slider_element-image" alt="photo" />
-                    <img src="@photo" class="slider_element-background" alt="photo" />
+                        <img src="@photo" class="slider_element-background" alt="photo" />
                 </div>
+                    }
+                    else
+                    {
+                    <div class="slider_element" style="display: none;">
+                        <img src="@photo" class="slider_element-image" alt="photo"/>
+                        <img src="@photo" class="slider_element-background" alt="photo"/>
+                </div>
+                    }
             }
             @if (!string.IsNullOrEmpty(Model.VideoUrl))
             {
