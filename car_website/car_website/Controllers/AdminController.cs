@@ -46,22 +46,25 @@ namespace car_website.Controllers
         {
             /*if (HttpContext.Session.GetInt32("UserRole") != 2)
                 return RedirectToAction("Index", "Home");*/
-            /*var cars = await _carRepository.GetAll();
+            var cars = await _carRepository.GetAll();
             foreach (var car in cars)
             {
-                await _carRepository.Update(car);
-                float aspect;
+                //await _carRepository.Update(car);
                 try
                 {
-                    aspect = _imageService.GetPhotoAspectRatio(car.PhotosURL[0]);
+                    if (car.PreviewURL == car.PhotosURL[0])
+                    {
+                        string photoName = _imageService.CopyPhoto(car.PhotosURL[0]);
+                        _imageService.ProcessImage(300, 200, photoName);
+                        car.PreviewURL = "/Photos\\" + photoName;
+                    }
                 }
                 catch
                 {
-                    aspect = 0;
+                    car.PreviewURL = car.PhotosURL[0];
                 }
-                car.PreviewAspectRatio = aspect;
                 await _carRepository.Update(car);
-            }*/
+            }
             /*var car = await _carRepository.GetByIdAsync(ObjectId.Parse("64cd39e120782f15caafd533"));
             car.Priority = 2;
             await _carRepository.Update(car);*/

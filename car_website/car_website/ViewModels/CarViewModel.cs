@@ -30,6 +30,7 @@ namespace car_website.ViewModels
             SellerId = isAdmin ? car.SellerId : "";
             Priority = car.Priority ?? 1;
             AspectRatio = car.PreviewAspectRatio ?? 0;
+            PreviewURL = car.PreviewURL ?? PhotosURL[0];
         }
         public string Id { get; set; }
         public uint Price { get; set; }
@@ -52,5 +53,6 @@ namespace car_website.ViewModels
         public string SellerId { get; set; }
         public int Priority { get; set; }
         public float AspectRatio { get; set; }
+        public string PreviewURL { get; set; }
     }
 }

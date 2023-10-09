@@ -9,5 +9,10 @@
         /// </summary>
         /// <returns>Width / Height</returns>
         float GetPhotoAspectRatio(string photoName);
+        /// <summary>
+        /// Crop the image for preview
+        /// </summary>
+        void ProcessImage(int width, int height, string filepath);
+        string CopyPhoto(string photoName);
     }
 }
