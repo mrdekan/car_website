@@ -6,7 +6,7 @@
 <div class="create">
     <form method="post" asp-action="CreateExpressSaleCar" enctype="multipart/form-data">
         <h2 class="info-text">
-            <strong>Швидкий викуп вашого автомобіля: легко, вигідно, без зайвих хлопот!</strong><br/>
+            <strong>Швидкий викуп вашого автомобіля: легко, вигідно, без зайвих хлопот!</strong><br />
             Маєте автомобіль, який бажаєте продати? Не хочете витрачати час на пошук покупця, переговори та паперову роботу? Ми готові запропонувати вам швидкий та вигідний викуп вашого авто!
         </h2>
         @if (!Model.IsLogged)
@@ -83,16 +83,28 @@
         </div>
         <div class="create_main-section">
             <label>Вкажіть бажану ціну ($)</label>
-                    <input class="input" asp-for=Price id="price-input" type="number" placeholder="Ціна" />
-                    <span asp-validation-for=Price class="text-danger"></span>
-                <span id="price-uah"></span>
+            <input class="input" asp-for=Price id="price-input" type="number" placeholder="Ціна" />
+            <span asp-validation-for=Price class="text-danger"></span>
+            <span id="price-uah"></span>
         </div>
         <label>Додайте два фото</label>
         <div class="create_photos">
-            <input type="file" text="Оберіть фото" asp-for=Photo1 />
-            <span asp-validation-for=Photo1 class="text-danger"></span>
-            <input type="file" text="Оберіть фото" asp-for=Photo2 />
-            <span asp-validation-for=Photo2 class="text-danger"></span>
+            <div>
+                <div class="custom-file-uploader">
+                    <input asp-for="Photo1" id="Photo1" type="file" name="photoInp" accept="image/*" class="form-control">
+                    <div class="custom-file-uploader-btn">+</div>
+                    <img src="" alt="preview" id="Photo1-preview" />
+                </div>
+                <span asp-validation-for=Photo1 class="text-danger"></span>
+            </div>
+            <div>
+                <div class="custom-file-uploader">
+                    <input asp-for="Photo2" id="Photo2" type="file" name="photoInp" accept="image/*" class="form-control">
+                    <div class="custom-file-uploader-btn">+</div>
+                    <img src="" alt="preview" id="Photo2-preview" />
+                </div>
+                <span asp-validation-for=Photo2 class="text-danger"></span>
+            </div>
         </div>
         <label>За необхідності додайте опис</label>
         <textarea asp-for=Description placeholder="Додатковий опис" rows="4" maxlength="500" id="description"></textarea>
@@ -102,3 +114,4 @@
     </form>
 </div>
 <script src="~/js/createExpressCarSalePage.js" asp-append-version="true"></script>
+<script src="~/js/imagesPreviews.js" asp-append-version="true"></script>

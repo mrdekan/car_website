@@ -72,8 +72,9 @@ namespace car_website.Controllers
             var user = await GetCurrentUser();
             if (user == null || user.Id.ToString() != car.SellerId && user.Role == 0)
                 return BadRequest();
-
-            return View();
+            if (car == null)
+                return RedirectToAction("NotFound", "Home");
+            return View(new CarDetailViewModel(car, _currencyUpdater, false, _appSettingsDbRepository));
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LiteCarViewModel>>> FindSimilarCars(string id)

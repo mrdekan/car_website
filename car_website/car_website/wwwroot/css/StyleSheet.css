@@ -1370,7 +1370,7 @@ h4 {
   justify-content: space-between;
 }
 .create form {
-  margin: 50px auto 0;
+  margin: 50px auto 50px;
   min-width: 60%;
   max-width: fit-content;
   padding: 2%;
@@ -1433,7 +1433,6 @@ h4 {
 }
 .create_photos {
   display: flex;
-  flex-direction: column;
   gap: 10px;
 }
 .create_photos input[type=file] {
@@ -1753,49 +1752,30 @@ body {
   gap: 10px;
   max-width: 300px;
   padding: 5px 17px;
-  margin-top: 25px;
+  margin: 25px 0 25px;
 }
 .wrapper .filters_before p {
   color: var(--text-default);
   font-weight: 700;
   font-size: 16px;
-  transition: 0.2s;
+  transition: color 0.2s;
 }
-.wrapper .filters_before #save_filters {
+.wrapper .filters_before a, .wrapper .filters_before button {
   padding: 7px 0;
   border-radius: 3px;
-  background-color: var(--green-dark);
+  background: var(--green-dark);
   color: white;
   text-align: center;
   font-size: 16px;
-  transition: 0.2s;
+  transition: background 0.2s;
 }
-.wrapper .filters_before #save_filters:hover {
-  background-color: var(--green-medium);
-  transition: 0.2s;
-}
-.wrapper .filters_before a {
-  padding: 7px 0;
-  border-radius: 3px;
-  background-color: var(--green-dark);
-  color: white;
-  text-align: center;
-  font-size: 16px;
-  transition: 0.3s;
-}
-.wrapper .filters_before a:hover {
-  background-color: var(--green-medium);
-  transition: 0.2s;
-}
-.wrapper .input {
-  border-radius: 8px;
-  padding: 5px 8px;
-  background-color: var(--background-main);
-  color: var(--text-default);
+.wrapper .filters_before a:hover, .wrapper .filters_before button:hover {
+  background: var(--green-medium);
 }
 .wrapper .filters {
-  background-color: var(--filters-background);
-  transition: 0.2s;
+  background: var(--background-secondary);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+  transition: background 0.2s;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -1818,7 +1798,7 @@ body {
 .wrapper .filters .input[type=number]::placeholder, .wrapper .filters input[type=text]::placeholder {
   color: var(--gray-default);
   font-size: 16px;
-  transition: 0.2s;
+  transition: color 0.2s;
 }
 .wrapper .filters .price_input {
   display: flex;
@@ -1827,47 +1807,17 @@ body {
   gap: 10px;
   flex-wrap: nowrap;
 }
-.wrapper .filters select {
-  max-width: 200px;
-  border-radius: 8px;
-  padding: 5px;
-  color: gray;
-  background-color: var(--background-main);
-}
-.wrapper .filters select option:hover {
-  background-color: var(--green-dark);
-}
-.wrapper .filters .year_select {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-.wrapper .filters .year_select select {
-  width: 80px;
-}
 .wrapper .filters label {
   font-size: 16px;
-  transition: 0.2s;
+  transition: color 0.2s;
   color: var(--text-default);
 }
 .wrapper .filters button {
-  border-radius: 3px;
-  background-color: var(--green-dark);
-  color: white;
-  text-align: center;
   margin: 5px 0;
-  font-size: 16px;
-  max-height: 30px;
-  line-height: 30px;
-  transition: 0.3s;
-}
-.wrapper .filters button:hover {
-  background-color: var(--green-medium);
-  transition: 0.2s;
 }
 .wrapper .filters #clear_filters {
   border: 2px solid var(--green-dark);
-  background-color: var(--filters-background);
+  background-color: var(--background-secondary);
   font-size: 14px;
   color: var(--green-dark);
   font-weight: 700;
@@ -1877,6 +1827,7 @@ body {
   transition: 0.2s;
   border: 2px solid var(--green-medium);
   color: var(--green-medium);
+  background-color: var(--background-main);
 }
 .wrapper_right {
   display: flex;
@@ -1900,6 +1851,10 @@ body {
   transition: 0.2s;
   border-radius: 0 16px 0 16px;
   filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.25));
+  cursor: pointer;
+}
+.car:hover {
+  filter: drop-shadow(0 0 19px rgba(0, 0, 0, 0.35));
 }
 .car_name {
   display: none;

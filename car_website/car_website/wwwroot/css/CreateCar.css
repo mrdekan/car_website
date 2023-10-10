@@ -57,7 +57,7 @@
   justify-content: space-between;
 }
 .create form {
-  margin: 50px auto 0;
+  margin: 50px auto 50px;
   min-width: 60%;
   max-width: fit-content;
   padding: 2%;
@@ -120,7 +120,6 @@
 }
 .create_photos {
   display: flex;
-  flex-direction: column;
   gap: 10px;
 }
 .create_photos input[type=file] {
