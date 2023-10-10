@@ -35,19 +35,11 @@ namespace car_website.Models
             SendedBuyRequest = new List<ObjectId>();
             ExpressSaleCars = new List<ObjectId>();
         }
-        /*[BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id { get; set; }*/
         public string ConfirmationToken { get; set; }
         public string Name { get; set; }
         public string SurName { get; set; }
         public string Password { get; set; }
-        //public string Email { get; set; }
-        //public bool EmailConfirmed { get; set; }
         public UserRole Role { get; set; }
-        /// <summary>
-        //public string PhoneNumber { get; set; }
-        /// </summary>
         public List<ObjectId> CarsForSell { get; set; }
         public List<ObjectId> CarWithoutConfirmation { get; set; }
         public List<ObjectId> Favorites { get; set; }

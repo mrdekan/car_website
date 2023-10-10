@@ -112,7 +112,6 @@ namespace car_website.Controllers.v1
                 int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
                 int skip = (page - 1) * perPage;
                 filteredCars = filteredCars.Skip(skip).Take(perPage);
-                //User user = await GetCurrentUser();
                 var carsRes = filteredCars
                     .Select(car =>
                         new CarViewModel(car, _currencyUpdater, user != null
@@ -236,7 +235,17 @@ namespace car_website.Controllers.v1
             await _carRepository.Update(car);
             return Ok(new { Status = true, Code = HttpCodes.Success });
         }
-
+        [HttpDelete("deleteCar/{id}")]
+        public async Task<ActionResult> DeleteCar(string id)
+        {
+            User user = await GetCurrentUser();
+            if (!ObjectId.TryParse(id, out var carId))
+                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+            Car car = await _carRepository.GetByIdAsync(carId);
+            if (user.Role == 0 && user.Id.ToString() != car.SellerId)
+                return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
+            return Ok(new { Status = false, Code = HttpCodes.NotImplemented });
+        }
         #region Buy requests
         [HttpPut("buyRequestLoggedIn")]
         public async Task<ActionResult<byte>> BuyRequest(string carId, bool cancel)

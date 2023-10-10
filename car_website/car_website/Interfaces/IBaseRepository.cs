@@ -2,8 +2,8 @@
 {
     public interface IBaseRepository<T>
     {
-        Task Add(T brand);
-        Task Update(T brand);
-        Task Delete(T brand);
+        Task Add(T obj);
+        Task Update(T pbj);
+        Task Delete(T obj);
     }
 }
