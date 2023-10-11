@@ -1,4 +1,4 @@
-﻿const photoInputs = document.getElementsByName('photoInp');
+﻿const photoInputs = document.querySelectorAll('.photoInp');
 //const photoPreview = document.getElementsById('Photo1-preview');
 photoInputs.forEach((inp) => { 
     inp.addEventListener('change', function () {

@@ -415,6 +415,7 @@ namespace car_website.Controllers
                             await _brandRepository.Update(brand);
                         }
                     }*/
+                    if (user.Role == Data.Enum.UserRole.Dev) car.Priority = -1;
                     await _brandRepository.AddIfDoesntExist(newCar.Brand, newCar.Model);
                     await _carRepository.Add(car);
                     user.CarsForSell.Add(car.Id);
@@ -429,6 +430,11 @@ namespace car_website.Controllers
             }
             else
             {
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState["Photo1"];
+                    // Обработка всех ошибок в модели
+                }
                 var brands = await _brandRepository.GetAll();
                 carVM.CarBrands = brands.ToList();
                 return View(carVM);
