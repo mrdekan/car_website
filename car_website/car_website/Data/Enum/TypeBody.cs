@@ -12,6 +12,6 @@
         Convertible,
         Pickup,
         Liftback,
-        Fastback
+        Bus
     }
 }

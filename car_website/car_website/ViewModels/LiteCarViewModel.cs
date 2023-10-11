@@ -53,8 +53,8 @@ namespace car_website.ViewModels
                     return "Пікап";
                 case TypeBody.Liftback:
                     return "Ліфтбек";
-                case TypeBody.Fastback:
-                    return "Фастбек";
+                case TypeBody.Bus:
+                    return "Автобус";
             }
             return "";
         }

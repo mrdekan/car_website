@@ -1261,7 +1261,7 @@ h4 {
 
 @media (min-width: 769px) and (max-width: 1400px) {
   .profile_info {
-    padding-top: 25px;
+    padding-top: 55px;
   }
   .profile_pages label {
     font-size: 18px;
@@ -1956,6 +1956,7 @@ body {
 }
 .car_container-img {
   min-width: 300px;
+  max-width: 300px;
   height: 200px;
   overflow: hidden;
   border-radius: 0 10px 0 10px;

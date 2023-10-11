@@ -275,7 +275,7 @@ function formCar(car, waiting) {
     return `<div class="car">
     <a class="car_name" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>  
                    <div class="car_container">
-                   <div class="car_container-img"> <div class="car_container-img-${car.aspectRatio < 1.5 ? 'portrait' : 'landscape'}"><img  alt="photo" src="${car.photosURL[0]}" /></div></div>
+                   <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="photo" src="${car.previewURL}" /></div></div>
                    <div class="car_container-info">
                          <a href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
                              <div class="car_container-info-parameters">
