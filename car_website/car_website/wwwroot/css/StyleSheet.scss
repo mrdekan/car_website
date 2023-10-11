@@ -161,10 +161,11 @@ body {
     border-radius: 0 16px 0 16px;
     filter: drop-shadow(0 0 15px rgba(0,0,0, 0.25));
     cursor: pointer;
-    &:hover{
-    filter: drop-shadow(0 0 19px rgba(0,0,0, 0.35));
 
+    &:hover {
+        filter: drop-shadow(0 0 19px rgba(0,0,0, 0.35));
     }
+
     &_name {
         display: none;
     }
@@ -285,7 +286,7 @@ body {
         min-width: 720px;
 
         &-img {
-            width: 300px;
+            min-width: 300px;
             height: 200px;
             overflow: hidden;
             border-radius: 0 10px 0 10px;
@@ -353,6 +354,7 @@ body {
 
                     p {
                         font-size: 20px;
+                        min-width: 234px;
                     }
 
                     &.onDetail {
@@ -663,8 +665,8 @@ header {
 }
 
 .warning-text {
-    font-size: 18px;
-    color: #595959;
+    font-size: 22px;
+    color: $gray-default;
 }
 
 .pages_buttons {
@@ -1314,7 +1316,8 @@ header {
             margin: 0;
             //flex-direction: column;
             &-img {
-                width: 190px;
+                min-width: 190px;
+                max-width: 190px;
                 height: 140px;
             }
 
@@ -1343,6 +1346,7 @@ header {
 
                         p {
                             font-size: 14px;
+                            min-width: 0;
                         }
 
                         &-text {
@@ -1400,6 +1404,23 @@ header {
                 }
             }
         }
+    }
+}
+
+.custom-loader {
+    width: 20px;
+    height: 20px;
+    --c: radial-gradient(farthest-side, var(--gray-default) 90%,#0000);
+    background: var(--c) 0 0, var(--c) 100% 0, var(--c) 100% 100%, var(--c) 0 100%;
+    background-size: 8px 8px;
+    background-repeat: no-repeat;
+    animation: d8 .5s infinite;
+    margin-right: 10px;
+}
+
+@keyframes d8 {
+    100% {
+        background-position: 100% 0,100% 100%,0 100%,0 0
     }
 }
 
@@ -1605,6 +1626,7 @@ header {
 
                         p {
                             font-size: 14px;
+                            min-width: 0;
                         }
 
                         &-text {
