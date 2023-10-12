@@ -63,6 +63,7 @@ fuels["Електро"] = 6;
 let drivelines = ["Усі", "Передній", "Задній", "Повний"];
 let modelsCache = {};
 let carsCache = {};
+let pages = 0;
 //#endregion
 
 //#region Functions' calls
@@ -293,6 +294,11 @@ function applyFilter(page = 1) {
         page: page,
         sortingType: sortings.includes(selectSortingBtn.innerText) ? sortings.indexOf(selectSortingBtn.innerText) : 0,
     };
+    const carList = document.getElementById("carList");
+    carsPage = page;
+
+    updatePagesButtons(pages);
+    carList.innerHTML = `<div class="cars-not-found" style="height: ${carList.clientHeight}px;"><div class="custom-loader"></div><h3 class="warning-text">Завантаження...</h3></div>`;
         fetch(`/api/v1/cars/getFiltered`, {
             method: "POST",
             headers: {
@@ -304,8 +310,9 @@ function applyFilter(page = 1) {
             .then(data => {
                 if (data != null && data.status == true && data.cars.length > 0) {
                     carsPage = data.page;
+
                     updatePagesButtons(data.pages);
-                    const carList = document.getElementById("carList");
+                    pages = data.pages;
                     carList.innerHTML = "";
                     data.cars.forEach(car => {
                         const block = formCar(car);

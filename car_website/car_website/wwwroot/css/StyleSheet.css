@@ -2861,6 +2861,10 @@ header .header_right-dark-label::before {
 }
 
 @media (max-width: 1400px) {
+  .cars-not-found {
+    width: 370px;
+    margin-top: 15px;
+  }
   .car.mainPageCar {
     flex-direction: column;
     max-width: 95vw;
@@ -3196,9 +3200,5 @@ header .header_right-dark-label::before {
     background: var(--background-secondary);
     transition: background 0.2s;
     border-radius: 0 10px 0 10px;
-  }
-  .cars-not-found {
-    width: 95vw;
-    margin-top: 15px;
   }
 }

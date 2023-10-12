@@ -319,6 +319,7 @@ namespace car_website.Controllers
                 return RedirectToAction("CreateExpressSaleCar");
             }
             string userId = user.Id.ToString();
+
             if (ModelState.IsValid)
             {
                 if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VIN) && carVM.CreateCarViewModel.VIN.Length < 17)
@@ -466,12 +467,28 @@ namespace car_website.Controllers
         private static string GetVideoIdFromUrl(string url)
         {
             if (url == null) return "";
+
             try
             {
                 Uri uri = new Uri(url);
-                string queryString = uri.Query;
-                var queryParameters = HttpUtility.ParseQueryString(queryString);
-                string videoId = queryParameters["v"];
+                string host = uri.Host.ToLower();
+                string videoId = "";
+
+                if (host.Contains("youtube.com"))
+                {
+                    string queryString = uri.Query;
+                    var queryParameters = HttpUtility.ParseQueryString(queryString);
+                    videoId = queryParameters["v"];
+                }
+                else if (host.Contains("youtu.be"))
+                {
+                    string[] segments = uri.Segments;
+                    if (segments.Length > 1)
+                    {
+                        videoId = segments[1];
+                    }
+                }
+
                 return videoId ?? "";
             }
             catch
@@ -479,6 +496,7 @@ namespace car_website.Controllers
                 return "";
             }
         }
+
         /// <summary>
         /// By default compares with 20Mb
         /// </summary>

@@ -1292,7 +1292,10 @@ header {
 }
 
 @media (max-width: 1400px) {
-
+    .cars-not-found {
+        width: 370px;
+        margin-top: 15px;
+    }
     .car.mainPageCar {
         flex-direction: column;
         max-width: 95vw;
@@ -1721,8 +1724,5 @@ header {
         }
     }
 
-    .cars-not-found {
-        width: 95vw;
-        margin-top: 15px;
-    }
+    
 }
