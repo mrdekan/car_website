@@ -149,7 +149,9 @@ body {
     display: flex;
     justify-content: center;
 }
-
+.car_link {
+    position:relative;
+}
 .car {
     display: flex;
     justify-content: space-between;

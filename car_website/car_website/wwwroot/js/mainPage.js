@@ -329,6 +329,7 @@ function applyFilter(page = 1) {
 //#endregion
 function formCar(car) {
     return `<div class="car mainPageCar">
+                                  <a class="car_link" href="/Car/Detail/${car.id}">
                                   <a class="car_name" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
                                   <div class="car_container">
                                        <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="photo" src="${car.previewURL}" /></div></div>
@@ -358,7 +359,8 @@ function formCar(car) {
                                   <span class="car_container-right-span"></span>
                                   </div>
                                   </div>
-                                </div>`;
+                                  </a>
+                                  </div>`;
 }
 //#region info displaying
 function fuelName(id) {
