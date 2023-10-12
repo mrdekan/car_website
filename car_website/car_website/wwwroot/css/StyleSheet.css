@@ -2013,7 +2013,6 @@ body {
 }
 .car_container-info-parameters-column p {
   font-size: 20px;
-  min-width: 234px;
 }
 .car_container-info-parameters-column-text {
   display: flex;

@@ -355,7 +355,7 @@ body {
 
                     p {
                         font-size: 20px;
-                        min-width: 234px;
+                        //min-width: 234px;
                     }
 
                     &.onDetail {
@@ -364,7 +364,6 @@ body {
                     &-text {
                         display: flex;
                         align-items: center;
-
                         span {
                             display: block;
                             width: 24px;
