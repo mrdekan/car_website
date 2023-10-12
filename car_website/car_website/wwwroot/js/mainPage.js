@@ -328,13 +328,13 @@ function applyFilter(page = 1) {
 }
 //#endregion
 function formCar(car) {
-    return `<div class="car mainPageCar">
-                                  <a class="car_link" href="/Car/Detail/${car.id}">
-                                  <a class="car_name" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
+    return `
+                                  <a class="car mainPageCar" href="/Car/Detail/${car.id}">
+                                  <p class="car_name">${car.brand} ${car.model} ${car.year}</p>
                                   <div class="car_container">
                                        <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="photo" src="${car.previewURL}" /></div></div>
                                     <div class="car_container-info">
-                                        <a class="car_container-info-name" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
+                                    <p class="car_container-info-name">${car.brand} ${car.model} ${car.year}</p>
                                             <div class="car_container-info-parameters">
                                                 <div class="car_container-info-parameters-column">
                                                     <p class="car_container-info-parameters-column-text"><span>${svgCodes.race}</span>${car.mileage} тис. км</p>
@@ -359,8 +359,7 @@ function formCar(car) {
                                   <span class="car_container-right-span"></span>
                                   </div>
                                   </div>
-                                  </a>
-                                  </div>`;
+                                  </a>`;
 }
 //#region info displaying
 function fuelName(id) {

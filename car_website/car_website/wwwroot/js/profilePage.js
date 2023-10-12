@@ -272,36 +272,37 @@ function SetCarsFromData(data, waitingCarsList = false) {
         favList.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
 }
 function formCar(car, waiting) {
-    return `<div class="car">
-    <a class="car_name" href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>  
-                   <div class="car_container">
-                   <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="photo" src="${car.previewURL}" /></div></div>
-                   <div class="car_container-info">
-                         <a href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
-                             <div class="car_container-info-parameters">
-                                 <div class="car_container-info-parameters-column">
-                                      <p class="car_container-info-parameters-column-text"><span>${svgCodes.race}</span>${car.mileage} тис. км</p>
-                                      <p class="car_container-info-parameters-column-text"><span>${svgCodes.fuel}</span>${fuelName(car.fuel)}, ${car.engineCapacity} л.</p>
-                                      ${car.vin==null?``:`<p class="car_container-info-parameters-column-text vin"><span>${svgCodes.car}</span>${car.vin}</p>`}
-                                      </div>
-                                  <div class="car_container-info-parameters-column">
-                                      <p class="car_container-info-parameters-column-text"><span>${svgCodes.transmission}</span>${transmissionName(car.carTransmission)}</p>
-                                      <p class="car_container-info-parameters-column-text"><span>${svgCodes.driveline}</span>${drivelineName(car.driveline)}</p>
-                                      </div>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="car_container-right">
-                     <div class="car_container-right-price">
-                                 <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
-                                 <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
-                             </div>
-                   <div class="car_container-right-like">
-                   ${(waiting ? '' : `<input type="checkbox" class="car_container-right-like-cars" carId="${car.id}" carId="${car.id}" ${car.liked ? "checked" : ""}/>
+    return `<a class="car mainPageCar" href="/Car/Detail/${car.id}">
+                                  <p class="car_name">${car.brand} ${car.model} ${car.year}</p>
+                                  <div class="car_container">
+                                       <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="photo" src="${car.previewURL}" /></div></div>
+                                    <div class="car_container-info">
+                                    <p class="car_container-info-name">${car.brand} ${car.model} ${car.year}</p>
+                                            <div class="car_container-info-parameters">
+                                                <div class="car_container-info-parameters-column">
+                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.race}</span>${car.mileage} тис. км</p>
+                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.fuel}</span>${fuelName(car.fuel)}, ${car.engineCapacity} л.</p>
+                                                    ${car.vin == null ? `` : `<p class="car_container-info-parameters-column-text vin"><span>${svgCodes.car}</span>${car.vin}</p>`}
+                                                    </div>
+                                                <div class="car_container-info-parameters-column">
+                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.transmission}</span>${transmissionName(car.carTransmission)}</p>
+                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.driveline}</span>${drivelineName(car.driveline)}</p>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="car_container-right">
+                                    <div class="car_container-right-price">
+                                                <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
+                                                <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
+                                            </div>
+                                            ${car.priority > 0 ? '<span class="car_container-right-top">Топ</span>' : ''}
+                                  <div class="car_container-right-like">
+                                 ${(waiting ? '' : `<input type="checkbox" class="car_container-right-like-cars" carId="${car.id}" carId="${car.id}" ${car.liked ? "checked" : ""}/>
                    <span class="car_container-right-span"></span>`)}
-                   </div>
-                   </div>
-                 </div>`;
+                                  </div>
+                                  </div>
+                                  </a>`;
 }
 function fuelName(id) {
     switch (id) {

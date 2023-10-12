@@ -163,7 +163,7 @@ body {
     border-radius: 0 16px 0 16px;
     filter: drop-shadow(0 0 15px rgba(0,0,0, 0.25));
     cursor: pointer;
-
+    height:260px;
     &:hover {
         filter: drop-shadow(0 0 19px rgba(0,0,0, 0.35));
     }
@@ -330,7 +330,7 @@ body {
             padding-left: 30px;
             //width: 100%;
 
-            a {
+            &-name {
                 color: $text-default;
                 transition: 0.2s;
                 font-size: 28px;
@@ -1327,7 +1327,7 @@ header {
             &-info {
                 align-self: center;
 
-                a {
+                &-name {
                     display: none;
                 }
 
@@ -1377,6 +1377,7 @@ header {
                 flex-direction: row;
                 width: 100%;
                 margin: 0;
+                align-items:center;
                 &-top {
                     font-size: 18px;
                     margin: 0;
@@ -1398,7 +1399,7 @@ header {
 
                 &-like {
                     margin: 0;
-                    align-self: start;
+                    align-self: center;
                 }
 
                 &-span {
