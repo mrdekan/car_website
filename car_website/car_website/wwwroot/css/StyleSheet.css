@@ -2018,6 +2018,10 @@ body {
 }
 .car_container-info-parameters-column p {
   font-size: 20px;
+  min-width: 234px;
+}
+.car_container-info-parameters-column.onDetail p {
+  min-width: 0;
 }
 .car_container-info-parameters-column-text {
   display: flex;

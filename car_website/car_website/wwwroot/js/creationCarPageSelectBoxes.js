@@ -18,7 +18,8 @@ const engineVolumeInp = document.getElementById('engine-volume'),
     mileage = document.getElementById('mileage'),
     vin = document.getElementById('vin'),
     year = document.getElementById('year'),
-    price = document.getElementById('price');
+    price = document.getElementById('price'),
+    engineVolumeLbl = document.getElementById('engine-volume-label');
 
 const colorRealInp = document.getElementById('real-color-inp'),
     drivelineRealInp = document.getElementById('real-driveline-inp'),
@@ -45,7 +46,7 @@ fuels["Гібрид"] = 5;
 fuels["Електро"] = 6;
 let drivelines = ["Не обрано", "Передній", "Задній", "Повний"];
 let modelsCache = {};
-
+let isElectro = false;
 getMarks();
 if (selectBrandsBtn.firstElementChild.innerText != "Не обрано")
     getModelsOfMark();
@@ -57,7 +58,7 @@ addFuel();
 addDriveline();
 addColor();
 
-let inps = [ mileage, vin, year, price ];
+let inps = [mileage, vin, year, price];
 inps.forEach(inp => {
     inp.addEventListener('input', function (event) {
         const maxLength = +event.target.getAttribute('maxlength');
@@ -71,14 +72,15 @@ inps.forEach(inp => {
 engineVolumeInp.addEventListener('input', function (event) {
     let value = event.target.value.replace(/[^\d.,]/g, '');;
     value = value.replace(',', '.');
+    let length = 2;
+    if (isElectro) length++;
     if (value.includes('.'))
-        value = value.slice(0, 3);
-    else
-        value = value.slice(0, 2);
+        length++;
+    value = value.slice(0, length);
     event.target.value = value;
 });
 engineVolumeInp.addEventListener('keydown', (e) => {
-    if ((e.target.value.includes('.') || e.target.value == '' || e.target.value.length >= '2') && (e.key == '.' || e.key == ','))
+    if ((e.target.value.includes('.') || e.target.value == '' || e.target.value.length >= (isElectro?3:2)) && (e.key == '.' || e.key == ','))
         e.preventDefault();
 });
 otherModelInp.addEventListener('input', function () {
@@ -271,7 +273,7 @@ function updateName(selectedLi) {
         brandRealInp.value = "Any";
         selectModelsBtn.firstElementChild.innerText = 'Інше'
         models = models.filter(c => c !== 'Не обрано');
-        addModel("Інше",true);
+        addModel("Інше", true);
     }
     else
         addModel();
@@ -333,6 +335,18 @@ function updateFuel(selectedLi) {
     if (selectedLi.innerText != "Не обрано") {
         delete fuels["Не обрано"];
         fuelRealInp.value = fuels[selectedLi.innerText];
+    }
+    if (selectedLi.innerText == "Електро") {
+        engineVolumeInp.setAttribute('placeholder', 'Ємність акумулятора');
+        engineVolumeLbl.innerHTML = 'Ємність акумулятора (кВт·год.)';
+        isElectro = true;
+    }
+    else {
+        engineVolumeInp.setAttribute('placeholder', "Об'єм двигуна");
+        engineVolumeLbl.innerHTML = "Об'єм двигуна(л.)";
+        isElectro = false;
+        if (engineVolumeInp.value.includes('.')) engineVolumeInp.value = engineVolumeInp.value.slice(0, 3);
+        else engineVolumeInp.value = engineVolumeInp.value.slice(0, 2);
     }
     addFuel(selectedLi.innerText);
     fuelsOptions.parentElement.classList.remove("active");

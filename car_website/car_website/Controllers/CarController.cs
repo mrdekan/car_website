@@ -83,7 +83,6 @@ namespace car_website.Controllers
                 var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
                 var cars = await _carRepository.GetAll();
                 var user = await GetCurrentUser();
-                //if (user == null || user.Role != UserRole.Dev)
                 cars = cars.Where(car => car.Priority > 0);
                 var tasks = new List<Task<Tuple<Car, byte>>>();
                 foreach (var el in cars)
@@ -318,49 +317,47 @@ namespace car_website.Controllers
                 return RedirectToAction("CreateExpressSaleCar");
             }
             string userId = user.Id.ToString();
-
-            if (ModelState.IsValid)
+            bool additionalValidation = true;
+            if (carVM.CreateCarViewModel.Year > DateTime.Now.Year + 1)
             {
-                if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VIN) && carVM.CreateCarViewModel.VIN.Length < 17)
-                {
-                    ModelState.AddModelError("VIN", "Довжина VIN номеру — 17 символів");
-                    return View(carVM);
-                }
-                bool photosIsValid = true;
-                if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo1))
-                {
-                    photosIsValid = false;
-                    ModelState.AddModelError("Photo1", $"Не більше {MAX_PHOTO_SIZE}Мб");
-                }
-                if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo2))
-                {
-                    photosIsValid = false;
-                    ModelState.AddModelError("Photo2", $"Не більше {MAX_PHOTO_SIZE}Мб");
-                }
-                if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo3))
-                {
-                    photosIsValid = false;
-                    ModelState.AddModelError("Photo3", $"Не більше {MAX_PHOTO_SIZE}Мб");
-                }
-                if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo4))
-                {
-                    photosIsValid = false;
-                    ModelState.AddModelError("Photo4", $"Не більше {MAX_PHOTO_SIZE}Мб");
-                }
-                if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo5))
-                {
-                    photosIsValid = false;
-                    ModelState.AddModelError("Photo5", $"Не більше {MAX_PHOTO_SIZE}Мб");
-                }
-                if (!photosIsValid)
-                {
-                    var brands = await _brandRepository.GetAll();
-                    carVM.CarBrands = brands.ToList();
-                    return View(carVM);
-                }
+                ModelState.AddModelError("CreateCarViewModel.Year", "Не продаємо авто з майбутнього :(");
+                additionalValidation = false;
+            }
+            if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VIN) && (carVM.CreateCarViewModel.VIN.Length < 17 || carVM.CreateCarViewModel.VIN.Length > 17))
+            {
+                ModelState.AddModelError("CreateCarViewModel.VIN", "Довжина VIN номеру — 17 символів");
+                additionalValidation = false;
+            }
+            bool photosIsValid = true;
+            if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo1))
+            {
+                photosIsValid = false;
+                ModelState.AddModelError("CreateCarViewModel.Photo1", $"Не більше {MAX_PHOTO_SIZE}Мб");
+            }
+            if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo2))
+            {
+                photosIsValid = false;
+                ModelState.AddModelError("CreateCarViewModel.Photo2", $"Не більше {MAX_PHOTO_SIZE}Мб");
+            }
+            if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo3))
+            {
+                photosIsValid = false;
+                ModelState.AddModelError("CreateCarViewModel.Photo3", $"Не більше {MAX_PHOTO_SIZE}Мб");
+            }
+            if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo4))
+            {
+                photosIsValid = false;
+                ModelState.AddModelError("CreateCarViewModel.Photo4", $"Не більше {MAX_PHOTO_SIZE}Мб");
+            }
+            if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo5))
+            {
+                photosIsValid = false;
+                ModelState.AddModelError("CreateCarViewModel.Photo5", $"Не більше {MAX_PHOTO_SIZE}Мб");
+            }
 
-
-                if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
+            if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
+            {
+                try
                 {
                     using HttpClient client = new();
                     var response = await client.GetAsync($"https://www.googleapis.com/youtube/v3/videos?id={GetVideoIdFromUrl(carVM.CreateCarViewModel.VideoURL ?? "")}&key={_configuration.GetSection("GoogleApiSettings")["ApiKey"]}&part=snippet");
@@ -372,18 +369,26 @@ namespace car_website.Controllers
                         {
                             var brands = await _brandRepository.GetAll();
                             carVM.CarBrands = brands.ToList();
-                            ModelState.AddModelError("VideoURL", "Відео не знайдено");
-                            return View(carVM);
+                            ModelState.AddModelError("CreateCarViewModel.VideoURL", "Відео не знайдено");
+                            additionalValidation = false;
                         }
                     }
                     else
                     {
                         var brands = await _brandRepository.GetAll();
                         carVM.CarBrands = brands.ToList();
-                        ModelState.AddModelError("VideoURL", "Відео не знайдено");
-                        return View(carVM);
+                        ModelState.AddModelError("CreateCarViewModel.VideoURL", "Відео не знайдено");
+                        additionalValidation = false;
                     }
                 }
+                catch
+                {
+                    additionalValidation = false;
+                }
+            }
+            if (ModelState.IsValid && additionalValidation && photosIsValid)
+            {
+
                 var newCar = carVM.CreateCarViewModel;
                 if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
                     newCar.VideoURL = $"https://www.youtube.com/embed/{GetVideoIdFromUrl(newCar.VideoURL)}";
@@ -401,20 +406,6 @@ namespace car_website.Controllers
                 Car car = new(newCar, photosNames, userId, _imageService.GetPhotoAspectRatio(photosNames[0]), preview);
                 if (user.Role != Data.Enum.UserRole.User)
                 {
-                    /*if (!string.IsNullOrEmpty(newCar.OtherBrandName))
-                    {
-                        Brand newBrand = new Brand(newCar.Brand);
-                        await _brandRepository.Add(newBrand);
-                    }
-                    if (!string.IsNullOrEmpty(newCar.OtherModelName))
-                    {
-                        Brand brand = await _brandRepository.GetByName(string.IsNullOrEmpty(newCar.OtherBrandName) ? car.Brand : newCar.OtherBrandName);
-                        if (brand != null && !brand.Models.Contains(newCar.OtherModelName))
-                        {
-                            brand.Models.Add(newCar.OtherModelName);
-                            await _brandRepository.Update(brand);
-                        }
-                    }*/
                     if (user.Role == Data.Enum.UserRole.Dev) car.Priority = -1;
                     await _brandRepository.AddIfDoesntExist(newCar.Brand, newCar.Model);
                     await _carRepository.Add(car);

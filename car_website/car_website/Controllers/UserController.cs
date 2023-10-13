@@ -46,7 +46,7 @@ namespace car_website.Controllers
         {
             bool isAdmin = await IsAdmin();
             if (!IsCurrentUserId(id) && !isAdmin)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login");
             var user = await _userRepository.GetByIdAsync(ObjectId.Parse(id));
             return View(user);
         }

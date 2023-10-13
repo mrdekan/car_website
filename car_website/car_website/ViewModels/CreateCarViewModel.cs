@@ -45,7 +45,7 @@ namespace car_website.ViewModels
         [MaxLength(500, ErrorMessage = "Не більше 500 символів")]
         public string? Description { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
-        [MaxLength(3, ErrorMessage = "Некоректне значення")]
+        [MaxLength(4, ErrorMessage = "Некоректне значення")]
         [MinLength(1, ErrorMessage = "Обов'язкове поле")]
         public string EngineCapacity { get; set; }
         [MaxLength(17, ErrorMessage = "Довжина VIN номеру — 17 символів")]

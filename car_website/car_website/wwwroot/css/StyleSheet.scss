@@ -355,12 +355,15 @@ body {
                     flex-direction: column;
                     gap: 30px;
 
-                    p {
+                    p{
                         font-size: 20px;
-                        //min-width: 234px;
+                        min-width: 234px;
                     }
 
                     &.onDetail {
+                        p{
+                            min-width: 0;
+                        }
                     }
 
                     &-text {

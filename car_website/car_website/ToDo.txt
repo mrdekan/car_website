@@ -1,11 +1,12 @@
 ﻿ToDo:
-✅Cache currency rate
+✅cache currency rate
 ✅mobile top offset
 like buttons
 loading anim in profile
 filters notification
 similar cars mobile
 ✅filter similar cars (only !devs' cars)
+connect likes in similar
 editing cars
 deleting users
 deleting cars
@@ -15,3 +16,6 @@ car's color on the detail page
 finish api
 docs for api
 admin panel visual
+finish select boxes on the express car creation page
+create car page visual
+restore fields after failed car creating
