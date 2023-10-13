@@ -62,5 +62,37 @@ namespace car_website.Models
         public int? Priority { get; set; }
         public float? PreviewAspectRatio { get; set; }
         public string? PreviewURL { get; set; }
+        public bool MatchesFilter(CarFilterModel filter)
+        {
+            bool brandCondition = string.IsNullOrEmpty(filter.Brand) || filter.Brand == "Усі" || this.Brand == filter.Brand;
+            bool modelCondition = string.IsNullOrEmpty(filter.Model) || filter.Model == "Усі" || filter.Brand == "Інше" || this.Model == filter.Model?.Replace('_', ' ');
+            bool bodyCondition = filter.Body == 0 || this.Body == filter.Body;
+            bool minYearCondition = filter.MinYear == 0 || filter.MinYear == 2000 || this.Year >= filter.MinYear;
+            bool maxYearCondition = filter.MaxYear == 0 || filter.MaxYear == DateTime.Now.Year || this.Year <= filter.MaxYear;
+            bool minPriceCondition = filter.MinPrice == 0 || this.Price >= filter.MinPrice;
+            bool maxPriceCondition = filter.MaxPrice == 0 || this.Price <= filter.MaxPrice;
+            bool carTransmissionCondition = filter.CarTransmission == 0 || this.CarTransmission == filter.CarTransmission;
+            bool fuelCondition = filter.Fuel == 0 || this.Fuel == filter.Fuel;
+            bool drivelineCondition = filter.Driveline == 0 || this.Driveline == filter.Driveline;
+            bool minEngineCapacityCondition = filter.MinEngineCapacity == 0 || this.EngineCapacity >= filter.MinEngineCapacity;
+            bool maxEngineCapacityCondition = filter.MaxEngineCapacity == 0 || this.EngineCapacity <= filter.MaxEngineCapacity;
+            bool minMileageCondition = filter.MinMileage == 0 || this.Mileage >= filter.MinMileage;
+            bool maxMileageCondition = filter.MaxMileage == 0 || this.Mileage <= filter.MaxMileage;
+
+            return brandCondition &&
+                   modelCondition &&
+                   bodyCondition &&
+                   minYearCondition &&
+                   maxYearCondition &&
+                   minPriceCondition &&
+                   maxPriceCondition &&
+                   carTransmissionCondition &&
+                   fuelCondition &&
+                   drivelineCondition &&
+                   minEngineCapacityCondition &&
+                   maxEngineCapacityCondition &&
+                   minMileageCondition &&
+                   maxMileageCondition;
+        }
     }
 }

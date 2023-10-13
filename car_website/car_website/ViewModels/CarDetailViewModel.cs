@@ -1,5 +1,4 @@
 ﻿using car_website.Data.Enum;
-using car_website.Interfaces;
 using car_website.Models;
 using car_website.Services;
 using System.Globalization;
@@ -8,12 +7,12 @@ namespace car_website.ViewModels
 {
     public class CarDetailViewModel
     {
-        public CarDetailViewModel(Car car, CurrencyUpdater currencyUpdater, bool requested, IAppSettingsDbRepository appSettingsDbRepository)
+        public CarDetailViewModel(Car car, CurrencyUpdater currencyUpdater, bool requested)
         {
             Id = car.Id.ToString();
             CultureInfo cultureInfo = new CultureInfo("en-US");
             Price = string.Format("{0:n0}", car.Price).Replace(",", " ");
-            PriceUAH = string.Format("{0:n0}", currencyUpdater.ConvertToUAH(car.Price, appSettingsDbRepository)).Replace(",", " ");
+            PriceUAH = string.Format("{0:n0}", currencyUpdater.UsdToUah(car.Price)).Replace(",", " ");
             PhotosURL = car.PhotosURL;
             Brand = car.Brand;
             Model = car.Model;

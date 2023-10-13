@@ -1,4 +1,6 @@
-﻿namespace car_website.Services
+﻿using car_website.Interfaces;
+
+namespace car_website.Services
 {
     public class CurrencyUpdateService : BackgroundService
     {
@@ -15,11 +17,16 @@
             using (var scope = _services.CreateScope())
             {
                 var currencyUpdater = scope.ServiceProvider.GetRequiredService<CurrencyUpdater>();
-                currencyUpdater.UpdateCurrencies();
+                var _appSettingsDbRepository = scope.ServiceProvider.GetRequiredService<IAppSettingsDbRepository>();
+                currencyUpdater.UpdateCurrencies(_appSettingsDbRepository);
             }
             using PeriodicTimer timer = new PeriodicTimer(_period);
             while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(stoppingToken))
-                _currencyUpdater.UpdateCurrencies();
+                using (var scope = _services.CreateScope())
+                {
+                    var _appSettingsDbRepository = scope.ServiceProvider.GetRequiredService<IAppSettingsDbRepository>();
+                    _currencyUpdater.UpdateCurrencies(_appSettingsDbRepository);
+                }
         }
     }
 }

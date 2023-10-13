@@ -80,7 +80,8 @@ namespace car_website.Controllers.v1
                 filteredCars = filteredCars.OrderByDescending(car => (car.Priority ?? 0) < 0 ? 0 : (car.Priority ?? 0)).ToList();
                 int perPage = filter.Page <= 0 ? filteredCars.Count() : filter.PerPage ?? CARS_PER_PAGE;
                 int page = filter.Page <= 0 ? 1 : filter.Page;
-                if (!string.IsNullOrEmpty(filter.Brand) && filter.Brand != "Усі")
+                filteredCars = filteredCars.Where(car => car.MatchesFilter(filter)).ToList();
+                /*if (!string.IsNullOrEmpty(filter.Brand) && filter.Brand != "Усі")
                     filteredCars = filteredCars.Where(car => car.Brand == filter.Brand);
                 if (!string.IsNullOrEmpty(filter.Model) && filter.Model != "Усі" && filter.Brand != "Інше")
                     filteredCars = filteredCars.Where(car => car.Model == filter.Model?.Replace('_', ' '));
@@ -107,15 +108,15 @@ namespace car_website.Controllers.v1
                 if (filter.MinMileage != 0)
                     filteredCars = filteredCars.Where(car => car.Mileage >= filter.MinMileage);
                 if (filter.MaxMileage != 0)
-                    filteredCars = filteredCars.Where(car => car.Mileage <= filter.MaxMileage);
+                    filteredCars = filteredCars.Where(car => car.Mileage <= filter.MaxMileage);*/
                 int totalItems = filteredCars.Count();
                 int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
                 int skip = (page - 1) * perPage;
                 filteredCars = filteredCars.Skip(skip).Take(perPage);
                 var carsRes = filteredCars
                     .Select(car =>
-                        new CarViewModel(car, _currencyUpdater, user != null
-                            && user.Favorites.Contains(car.Id), _appSettingsDbRepository, IsAdmin().Result))
+                        new CarInListViewModel(car, _currencyUpdater, user != null
+                            && user.Favorites.Contains(car.Id)))
                     .ToList();
                 return Ok(new
                 {
@@ -147,7 +148,7 @@ namespace car_website.Controllers.v1
                 int skip = (_page - 1) * _perPage;
                 cars = cars.Skip(skip).Take(_perPage);
                 User user = await GetCurrentUser();
-                var carsRes = cars.Select(car => new CarViewModel(car, _currencyUpdater, user != null && user.Favorites.Contains(car.Id), _appSettingsDbRepository, IsAdmin().Result)).ToList();
+                var carsRes = cars.Select(car => new CarViewModel(car, _currencyUpdater, user != null && user.Favorites.Contains(car.Id), IsAdmin().Result)).ToList();
                 return Ok(new
                 {
                     Status = true,
@@ -184,7 +185,6 @@ namespace car_website.Controllers.v1
                     car,
                     _currencyUpdater,
                     user != null && user.Favorites.Contains(car.Id),
-                    _appSettingsDbRepository,
                     IsAdmin().Result)
             });
         }
@@ -203,7 +203,7 @@ namespace car_website.Controllers.v1
                 int skip = (_page - 1) * _perPage;
                 cars = cars.Skip(skip).Take(_perPage);
                 User user = await GetCurrentUser();
-                var carsRes = cars.Select(car => new ExpressSaleCarViewModel(car, _currencyUpdater, _appSettingsDbRepository, IsAdmin().Result)).ToList();
+                var carsRes = cars.Select(car => new ExpressSaleCarViewModel(car, _currencyUpdater, IsAdmin().Result)).ToList();
                 return Ok(new
                 {
                     Status = true,

@@ -1,5 +1,4 @@
-﻿using car_website.Data.Enum;
-using car_website.Interfaces;
+﻿using car_website.Interfaces;
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
@@ -63,7 +62,7 @@ namespace car_website.Controllers
                 var request = await _buyRequestRepository.GetByBuyerAndCarAsync(user.Id.ToString(), id);
                 if (request != null) requested = true;
             }
-            return View(new CarDetailViewModel(car, _currencyUpdater, requested, _appSettingsDbRepository));
+            return View(new CarDetailViewModel(car, _currencyUpdater, requested));
         }
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
@@ -74,7 +73,7 @@ namespace car_website.Controllers
                 return BadRequest();
             if (car == null)
                 return RedirectToAction("NotFound", "Home");
-            return View(new CarDetailViewModel(car, _currencyUpdater, false, _appSettingsDbRepository));
+            return View(new CarDetailViewModel(car, _currencyUpdater, false));
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LiteCarViewModel>>> FindSimilarCars(string id)
@@ -84,8 +83,8 @@ namespace car_website.Controllers
                 var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
                 var cars = await _carRepository.GetAll();
                 var user = await GetCurrentUser();
-                if (user == null || user.Role != UserRole.Dev)
-                    cars = cars.Where(car => car.Priority > 0);
+                //if (user == null || user.Role != UserRole.Dev)
+                cars = cars.Where(car => car.Priority > 0);
                 var tasks = new List<Task<Tuple<Car, byte>>>();
                 foreach (var el in cars)
                 {
@@ -103,7 +102,7 @@ namespace car_website.Controllers
                 {
                     Success = true,
                     Cars = similarCars.Select(el =>
-                    new LiteCarViewModel(el, _currencyUpdater, _appSettingsDbRepository)).ToList()
+                    new LiteCarViewModel(el, _currencyUpdater)).ToList()
                 });
             }
             catch

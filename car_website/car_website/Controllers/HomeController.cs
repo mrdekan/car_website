@@ -83,7 +83,7 @@ namespace car_website.Controllers
                 User? user = null;
                 if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
                     user = await _userRepository.GetByIdAsync(ObjectId.Parse(HttpContext.Session.GetString("UserId")));
-                var carsRes = filteredCars.Select(car => new CarViewModel(car, _currencyUpdater, user != null && user.Favorites.Contains(car.Id), _appSettingsDbRepository)).ToList();
+                var carsRes = filteredCars.Select(car => new CarViewModel(car, _currencyUpdater, user != null && user.Favorites.Contains(car.Id))).ToList();
                 return Ok(new { Success = true, Cars = carsRes, Pages = totalPages, Page = page });
             }
             catch (Exception ex)

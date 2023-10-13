@@ -1,0 +1,17 @@
+﻿ToDo:
+✅Cache currency rate
+✅mobile top offset
+like buttons
+loading anim in profile
+filters notification
+similar cars mobile
+✅filter similar cars (only !devs' cars)
+editing cars
+deleting users
+deleting cars
+purchase requests
+✅optimize getFiltered request (remove unnecessary fields & optimize filtering)
+car's color on the detail page
+finish api
+docs for api
+admin panel visual

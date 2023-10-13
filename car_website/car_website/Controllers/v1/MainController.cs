@@ -75,6 +75,7 @@ namespace car_website.Controllers.v1
             if (currency < 0)
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });
             await _appSettingsDbRepository.SetCurrencyRate(currency);
+            _currencyUpdater.UpdateCurrencies(_appSettingsDbRepository);
             return Ok(new { Status = true, Code = HttpCodes.Success });
 
         }
