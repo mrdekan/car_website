@@ -3049,6 +3049,9 @@ header .header_right-dark-label::before {
   .wrapper {
     margin: 0;
   }
+  .wrapper_right {
+    margin-top: 25px;
+  }
   .wrapper .filters {
     align-self: center;
     max-width: 100%;

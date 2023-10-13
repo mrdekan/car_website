@@ -1528,6 +1528,9 @@ header {
     .wrapper {
         margin: 0;
 
+        &_right {
+            margin-top: 25px;
+        }
         .filters {
             align-self: center;
             max-width: 100%;
