@@ -24,7 +24,7 @@ namespace car_website.ViewModels
             CarColor = GetColor(car.CarColor);
             Year = car.Year;
             Description = car.Description;
-            EngineCapacity = car.EngineCapacity;
+            EngineCapacity = car.EngineCapacity + (car.Fuel == TypeFuel.Electro ? " квтч." : " л.");
             VIN = car.VIN;
             Options = car.Options;
             Mileage = car.Mileage;
@@ -47,7 +47,7 @@ namespace car_website.ViewModels
         public string CarColor { get; set; }
         public uint Year { get; set; }
         public string Description { get; set; }
-        public float EngineCapacity { get; set; }
+        public string EngineCapacity { get; set; }
         public string VIN { get; set; }
         public CarOptions[] Options { get; set; }
         public uint Mileage { get; set; }

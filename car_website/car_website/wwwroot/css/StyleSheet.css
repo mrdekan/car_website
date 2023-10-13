@@ -3112,8 +3112,7 @@ header .header_right-dark-label::before {
     margin: 0;
   }
   .car_container img {
-    min-width: 190px;
-    height: 140px;
+    height: 100%;
   }
   .car_container-info {
     align-self: center;

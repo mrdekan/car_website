@@ -70,7 +70,7 @@ namespace car_website.Controllers.v1
                 IEnumerable<Car> filteredCars = await _carRepository.GetAll();
                 var user = await GetCurrentUser();
                 if (user == null || user.Role != UserRole.Dev)
-                    filteredCars = filteredCars.Where(car => car.Priority > 0);
+                    filteredCars = filteredCars.Where(car => car.Priority >= 0);
                 if (filter.SortingType == null || filter.SortingType == SortingType.Default)
                     filteredCars = filteredCars.Reverse();
                 else if (filter.SortingType == SortingType.PriceToLower)
@@ -174,7 +174,7 @@ namespace car_website.Controllers.v1
             if (car == null)
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });
             User user = await GetCurrentUser();
-            if ((user == null || user.Role != UserRole.Dev) && (car.Priority ?? 0) < 0)
+            if ((user == null || user.Role != UserRole.Dev) && (car.Priority ?? 0) <= 0)
                 return Ok(new { Status = false, Code = HttpCodes.NotFound });
             return Ok(new
             {
@@ -231,7 +231,7 @@ namespace car_website.Controllers.v1
             Car car = await _carRepository.GetByIdAsync(id);
             if ((car.Priority ?? 0) < 0)
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });
-            car.Priority = cancel ? 1 : 2;
+            car.Priority = cancel ? 0 : 1;
             await _carRepository.Update(car);
             return Ok(new { Status = true, Code = HttpCodes.Success });
         }

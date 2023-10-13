@@ -186,7 +186,7 @@ namespace car_website.Controllers.v1
                 var carsIds = requests.Select(obj => ObjectId.Parse(obj.CarId)).ToList();
                 var carsRes = await _carRepository.GetByIdListAsync(carsIds);
                 if (user == null || user.Role != UserRole.Dev)
-                    carsRes = carsRes.Where(car => car.Priority > 0);
+                    carsRes = carsRes.Where(car => car.Priority >= 0);
                 return Ok(new
                 {
                     Status = true,
@@ -225,7 +225,7 @@ namespace car_website.Controllers.v1
                 User currentUser = await GetCurrentUser();
                 IEnumerable<Car> cars = await _carRepository.GetByIdListAsync(user.CarsForSell);
                 if (user == null || user.Role != UserRole.Dev)
-                    cars = cars.Where(car => car.Priority > 0);
+                    cars = cars.Where(car => car.Priority >= 0);
                 if (page == -1)
                 {
                     page = 1;
@@ -270,7 +270,7 @@ namespace car_website.Controllers.v1
                     return Ok(new { Status = false, Code = HttpCodes.Unauthorized });
                 IEnumerable<Car> favoriteCars = await _carRepository.GetByIdListAsync(user.Favorites);
                 if (user == null || user.Role != UserRole.Dev)
-                    favoriteCars = favoriteCars.Where(car => car.Priority > 0);
+                    favoriteCars = favoriteCars.Where(car => car.Priority >= 0);
                 if (page == -1)
                 {
                     page = 1;

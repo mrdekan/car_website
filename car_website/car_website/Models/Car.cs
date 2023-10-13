@@ -35,7 +35,7 @@ namespace car_website.Models
                 this.Model = carVM.OtherModelName;
             SellerId = sellerId;
             VideoURL = carVM.VideoURL;
-            Priority = 1;
+            Priority = 0;
             PreviewAspectRatio = aspectRatio;
             PreviewURL = previewURL;
         }
