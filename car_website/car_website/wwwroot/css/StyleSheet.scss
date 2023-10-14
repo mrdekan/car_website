@@ -163,7 +163,8 @@ body {
     border-radius: 0 16px 0 16px;
     filter: drop-shadow(0 0 15px rgba(0,0,0, 0.25));
     cursor: pointer;
-    height:260px;
+    height: 260px;
+
     &:hover {
         filter: drop-shadow(0 0 19px rgba(0,0,0, 0.35));
     }
@@ -181,7 +182,7 @@ body {
         margin-left: 30px;
 
         &-like input:checked ~ .car_container-right-span {
-            background-image: url("/img/heart-checked.svg");
+            opacity: 1;
         }
 
         &-like {
@@ -189,21 +190,28 @@ body {
             align-self: center;
 
             &.similar {
-                //position: absolute;
                 margin: 0;
                 display: flex;
                 align-items: center;
-                // margin-left:15px;
             }
+        }
+
+        &-heart {
+            position: absolute;
+            height: 40px;
+            width: 40px;
+            color: $beige-default;
+            transition: color 0.2s;
         }
 
         &-span {
             position: absolute;
             height: 40px;
             width: 40px;
-            background-image: url("/img/heart.svg");
             display: block;
-            z-index: 2;
+            opacity: 0;
+            color: $beige-default;
+            transition: 0.2s;
 
             &.similar {
             }
@@ -355,13 +363,13 @@ body {
                     flex-direction: column;
                     gap: 30px;
 
-                    p{
+                    p {
                         font-size: 20px;
                         min-width: 234px;
                     }
 
                     &.onDetail {
-                        p{
+                        p {
                             min-width: 0;
                         }
                     }
@@ -369,6 +377,7 @@ body {
                     &-text {
                         display: flex;
                         align-items: center;
+
                         span {
                             display: block;
                             width: 24px;

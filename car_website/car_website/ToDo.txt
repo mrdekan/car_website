@@ -1,7 +1,7 @@
 ﻿ToDo:
 ✅cache currency rate
 ✅mobile top offset
-like buttons
+✅like buttons
 loading anim in profile
 filters notification
 similar cars mobile
@@ -19,3 +19,5 @@ admin panel visual
 finish select boxes on the express car creation page
 create car page visual
 restore fields after failed car creating
+brands editing
+fix year select slider

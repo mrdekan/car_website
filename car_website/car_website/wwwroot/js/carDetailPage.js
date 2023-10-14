@@ -185,7 +185,7 @@ function buyRequest() {
                 resBlock.classList.add("buy-request-result-info")
                 if (buyButton.hasAttribute('cancel')) {
                     buyButton.removeAttribute('cancel');
-                    buyButton.innerHTML = 'Запит на покупку';
+                    buyButton.innerHTML = 'Купити';
                     buyButton.classList.remove('cancelBuy');
                 }
                 else {

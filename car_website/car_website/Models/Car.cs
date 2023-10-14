@@ -78,7 +78,7 @@ namespace car_website.Models
             bool maxEngineCapacityCondition = filter.MaxEngineCapacity == 0 || this.EngineCapacity <= filter.MaxEngineCapacity;
             bool minMileageCondition = filter.MinMileage == 0 || this.Mileage >= filter.MinMileage;
             bool maxMileageCondition = filter.MaxMileage == 0 || this.Mileage <= filter.MaxMileage;
-
+            bool electroEngine = this.Fuel == TypeFuel.Electro && filter.MinEngineCapacity == 0f || this.Fuel == TypeFuel.Electro && filter.Fuel == TypeFuel.Electro || this.Fuel != TypeFuel.Electro;
             return brandCondition &&
                    modelCondition &&
                    bodyCondition &&
@@ -92,7 +92,8 @@ namespace car_website.Models
                    minEngineCapacityCondition &&
                    maxEngineCapacityCondition &&
                    minMileageCondition &&
-                   maxMileageCondition;
+                   maxMileageCondition
+                   && electroEngine;
         }
     }
 }

@@ -45,6 +45,7 @@ const yearLabel = document.getElementById('year-label');
 let carsPage = 1;
 const openFilter = document.getElementById('open-filters');
 const filter = document.querySelector('.filters_wrapper');
+const engineVolumeLbl = document.getElementById('engine-volume-lbl');
 //#endregion
 
 //#region Selects content
@@ -64,6 +65,7 @@ let drivelines = ["Усі", "Передній", "Задній", "Повний"];
 let modelsCache = {};
 let carsCache = {};
 let pages = 0;
+let isElectro = false;
 //#endregion
 
 //#region Functions' calls
@@ -219,13 +221,18 @@ minYearSlider.onblur = (() => minYearValue.classList.remove("show"));
 const inputsWithComma = [engineVolume_min_input, engineVolume_max_input];
 inputsWithComma.forEach((inp) => {
     inp.addEventListener('input', function (event) {
-        const maxLength = parseInt(event.target.getAttribute('maxlength'));
-        let currentValue = event.target.value;
-        currentValue = currentValue.replace(/[^\d.,]/g, '');
-        const currentMaxLength = (currentValue.includes(',') || currentValue.includes('.')) ? maxLength : maxLength - 1;
-        if (currentValue.length > currentMaxLength)
-            currentValue = currentValue.slice(0, currentMaxLength);
-        event.target.value = currentValue;
+        let value = event.target.value.replace(/[^\d.,]/g, '');;
+        value = value.replace(',', '.');
+        let length = 2;
+        if (isElectro) length++;
+        if (value.includes('.'))
+            length++;
+        value = value.slice(0, length);
+        event.target.value = value;
+    });
+    inp.addEventListener('keydown', (e) => {
+        if ((e.target.value.includes('.') || e.target.value == '' || e.target.value.length >= (isElectro ? 3 : 2)) && (e.key == '.' || e.key == ','))
+            e.preventDefault();
     });
 });
 const inputs = [price_max_input, price_min_input, race_max_input, race_min_input];
@@ -339,7 +346,7 @@ function formCar(car) {
                                   <a class="car mainPageCar" href="/Car/Detail/${car.id}">
                                   <p class="car_name">${car.brand} ${car.model} ${car.year}</p>
                                   <div class="car_container">
-                                       <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="photo" src="${car.previewURL}" /></div></div>
+                                       <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="${car.brand} ${car.model} ${car.year}" src="${car.previewURL}" /></div></div>
                                     <div class="car_container-info">
                                     <p class="car_container-info-name">${car.brand} ${car.model} ${car.year}</p>
                                             <div class="car_container-info-parameters">
@@ -363,7 +370,12 @@ function formCar(car) {
                                             ${car.priority > 0 ? '<span class="car_container-right-top">Топ</span>' : ''}
                                   <div class="car_container-right-like">
                                   <input type="checkbox" class="car_container-right-like-cars" carId="${car.id}" ${car.liked ? "checked" : ""}/>
-                                  <span class="car_container-right-span"></span>
+                                  <span class="car_container-right-heart">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.272 4.95258C7.174 4.95258 6.077 5.34958 5.241 6.14458C4.441 6.90658 4 7.91758 4 8.99158C4 10.0646 4.441 11.0756 5.241 11.8376L12 18.2696L18.759 11.8376C19.559 11.0756 20 10.0646 20 8.99158C20 7.91858 19.559 6.90658 18.759 6.14458C17.088 4.55458 14.368 4.55458 12.697 6.14458L12 6.80858L11.303 6.14458C10.467 5.34958 9.37 4.95258 8.272 4.95258ZM12 20.9996L3.847 13.2406C2.656 12.1076 2 10.5986 2 8.99158C2 7.38458 2.656 5.87558 3.847 4.74158C6.067 2.62858 9.552 2.43858 12 4.16858C14.448 2.43858 17.933 2.62858 20.153 4.74158C21.344 5.87558 22 7.38458 22 8.99158C22 10.5986 21.344 12.1076 20.153 13.2406L12 20.9996Z" fill="currentColor"/></svg>
+                                  </span>
+                                  <span class="car_container-right-span"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 20.9996L3.847 13.2406C2.656 12.1076 2 10.5986 2 8.99158C2 7.38458 2.656 5.87558 3.847 4.74158C6.067 2.62858 9.552 2.43858 12 4.16858C14.448 2.43858 17.933 2.62858 20.153 4.74158C21.344 5.87558 22 7.38458 22 8.99158C22 10.5986 21.344 12.1076 20.153 13.2406L12 20.9996Z" fill="currentColor"/></svg>
+                                  </span>
                                   </div>
                                   </div>
                                   </a>`;
@@ -556,6 +568,23 @@ function updateTransmission(selectedLi) {
 }
 function updateFuel(selectedLi) {
     addFuel(selectedLi.innerText);
+    if (selectedLi.innerText == "Електро") {
+        engineVolumeLbl.innerHTML = 'Ємність батареї (кВт·год.)';
+        isElectro = true;
+    }
+    else {
+        engineVolumeLbl.innerHTML = "Об'єм двигуна (л.)";
+        isElectro = false;
+        if (engineVolumeInp.value.includes('.')) {
+            engineVolume_min_input.value = engineVolume_min_input.value.slice(0, 3);
+            engineVolume_max_input.value = engineVolume_max_input.value.slice(0, 3);
+
+        }
+        else {
+            engineVolume_min_input.value = engineVolume_min_input.value.slice(0, 2);
+            engineVolume_max_input.value = engineVolume_max_input.value.slice(0, 2);
+        }
+    }
     fuelsOptions.parentElement.classList.remove("active");
     selectFuelsBtn.classList.remove("active");
     selectFuelsBtn.firstElementChild.innerText = selectedLi.innerText;

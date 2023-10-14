@@ -584,6 +584,7 @@ input[type=number] {
   border-bottom: 2px solid var(--gray-default);
   line-height: 1.1;
   margin-bottom: 20px;
+  padding-bottom: 3px;
   text-align: center;
 }
 
@@ -977,6 +978,9 @@ h4 {
   }
 }
 @media (max-width: 767px) {
+  .title {
+    font-size: 24px;
+  }
   #seller {
     padding: 0 10px;
     justify-content: space-between;
@@ -1024,7 +1028,6 @@ h4 {
   }
   .priceBuy a {
     font-size: 16px;
-    padding: 5px 10px;
     height: 30px;
   }
   .popup_images {
@@ -1873,7 +1876,7 @@ body {
   margin-left: 30px;
 }
 .car_container-right-like input:checked ~ .car_container-right-span {
-  background-image: url("/img/heart-checked.svg");
+  opacity: 1;
 }
 .car_container-right-like {
   margin: 0px 72px 66px 0px;
@@ -1884,13 +1887,21 @@ body {
   display: flex;
   align-items: center;
 }
+.car_container-right-heart {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  color: var(--beige-default);
+  transition: color 0.2s;
+}
 .car_container-right-span {
   position: absolute;
   height: 40px;
   width: 40px;
-  background-image: url("/img/heart.svg");
   display: block;
-  z-index: 2;
+  opacity: 0;
+  color: var(--beige-default);
+  transition: 0.2s;
 }
 .car_container-right-like-cars {
   position: absolute;
