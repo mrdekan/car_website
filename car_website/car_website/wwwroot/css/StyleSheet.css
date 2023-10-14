@@ -1964,6 +1964,7 @@ body {
 .car input {
   width: 40px;
   height: 40px;
+  cursor: default;
 }
 .car_container {
   display: flex;
@@ -2887,6 +2888,7 @@ header .header_right-dark-label::before {
     align-items: start;
     padding: 10px;
     gap: 10px;
+    cursor: default;
   }
   .car.mainPageCar .car_name {
     display: block;
@@ -2964,9 +2966,14 @@ header .header_right-dark-label::before {
   .car.mainPageCar .car_container-right-like {
     margin: 0;
     align-self: center;
+    cursor: default;
+  }
+  .car.mainPageCar .car_container-right-like-cars {
+    cursor: default;
   }
   .car.mainPageCar .car_container-right-span {
     position: static;
+    cursor: default;
   }
 }
 .custom-loader {
@@ -3117,6 +3124,7 @@ header .header_right-dark-label::before {
     align-items: start;
     padding: 10px;
     gap: 10px;
+    cursor: default;
   }
   .car_name {
     display: block;
@@ -3186,12 +3194,17 @@ header .header_right-dark-label::before {
     font-size: 12px;
     min-width: 95px;
   }
+  .car_container-right-like-cars {
+    cursor: default;
+  }
   .car_container-right-like {
     margin: 0;
     align-self: start;
+    cursor: default;
   }
   .car_container-right-span {
     position: static;
+    cursor: default;
   }
   .info_block {
     width: 90%;

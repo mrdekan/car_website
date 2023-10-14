@@ -288,6 +288,7 @@ body {
     input {
         width: 40px;
         height: 40px;
+        cursor: default;
     }
 
     &_container {
@@ -1315,7 +1316,7 @@ header {
         align-items: start;
         padding: 10px;
         gap: 10px;
-
+        cursor: default;
 
 
         .car_name {
@@ -1392,7 +1393,8 @@ header {
                 flex-direction: row;
                 width: 100%;
                 margin: 0;
-                align-items:center;
+                align-items: center;
+
                 &-top {
                     font-size: 18px;
                     margin: 0;
@@ -1415,10 +1417,16 @@ header {
                 &-like {
                     margin: 0;
                     align-self: center;
+                    cursor: default;
+                }
+
+                &-like-cars {
+                    cursor: default;
                 }
 
                 &-span {
                     position: static;
+                    cursor: default;
                 }
             }
         }
@@ -1605,6 +1613,7 @@ header {
         align-items: start;
         padding: 10px;
         gap: 10px;
+        cursor: default;
 
         &_name {
             display: block;
@@ -1618,6 +1627,7 @@ header {
         &_container {
             min-width: 0;
             margin: 0;
+
             img {
                 height: 100%;
             }
@@ -1674,6 +1684,7 @@ header {
             &-right {
                 flex-direction: row;
                 width: 100%;
+
                 &-top {
                     font-size: 18px;
                 }
@@ -1692,13 +1703,19 @@ header {
                     }
                 }
 
+                &-like-cars {
+                    cursor: default;
+                }
+
                 &-like {
                     margin: 0;
                     align-self: start;
+                    cursor: default;
                 }
 
                 &-span {
                     position: static;
+                    cursor: default;
                 }
             }
         }
