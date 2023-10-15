@@ -3045,6 +3045,9 @@ header .header_right-dark-label::before {
 }
 
 @media (max-width: 767px) {
+  .select-btn, li {
+    cursor: default;
+  }
   header .header_left span {
     display: block;
     transform: skewX(-20deg);

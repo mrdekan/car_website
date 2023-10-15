@@ -21,3 +21,4 @@ create car page visual
 restore fields after failed car creating
 brands editing
 fix year select slider
+save cars fields after unsuccessful try adding

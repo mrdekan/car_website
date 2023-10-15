@@ -1514,6 +1514,9 @@ header {
 }
 
 @media (max-width: 767px) {
+    .select-btn, li {
+        cursor: default;
+    }
     header {
         .header_left {
             span {
