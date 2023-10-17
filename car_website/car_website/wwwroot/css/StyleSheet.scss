@@ -516,17 +516,10 @@ header {
             position: absolute;
             z-index: 5;
             margin: -75px 0 0 50px;
-            color: black;
-            font-size: 26px;
-            font-weight: 700;
             user-select: none;
             align-self: center;
             justify-self: center;
             display: block;
-            //font-family: 'Noto Sans', sans-serif;
-            &:first-letter {
-                color: $green-medium;
-            }
 
             &::before {
                 content: '';
@@ -536,8 +529,6 @@ header {
                 background-size: 100% 100%;
                 margin: 10px 0 0 0;
                 position: absolute;
-                //filter: drop-shadow(2px 2px 0 rgba(0,0,0, 0.6));
-                //margin: -65px 0 0 0;
             }
         }
     }

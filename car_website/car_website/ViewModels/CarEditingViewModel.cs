@@ -8,12 +8,14 @@ namespace car_website.ViewModels
     {
         public CarEditingViewModel()
         {
-
+            Photos = new IFormFile[5];
         }
         public CarEditingViewModel(CarDetailViewModel car)
         {
             OldData = car;
+            Photos = new IFormFile[5];
         }
+        public IFormFile[] Photos { get; set; }
         public CarDetailViewModel OldData { get; set; }
         public string? Brand { get; set; }
         public string? Model { get; set; }
