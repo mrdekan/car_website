@@ -20,6 +20,9 @@ namespace car_website.Controllers.v1
         private const byte FAV_CARS_PER_PAGE = 10;
         private const byte WAITING_CARS_PER_PAGE = 5;
         private const byte USERS_PER_PAGE = 5;
+        private const byte MIN_PASSWORD_LENGTH = 6;
+        private const byte MAX_PASSWORD_LENGTH = 16;
+
         private readonly List<string> _importantIds = new List<string>() {
             "64c13fdbc749ae227de382a2",
             "64c6b5b68924f3866c514978",
@@ -429,5 +432,14 @@ namespace car_website.Controllers.v1
         }
 
         #endregion Change user's info
+        #region Login & Register
+        [HttpGet("login")]
+        public async Task<ActionResult> Login(string email, string password)
+        {
+            if (string.IsNullOrEmpty(email))
+                return Ok(new { Status = false, Code = HttpCodes.BadRequest, ErrorMessage = "Уведіть пошту" });
+            return Ok(new { Status = false, Code = HttpCodes.NotImplemented });
+        }
+        #endregion
     }
 }
