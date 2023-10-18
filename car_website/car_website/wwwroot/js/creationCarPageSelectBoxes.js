@@ -57,8 +57,30 @@ addTransmission();
 addFuel();
 addDriveline();
 addColor();
-
+if (drivelineRealInp.value != 'Any')
+    updateDriveline(createLi(drivelines[drivelineRealInp.value]));
+if (bodyRealInp.value != 'Any')
+    updateBody(createLi(bodies[bodyRealInp.value]));
+if (transmissionRealInp.value != 'Any')
+    updateTransmission(createLi(transmissions[transmissionRealInp.value]));
+if (colorRealInp.value != 'Any')
+    updateColor(createLi(colors[+colorRealInp.value + 1]));
+if (fuelRealInp.value != 'Any')
+    updateFuel(createLi(getKeyByValue(fuels, + fuelRealInp.value)));
 let inps = [mileage, vin, year, price];
+function createLi(text) {
+    let li = document.createElement('LI');
+    li.innerText = text;
+    return li;
+}
+function getKeyByValue(object, value) {
+    for (const key in object) {
+        if (object[key] === value) {
+            return key;
+        }
+    }
+    return null;
+}
 inps.forEach(inp => {
     inp.addEventListener('input', function (event) {
         const maxLength = +event.target.getAttribute('maxlength');

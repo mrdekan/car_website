@@ -16,6 +16,7 @@
 <div class="create">
     <form method="post" asp-action="Create" enctype="multipart/form-data">
         <h2 class="info-text">@phrases[new Random().Next(0,phrases.Count)]</h2>
+        <p>@Model.CreateCarViewModel.CarColor</p>
         <div class="create_container">
             <div class="create_container-left">
                 <div class="form-group">
@@ -67,8 +68,8 @@
                     <span asp-validation-for="CreateCarViewModel.Price" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreateCarViewModel.CarTransmission">Трансмісія<span class="required"></span></label>
-                    <input asp-for="CreateCarViewModel.CarTransmission" type="hidden" id="real-transmission-inp" value="0" />
+                    <label asp-for="@Model.CreateCarViewModel.CarTransmission">Трансмісія<span class="required"></span></label>
+                    <input asp-for="@Model.CreateCarViewModel.CarTransmission" type="hidden" id="real-transmission-inp" />
                     <div class="custom-select">
                         <div class="select-btn" id="transmissionsButton" large>
                             <span>Не обрано</span>
@@ -78,11 +79,11 @@
                             <ul class="options" id="transmissions"></ul>
                         </div>
                     </div>
-                    <span asp-validation-for="CreateCarViewModel.CarTransmission" class="text-danger"></span>
+                    <span asp-validation-for="@Model.CreateCarViewModel.CarTransmission" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Body">Тип кузову<span class="required"></span></label>
-                    <input asp-for="CreateCarViewModel.Body" type="hidden" id="real-body-inp" value="0" />
+                    <input asp-for="CreateCarViewModel.Body" type="hidden" id="real-body-inp" />
                     <div class="custom-select">
                         <div class="select-btn" id="bodiesButton" large>
                             <span>Не обрано</span>
@@ -96,7 +97,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Fuel">Тип палива<span class="required"></span></label>
-                    <input asp-for="CreateCarViewModel.Fuel" type="hidden" id="real-fuel-inp" value="0" />
+                    <input asp-for="CreateCarViewModel.Fuel" type="hidden" id="real-fuel-inp" />
                     <div class="custom-select">
                         <div class="select-btn" id="fuelsButton" large>
                             <span>Не обрано</span>
@@ -109,8 +110,8 @@
                     <span asp-validation-for="CreateCarViewModel.Fuel" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreateCarViewModel.Driveline">Тип приводу<span class="required"></span></label>
-                    <input asp-for="CreateCarViewModel.Driveline" type="hidden" id="real-driveline-inp" value="0" />
+                    <label asp-for="@Model.CreateCarViewModel.Driveline">Тип приводу<span class="required"></span></label>
+                    <input asp-for="@Model.CreateCarViewModel.Driveline" type="hidden" id="real-driveline-inp" />
                 </div>
                 <div class="custom-select">
                     <div class="select-btn" id="drivelinesButton" large>
@@ -121,10 +122,10 @@
                         <ul class="options" id="drivelines"></ul>
                     </div>
                 </div>
-                <span asp-validation-for="CreateCarViewModel.Driveline" class="text-danger"></span>
+                <span asp-validation-for="@Model.CreateCarViewModel.Driveline" class="text-danger"></span>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.CarColor">Колір<span class="required"></span></label>
-                    <input asp-for="CreateCarViewModel.CarColor" type="hidden" id="real-color-inp" value="11" />
+                    <input asp-for="CreateCarViewModel.CarColor" type="hidden" id="real-color-inp" />
                     <div class="custom-select">
                         <div class="select-btn" id="colorsButton" large>
                             <span>Не обрано</span>
@@ -134,7 +135,7 @@
                             <ul class="options" id="colors"></ul>
                         </div>
                     </div>
-                    <span asp-validation-for="CreateCarViewModel.CarColor" class="text-danger"></span>
+                    <span asp-validation-for="@Model.CreateCarViewModel.CarColor" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.EngineCapacity" id="engine-volume-label">Об'єм двигуна (л.)<span class="required"></span></label>

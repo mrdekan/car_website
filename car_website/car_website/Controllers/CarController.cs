@@ -424,7 +424,6 @@ namespace car_website.Controllers
                 if (!ModelState.IsValid)
                 {
                     var errors = ModelState["Photo1"];
-                    // Обработка всех ошибок в модели
                 }
                 var brands = await _brandRepository.GetAll();
                 carVM.CarBrands = brands.ToList();

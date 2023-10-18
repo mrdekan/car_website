@@ -31,7 +31,7 @@ namespace car_website.ViewModels
         [MaxLength(30, ErrorMessage = "Занадто довга назва")]
         [MinLength(1, ErrorMessage = "Виберіть модель")]
         public string Model { get; set; }
-        [Range(1, 100, ErrorMessage = "Оберіть значення")]
+        [Range(1, 2, ErrorMessage = "Оберіть значення")]
         public Transmission CarTransmission { get; set; }
         [Range(1, 100, ErrorMessage = "Оберіть значення")]
         public TypeBody Body { get; set; }
@@ -40,7 +40,7 @@ namespace car_website.ViewModels
         [Range(1, 100, ErrorMessage = "Оберіть значення")]
         public TypeDriveline Driveline { get; set; }
         [Range(0, 10, ErrorMessage = "Оберіть значення")]
-        public Color CarColor { get; set; }
+        public Color CarColor { get; set; } = Color.Any;
         public uint Year { get; set; }
         [MaxLength(500, ErrorMessage = "Не більше 500 символів")]
         public string? Description { get; set; }

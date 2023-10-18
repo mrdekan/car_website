@@ -14,7 +14,7 @@ namespace car_website.Models
             PhotosURL = urlPhotos.ToArray();
             Brand = carVM.Brand;
             Model = carVM.Model.Replace('_', ' ');
-            CarTransmission = carVM.CarTransmission;
+            CarTransmission = (Transmission)carVM.CarTransmission;
             Body = carVM.Body;
             Fuel = carVM.Fuel;
             Driveline = carVM.Driveline;
