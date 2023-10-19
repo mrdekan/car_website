@@ -86,7 +86,7 @@ namespace car_website.Controllers
                 var carsRes = filteredCars.Select(car => new CarViewModel(car, _currencyUpdater, user != null && user.Favorites.Contains(car.Id))).ToList();
                 return Ok(new { Success = true, Cars = carsRes, Pages = totalPages, Page = page });
             }
-            catch (Exception ex)
+            catch
             {
                 return Ok(new { Success = false, Cars = new List<CarViewModel>(), Pages = 0, Page = 0 });
             }

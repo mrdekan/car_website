@@ -253,7 +253,7 @@ namespace car_website.Controllers
                     return View(newPassVM);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 return BadRequest();
             }

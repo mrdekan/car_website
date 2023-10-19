@@ -23,7 +23,9 @@ let favCarsPage = 1;
 let offset;
 let selectedRadioButton;
 let selectedRadioIndex;
+let pages = 1;
 function updatePagesButtons(number) {
+    pages = number;
     Array.from(pages_buttons_containers).forEach(buttons_container => {
         buttons_container.innerHTML = "";
         if (number > 1) {
@@ -124,6 +126,9 @@ function handleRadioChange(event) {
     updateCarsList(event.target);
 }
 function updateCarsList(target, page = 1) {
+    const carsList = document.getElementById("cars-list");
+    carsList.innerHTML = `<div class="cars-not-found" style="height: ${carsList.clientHeight}px;"><div class="custom-loader"></div><h3 class="warning-text">Завантаження...</h3></div>`;
+    updatePagesButtons(pages);
     if (target.id == "waiting") {
         selectedRadioIndex = 1;
         waitingCarsPage = page;
@@ -187,7 +192,8 @@ function updateLikeButtons() {
 }
 //#region Ajax requests
 function getFavorites() {
-    fetch(`/api/v1/users/getFavoriteCars?page=${buyRequestsPage}`)
+    //updatePagesButtons(pages);
+    fetch(`/api/v1/users/getFavoriteCars?page=${favCarsPage}`)
         .then(response => response.json())
         .then(data => {
             if (data != null && data.status == true) {
@@ -195,15 +201,17 @@ function getFavorites() {
                 SetCarsFromData(favCars);
                 updateLikeButtons();
                 updatePagesButtons(data.pages);
+                pages = data.pages;
             }
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function getBuyRequests() {
+    //updatePagesButtons(pages);
     var url = new URL(window.location.href);
     var pathSegments = url.pathname.split('/');
     var userId = pathSegments[pathSegments.length - 1];
-    fetch(`/api/v1/users/getBuyRequests?id=${userId}&page=${favCarsPage}`)
+    fetch(`/api/v1/users/getBuyRequests?id=${userId}&page=${buyRequestsPage}`)
         .then(response => response.json())
         .then(data => {
             if (data != null && data.status == true) {
@@ -216,6 +224,7 @@ function getBuyRequests() {
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function getWaiting() {
+    //updatePagesButtons(pages);
     var url = new URL(window.location.href);
     var pathSegments = url.pathname.split('/');
     var userId = pathSegments[pathSegments.length - 1];
@@ -232,6 +241,7 @@ function getWaiting() {
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function getCars() {
+    //updatePagesButtons(pages);
     var url = new URL(window.location.href);
     var pathSegments = url.pathname.split('/');
     var userId = pathSegments[pathSegments.length - 1];

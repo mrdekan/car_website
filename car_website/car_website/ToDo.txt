@@ -2,7 +2,7 @@
 ✅cache currency rate
 ✅mobile top offset
 ✅like buttons
-loading anim in profile
+✅loading anim in profile
 filters notification
 similar cars mobile
 ✅similar cars pixelated photo
@@ -22,3 +22,5 @@ create car page visual
 ✅restore fields after failed car creating
 brands editing
 fix year select slider
+simple statistics for admins
+saving filters and page

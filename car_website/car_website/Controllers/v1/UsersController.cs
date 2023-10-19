@@ -16,7 +16,7 @@ namespace car_website.Controllers.v1
         #region Constants
 
         private const byte BUY_REQUESTS_PER_PAGE = 5;
-        private const byte CARS_PER_PAGE = 3;
+        private const byte CARS_PER_PAGE = 10;
         private const byte FAV_CARS_PER_PAGE = 10;
         private const byte WAITING_CARS_PER_PAGE = 5;
         private const byte USERS_PER_PAGE = 5;
@@ -105,7 +105,7 @@ namespace car_website.Controllers.v1
                     Page = _page
                 });
             }
-            catch (Exception ex)
+            catch
             {
                 return Ok(new
                 {

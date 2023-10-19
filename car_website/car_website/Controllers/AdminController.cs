@@ -72,25 +72,14 @@ namespace car_website.Controllers
             userNew.SendedBuyRequest = userNew.SendedBuyRequest.Where(el => el.ToString() != "64df1aaa7c3d3dd1bf8fd4ee").ToList();
             await _userRepository.Update(userNew);*/
             /*var users = await _userRepository.GetAll();
-            int count = 0;
+            List<string> usersWithLikes = new();
             foreach (var user in users)
             {
-                List<ObjectId> toDelete = new();
-                foreach (var carId in user.CarsForSell)
-                {
-                    if (await _carRepository.GetByIdAsync(carId) == null)
-                    {
-                        toDelete.Add(carId);
+                if (user.Favorites != null && user.Favorites.Count > 0)
+                    usersWithLikes.Add(user.SurName);
+            }
 
-                    }
-                }
-                foreach (var carId in toDelete)
-                {
-                    user.CarsForSell.Remove(carId);
-                    await _userRepository.Update(user);
-                }
-            }*/
-            //Console.WriteLine(_roleManager.Roles.Count());
+            Console.WriteLine(usersWithLikes.Count());*/
             /*var requests = await _buyRequestRepository.GetAll();
             foreach (var request in requests)
             {
@@ -197,7 +186,7 @@ namespace car_website.Controllers
                     Page = page
                 });
             }
-            catch (Exception ex)
+            catch
             {
                 return Ok(new
                 {
@@ -244,7 +233,7 @@ namespace car_website.Controllers
                     Page = page
                 });
             }
-            catch (Exception ex)
+            catch
             {
                 return Ok(new
                 {
@@ -304,7 +293,7 @@ namespace car_website.Controllers
                     Page = page
                 });
             }
-            catch (Exception ex)
+            catch
             {
                 return Ok(new
                 {
@@ -346,7 +335,7 @@ namespace car_website.Controllers
                     Page = page
                 });
             }
-            catch (Exception ex)
+            catch
             {
                 return Ok(new
                 {

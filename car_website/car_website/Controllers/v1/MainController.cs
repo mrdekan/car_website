@@ -1,6 +1,7 @@
 ﻿using car_website.Data.Enum;
 using car_website.Interfaces;
 using car_website.Services;
+using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 
@@ -77,7 +78,17 @@ namespace car_website.Controllers.v1
             await _appSettingsDbRepository.SetCurrencyRate(currency);
             _currencyUpdater.UpdateCurrencies(_appSettingsDbRepository);
             return Ok(new { Status = true, Code = HttpCodes.Success });
-
+        }
+        [HttpGet("getStatistics")]
+        public async Task<IActionResult> GetStatistics()
+        {
+            if (!IsAdmin().Result)
+                return Ok(new { Status = false, HttpCodes.InsufficientPermissions });
+            StatisticsViewModel stats = new();
+            var users = await _userRepository.GetAll();
+            stats.TotalCarsCount = users.Count();
+            stats.UsersSellingCars = users.Count(el => el.CarsForSell != null && el.CarsForSell.Count > 0);
+            return Ok(new { Status = false, HttpCodes.NotImplemented });
         }
     }
 }

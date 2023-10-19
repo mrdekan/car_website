@@ -11,10 +11,7 @@ namespace car_website.Services
         {
             _webHostEnvironment = webHostEnvironment;
         }
-        /// <summary>
-        /// Uploading photo to the webRootPath/Photos/ folder
-        /// </summary>
-        /// <returns>Photo URL</returns>
+
         public async Task<string> UploadPhotoAsync(IFormFile photo)
         {
             var photoName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
@@ -33,11 +30,7 @@ namespace car_website.Services
             var photoUrl = Path.Combine("/Photos", photoName);
             return Task.FromResult(photoUrl);
         }
-        /// <summary>
-        /// Obsolete
-        /// </summary>
-        /// <param name="photoName"></param>
-        /// <returns>Aspect ratio of the photo</returns>
+
         public float GetPhotoAspectRatio(string photoName)
         {
             var filePath = _webHostEnvironment.WebRootPath + photoName.Replace("/", "\\");
@@ -51,10 +44,7 @@ namespace car_website.Services
                 return (float)image.Width / image.Height;
             }
         }
-        /// <summary>
-        /// Copy photo with a new name
-        /// </summary>
-        /// <returns>New photo URL</returns>
+
         public string CopyPhoto(string photoName)
         {
             var filePath = _webHostEnvironment.WebRootPath + photoName.Replace("/", "\\");
@@ -63,11 +53,7 @@ namespace car_website.Services
             img.Write(Path.Combine(_webHostEnvironment.WebRootPath, "Photos", photoNameNew));
             return photoNameNew;
         }
-        /// <summary>
-        /// Deleting a single file (accept photo URL from web root path)
-        /// </summary>
-        /// <param name="photoName">photo URL from web root path</param>
-        /// <returns>True if opeartian was successful, and False if not</returns>
+
         public bool DeletePhoto(string photoName)
         {
             try
@@ -83,18 +69,14 @@ namespace car_website.Services
                 return false;
             }
         }
-        /// <summary>
-        /// Deleting all photos from collection
-        /// </summary>
-        /// <param name="photoNames">collection of photo URLs from web root path</param>
+
         public void DeletePhotos(IEnumerable<string> photoNames)
         {
             foreach (var photoName in photoNames)
-                DeletePhoto(photoName);
+                if (!string.IsNullOrEmpty(photoName))
+                    DeletePhoto(photoName);
         }
-        /// <summary>
-        /// Crop the image to the specified size (for car previews, 300 width and 200 height are used)
-        /// </summary>
+
         public void ProcessImage(int width, int height, string filepath)
         {
             filepath = Path.Combine(_webHostEnvironment.WebRootPath, "Photos", filepath);

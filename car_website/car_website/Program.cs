@@ -34,6 +34,7 @@ builder.Services.AddScoped<IExpressSaleCarRepository, ExpressSaleCarRepository>(
 builder.Services.AddScoped<IAppSettingsDbRepository, AppSettingsDbRepository>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<CarDeleteService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IValidationService, ValidationService>();
 builder.Services.AddScoped<ApplicationDbContext>();
