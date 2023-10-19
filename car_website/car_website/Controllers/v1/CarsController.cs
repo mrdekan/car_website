@@ -81,34 +81,6 @@ namespace car_website.Controllers.v1
                 int perPage = filter.Page <= 0 ? filteredCars.Count() : filter.PerPage ?? CARS_PER_PAGE;
                 int page = filter.Page <= 0 ? 1 : filter.Page;
                 filteredCars = filteredCars.Where(car => car.MatchesFilter(filter)).ToList();
-                /*if (!string.IsNullOrEmpty(filter.Brand) && filter.Brand != "Усі")
-                    filteredCars = filteredCars.Where(car => car.Brand == filter.Brand);
-                if (!string.IsNullOrEmpty(filter.Model) && filter.Model != "Усі" && filter.Brand != "Інше")
-                    filteredCars = filteredCars.Where(car => car.Model == filter.Model?.Replace('_', ' '));
-                if (filter.Body != 0)
-                    filteredCars = filteredCars.Where(car => car.Body == filter.Body);
-                if (filter.MinYear != 0 && filter.MinYear != 2000)
-                    filteredCars = filteredCars.Where(car => car.Year >= filter.MinYear);
-                if (filter.MaxYear != 0 && filter.MaxYear != DateTime.Now.Year)
-                    filteredCars = filteredCars.Where(car => car.Year <= filter.MaxYear);
-                if (filter.MinPrice != 0)
-                    filteredCars = filteredCars.Where(car => car.Price >= filter.MinPrice);
-                if (filter.MaxPrice != 0)
-                    filteredCars = filteredCars.Where(car => car.Price <= filter.MaxPrice);
-                if (filter.CarTransmission != 0)
-                    filteredCars = filteredCars.Where(car => car.CarTransmission == filter.CarTransmission);
-                if (filter.Fuel != 0)
-                    filteredCars = filteredCars.Where(car => car.Fuel == filter.Fuel);
-                if (filter.Driveline != 0)
-                    filteredCars = filteredCars.Where(car => car.Driveline == filter.Driveline);
-                if (filter.MinEngineCapacity != 0)
-                    filteredCars = filteredCars.Where(car => car.EngineCapacity >= filter.MinEngineCapacity);
-                if (filter.MaxEngineCapacity != 0)
-                    filteredCars = filteredCars.Where(car => car.EngineCapacity <= filter.MaxEngineCapacity);
-                if (filter.MinMileage != 0)
-                    filteredCars = filteredCars.Where(car => car.Mileage >= filter.MinMileage);
-                if (filter.MaxMileage != 0)
-                    filteredCars = filteredCars.Where(car => car.Mileage <= filter.MaxMileage);*/
                 int totalItems = filteredCars.Count();
                 int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
                 int skip = (page - 1) * perPage;

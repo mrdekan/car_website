@@ -83,7 +83,7 @@ namespace car_website.Controllers
                 var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
                 var cars = await _carRepository.GetAll();
                 var user = await GetCurrentUser();
-                cars = cars.Where(car => car.Priority > 0);
+                cars = cars.Where(car => car.Priority >= 0);
                 var tasks = new List<Task<Tuple<Car, byte>>>();
                 foreach (var el in cars)
                 {
@@ -101,7 +101,7 @@ namespace car_website.Controllers
                 {
                     Success = true,
                     Cars = similarCars.Select(el =>
-                    new LiteCarViewModel(el, _currencyUpdater)).ToList()
+                    new CarInListViewModel(el, _currencyUpdater, user != null && user.Favorites.Contains(el.Id))).ToList()
                 });
             }
             catch

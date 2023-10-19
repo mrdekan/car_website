@@ -67,6 +67,7 @@ if (colorRealInp.value != 'Any')
     updateColor(createLi(colors[+colorRealInp.value + 1]));
 if (fuelRealInp.value != 'Any')
     updateFuel(createLi(getKeyByValue(fuels, + fuelRealInp.value)));
+
 let inps = [mileage, vin, year, price];
 function createLi(text) {
     let li = document.createElement('LI');
@@ -137,9 +138,45 @@ function getMarks() {
     fetch(`/home/GetBrands`)
         .then(response => response.json())
         .then(data => {
+            let prevBrand = brandRealInp.value;
+            let prevModel = modelRealInp.value;
             brands = ["Не обрано"];
             brands = brands.concat(data.brands);
             addBrand();
+            if (prevBrand.length > 0) {
+                if (brands.includes(prevBrand)) {
+                    updateName(createLi(prevBrand));
+                    fetch(`/home/GetModels?brand=${prevBrand}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            models = ["Не обрано"];
+                            models = models.concat(data.models);
+                            modelsCache[prevBrand] = models;
+                            addModel();
+                            if (prevModel.length > 0) {
+                                if (models.includes(prevModel))
+                                    updateModel(createLi(prevModel));
+                                else {
+                                    updateModel(createLi("Інше"));
+                                    otherModelInp.value = prevModel;
+                                    modelRealInp.value = prevModel;
+                                }
+
+                            }
+                        })
+                        .catch(error => console.error("An error occurred while retrieving data:", error));
+                }
+                else {
+                    updateName(createLi("Інше"));
+                    otherBrandInp.value = prevBrand;
+                    brandRealInp.value = prevBrand;
+                    if (prevModel.length > 0) {
+                            updateModel(createLi("Інше"));
+                            otherModelInp.value = prevModel;
+                            modelRealInp.value = prevModel;
+                    }
+                }
+            }
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }

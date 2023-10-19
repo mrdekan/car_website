@@ -72,12 +72,21 @@ namespace car_website.Controllers
             userNew.SendedBuyRequest = userNew.SendedBuyRequest.Where(el => el.ToString() != "64df1aaa7c3d3dd1bf8fd4ee").ToList();
             await _userRepository.Update(userNew);*/
             /*var users = await _userRepository.GetAll();
+            int count = 0;
             foreach (var user in users)
             {
-                string phone = user.PhoneNumber;
-                if (phone != null && _validationService.FixPhoneNumber(ref phone))
+                List<ObjectId> toDelete = new();
+                foreach (var carId in user.CarsForSell)
                 {
-                    user.PhoneNumber = phone;
+                    if (await _carRepository.GetByIdAsync(carId) == null)
+                    {
+                        toDelete.Add(carId);
+
+                    }
+                }
+                foreach (var carId in toDelete)
+                {
+                    user.CarsForSell.Remove(carId);
                     await _userRepository.Update(user);
                 }
             }*/

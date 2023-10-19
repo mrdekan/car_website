@@ -5,6 +5,7 @@
 loading anim in profile
 filters notification
 similar cars mobile
+similar cars pixelated photo
 ✅filter similar cars (only !devs' cars)
 connect likes in similar
 editing cars
@@ -18,7 +19,6 @@ docs for api
 admin panel visual
 finish select boxes on the express car creation page
 create car page visual
-restore fields after failed car creating
+✅restore fields after failed car creating
 brands editing
 fix year select slider
-save cars fields after unsuccessful try adding
