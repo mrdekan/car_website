@@ -5,9 +5,9 @@
 loading anim in profile
 filters notification
 similar cars mobile
-similar cars pixelated photo
+✅similar cars pixelated photo
 ✅filter similar cars (only !devs' cars)
-connect likes in similar
+✅connect likes in similar
 editing cars
 deleting users
 deleting cars
