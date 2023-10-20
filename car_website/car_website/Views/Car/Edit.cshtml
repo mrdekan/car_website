@@ -5,13 +5,13 @@
 }
 <div class="create">
     <form method="post" asp-action="Edit" enctype="multipart/form-data">
-        @for (int i = 0; i < 5; i++)
+                <p>Завантажте нові фото, щоб оновити існуюче</p>
+        @for (int i = 0; i < Model.OldData.PhotosURL.Length; i++)
         {
             <div class="img-upload">
-                <p>Завантажте нове фото, щоб оновити існуюче</p>
                 <div class="img-upload-content">
-                    <img alt="Приклад" src=@Model.OldData.PhotosURL[i] />
                     <div class="custom-file-uploader">
+                        <img src="@Model.OldData.PhotosURL[i]" old alt="preview" id="@($"Photo{i}")-old" />
                         <input asp-for=@Model.Photos[i] id="@($"Photo{i}")" type="file" accept="image/*" class="photoInp">
                         <div class="custom-file-uploader-btn">+</div>
                         <img src="" alt="preview" id="@($"Photo{i}")-preview" />

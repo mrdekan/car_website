@@ -1,4 +1,5 @@
 ﻿using car_website.Interfaces;
+using car_website.Models;
 using MongoDB.Bson;
 
 namespace car_website.Services
@@ -20,11 +21,8 @@ namespace car_website.Services
                 return await Delete(carId);
             return false;
         }
-
-        public async Task<bool> Delete(ObjectId id)
+        public async Task<bool> Delete(Car car)
         {
-            var car = await _carRepository.GetByIdAsync(id);
-            if (car == null) return false;
             try
             {
                 List<string> photosToDeletion = car.PhotosURL.ToList();
@@ -33,9 +31,9 @@ namespace car_website.Services
                 var users = await _userRepository.GetAll();
                 foreach (var user in users)
                 {
-                    if (user.Favorites != null && user.Favorites.Contains(id))
+                    if (user.Favorites != null && user.Favorites.Contains(car.Id))
                     {
-                        user.Favorites.Remove(id);
+                        user.Favorites.Remove(car.Id);
                         await _userRepository.Update(user);
                     }
                     if (user.Id.ToString() == car.SellerId)
@@ -51,6 +49,12 @@ namespace car_website.Services
             {
                 return false;
             }
+        }
+        public async Task<bool> Delete(ObjectId id)
+        {
+            var car = await _carRepository.GetByIdAsync(id);
+            if (car == null) return false;
+            return await Delete(car);
         }
     }
 }

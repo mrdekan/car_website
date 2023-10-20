@@ -51,19 +51,20 @@
             </button>
             @foreach (var photo in Model.PhotosURL)
             {
-                    @if(photo==Model.PhotosURL[0]){
-                <div class="slider_element">
-                    <img src="@photo" class="slider_element-image" alt="photo" />
+                @if (photo == Model.PhotosURL[0])
+                {
+                    <div class="slider_element">
+                        <img src="@photo" class="slider_element-image" alt="photo" />
                         <img src="@photo" class="slider_element-background" alt="photo" />
-                </div>
-                    }
-                    else
-                    {
+                    </div>
+                }
+                else
+                {
                     <div class="slider_element" style="display: none;">
-                        <img src="@photo" class="slider_element-image" alt="photo"/>
-                        <img src="@photo" class="slider_element-background" alt="photo"/>
-                </div>
-                    }
+                        <img src="@photo" class="slider_element-image" alt="photo" />
+                        <img src="@photo" class="slider_element-background" alt="photo" />
+                    </div>
+                }
             }
             @if (!string.IsNullOrEmpty(Model.VideoUrl))
             {
@@ -100,9 +101,11 @@
                 @if (isSelf || isAdmin)
                 {
                     <a class="priceBuy_buy" asp-controller="Car" asp-action="Edit" asp-route-id=@Model.Id>Редагувати</a>
+                    <button id="delete" class="priceBuy_buy cancelBuy" cancel carId="@Model.Id">Видалити</button>
+                    <script src="~/js/deleteCar.js" asp-append-version="true"></script>
                 }
-                
-               
+
+
                 @if (!isSelf)
                 {
                     if (!string.IsNullOrEmpty(userId))

@@ -31,6 +31,7 @@ namespace car_website.Controllers.v1
         private readonly IUserService _userService;
         private readonly IValidationService _validationService;
         private readonly IAppSettingsDbRepository _appSettingsDbRepository;
+        private readonly CarDeleteService _carDeleteService;
         public CarsController(ICarRepository carRepository,
             IBrandRepository brandRepository,
             IImageService imageService,
@@ -43,7 +44,8 @@ namespace car_website.Controllers.v1
             ILogger<ApiController> logger,
             IUserService userService,
             IValidationService validationService,
-            IAppSettingsDbRepository appSettingsDbRepository) : base(userRepository)
+            IAppSettingsDbRepository appSettingsDbRepository,
+            CarDeleteService carDeleteService) : base(userRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -58,6 +60,7 @@ namespace car_website.Controllers.v1
             _userService = userService;
             _validationService = validationService;
             _appSettingsDbRepository = appSettingsDbRepository;
+            _carDeleteService = carDeleteService;
         }
         #endregion
         [HttpPost("getFiltered")]
@@ -214,9 +217,13 @@ namespace car_website.Controllers.v1
             if (!ObjectId.TryParse(id, out var carId))
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });
             Car car = await _carRepository.GetByIdAsync(carId);
+            if (car == null)
+                return Ok(new { Status = false, Code = HttpCodes.NotFound });
             if (user.Role == 0 && user.Id.ToString() != car.SellerId)
                 return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
-            return Ok(new { Status = false, Code = HttpCodes.NotImplemented });
+            if (await _carDeleteService.Delete(car))
+                return Ok(new { Status = true, Code = HttpCodes.Success });
+            return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
         }
         #region Buy requests
         [HttpPut("buyRequestLoggedIn")]
