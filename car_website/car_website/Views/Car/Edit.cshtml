@@ -1,11 +1,33 @@
-﻿@using car_website.ViewModels;
+﻿@using System.Security.Claims;
+@using car_website.Data.Enum;
+@using car_website.ViewModels;
+@using Microsoft.AspNetCore.Http;
 @model CarEditingViewModel
 @{
     ViewData["Title"] = $"{Model.OldData.Brand} {Model.OldData.Model} - редагувати";
+    string userId = "";
+    if (User != null && User.Identity != null)
+        userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
+    bool isAdmin = !string.IsNullOrEmpty(userId) && ViewContext.HttpContext.Session.GetInt32("Role") != 0;
 }
 <div class="create">
     <form method="post" asp-action="Edit" enctype="multipart/form-data">
-                <p>Завантажте нові фото, щоб оновити існуюче</p>
+        @if (isAdmin)
+        {
+            <div class="create_section">
+                <input class="input" asp-for="@Model.Brand" value="@Model.OldData.Brand">
+                <span asp-validation-for="@Model.Brand" class="text-danger"></span>
+                <input class="input" asp-for="@Model.Model" value="@Model.OldData.Model">
+                <span asp-validation-for="@Model.Model" class="text-danger"></span>
+                <input class="input" asp-for="@Model.Year" value="@Model.OldData.Year">
+                <span asp-validation-for="@Model.Year" class="text-danger"></span>
+            </div>
+        }
+        else{
+            <h3 class="create_title">@Model.OldData.Brand @Model.OldData.Model @Model.OldData.Year</h3>
+        }
+        <p>Завантажте нові фото, щоб оновити існуюче</p>
+        <div class="create_update-photos">
         @for (int i = 0; i < Model.OldData.PhotosURL.Length; i++)
         {
             <div class="img-upload">
@@ -20,6 +42,7 @@
                 <span asp-validation-for=@Model.Photos[i] class="text-danger"></span>
             </div>
         }
+        </div>
     </form>
 </div>
 <script src="~/js/imagesPreviews.js" asp-append-version="true"></script>

@@ -33,12 +33,32 @@
     align-items: center;
     min-height: calc(100vh - 90px); //90px = висота header + footer
     max-height: fit-content;
+
     .form-group {
         label {
             margin: 10px 0 6px;
         }
     }
 
+    &_section {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    &_title {
+        color: $text-default;
+        transition: color 0.2s;
+        font-size: 24px;
+    }
+
+    &_update-photos{
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
     &_container {
         display: flex;
         justify-content: space-between;
@@ -409,6 +429,11 @@
         img {
             height: calc(45vw - 8px);
             width: calc(45vw - 8px);
+
+            &[old] {
+                width: 45vw;
+                height: 45vw;
+            }
         }
     }
     .create {
