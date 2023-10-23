@@ -45,11 +45,13 @@ fuels["Електро"] = 6;
 let drivelines = ["Не обрано", "Передній", "Задній", "Повний"];
 let modelsCache = {};
 let isElectro = false;
-getMarks();
-if (selectBrandsBtn.firstElementChild.innerText != "Не обрано")
-    getModelsOfMark();
-addBrand();
-addModel();
+if (selectBrandsBtn) {
+    getMarks();
+    if (selectBrandsBtn.firstElementChild.innerText != "Не обрано")
+        getModelsOfMark();
+    addBrand();
+    addModel();
+}
 addBody();
 addTransmission();
 addFuel();
@@ -101,7 +103,7 @@ engineVolumeInp.addEventListener('input', function (event) {
     event.target.value = value;
 });
 engineVolumeInp.addEventListener('keydown', (e) => {
-    if ((e.target.value.includes('.') || e.target.value == '' || e.target.value.length >= (isElectro?3:2)) && (e.key == '.' || e.key == ','))
+    if ((e.target.value.includes('.') || e.target.value == '' || e.target.value.length >= (isElectro ? 3 : 2)) && (e.key == '.' || e.key == ','))
         e.preventDefault();
 });
 otherModelInp.addEventListener('input', function () {
@@ -169,9 +171,9 @@ function getMarks() {
                     otherBrandInp.value = prevBrand;
                     brandRealInp.value = prevBrand;
                     if (prevModel.length > 0) {
-                            updateModel(createLi("Інше"));
-                            otherModelInp.value = prevModel;
-                            modelRealInp.value = prevModel;
+                        updateModel(createLi("Інше"));
+                        otherModelInp.value = prevModel;
+                        modelRealInp.value = prevModel;
                     }
                 }
             }

@@ -14,6 +14,7 @@ namespace car_website.Services
         public async Task<double> GetCurrencyRate(IAppSettingsDbRepository appSettingsDbRepository) =>
             await appSettingsDbRepository.GetCurrencyRate();
         private double usdCurrency;
+        public double CurrentCurrency { get => usdCurrency; }
         public uint UsdToUah(double usd) => (uint)(usd * usdCurrency);
         internal async void UpdateCurrencies(IAppSettingsDbRepository appSettingsDbRepository)
         {

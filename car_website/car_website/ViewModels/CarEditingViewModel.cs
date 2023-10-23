@@ -10,11 +10,13 @@ namespace car_website.ViewModels
         {
             Photos = new IFormFile[5];
         }
-        public CarEditingViewModel(CarDetailViewModel car)
+        public CarEditingViewModel(CarDetailViewModel car, double currencyRate)
         {
             OldData = car;
             Photos = new IFormFile[5];
+            CurrencyRate = currencyRate;
         }
+        public double CurrencyRate { get; set; }
         public IFormFile[] Photos { get; set; }
         public CarDetailViewModel OldData { get; set; }
         public string? Brand { get; set; }
@@ -43,5 +45,9 @@ namespace car_website.ViewModels
         public uint Price { get; set; }
         [MaxLength(17, ErrorMessage = "Довжина VIN номеру — 17 символів")]
         public string? VIN { get; set; }
+        [Required(ErrorMessage = "Обов'язкове поле")]
+        [MaxLength(4, ErrorMessage = "Некоректне значення")]
+        [MinLength(1, ErrorMessage = "Обов'язкове поле")]
+        public string EngineCapacity { get; set; }
     }
 }
