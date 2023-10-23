@@ -45,6 +45,22 @@
         display: flex;
         justify-content: space-between;
         gap: 10px;
+        flex-wrap: wrap;
+        &-price{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            span{
+                white-space: nowrap;
+                display: flex;
+                align-items: center;
+            }
+        }
+        &[two]{
+            .form-group{
+                width: 35%;
+            }
+        }
     }
 
     &_title {

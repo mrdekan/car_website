@@ -1373,6 +1373,20 @@ h4 {
   display: flex;
   justify-content: space-between;
   gap: 10px;
+  flex-wrap: wrap;
+}
+.create_section-price {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.create_section-price span {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+.create_section[two] .form-group {
+  width: 35%;
 }
 .create_title {
   color: var(--text-default);

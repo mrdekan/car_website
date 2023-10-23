@@ -38,5 +38,10 @@ namespace car_website.ViewModels
         public TypeDriveline Driveline { get; set; }
         [Range(0, 10, ErrorMessage = "Оберіть значення")]
         public Color CarColor { get; set; }
+        [Required(ErrorMessage = "Обов'язкове поле")]
+        [Range(1, 999999, ErrorMessage = "Некоректне значення")]
+        public uint Price { get; set; }
+        [MaxLength(17, ErrorMessage = "Довжина VIN номеру — 17 символів")]
+        public string? VIN { get; set; }
     }
 }

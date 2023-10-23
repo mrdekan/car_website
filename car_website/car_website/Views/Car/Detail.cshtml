@@ -86,7 +86,7 @@
                 <p class="car_container-right-price-UAH">≈ @Model.PriceUAH грн</p>
             </div>
             <div class="priceBuy_right">
-                @if (isAdmin)
+                @if (isAdmin && Model.Priority>=0)
                 {
                     if (Model.Priority < 1)
                     {

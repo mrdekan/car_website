@@ -15,34 +15,78 @@
         @if (isAdmin)
         {
             <div class="create_section">
-                <input class="input" asp-for="@Model.Brand" value="@Model.OldData.Brand">
-                <span asp-validation-for="@Model.Brand" class="text-danger"></span>
-                <input class="input" asp-for="@Model.Model" value="@Model.OldData.Model">
-                <span asp-validation-for="@Model.Model" class="text-danger"></span>
-                <input class="input" asp-for="@Model.Year" value="@Model.OldData.Year">
-                <span asp-validation-for="@Model.Year" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="Brand">Марка</label>
+                    <input class="input" asp-for="@Model.Brand" value="@Model.OldData.Brand">
+                    <span asp-validation-for="@Model.Brand" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Model">Модель</label>
+                    <input class="input" asp-for="@Model.Model" value="@Model.OldData.Model">
+                    <span asp-validation-for="@Model.Model" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Year">Рік</label>
+                    <input class="input" asp-for=Year type="number" id="year" maxlength="4" placeholder="Рік" value="@Model.OldData.Year" />
+                    <span asp-validation-for="Year" class="text-danger"></span>
+                </div>
             </div>
         }
-        else{
+        else
+        {
             <h3 class="create_title">@Model.OldData.Brand @Model.OldData.Model @Model.OldData.Year</h3>
         }
-        <p>Завантажте нові фото, щоб оновити існуюче</p>
+        <p>Завантажте нові фото, щоб оновити існуючі</p>
         <div class="create_update-photos">
-        @for (int i = 0; i < Model.OldData.PhotosURL.Length; i++)
-        {
-            <div class="img-upload">
-                <div class="img-upload-content">
-                    <div class="custom-file-uploader">
-                        <img src="@Model.OldData.PhotosURL[i]" old alt="preview" id="@($"Photo{i}")-old" />
-                        <input asp-for=@Model.Photos[i] id="@($"Photo{i}")" type="file" accept="image/*" class="photoInp">
-                        <div class="custom-file-uploader-btn">+</div>
-                        <img src="" alt="preview" id="@($"Photo{i}")-preview" />
+            @for (int i = 0; i < Model.OldData.PhotosURL.Length; i++)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[i]" old alt="preview" id="@($"Photo{i}")-old" />
+                            <input asp-for=@Model.Photos[i] id="@($"Photo{i}")" type="file" accept="image/*" class="photoInp">
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="@($"Photo{i}")-preview" />
+                        </div>
                     </div>
+                    <span asp-validation-for=@Model.Photos[i] class="text-danger"></span>
                 </div>
-                <span asp-validation-for=@Model.Photos[i] class="text-danger"></span>
+            }
+        </div>
+        <div class="create_section" two>
+            <div class="form-group">
+                <label asp-for="Price">Ціна ($)</label>
+                <div class="create_section-price">
+                    <input asp-for="Price" type="number" class="input" id="price" maxlength="6" placeholder="Ціна" value="@(int.Parse(Model.OldData.Price.Replace(" ","")))" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                    <span>≈ @Model.OldData.PriceUAH грн</span>
+                </div>
             </div>
-        }
+            <div class="form-group">
+                <label asp-for="Mileage">Пробіг (тис.км)</label>
+                <input asp-for="Mileage" type="number" placeholder="Пробіг" class="input" id="mileage" maxlength="3" value="@Model.OldData.Mileage" />
+                <span asp-validation-for="Mileage" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="create_section" two>
+            <div class="form-group">
+                <label asp-for="VIN">VIN номер</label>
+                <input asp-for="VIN" type="text" placeholder="VIN" class="input" id="vin" maxlength="17" value="@Model.OldData.VIN"/>
+                <span asp-validation-for="VIN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VideoURL">Посилання на відео з оглядом на YouTube</label>
+                <input asp-for="VideoURL" placeholder="Посилання" class="input" value="@Model.OldData.VideoUrl"/>
+                <span asp-validation-for="VideoURL" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description">За необхідності змініть опис</label>
+            <textarea id="description" restore asp-for="Description" placeholder="Додатковий опис" maxlength="500" style="resize: none;" value="@Model.OldData.Description"></textarea>
+            <span id="descriptionLength">0/500</span>
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
     </form>
 </div>
 <script src="~/js/imagesPreviews.js" asp-append-version="true"></script>
+<script src="~/js/creationCarPage.js" asp-append-version="true"></script>

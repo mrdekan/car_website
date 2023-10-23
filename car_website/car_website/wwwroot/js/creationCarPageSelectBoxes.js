@@ -20,7 +20,6 @@ const engineVolumeInp = document.getElementById('engine-volume'),
     year = document.getElementById('year'),
     price = document.getElementById('price'),
     engineVolumeLbl = document.getElementById('engine-volume-label');
-
 const colorRealInp = document.getElementById('real-color-inp'),
     drivelineRealInp = document.getElementById('real-driveline-inp'),
     fuelRealInp = document.getElementById('real-fuel-inp'),
@@ -30,7 +29,6 @@ const colorRealInp = document.getElementById('real-color-inp'),
     modelRealInp = document.getElementById('real-model-inp'),
     otherModelInp = document.getElementById('other-model-inp'),
     otherBrandInp = document.getElementById('other-brand-inp');
-
 let brands = ["Не обрано"];
 let models = ["Не обрано"];
 let bodies = ["Не обрано", "Седан", "Позашляховик", "Мінівен", "Хетчбек", "Універсал", "Купе", "Кабріолет", "Пікап", "Ліфтбек", "Автобус"];
