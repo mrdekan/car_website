@@ -10,8 +10,8 @@ similar cars mobile
 ✅connect likes in similar
 editing cars
 deleting users
-deleting cars
-purchase requests
+✅deleting cars
+? purchase requests
 ✅optimize getFiltered request (remove unnecessary fields & optimize filtering)
 car's color on the detail page
 finish api

@@ -63,6 +63,7 @@ if (bodyRealInp.value != 'Any')
     updateBody(createLi(bodies[bodyRealInp.value]));
 if (transmissionRealInp.value != 'Any')
     updateTransmission(createLi(transmissions[transmissionRealInp.value]));
+
 if (colorRealInp.value != 'Any')
     updateColor(createLi(colors[+colorRealInp.value + 1]));
 if (fuelRealInp.value != 'Any')
@@ -106,11 +107,13 @@ engineVolumeInp.addEventListener('keydown', (e) => {
     if ((e.target.value.includes('.') || e.target.value == '' || e.target.value.length >= (isElectro ? 3 : 2)) && (e.key == '.' || e.key == ','))
         e.preventDefault();
 });
+if (otherModelInp)
 otherModelInp.addEventListener('input', function () {
     if (otherModelInp.value.length > 30)
         otherModelInp.value = otherModelInp.value.slice(0, 30);
     modelRealInp.value = otherModelInp.value;
 });
+if (otherBrandInp)
 otherBrandInp.addEventListener('input', function () {
     if (otherBrandInp.value.length > 30)
         otherBrandInp.value = otherBrandInp.value.slice(0, 30);
@@ -212,6 +215,7 @@ function refreshModels() {
         }
     });
 }
+if (searchBrandInp)
 searchBrandInp.addEventListener("keyup", () => {
     let arr = [];
     let searchWord = searchBrandInp.value.toLowerCase();
@@ -223,6 +227,7 @@ searchBrandInp.addEventListener("keyup", () => {
     }).join("");
     brandsOptions.innerHTML = arr ? arr : `<li onclick="updateName(this)">Інше</li>`;
 });
+if (searchModelInp)
 searchModelInp.addEventListener("keyup", () => {
     let arr = [];
     let searchWord = searchModelInp.value.toLowerCase();
@@ -470,6 +475,7 @@ function hideColor() {
 //#endregion
 
 //#region Click events
+if (selectBrandsBtn)
 selectBrandsBtn.addEventListener("click", (e) => {
     if (e.target.tagName != 'INPUT') {
         searchBrandInp.value = "";
@@ -477,6 +483,7 @@ selectBrandsBtn.addEventListener("click", (e) => {
         selectBrandsBtn.classList.toggle("active");
     }
 });
+if (selectModelsBtn)
 selectModelsBtn.addEventListener("click", (e) => {
     if (e.target.tagName != 'INPUT') {
         searchModelInp.value = "";

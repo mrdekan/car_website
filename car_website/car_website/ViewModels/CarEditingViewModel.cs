@@ -10,7 +10,10 @@ namespace car_website.ViewModels
         {
             Photos = new IFormFile[5];
         }
-        public CarEditingViewModel(CarDetailViewModel car, double currencyRate)
+        /*public CarEditingViewModel(CarDetailViewModel car, double currencyRate)
+        {
+        }*/
+        public CarEditingViewModel(Car car, double currencyRate)
         {
             OldData = car;
             Photos = new IFormFile[5];
@@ -18,7 +21,7 @@ namespace car_website.ViewModels
         }
         public double CurrencyRate { get; set; }
         public IFormFile[] Photos { get; set; }
-        public CarDetailViewModel OldData { get; set; }
+        public Car OldData { get; set; }
         public string? Brand { get; set; }
         public string? Model { get; set; }
         [Range(1900, 3000, ErrorMessage = "Уведіть коректне значення")]

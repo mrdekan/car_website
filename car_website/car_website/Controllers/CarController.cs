@@ -73,7 +73,7 @@ namespace car_website.Controllers
                 return BadRequest();
             if (car == null)
                 return RedirectToAction("NotFound", "Home");
-            return View(new CarEditingViewModel(new CarDetailViewModel(car, _currencyUpdater, false), _currencyUpdater.CurrentCurrency));
+            return View(new CarEditingViewModel(car, _currencyUpdater.CurrentCurrency));
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LiteCarViewModel>>> FindSimilarCars(string id)

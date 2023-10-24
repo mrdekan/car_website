@@ -1,4 +1,6 @@
 ﻿@using System.Security.Claims;
+@using System.Text.RegularExpressions;
+@using System.Globalization;
 @using car_website.Data.Enum;
 @using car_website.ViewModels;
 @using Microsoft.AspNetCore.Http;
@@ -57,9 +59,9 @@
             <div class="form-group">
                 <label asp-for="Price">Ціна ($)</label>
                 <div class="create_section-price">
-                    <input asp-for="Price" type="number" class="input" currency="@Model.CurrencyRate" id="price" maxlength="6" placeholder="Ціна" value="@(int.Parse(Model.OldData.Price.Replace(" ","")))" />
+                    <input asp-for="Price" type="number" class="input" currency="@Model.CurrencyRate" id="price" maxlength="6" placeholder="Ціна" value="@Model.OldData.Price" />
                     <span asp-validation-for="Price" class="text-danger"></span>
-                    <span id="price-in-uah">≈ @Model.OldData.PriceUAH грн</span>
+                    <span id="price-in-uah">≈ @((int)(Model.OldData.Price * Model.CurrencyRate)) грн</span>
                 </div>
             </div>
             <div class="form-group">
@@ -71,19 +73,19 @@
         <div class="create_section" two>
             <div class="form-group">
                 <label asp-for="VIN">VIN номер</label>
-                <input asp-for="VIN" type="text" placeholder="VIN" class="input" id="vin" maxlength="17" value="@Model.OldData.VIN"/>
+                <input asp-for="VIN" type="text" placeholder="VIN" class="input" id="vin" maxlength="17" value="@Model.OldData.VIN" />
                 <span asp-validation-for="VIN" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="VideoURL">Посилання на відео з оглядом на YouTube</label>
-                <input asp-for="VideoURL" placeholder="Посилання" class="input" value="@Model.OldData.VideoUrl"/>
+                <input asp-for="VideoURL" placeholder="Посилання" class="input" value="@Model.OldData.VideoURL" />
                 <span asp-validation-for="VideoURL" class="text-danger"></span>
             </div>
         </div>
         <div class="create_section" two>
             <div class="form-group">
                 <label asp-for="Fuel">Тип палива</label>
-                <input asp-for="Fuel" type="hidden" id="real-fuel-inp" />
+                <input asp-for="Fuel" type="hidden" id="real-fuel-inp" value="@((int)Model.OldData.Fuel)"/>
                 <div class="custom-select">
                     <div class="select-btn" id="fuelsButton" large>
                         <span>Не обрано</span>
@@ -99,6 +101,66 @@
                 <label asp-for="EngineCapacity" id="engine-volume-label">Об'єм двигуна (л.)</label>
                 <input asp-for="EngineCapacity" placeholder="Об'єм двигуна" value="@Model.OldData.EngineCapacity" class="input" id="engine-volume" type="text" />
                 <span asp-validation-for="EngineCapacity" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="create_section" two>
+            <div class="form-group">
+                <label asp-for="@Model.Driveline">Тип приводу</label>
+                <input asp-for="@Model.Driveline" value="@((int)Model.OldData.Driveline)" type="hidden" id="real-driveline-inp" />
+                <div class="custom-select">
+                    <div class="select-btn" id="drivelinesButton" large>
+                        <span>Не обрано</span>
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <ul class="options" id="drivelines"></ul>
+                    </div>
+                </div>
+                <span asp-validation-for="@Model.Driveline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CarTransmission">Трансмісія</label>
+                <input asp-for="@Model.CarTransmission" value="@((int)Model.OldData.CarTransmission)" type="hidden" id="real-transmission-inp" />
+                <div class="custom-select">
+                    <div class="select-btn" id="transmissionsButton" large>
+                        <span>Не обрано</span>
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <ul class="options" id="transmissions"></ul>
+                    </div>
+                </div>
+                <span asp-validation-for="@Model.CarTransmission" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="create_section" two>
+            <div class="form-group">
+                <label asp-for="CarColor">Колір</label>
+                <input asp-for="CarColor" value="@((int)Model.OldData.CarColor)" type="hidden" id="real-color-inp" />
+                <div class="custom-select">
+                    <div class="select-btn" id="colorsButton" large>
+                        <span>Не обрано</span>
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <ul class="options" id="colors"></ul>
+                    </div>
+                </div>
+                <span asp-validation-for="CarColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Body">Тип кузову</label>
+                <input asp-for="Body" type="hidden" value="@((int)Model.OldData.Body)" id="real-body-inp" />
+                <div class="custom-select">
+                    <div class="select-btn" id="bodiesButton" large>
+                        <span>Не обрано</span>
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <ul class="options" id="bodies"></ul>
+                    </div>
+                </div>
+                <span asp-validation-for="Body" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
