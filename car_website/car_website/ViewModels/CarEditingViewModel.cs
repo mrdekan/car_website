@@ -18,7 +18,9 @@ namespace car_website.ViewModels
             OldData = car;
             Photos = new IFormFile[5];
             CurrencyRate = currencyRate;
+            Id = car.Id.ToString();
         }
+        public string Id { get; set; }
         public double CurrencyRate { get; set; }
         public IFormFile[] Photos { get; set; }
         public Car OldData { get; set; }

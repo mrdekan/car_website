@@ -517,11 +517,11 @@ selectColorsBtn.addEventListener("click", () => {
     colorsOptions.scrollTop = 0;
 });
 document.addEventListener('click', function (event) {
-    if (!selectBrandsBtn.parentElement.contains(event.target)) {
+    if (selectBrandsBtn&&!selectBrandsBtn.parentElement.contains(event.target)) {
         hideBrand();
         refreshBrands();
     }
-    if (!selectModelsBtn.parentElement.contains(event.target)) {
+    if (selectModelsBtn&&!selectModelsBtn.parentElement.contains(event.target)) {
         hideModel();
         refreshModels();
     }

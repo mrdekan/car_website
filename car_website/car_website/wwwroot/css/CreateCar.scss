@@ -46,18 +46,21 @@
         justify-content: space-between;
         gap: 10px;
         flex-wrap: wrap;
-        &-price{
+
+        &-price {
             display: flex;
             align-items: center;
-            gap: 10px;
-            span{
+            gap: 5px;
+
+            span {
                 white-space: nowrap;
                 display: flex;
                 align-items: center;
             }
         }
-        &[two]{
-            .form-group{
+
+        &[two] {
+            .form-group {
                 width: 35%;
             }
         }
@@ -69,12 +72,13 @@
         font-size: 24px;
     }
 
-    &_update-photos{
+    &_update-photos {
         display: flex;
         justify-content: space-around;
         flex-wrap: wrap;
         gap: 15px;
     }
+
     &_container {
         display: flex;
         justify-content: space-between;
@@ -189,6 +193,22 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+        }
+    }
+
+    .cancel-button {
+        min-width: 30%;
+        max-width: fit-content;
+        background: $error-main;
+        border-radius: 7px;
+        padding: 10px;
+        transition: 0.2s;
+        color: white;
+        font-size: 20px;
+        text-align: center;
+        &:hover {
+            transition: 0.2s;
+            filter: brightness(1.3);
         }
     }
 
@@ -453,8 +473,25 @@
         }
     }
     .create {
+        &_section {
+            flex-direction: column;
+
+            &[two] {
+                .form-group {
+                    width: 100%;
+                }
+            }
+            &[buttons]{
+                flex-direction: column-reverse;
+            }
+        }
 
         .sell-button {
+            margin: 0 auto;
+            min-width: 90%;
+        }
+
+        .cancel-button {
             margin: 0 auto;
             min-width: 90%;
         }
