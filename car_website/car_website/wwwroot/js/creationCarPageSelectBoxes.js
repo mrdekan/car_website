@@ -1,26 +1,26 @@
 ﻿const selectBrandsBtn = document.getElementById("brandsButton"),
     searchBrandInp = document.getElementById("searchCar"),
-    brandsOptions = document.getElementById("brands");
-const selectModelsBtn = document.getElementById("modelsButton"),
+    brandsOptions = document.getElementById("brands"),
+    selectModelsBtn = document.getElementById("modelsButton"),
     searchModelInp = document.getElementById("searchModel"),
-    modelsOptions = document.getElementById("models");
-const selectBodiesBtn = document.getElementById("bodiesButton"),
-    bodiesOptions = document.getElementById("bodies");
-const selectTransmissionsBtn = document.getElementById("transmissionsButton"),
-    transmissionsOptions = document.getElementById("transmissions");
-const selectFuelsBtn = document.getElementById("fuelsButton"),
-    fuelsOptions = document.getElementById("fuels");
-const selectDrivelinesBtn = document.getElementById("drivelinesButton"),
-    drivelinesOptions = document.getElementById("drivelines");
-const selectColorsBtn = document.getElementById("colorsButton"),
-    colorsOptions = document.getElementById("colors");
-const engineVolumeInp = document.getElementById('engine-volume'),
+    modelsOptions = document.getElementById("models"),
+    selectBodiesBtn = document.getElementById("bodiesButton"),
+    bodiesOptions = document.getElementById("bodies"),
+    selectTransmissionsBtn = document.getElementById("transmissionsButton"),
+    transmissionsOptions = document.getElementById("transmissions"),
+    selectFuelsBtn = document.getElementById("fuelsButton"),
+    fuelsOptions = document.getElementById("fuels"),
+    selectDrivelinesBtn = document.getElementById("drivelinesButton"),
+    drivelinesOptions = document.getElementById("drivelines"),
+    selectColorsBtn = document.getElementById("colorsButton"),
+    colorsOptions = document.getElementById("colors"),
+    engineVolumeInp = document.getElementById('engine-volume'),
     mileage = document.getElementById('mileage'),
     vin = document.getElementById('vin'),
     year = document.getElementById('year'),
     price = document.getElementById('price'),
-    engineVolumeLbl = document.getElementById('engine-volume-label');
-const colorRealInp = document.getElementById('real-color-inp'),
+    engineVolumeLbl = document.getElementById('engine-volume-label'),
+    colorRealInp = document.getElementById('real-color-inp'),
     drivelineRealInp = document.getElementById('real-driveline-inp'),
     fuelRealInp = document.getElementById('real-fuel-inp'),
     bodyRealInp = document.getElementById('real-body-inp'),
@@ -63,12 +63,10 @@ if (bodyRealInp.value != 'Any')
     updateBody(createLi(bodies[bodyRealInp.value]));
 if (transmissionRealInp.value != 'Any')
     updateTransmission(createLi(transmissions[transmissionRealInp.value]));
-
 if (colorRealInp.value != 'Any')
     updateColor(createLi(colors[+colorRealInp.value + 1]));
 if (fuelRealInp.value != 'Any')
     updateFuel(createLi(getKeyByValue(fuels, + fuelRealInp.value)));
-
 let inps = [mileage, vin, year, price];
 function createLi(text) {
     let li = document.createElement('LI');
@@ -76,11 +74,9 @@ function createLi(text) {
     return li;
 }
 function getKeyByValue(object, value) {
-    for (const key in object) {
-        if (object[key] === value) {
+    for (const key in object)
+        if (object[key] === value)
             return key;
-        }
-    }
     return null;
 }
 inps.forEach(inp => {
@@ -164,7 +160,6 @@ function getMarks() {
                                     otherModelInp.value = prevModel;
                                     modelRealInp.value = prevModel;
                                 }
-
                             }
                         })
                         .catch(error => console.error("An error occurred while retrieving data:", error));
@@ -185,12 +180,10 @@ function getMarks() {
 }
 //#region Custom selects
 function refreshBrands() {
-    if (selectBrandsBtn.firstElementChild.innerText === 'Не обрано') {
+    if (selectBrandsBtn.firstElementChild.innerText === 'Не обрано')
         brandsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
-    }
-    else {
+    else
         brandsOptions.innerHTML = '';
-    }
     brands.forEach(brand => {
         if (brand !== 'Не обрано' || selectBrandsBtn.firstElementChild.innerText !== 'Не обрано') {
             let isSelected = brand == selectBrandsBtn.firstElementChild.innerText ? "selected" : "";
@@ -201,12 +194,10 @@ function refreshBrands() {
 }
 function refreshModels() {
     if (selectModelsBtn.firstElementChild.innerText === 'Інше') return;
-    if (selectModelsBtn.firstElementChild.innerText === 'Не обрано') {
+    if (selectModelsBtn.firstElementChild.innerText === 'Не обрано')
         modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
-    }
-    else {
+    else
         modelsOptions.innerHTML = '';
-    }
     models.forEach(model => {
         if (model !== 'Не обрано' || selectModelsBtn.firstElementChild.innerText !== 'Не обрано') {
             let isSelected = model == selectModelsBtn.firstElementChild.innerText ? "selected" : "";
@@ -244,9 +235,8 @@ function addBrand(selectedBrand) {
         selectModelsBtn.firstElementChild.innerText = 'Не обрано';
         brandsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
     }
-    else {
+    else
         brandsOptions.innerHTML = '';
-    }
     brands.forEach(brand => {
         if (brand != 'Не обрано' || selectedBrand) {
             let isSelected = brand == selectedBrand ? "selected" : "";
@@ -341,18 +331,15 @@ function updateName(selectedLi) {
     }
     else
         addModel();
-
     searchBrandInp.value = "";
     addBrand(selectedLi.innerText);
     brandsOptions.parentElement.classList.remove("active");
     selectBrandsBtn.classList.remove("active");
     selectBrandsBtn.firstElementChild.innerText = selectedLi.innerText;
-    if (selectBrandsBtn.firstElementChild.innerText == "Не обрано") {
+    if (selectBrandsBtn.firstElementChild.innerText == "Не обрано")
         modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
-    }
-    else if (selectedLi.innerText != 'Інше') {
+    else if (selectedLi.innerText != 'Інше')
         getModelsOfMark();
-    }
 }
 function updateModel(selectedLi) {
     if (selectedLi.innerText != "Не обрано" && selectedLi.innerText != "Інше") {
@@ -525,20 +512,15 @@ document.addEventListener('click', function (event) {
         hideModel();
         refreshModels();
     }
-    if (!selectBodiesBtn.parentElement.contains(event.target)) {
+    if (!selectBodiesBtn.parentElement.contains(event.target))
         hideBody();
-    }
-    if (!selectTransmissionsBtn.parentElement.contains(event.target)) {
+    if (!selectTransmissionsBtn.parentElement.contains(event.target))
         hideTransmission();
-    }
-    if (!selectFuelsBtn.parentElement.contains(event.target)) {
+    if (!selectFuelsBtn.parentElement.contains(event.target))
         hideFuel();
-    }
-    if (!selectDrivelinesBtn.parentElement.contains(event.target)) {
+    if (!selectDrivelinesBtn.parentElement.contains(event.target))
         hideDriveline();
-    }
-    if (!selectColorsBtn.parentElement.contains(event.target)) {
+    if (!selectColorsBtn.parentElement.contains(event.target))
         hideColor();
-    }
 });
 //#endregion

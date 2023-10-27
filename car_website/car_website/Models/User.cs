@@ -45,5 +45,8 @@ namespace car_website.Models
         public List<ObjectId> Favorites { get; set; }
         public List<ObjectId> SendedBuyRequest { get; set; }
         public List<ObjectId> ExpressSaleCars { get; set; }
+        public bool IsAdmin => Role == UserRole.Admin || Role == UserRole.Dev;
+        public bool HasCar(ObjectId carId) => CarsForSell.Contains(carId);
+        public bool HasCar(string carId) => ObjectId.TryParse(carId, out ObjectId id) && HasCar(id);
     }
 }

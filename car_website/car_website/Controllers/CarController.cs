@@ -75,6 +75,41 @@ namespace car_website.Controllers
                 return RedirectToAction("NotFound", "Home");
             return View(new CarEditingViewModel(car, _currencyUpdater.CurrentCurrency));
         }
+        [HttpPost]
+        public async Task<IActionResult> Edit(CarEditingViewModel carEditedVM)
+        {
+            var user = await GetCurrentUser();
+            if (user == null)
+                return RedirectToAction("Login", "User");
+            if (!user.IsAdmin && !user.HasCar(carEditedVM.Id))
+                return BadRequest();
+            bool additionalValidation = true;
+            if (carEditedVM.Year > DateTime.Now.Year + 1)
+            {
+                ModelState.AddModelError("Year", "Не продаємо авто з майбутнього :(");
+                additionalValidation = false;
+            }
+            if (!string.IsNullOrEmpty(carEditedVM.VIN) && carEditedVM.VIN.Length != 17)
+            {
+                ModelState.AddModelError("CreateCarViewModel.VIN", "Довжина VIN номеру — 17 символів");
+                additionalValidation = false;
+            }
+            bool photosIsValid = true;
+            foreach (var photo in carEditedVM.Photos)
+            {
+                if (photo != null && !IsLessThenNMb(photo))
+                {
+                    photosIsValid = false;
+                    ModelState.AddModelError("CreateCarViewModel.Photo1", $"Не більше {MAX_PHOTO_SIZE}Мб");
+                }
+            }
+            if (ModelState.IsValid && photosIsValid && additionalValidation)
+            {
+
+            }
+
+            return RedirectToAction("Detail", new { id = carEditedVM.Id });
+        }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LiteCarViewModel>>> FindSimilarCars(string id)
         {
@@ -323,7 +358,7 @@ namespace car_website.Controllers
                 ModelState.AddModelError("CreateCarViewModel.Year", "Не продаємо авто з майбутнього :(");
                 additionalValidation = false;
             }
-            if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VIN) && (carVM.CreateCarViewModel.VIN.Length < 17 || carVM.CreateCarViewModel.VIN.Length > 17))
+            if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VIN) && carVM.CreateCarViewModel.VIN.Length != 17)
             {
                 ModelState.AddModelError("CreateCarViewModel.VIN", "Довжина VIN номеру — 17 символів");
                 additionalValidation = false;
