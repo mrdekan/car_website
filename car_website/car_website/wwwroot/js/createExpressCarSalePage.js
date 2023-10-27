@@ -1,11 +1,15 @@
 ﻿const selectBrandsBtn = document.getElementById("brandsButton"),
     searchBrandInp = document.getElementById("searchCar"),
     brandsOptions = document.getElementById("brands"),
-    brandInput = document.getElementById('brand-input');
-const selectModelsBtn = document.getElementById("modelsButton"),
+    brandInput = document.getElementById('brand-input'),
+    selectModelsBtn = document.getElementById("modelsButton"),
     searchModelInp = document.getElementById("searchModel"),
     modelsOptions = document.getElementById("models"),
-    modelInput = document.getElementById('model-input');
+    modelInput = document.getElementById('model-input'),
+    brandRealInp = document.getElementById('real-brand-inp'),
+    modelRealInp = document.getElementById('real-model-inp'),
+    otherModelInp = document.getElementById('other-model-inp'),
+    otherBrandInp = document.getElementById('other-brand-inp');
 const yearInput = document.getElementById("year-input");
 const priceUAH = document.getElementById('price-uah');
 const priceInput = document.getElementById('price-input');
@@ -88,7 +92,12 @@ function formatNumberWithThousandsSeparator(number) {
 }
 //#region Custom select boxes
 function addBrand(selectedBrand) {
-    brandsOptions.innerHTML = '';
+    if (!selectedBrand) {
+        selectModelsBtn.firstElementChild.innerText = 'Не обрано';
+        brandsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
+    }
+    else
+        brandsOptions.innerHTML = '';
     brands.forEach(brand => {
         if (brand != 'Не обрано' || selectedBrand) {
             let isSelected = brand == selectedBrand ? "selected" : "";
@@ -97,43 +106,91 @@ function addBrand(selectedBrand) {
         }
     });
 }
-function addModel(selectedModel) {
-    modelsOptions.innerHTML = '';
+function addModel(selectedModel, onlyOther) {
+    console.log(onlyOther)
+    if (onlyOther) {
+        modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Інше</li>`;
+        console.log(modelsOptions.innerHTML)
+        console.log(modelsOptions)
+        return;
+    }
+    if (!selectedModel) {
+        otherModelInp.style.display = 'none';
+        selectModelsBtn.querySelector('span').style.display = 'block';
+        selectModelsBtn.firstElementChild.innerText = 'Не обрано';
+        modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
+    }
+    else {
+        modelsOptions.innerHTML = '';
+    }
     models.forEach(model => {
-        let isSelected = model == selectedModel ? "selected" : "";
-        let li = `<li onclick="updateModel(this)" class="${isSelected}">${model}</li>`;
-        modelsOptions.insertAdjacentHTML("beforeend", li);
+        if (model != 'Не обрано' || selectedModel) {
+            let isSelected = model == selectedModel ? "selected" : "";
+            let li = `<li onclick="updateModel(this)" class="${isSelected}">${model}</li>`;
+            modelsOptions.insertAdjacentHTML("beforeend", li);
+        }
     });
 }
 function updateName(selectedLi) {
+    if (selectedLi.innerText != "Не обрано") {
+        brands = brands.filter(c => c !== 'Не обрано');
+        brandRealInp.value = selectedLi.innerText;
+        otherBrandInp.style.display = 'none';
+        selectBrandsBtn.querySelector('span').style.display = 'block';
+    }
+    if (selectedLi.innerText == 'Інше') {
+        otherBrandInp.value = "";
+        otherBrandInp.style.display = 'block';
+        selectBrandsBtn.querySelector('span').style.display = 'none';
+        addBrand();
+        selectBrandsBtn.firstElementChild.innerText = `Інше`
+        otherModelInp.value = "";
+        otherModelInp.style.display = 'block';
+        selectModelsBtn.querySelector('span').style.display = 'none';
+        modelRealInp.value = "Any";
+        brandRealInp.value = "Any";
+        selectModelsBtn.firstElementChild.innerText = 'Інше'
+        models = models.filter(c => c !== 'Не обрано');
+        addModel("Інше", true);
+    }
+    else
+        addModel();
     searchBrandInp.value = "";
     addBrand(selectedLi.innerText);
     brandsOptions.parentElement.classList.remove("active");
     selectBrandsBtn.classList.remove("active");
     selectBrandsBtn.firstElementChild.innerText = selectedLi.innerText;
-    brandInput.value = selectedLi.innerText == 'Не обрано' ? 'Any' : selectedLi.innerText;
     if (selectBrandsBtn.firstElementChild.innerText == "Не обрано")
         modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
-    else {
+    else if (selectedLi.innerText != 'Інше')
         getModelsOfMark();
-    }
 }
 function updateModel(selectedLi) {
-    
+    if (selectedLi.innerText != "Не обрано" && selectedLi.innerText != "Інше") {
+        models = models.filter(c => c !== 'Не обрано');
+        modelRealInp.value = selectedLi.innerText;
+        otherModelInp.style.display = 'none';
+        selectModelsBtn.querySelector('span').style.display = 'block';
+    }
+    else {
+        if (selectedLi.innerText == 'Інше') {
+            otherModelInp.value = "";
+            otherModelInp.style.display = 'block';
+            selectModelsBtn.querySelector('span').style.display = 'none';
+        }
+        modelRealInp.value = "Any";
+    }
     searchModelInp.value = "";
     addModel(selectedLi.innerText);
     modelsOptions.parentElement.classList.remove("active");
     selectModelsBtn.classList.remove("active");
     selectModelsBtn.firstElementChild.innerText = selectedLi.innerText;
-    modelInput.value = selectedLi.innerText == 'Не обрано' ? 'Any' : selectedLi.innerText;
 }
 function refreshBrands() {
-    if (selectBrandsBtn.firstElementChild.innerText === 'Не обрано') {
+    if (selectBrandsBtn.firstElementChild.innerText === 'Не обрано')
         brandsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
-    }
-    else {
+    else
         brandsOptions.innerHTML = '';
-    }
     brands.forEach(brand => {
         if (brand !== 'Не обрано' || selectBrandsBtn.firstElementChild.innerText !== 'Не обрано') {
             let isSelected = brand == selectBrandsBtn.firstElementChild.innerText ? "selected" : "";
@@ -143,12 +200,11 @@ function refreshBrands() {
     });
 }
 function refreshModels() {
-    if (selectModelsBtn.firstElementChild.innerText === 'Не обрано') {
+    if (selectModelsBtn.firstElementChild.innerText === 'Інше') return;
+    if (selectModelsBtn.firstElementChild.innerText === 'Не обрано')
         modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Не обрано</li>`;
-    }
-    else {
+    else
         modelsOptions.innerHTML = '';
-    }
     models.forEach(model => {
         if (model !== 'Не обрано' || selectModelsBtn.firstElementChild.innerText !== 'Не обрано') {
             let isSelected = model == selectModelsBtn.firstElementChild.innerText ? "selected" : "";
@@ -177,19 +233,21 @@ searchModelInp.addEventListener("keyup", () => {
         let isSelected = data == selectModelsBtn.firstElementChild.innerText ? "selected" : "";
         return `<li onclick="updateModel(this)" class="${isSelected}">${data}</li>`;
     }).join("");
-    modelsOptions.innerHTML = arr ? arr : `<li onclick="updateModel(this)" ${selectBrandsBtn.firstElementChild.innerText == 'Не обрано' ?'class="selected"':''}>${selectBrandsBtn.firstElementChild.innerText=='Не обрано'?'Не обрано':'Інше'}</li>`;
+    modelsOptions.innerHTML = arr ? arr : `<li onclick="updateModel(this)" ${selectBrandsBtn.firstElementChild.innerText == 'Не обрано' ? 'class="selected"' : ''}>${selectBrandsBtn.firstElementChild.innerText == 'Не обрано' ? 'Не обрано' : 'Інше'}</li>`;
 });
-selectBrandsBtn.addEventListener("click", () => {
-    searchBrandInp.value = "";
-    brandsOptions.parentElement.classList.toggle("active");
-    selectBrandsBtn.classList.toggle("active");
-    hideModel();
+selectBrandsBtn.addEventListener("click", (e) => {
+    if (e.target.tagName != 'INPUT') {
+        searchBrandInp.value = "";
+        brandsOptions.parentElement.classList.toggle("active");
+        selectBrandsBtn.classList.toggle("active");
+    }
 });
-selectModelsBtn.addEventListener("click", () => {
-    searchModelInp.value = "";
-    modelsOptions.parentElement.classList.toggle("active");
-    selectModelsBtn.classList.toggle("active");
-    hideBrand();
+selectModelsBtn.addEventListener("click", (e) => {
+    if (e.target.tagName != 'INPUT') {
+        searchModelInp.value = "";
+        modelsOptions.parentElement.classList.toggle("active");
+        selectModelsBtn.classList.toggle("active");
+    }
 });
 function hideBrand() {
     searchBrandInp.value = "";

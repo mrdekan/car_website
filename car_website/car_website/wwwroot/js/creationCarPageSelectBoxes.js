@@ -248,6 +248,8 @@ function addBrand(selectedBrand) {
 function addModel(selectedModel, onlyOther) {
     if (onlyOther) {
         modelsOptions.innerHTML = `<li onclick="updateModel(this)" class="selected">Інше</li>`;
+        console.log(modelsOptions.innerHTML)
+        console.log(modelsOptions)
         return;
     }
     if (!selectedModel) {
