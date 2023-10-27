@@ -5,6 +5,9 @@
 @model CarDetailViewModel
 @{
     ViewData["Title"] = Model.Brand + " " + Model.Model;
+    ViewBag.Title = Model.Brand + " " + Model.Model + " "+ Model.Year;
+    ViewBag.Description = $"{Model.Price}$ · {Model.Body} · {Model.Fuel}, {Model.EngineCapacity}  · {Model.Mileage}тис. км · {Model.Driveline} · {Model.CarTransmission} · {Model.CarColor}";
+    ViewBag.ImageUrl = Model.PreviewURL;
     string userId = "";
     if (User != null && User.Identity != null)
         userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";

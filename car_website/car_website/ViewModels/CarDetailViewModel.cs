@@ -30,7 +30,8 @@ namespace car_website.ViewModels
             VideoUrl = car.VideoURL;
             Requested = requested;
             SellerId = car.SellerId;
-            Priority = car.Priority ?? 1;
+            Priority = car.Priority ?? 0;
+            PreviewURL = car.PreviewURL ?? "";
         }
         public string Id { get; set; }
         public string SellerId { get; set; }
@@ -53,6 +54,7 @@ namespace car_website.ViewModels
         public string? VideoUrl { get; set; }
         public bool Requested { get; set; }
         public int Priority { get; set; }
+        public string PreviewURL { get; set; }
         private string GetTransmission(Transmission tr) => (tr == Transmission.Automatic ? "Автомат" : "Механічна");
         private string GetBody(TypeBody b)
         {
