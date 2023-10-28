@@ -4,8 +4,6 @@ using car_website.Services;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using Newtonsoft.Json;
-using System.Web;
 
 namespace car_website.Controllers
 {
@@ -97,7 +95,7 @@ namespace car_website.Controllers
             bool photosIsValid = true;
             foreach (var photo in carEditedVM.Photos)
             {
-                if (photo != null && !IsLessThenNMb(photo))
+                if (photo != null && !_validationService.IsLessThenNMb(photo))
                 {
                     photosIsValid = false;
                     ModelState.AddModelError("CreateCarViewModel.Photo1", $"Не більше {MAX_PHOTO_SIZE}Мб");
@@ -369,62 +367,40 @@ namespace car_website.Controllers
                 ModelState.AddModelError("CreateCarViewModel.VIN", "Довжина VIN номеру — 17 символів");
                 additionalValidation = false;
             }
+
             bool photosIsValid = true;
-            if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo1))
+            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo1))
             {
                 photosIsValid = false;
                 ModelState.AddModelError("CreateCarViewModel.Photo1", $"Не більше {MAX_PHOTO_SIZE}Мб");
             }
-            if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo2))
+            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo2))
             {
                 photosIsValid = false;
                 ModelState.AddModelError("CreateCarViewModel.Photo2", $"Не більше {MAX_PHOTO_SIZE}Мб");
             }
-            if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo3))
+            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo3))
             {
                 photosIsValid = false;
                 ModelState.AddModelError("CreateCarViewModel.Photo3", $"Не більше {MAX_PHOTO_SIZE}Мб");
             }
-            if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo4))
+            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo4))
             {
                 photosIsValid = false;
                 ModelState.AddModelError("CreateCarViewModel.Photo4", $"Не більше {MAX_PHOTO_SIZE}Мб");
             }
-            if (!IsLessThenNMb(carVM.CreateCarViewModel.Photo5))
+            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo5))
             {
                 photosIsValid = false;
                 ModelState.AddModelError("CreateCarViewModel.Photo5", $"Не більше {MAX_PHOTO_SIZE}Мб");
             }
-
+            string videoId = "";
             if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
             {
-                try
-                {
-                    using HttpClient client = new();
-                    var response = await client.GetAsync($"https://www.googleapis.com/youtube/v3/videos?id={GetVideoIdFromUrl(carVM.CreateCarViewModel.VideoURL ?? "")}&key={_configuration.GetSection("GoogleApiSettings")["ApiKey"]}&part=snippet");
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string responseBody = await response.Content.ReadAsStringAsync();
-                        var videoDetails = JsonConvert.DeserializeObject<VideoDetailsResponse>(responseBody);
-                        if (videoDetails == null || videoDetails.Items.Length <= 0)
-                        {
-                            var brands = await _brandRepository.GetAll();
-                            carVM.CarBrands = brands.ToList();
-                            ModelState.AddModelError("CreateCarViewModel.VideoURL", "Відео не знайдено");
-                            additionalValidation = false;
-                        }
-                    }
-                    else
-                    {
-                        var brands = await _brandRepository.GetAll();
-                        carVM.CarBrands = brands.ToList();
-                        ModelState.AddModelError("CreateCarViewModel.VideoURL", "Відео не знайдено");
-                        additionalValidation = false;
-                    }
-                }
-                catch
+                if (!_validationService.GetVideoIdFromUrl(carVM.CreateCarViewModel.VideoURL, out videoId))
                 {
                     additionalValidation = false;
+                    ModelState.AddModelError("CreateCarViewModel.VideoURL", "Відео не знайдено");
                 }
             }
             if (ModelState.IsValid && additionalValidation && photosIsValid)
@@ -432,7 +408,7 @@ namespace car_website.Controllers
 
                 var newCar = carVM.CreateCarViewModel;
                 if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
-                    newCar.VideoURL = $"https://www.youtube.com/embed/{GetVideoIdFromUrl(newCar.VideoURL)}";
+                    newCar.VideoURL = $"https://www.youtube.com/embed/{videoId}";
                 List<string> photosNames = new();
                 List<IFormFile> photos = new() { newCar.Photo1, newCar.Photo2, newCar.Photo3, newCar.Photo4, newCar.Photo5 };
                 photos = photos.Where(photo => photo != null).ToList();
@@ -490,60 +466,5 @@ namespace car_website.Controllers
             }
             return Ok(new { Success = false });
         }
-        private static string GetVideoIdFromUrl(string url)
-        {
-            if (url == null) return "";
-
-            try
-            {
-                Uri uri = new Uri(url);
-                string host = uri.Host.ToLower();
-                string videoId = "";
-
-                if (host.Contains("youtube.com"))
-                {
-                    string queryString = uri.Query;
-                    var queryParameters = HttpUtility.ParseQueryString(queryString);
-                    videoId = queryParameters["v"];
-                }
-                else if (host.Contains("youtu.be"))
-                {
-                    string[] segments = uri.Segments;
-                    if (segments.Length > 1)
-                    {
-                        videoId = segments[1];
-                    }
-                }
-
-                return videoId ?? "";
-            }
-            catch
-            {
-                return "";
-            }
-        }
-
-        /// <summary>
-        /// By default compares with 20Mb
-        /// </summary>
-        /// <returns>True if less or False if not</returns>
-        private static bool IsLessThenNMb(IFormFile file, int maxSizeMb = MAX_PHOTO_SIZE) =>
-            file != null && ((double)file.Length / (1048576)) <= maxSizeMb;
-        // 1048576 = 1024 * 1024 (b => Mb)
-    }
-    internal class VideoDetailsResponse
-    {
-        public VideoSnippet[] Items { get; set; }
-    }
-
-    internal class VideoSnippet
-    {
-        public SnippetDetails Snippet { get; set; }
-    }
-
-    internal class SnippetDetails
-    {
-        public string Title { get; set; }
-        public string ChannelTitle { get; set; }
     }
 }
