@@ -24,11 +24,7 @@ namespace car_website.Models
             EngineCapacity = float.Parse(carVM.EngineCapacity, CultureInfo.InvariantCulture);
             VIN = carVM.VIN;
             Mileage = carVM.Mileage;
-            Options = carVM.Features.GetType()
-            .GetProperties()
-            .Where(prop => prop.PropertyType == typeof(bool) && (bool)prop.GetValue(carVM.Features))
-            .Select(prop => (CarOptions)Enum.Parse(typeof(CarOptions), prop.Name))
-            .ToArray();
+            Options = FeaturesClassToArray(carVM.Features);
             if (carVM.OtherBrandName != null)
                 this.Brand = carVM.OtherBrandName;
             if (carVM.OtherModelName != null)
@@ -52,7 +48,7 @@ namespace car_website.Models
         public TypeDriveline Driveline { get; set; }
         public Color CarColor { get; set; }
         public uint Year { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public float EngineCapacity { get; set; }
         public string? VIN { get; set; }
         public CarOptions[] Options { get; set; }
@@ -62,6 +58,36 @@ namespace car_website.Models
         public int? Priority { get; set; }
         public float? PreviewAspectRatio { get; set; }
         public string? PreviewURL { get; set; }
+        public void ApplyEdits(CarEditingViewModel editing, IEnumerable<string> photos, string preview)
+        {
+            Price = editing.Price;
+            if (!string.IsNullOrEmpty(editing.Brand))
+                Brand = editing.Brand;
+            if (!string.IsNullOrEmpty(editing.Model))
+                Model = editing.Model;
+            Year = editing.Year ?? Year;
+            Description = editing.Description ?? "";
+            VIN = editing.VIN;
+            PhotosURL = photos.ToArray();
+            PreviewURL = preview;
+            VideoURL = editing.VideoURL;
+            Mileage = editing.Mileage ?? Mileage;
+            Body = editing.Body;
+            CarColor = editing.CarColor;
+            CarTransmission = editing.CarTransmission;
+            Driveline = editing.Driveline;
+            Fuel = editing.Fuel;
+            Options = FeaturesClassToArray(editing.Features);
+            EngineCapacity = float.Parse(editing.EngineCapacity, CultureInfo.InvariantCulture);
+        }
+        private CarOptions[] FeaturesClassToArray(CarFeatures carFeatures)
+        {
+            return carFeatures.GetType()
+            .GetProperties()
+            .Where(prop => prop.PropertyType == typeof(bool) && (bool)prop.GetValue(carFeatures))
+            .Select(prop => (CarOptions)Enum.Parse(typeof(CarOptions), prop.Name))
+            .ToArray();
+        }
         public bool MatchesFilter(CarFilterModel filter)
         {
             bool brandCondition = string.IsNullOrEmpty(filter.Brand) || filter.Brand == "Усі" || this.Brand == filter.Brand;

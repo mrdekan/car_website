@@ -105,10 +105,16 @@ namespace car_website.Controllers
             }
             if (ModelState.IsValid && photosIsValid && additionalValidation)
             {
-
+                Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(carEditedVM.Id));
+                if (car == null)
+                    return BadRequest();
+                car.ApplyEdits(carEditedVM, car.PhotosURL, car.PreviewURL);
+                return RedirectToAction("Detail", new { id = carEditedVM.Id });
             }
-
-            return RedirectToAction("Detail", new { id = carEditedVM.Id });
+            else
+            {
+                return View(carEditedVM);
+            }
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LiteCarViewModel>>> FindSimilarCars(string id)
@@ -448,7 +454,7 @@ namespace car_website.Controllers
                     await _userRepository.Update(user);
                     return RedirectToAction("Index", "Home");
                 }
-                WaitingCar waitingCar = new(car, !string.IsNullOrEmpty(newCar.OtherModelName), !string.IsNullOrEmpty(newCar.OtherBrandName));
+                WaitingCar waitingCar = new(car, false);
                 await _waitingCarsRepository.Add(waitingCar);
                 user.CarWithoutConfirmation.Add(waitingCar.Id);
                 await _userRepository.Update(user);
@@ -456,10 +462,6 @@ namespace car_website.Controllers
             }
             else
             {
-                if (!ModelState.IsValid)
-                {
-                    var errors = ModelState["Photo1"];
-                }
                 var brands = await _brandRepository.GetAll();
                 carVM.CarBrands = brands.ToList();
                 return View(carVM);

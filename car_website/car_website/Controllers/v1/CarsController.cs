@@ -320,7 +320,7 @@ namespace car_website.Controllers.v1
                 WaitingCar car = await _waitingCarsRepository.GetByIdAsync(carObjId);
                 if (car == null)
                     return Ok(new { Status = false, Code = HttpCodes.NotFound });
-                car.Reject(reason);
+                car.Reject(reason, _imageService);
                 await _waitingCarsRepository.Update(car);
                 return Ok(new { Status = true, Code = HttpCodes.Success });
             }

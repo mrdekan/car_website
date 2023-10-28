@@ -23,15 +23,15 @@ namespace car_website.ViewModels
         public string Id { get; set; }
         public double CurrencyRate { get; set; }
         public IFormFile[] Photos { get; set; }
-        public Car OldData { get; set; }
+        public Car? OldData { get; set; }
         public string? Brand { get; set; }
         public string? Model { get; set; }
         [Range(1900, 3000, ErrorMessage = "Уведіть коректне значення")]
-        public int? Year { get; set; }
-        public int? Mileage { get; set; }
+        public uint? Year { get; set; }
+        public uint? Mileage { get; set; }
         [MaxLength(3, ErrorMessage = "Занадто велике значення")]
         public string? EngineVolume { get; set; }
-        public CarFeatures? Features { get; set; }
+        public CarFeatures Features { get; set; } = new CarFeatures();
         [MaxLength(500, ErrorMessage = "Не більше 500 символів")]
         public string? Description { get; set; }
         public string? VideoURL { get; set; }
