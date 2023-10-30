@@ -89,16 +89,16 @@ namespace car_website.Controllers
             }
             if (!string.IsNullOrEmpty(carEditedVM.VIN) && carEditedVM.VIN.Length != 17)
             {
-                ModelState.AddModelError("CreateCarViewModel.VIN", "Довжина VIN номеру — 17 символів");
+                ModelState.AddModelError("VIN", "Довжина VIN номеру — 17 символів");
                 additionalValidation = false;
             }
             bool photosIsValid = true;
-            foreach (var photo in carEditedVM.Photos)
+            for (int i = 0; i < carEditedVM.Photos.Length; i++)
             {
-                if (photo != null && !_validationService.IsLessThenNMb(photo))
+                if (carEditedVM.Photos[i] != null && !_validationService.IsLessThenNMb(carEditedVM.Photos[i]))
                 {
                     photosIsValid = false;
-                    ModelState.AddModelError("CreateCarViewModel.Photo1", $"Не більше {MAX_PHOTO_SIZE}Мб");
+                    ModelState.AddModelError($"Photos[{i}]", $"Не більше {MAX_PHOTO_SIZE}Мб");
                 }
             }
             if (ModelState.IsValid && photosIsValid && additionalValidation)
