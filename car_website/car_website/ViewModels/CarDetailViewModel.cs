@@ -23,7 +23,7 @@ namespace car_website.ViewModels
             CarColor = GetColor(car.CarColor);
             Year = car.Year;
             Description = car.Description;
-            EngineCapacity = car.EngineCapacity + (car.Fuel == TypeFuel.Electro ? " кВт·год." : " л.");
+            EngineCapacity = car.EngineCapacity.ToString().Replace(",", ".") + (car.Fuel == TypeFuel.Electro ? " кВт·год." : " л.");
             VIN = car.VIN;
             Options = car.Options;
             Mileage = car.Mileage;

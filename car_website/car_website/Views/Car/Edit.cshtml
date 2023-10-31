@@ -155,7 +155,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="EngineCapacity" id="engine-volume-label">Об'єм двигуна (л.)</label>
-                <input asp-for="EngineCapacity" placeholder="Об'єм двигуна" value="@Model.OldData.EngineCapacity" class="input" id="engine-volume" type="text" />
+                <input asp-for="EngineCapacity" placeholder="Об'єм двигуна" value="@Model.OldData.EngineCapacity.ToString().Replace(",",".")" class="input" id="engine-volume" type="text" />
                 <span asp-validation-for="EngineCapacity" class="text-danger"></span>
             </div>
         </div>

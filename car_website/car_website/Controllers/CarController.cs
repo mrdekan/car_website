@@ -102,9 +102,9 @@ namespace car_website.Controllers
                     ModelState.AddModelError($"Photos[{i}]", $"Не більше {MAX_PHOTO_SIZE}Мб");
                 }
             }
+            Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(carEditedVM.Id));
             if (ModelState.IsValid && photosIsValid && additionalValidation)
             {
-                Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(carEditedVM.Id));
                 if (car == null)
                     return BadRequest();
                 string[] photos = car.PhotosURL;
@@ -140,6 +140,7 @@ namespace car_website.Controllers
             }
             else
             {
+                carEditedVM.OldData = car;
                 return View(carEditedVM);
             }
         }

@@ -19,7 +19,8 @@ namespace car_website.ViewModels
             Photos = new IFormFile[5];
             CurrencyRate = currencyRate;
             Id = car.Id.ToString();
-            Features = new(car.Options);
+            if (car.Options != null)
+                Features = new(car.Options);
         }
         public string Id { get; set; }
         public double CurrencyRate { get; set; }
