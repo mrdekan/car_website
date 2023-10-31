@@ -588,6 +588,13 @@ input[type=number] {
   text-align: center;
 }
 
+.separate-line {
+  width: 100%;
+  height: 2px;
+  background: var(--gray-default);
+  transition: background 0.2s;
+}
+
 .wrapper_carDetail-before {
   display: flex;
   flex-direction: column;
@@ -717,8 +724,6 @@ h4 {
   padding: 20px 0;
   width: 100%;
   gap: 3px;
-  border-bottom: 2px solid var(--gray-default);
-  border-top: 2px solid var(--gray-default);
 }
 
 .feature {

@@ -77,6 +77,7 @@ namespace car_website.Controllers
         public async Task<IActionResult> Edit(CarEditingViewModel carEditedVM)
         {
             var user = await GetCurrentUser();
+            carEditedVM.MovePhotosToArray();
             if (user == null)
                 return RedirectToAction("Login", "User");
             if (!user.IsAdmin && !user.HasCar(carEditedVM.Id))
@@ -106,7 +107,35 @@ namespace car_website.Controllers
                 Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(carEditedVM.Id));
                 if (car == null)
                     return BadRequest();
-                car.ApplyEdits(carEditedVM, car.PhotosURL, car.PreviewURL);
+                string[] photos = car.PhotosURL;
+                List<string> photosToDeletion = new();
+                string previewURL = car.PreviewURL ?? car.PhotosURL.FirstOrDefault();
+                for (int i = 0; i < photos.Length; i++)
+                {
+                    if (carEditedVM.Photos[i] != null)
+                    {
+                        string photoName = await _imageService.UploadPhotoAsync(carEditedVM.Photos[i]);
+                        photosToDeletion.Add(photos[i]);
+                        photos[i] = photoName;
+                        if (i == 0)
+                        {
+                            photosToDeletion.Add(previewURL);
+                            previewURL = _imageService.CopyPhoto(photos[i]);
+                            _imageService.ProcessImage(300, 200, previewURL);
+                            previewURL = $"/Photos\\{previewURL}";
+                        }
+                    }
+                }
+                _imageService.DeletePhotos(photosToDeletion);
+                car.ApplyEdits(carEditedVM, photos, previewURL);
+                if (user.IsAdmin)
+                {
+                    await _carRepository.Update(car);
+                }
+                else
+                {
+
+                }
                 return RedirectToAction("Detail", new { id = carEditedVM.Id });
             }
             else

@@ -5,7 +5,7 @@
 @model CarDetailViewModel
 @{
     ViewData["Title"] = Model.Brand + " " + Model.Model;
-    ViewBag.Title = Model.Brand + " " + Model.Model + " "+ Model.Year;
+    ViewBag.Title = Model.Brand + " " + Model.Model + " " + Model.Year;
     ViewBag.Description = $"{Model.Price}$ · {Model.Body} · {Model.Fuel}, {Model.EngineCapacity}  · {Model.Mileage}тис. км · {Model.Driveline} · {Model.CarTransmission} · {Model.CarColor}";
     ViewBag.ImageUrl = Model.PreviewURL;
     string userId = "";
@@ -89,7 +89,7 @@
                 <p class="car_container-right-price-UAH">≈ @Model.PriceUAH грн</p>
             </div>
             <div class="priceBuy_right">
-                @if (isAdmin && Model.Priority>=0)
+                @if (isAdmin && Model.Priority >= 0)
                 {
                     if (Model.Priority < 1)
                     {
@@ -159,6 +159,7 @@
         }
         @if (Model.Options != null)
         {
+                <div class="separate-line"></div>
             <div class="features">
                 @for (int i = 0; i < features.Count(); i++)
                 {
@@ -178,6 +179,7 @@
                     }
                 }
             </div>
+                <div class="separate-line"></div>
         }
         @if (isAdmin)
         {

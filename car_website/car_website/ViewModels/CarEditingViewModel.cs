@@ -19,9 +19,15 @@ namespace car_website.ViewModels
             Photos = new IFormFile[5];
             CurrencyRate = currencyRate;
             Id = car.Id.ToString();
+            Features = new(car.Options);
         }
         public string Id { get; set; }
         public double CurrencyRate { get; set; }
+        public IFormFile? Photo1 { get; set; }
+        public IFormFile? Photo2 { get; set; }
+        public IFormFile? Photo3 { get; set; }
+        public IFormFile? Photo4 { get; set; }
+        public IFormFile? Photo5 { get; set; }
         public IFormFile[] Photos { get; set; }
         public Car? OldData { get; set; }
         public string? Brand { get; set; }
@@ -31,7 +37,7 @@ namespace car_website.ViewModels
         public uint? Mileage { get; set; }
         [MaxLength(3, ErrorMessage = "Занадто велике значення")]
         public string? EngineVolume { get; set; }
-        public CarFeatures Features { get; set; } = new CarFeatures();
+        public CarFeatures Features { get; set; }
         [MaxLength(500, ErrorMessage = "Не більше 500 символів")]
         public string? Description { get; set; }
         public string? VideoURL { get; set; }
@@ -54,5 +60,14 @@ namespace car_website.ViewModels
         [MaxLength(4, ErrorMessage = "Некоректне значення")]
         [MinLength(1, ErrorMessage = "Обов'язкове поле")]
         public string EngineCapacity { get; set; }
+        public void MovePhotosToArray()
+        {
+            Photos = new IFormFile[5];
+            Photos[0] = Photo1;
+            Photos[1] = Photo2;
+            Photos[2] = Photo3;
+            Photos[3] = Photo4;
+            Photos[4] = Photo5;
+        }
     }
 }

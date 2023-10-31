@@ -40,18 +40,74 @@
         }
         <p>Завантажте нові фото, щоб оновити існуючі</p>
         <div class="create_update-photos">
-            @for (int i = 0; i < Model.OldData.PhotosURL.Length; i++)
+            @if (Model.OldData.PhotosURL.Length >= 1)
             {
                 <div class="img-upload">
                     <div class="img-upload-content">
                         <div class="custom-file-uploader">
-                            <img src="@Model.OldData.PhotosURL[i]" old alt="preview" id="@($"Photo{i}")-old" />
-                            <input asp-for=@Model.Photos[i] id="@($"Photo{i}")" type="file" accept="image/*" class="photoInp">
+                            <img src="@Model.OldData.PhotosURL[0]" old alt="preview" id="Photo1-old" />
+                            <input asp-for=@Model.Photo1 id="Photo1" type="file" accept="image/*" class="photoInp">
                             <div class="custom-file-uploader-btn">+</div>
-                            <img src="" alt="preview" id="@($"Photo{i}")-preview" />
+                            <img src="" alt="preview" id="Photo1-preview" />
                         </div>
                     </div>
-                    <span asp-validation-for=@Model.Photos[i] class="text-danger"></span>
+                    <span asp-validation-for=@Model.Photo1 class="text-danger"></span>
+                </div>
+            }
+            @if (Model.OldData.PhotosURL.Length >= 2)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[1]" old alt="preview" id="Photo2-old" />
+                            <input asp-for=@Model.Photo2 id="Photo2" type="file" accept="image/*" class="photoInp">
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo2-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for=@Model.Photo2 class="text-danger"></span>
+                </div>
+            }
+            @if (Model.OldData.PhotosURL.Length >= 3)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[2]" old alt="preview" id="Photo3-old" />
+                            <input asp-for=@Model.Photo3 id="Photo3" type="file" accept="image/*" class="photoInp">
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo3-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for=@Model.Photo3 class="text-danger"></span>
+                </div>
+            }
+            @if (Model.OldData.PhotosURL.Length >= 4)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[3]" old alt="preview" id="Photo4-old" />
+                            <input asp-for=@Model.Photo4 id="Photo4" type="file" accept="image/*" class="photoInp">
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo4-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for=@Model.Photo4 class="text-danger"></span>
+                </div>
+            }
+            @if (Model.OldData.PhotosURL.Length >= 5)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[4]" old alt="preview" id="Photo5-old" />
+                            <input asp-for=@Model.Photo5 id="Photo5" type="file" accept="image/*" class="photoInp">
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo5-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for=@Model.Photo5 class="text-danger"></span>
                 </div>
             }
         </div>
@@ -168,6 +224,306 @@
             <textarea id="description" restore asp-for="Description" placeholder="Додатковий опис" maxlength="500" style="resize: none;" value="@Model.OldData.Description"></textarea>
             <span id="descriptionLength">0/500</span>
             <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="features">
+            <!-- Протитуманні фари (Fog lights) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.FogLights">Протитуманні фари</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.FogLights" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Сенсор дощу (Rain sensor) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.RainSensor">Сенсор дощу</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.RainSensor" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Кондиціонер (Air conditioner) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.AirConditioner">Кондиціонер</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.AirConditioner" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Центральний замок (Central lock) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.CentralLock">Центральний замок</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.CentralLock" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Підігрів сидінь (Seat heating) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.SeatHeating">Підігрів сидінь</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.SeatHeating" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Датчик світла (Light sensor) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.LightSensor">Датчик світла</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.LightSensor" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Сигналізація (Alarm system) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.AlarmSystem">Сигналізація</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.AlarmSystem" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Шкіряний салон (Leather interior) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.LeatherInterior">Шкіряний салон</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.LeatherInterior" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Круїз контроль (Cruise control) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.CruiseControl">Круїз контроль</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.CruiseControl" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Навігація GPS (GPS navigation) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.GPSNavigation">Навігація GPS</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.GPSNavigation" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Підсилювач керма (Power steering) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.PowerSteering">Підсилювач керма</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.PowerSteering" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Другий комплект гуми (Second set of tires) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.SecondSetOfTires">Другий комплект гуми</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.SecondSetOfTires" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Сервісна книга (Service book) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.ServiceBook">Сервісна книга</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.ServiceBook" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Електродзеркала (Electric mirrors) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.ElectricMirrors">Електродзеркала</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.ElectricMirrors" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Діод (LED lights) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.LEDLights">Діод</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.LEDLights" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Парктронік (Parking sensors) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.ParkingSensors">Парктронік</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.ParkingSensors" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- ABS -->
+            <div class="checkbox-group">
+                <label asp-for="Features.ABS">ABS</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.ABS" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Тонування (Tinted windows) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.TintedWindows">Тонування</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.TintedWindows" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Склопідйомники (Power windows) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.PowerWindows">Склопідйомники</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.PowerWindows" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Пневмопідвіска (Air suspension) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.AirSuspension">Пневмопідвіска</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.AirSuspension" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- ESP (Electronic Stability Program) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.ESP">ESP</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.ESP" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Автомагнітола (Car audio system) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.CarAudioSystem">Автомагнітола</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.CarAudioSystem" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Легкосплавні диски (Alloy wheels) -->
+            <div class="checkbox-group">
+                <label asp-for="Features.AlloyWheels">Легкосплавні диски</label>
+                <div class="checkbox-group-container">
+                    <input type="checkbox" asp-for="Features.AlloyWheels" />
+                    <span class="checkmark">
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 6L6 11L16 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
         </div>
         <div class="create_section" two buttons>
             <a asp-controller="Car" asp-action="Detail" asp-route-id="@Model.Id" class="cancel-button">Скасувати</a>
