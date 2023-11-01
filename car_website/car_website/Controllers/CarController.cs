@@ -109,12 +109,14 @@ namespace car_website.Controllers
                     return BadRequest();
                 string[] photos = car.PhotosURL;
                 List<string> photosToDeletion = new();
+                List<string> newPhotos = new();
                 string previewURL = car.PreviewURL ?? car.PhotosURL.FirstOrDefault();
                 for (int i = 0; i < photos.Length; i++)
                 {
                     if (carEditedVM.Photos[i] != null)
                     {
                         string photoName = await _imageService.UploadPhotoAsync(carEditedVM.Photos[i]);
+                        newPhotos.Add(photoName);
                         photosToDeletion.Add(photos[i]);
                         photos[i] = photoName;
                         if (i == 0)
@@ -123,18 +125,22 @@ namespace car_website.Controllers
                             previewURL = _imageService.CopyPhoto(photos[i]);
                             _imageService.ProcessImage(300, 200, previewURL);
                             previewURL = $"/Photos\\{previewURL}";
+                            newPhotos.Add(_imageService.CopyPhoto(previewURL));
                         }
                     }
                 }
-                _imageService.DeletePhotos(photosToDeletion);
                 car.ApplyEdits(carEditedVM, photos, previewURL);
                 if (user.IsAdmin)
                 {
+                    _imageService.DeletePhotos(photosToDeletion);
                     await _carRepository.Update(car);
                 }
                 else
                 {
-
+                    WaitingCar waitingCar = new(car, edited: true);
+                    waitingCar.OldPhotosToDeletion = photosToDeletion;
+                    waitingCar.NewPhotosToDeletion = newPhotos;
+                    await _waitingCarsRepository.Add(waitingCar);
                 }
                 return RedirectToAction("Detail", new { id = carEditedVM.Id });
             }
