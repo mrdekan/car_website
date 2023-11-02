@@ -32,7 +32,7 @@ namespace car_website.Models
         /// <summary>
         /// Approving the car and deleting old photos if they were changed
         /// </summary>
-        public async void Approve(ICarRepository carRepository, IWaitingCarsRepository waitingCarsRepository, IUserRepository userRepository, IImageService imageService)
+        public async Task Approve(ICarRepository carRepository, IWaitingCarsRepository waitingCarsRepository, IUserRepository userRepository, IImageService imageService)
         {
             User seller = await userRepository.GetByIdAsync(ObjectId.Parse(Car.SellerId));
             if (Edited != null)

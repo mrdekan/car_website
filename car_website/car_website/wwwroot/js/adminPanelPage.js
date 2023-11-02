@@ -111,27 +111,28 @@ function showData(data) {
             });
         }
         else if (data.type == "WaitingCars") {
+            console.log(data);
             container.innerHTML = "";
             if (data.cars.length == 0)
                 container.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
             data.cars.forEach(car => {
-                container.innerHTML += `<div class="car">
+                container.innerHTML += `<a class="car mainPageCar" href="/Car/WaitingCarDetail/${car.id}">
+                                  <p class="car_name">${car.car.brand} ${car.car.model} ${car.car.year}</p>
                                   <div class="car_container">
-                                        <img  alt="photo" src="${car.car.photosURL[0]}" />
+                                       <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="${car.car.brand} ${car.car.model} ${car.car.year}" src="${car.car.previewURL}" /></div></div>
                                     <div class="car_container-info">
-                                        <a href="/Car/WaitingCarDetail/${car.id}">${car.car.brand} ${car.car.model} ${car.car.year}</a>
+                                    <p class="car_container-info-name">${car.car.brand} ${car.car.model} ${car.car.year}</p>
                                             <div class="car_container-info-parameters">
                                                 <div class="car_container-info-parameters-column">
                                                     <p class="car_container-info-parameters-column-text"><span>${svgCodes.race}</span>${car.car.mileage} тис. км</p>
-                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.fuel}</span>${fuelName(car.car.fuel)}, ${car.car.engineCapacity} л.</p>
-                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.car}</span>${car.car.vin}</p>
+                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.fuel}</span>${fuelName(car.car.fuel)}, ${car.car.engineCapacity} ${car.car.fuel == 6 ? "кВт·год." : "л."}</p>
+                                                    ${car.car.vin == null ? `` : `<p class="car_container-info-parameters-column-text vin"><span>${svgCodes.car}</span>${car.car.vin}</p>`}
                                                     </div>
                                                 <div class="car_container-info-parameters-column">
                                                     <p class="car_container-info-parameters-column-text"><span>${svgCodes.transmission}</span>${transmissionName(car.car.carTransmission)}</p>
                                                     <p class="car_container-info-parameters-column-text"><span>${svgCodes.driveline}</span>${drivelineName(car.car.driveline)}</p>
                                                     </div>
                                             </div>
-                                            
                                         </div>
                                     </div>
                                     <div class="car_container-right">
@@ -140,8 +141,7 @@ function showData(data) {
                                                 <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.car.priceUAH)} грн</p>
                                             </div>
                                   </div>
-                                  </div>
-                                </div>`;
+                                  </a>`;
             });
         }
         else if (data.type == "BuyRequests") {
@@ -210,7 +210,7 @@ function showData(data) {
                 data.cars.forEach(car => {
                     container.innerHTML += `<div class="car">
                                   <div class="car_container">
-                                        <img  alt="photo" src="${car.photosURL[0]}" />
+                                        <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="${car.brand} ${car.model} ${car.year}" src="${car.photosURL[0]}" /></div></div>
                                     <div class="car_container-info">
                                         <a href="#">${car.brand} ${car.model} ${car.year}</a>
                                     </div>

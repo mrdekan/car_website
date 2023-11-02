@@ -125,7 +125,7 @@ namespace car_website.Controllers
                             previewURL = _imageService.CopyPhoto(photos[i]);
                             _imageService.ProcessImage(300, 200, previewURL);
                             previewURL = $"/Photos\\{previewURL}";
-                            newPhotos.Add(_imageService.CopyPhoto(previewURL));
+                            newPhotos.Add(previewURL);
                         }
                     }
                 }

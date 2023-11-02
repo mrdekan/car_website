@@ -108,7 +108,8 @@ namespace car_website.Controllers
             if (ObjectId.TryParse(id, out ObjectId objId))
             {
                 WaitingCar car = await _waitingCarsRepository.GetByIdAsync(objId);
-                if (car != null)
+                await car.Approve(_carRepository, _waitingCarsRepository, _userRepository, _imageService);
+                /*if (car != null)
                 {
                     await _waitingCarsRepository.Delete(car);
                     await _carRepository.Add(car.Car);
@@ -130,7 +131,7 @@ namespace car_website.Controllers
                             await _brandRepository.Update(brand);
                         }
                     }
-                }
+                }*/
             }
             return RedirectToAction("Panel");
         }
