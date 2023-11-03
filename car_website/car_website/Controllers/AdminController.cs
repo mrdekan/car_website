@@ -35,13 +35,24 @@ namespace car_website.Controllers
             _imageService = imageService;
         }
         #endregion
-        public IActionResult Panel()
+        public async Task<IActionResult> Panel()
         {
-            if (!IsAdmin().Result)
+            var user = await GetCurrentUser();
+            if (user == null)
+                return RedirectToAction("Login", "User");
+            if (!user.IsAdmin)
                 return RedirectToAction("Index", "Home");
             return View();
         }
-
+        public async Task<IActionResult> Api()
+        {
+            var user = await GetCurrentUser();
+            if (user == null)
+                return RedirectToAction("Login", "User");
+            if (!user.IsAdmin)
+                return RedirectToAction("Index", "Home");
+            return View();
+        }
         public async Task<IActionResult> AdminAction()
         {
             /*if (HttpContext.Session.GetInt32("UserRole") != 2)

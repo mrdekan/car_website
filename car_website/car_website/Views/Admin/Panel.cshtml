@@ -36,6 +36,9 @@
                 <label for="currencyRate" id="currencyRate-label">Задати курс</label>
             </div>
             <div class="radio">
+                <a asp-controller="Admin" asp-action="Api">API</a>
+            </div>
+            <div class="radio">
                 @if (ViewContext.HttpContext.Session.GetInt32("Role") == 2)
                 {
                     <a asp-controller="Admin" asp-action="AdminAction">AdminAction</a>
