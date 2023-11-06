@@ -11,10 +11,11 @@ namespace car_website.Services
         {
             _webHostEnvironment = webHostEnvironment;
         }
-
-        public async Task<string> UploadPhotoAsync(IFormFile photo)
+        public async Task<string> UploadPhotoAsync(IFormFile photo, string carInfo = "")
         {
             var photoName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+            if (!string.IsNullOrEmpty(carInfo))
+                photoName = carInfo + "_" + photoName;
             var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Photos", photoName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))

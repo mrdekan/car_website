@@ -6,7 +6,7 @@
         /// Uploading photo to the webRootPath/Photos/ folder
         /// </summary>
         /// <returns>Photo URL</returns>
-        Task<string> UploadPhotoAsync(IFormFile photo);
+        Task<string> UploadPhotoAsync(IFormFile photo, string carInfo = "");
         Task<string> GetPhotoUrlAsync(string photoName);
         /// <summary>
         /// Obsolete

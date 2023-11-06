@@ -115,7 +115,7 @@ namespace car_website.Controllers
                 {
                     if (carEditedVM.Photos[i] != null)
                     {
-                        string photoName = await _imageService.UploadPhotoAsync(carEditedVM.Photos[i]);
+                        string photoName = await _imageService.UploadPhotoAsync(carEditedVM.Photos[i], $"{carEditedVM.Brand}_{carEditedVM.Model}_{carEditedVM.Year}");
                         newPhotos.Add(photoName);
                         photosToDeletion.Add(photos[i]);
                         photos[i] = photoName;
@@ -450,7 +450,7 @@ namespace car_website.Controllers
                 photos = photos.Where(photo => photo != null).ToList();
                 foreach (var photo in photos)
                 {
-                    var photoName = await _imageService.UploadPhotoAsync(photo);
+                    var photoName = await _imageService.UploadPhotoAsync(photo, $"{newCar.Brand}_{newCar.Model}_{newCar.Year}");
                     photosNames.Add(photoName);
                 }
                 string preview = _imageService.CopyPhoto(photosNames[0]);
