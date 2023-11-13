@@ -69,7 +69,80 @@ let isElectro = false;
 //#endregion
 
 //#region Functions' calls
+function createLi(text) {
+    let li = document.createElement('LI');
+    li.innerText = text;
+    return li;
+}
+function getKeyByValue(object, value) {
+    for (const key in object)
+        if (object[key] === value)
+            return key;
+    return null;
+}
+document.addEventListener('DOMContentLoaded', function () {
+    /*for (let i = 0; i < sessionStorage.length; i++) {
+        const key = sessionStorage.key(i);
+        try {
+            const data = JSON.parse(sessionStorage.getItem(key));
+            if (data && typeof data === 'object') {
+                console.log('Data from sessionStorage:', data);
+            }
+        } catch (error) {
+            continue;
+        }
+    }*/
+    let lastCarsString = sessionStorage.getItem("last");
+    let lastCars = JSON.parse(lastCarsString);
+    if (lastCars) {
+        console.log(lastCars.filters)
+        carsPage = lastCars.data.page;
+        updatePagesButtons(lastCars.data.pages);
+        pages = lastCars.data.pages;
+        carList.innerHTML = "";
+        lastCars.data.cars.forEach(car => {
+            const block = formCar(car);
+            carList.innerHTML += block;
+        });
+        if (lastCars.data.cars == null || lastCars.data.cars.length == 0) {
+            updatePagesButtons(0);
+            carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Нічого не знайдено</h3></div>`;
+        }
+        carsCache[lastCars.filters] = lastCars.data;
+        updateLikeButtons();
+        if (lastCars.filters.driveLine != 0)
+            updateDriveline(createLi(drivelines[lastCars.filters.driveLine]));
+        if (lastCars.filters.body != 0)
+            updateBody(createLi(bodies[lastCars.filters.body]));
+        if (lastCars.filters.carTransmission != 0)
+            updateTransmission(createLi(transmissions[lastCars.filters.carTransmission]));
+        if (lastCars.filters.fuel != 0)
+            updateFuel(createLi(getKeyByValue(fuels, lastCars.filters.fuel)));
+        if (lastCars.filters.maxEngineCapacity != 0)
+            engineVolume_max_input.value = lastCars.filters.maxEngineCapacity;
+        if (lastCars.filters.minEngineCapacity != 0)
+            engineVolume_min_input.value = lastCars.filters.minEngineCapacity;
+        if (lastCars.filters.minPrice != 0)
+            price_min_input.value = lastCars.filters.minPrice;
+        if (lastCars.filters.maxPrice != 0)
+            price_max_input.value = lastCars.filters.maxPrice;
+        if (lastCars.filters.minMileage != 0)
+            race_min_input.value = lastCars.filters.minMileage;
+        if (lastCars.filters.maxMileage != 0)
+            race_max_input.value = lastCars.filters.maxMileage;
+        if (lastCars.filters.minYear != 2000) {
+            minYearSlider.value = lastCars.filters.minYear;
+            maxYearSlider.setAttribute('min', lastCars.filters.minYear);
+        }
+        if (lastCars.filters.maxYear != maxYearSlider.getAttribute('max')) {
+            maxYearSlider.value = lastCars.filters.maxYear;
+            minYearSlider.setAttribute('max', lastCars.filters.maxYear);
+        }
+    }
+    else {
 applyFilter();
+    }
+});
 getMarks();
 if (selectBrandsBtn.firstElementChild.innerText != "Усі")
     getModelsOfMark();
@@ -81,6 +154,11 @@ addFuel();
 addDriveline();
 addSorting();
 //#endregion
+
+//restoring previous cars list
+
+
+
 
 //#region Pages & Likes
 openFilter.addEventListener('click', () => filter.classList.toggle("open"));
@@ -314,9 +392,12 @@ function applyFilter(page = 1) {
         })
             .then(response => response.json())
             .then(data => {
+                    const cacheKey = JSON.stringify(filters);
+                sessionStorage.setItem(cacheKey, JSON.stringify(data));
+                sessionStorage.setItem("last", JSON.stringify({ filters, data }));
                 if (data != null && data.status == true && data.cars.length > 0) {
                     carsPage = data.page;
-
+                    
                     updatePagesButtons(data.pages);
                     pages = data.pages;
                     carList.innerHTML = "";
@@ -574,15 +655,14 @@ function updateFuel(selectedLi) {
     else {
         engineVolumeLbl.innerHTML = "Об'єм двигуна (л.)";
         isElectro = false;
-        if (engineVolumeInp.value.includes('.')) {
-            engineVolume_min_input.value = engineVolume_min_input.value.slice(0, 3);
+        if (engineVolume_max_input.value.includes('.'))
             engineVolume_max_input.value = engineVolume_max_input.value.slice(0, 3);
-
-        }
-        else {
-            engineVolume_min_input.value = engineVolume_min_input.value.slice(0, 2);
+        else
             engineVolume_max_input.value = engineVolume_max_input.value.slice(0, 2);
-        }
+        if (engineVolume_min_input.value.includes('.'))
+            engineVolume_min_input.value = engineVolume_min_input.value.slice(0, 3);
+        else
+            engineVolume_min_input.value = engineVolume_min_input.value.slice(0, 2);
     }
     fuelsOptions.parentElement.classList.remove("active");
     selectFuelsBtn.classList.remove("active");

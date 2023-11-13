@@ -8,7 +8,7 @@ similar cars mobile
 ✅similar cars pixelated photo
 ✅filter similar cars (only !devs' cars)
 ✅connect likes in similar
-editing cars
+✅editing cars
 deleting users
 ✅deleting cars
 ? purchase requests
@@ -23,4 +23,4 @@ create car page visual
 brands editing
 fix year select slider
 simple statistics for admins
-saving filters and page (session storage)
+✅saving filters and page (session storage)
