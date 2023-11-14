@@ -2954,7 +2954,7 @@ header .header_right-dark-label::before {
   .car.mainPageCar {
     flex-direction: column;
     max-width: 95vw;
-    min-width: 370px;
+    min-width: 400px;
     align-items: start;
     padding: 10px;
     gap: 10px;
@@ -3193,7 +3193,7 @@ header .header_right-dark-label::before {
   .car {
     flex-direction: column;
     max-width: 95vw;
-    min-width: 370px;
+    min-width: 400px;
     align-items: start;
     padding: 10px;
     gap: 10px;

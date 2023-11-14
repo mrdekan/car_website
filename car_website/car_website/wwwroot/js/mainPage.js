@@ -50,7 +50,7 @@ const engineVolumeLbl = document.getElementById('engine-volume-lbl');
 
 //#region Selects content
 let brands = ["Усі"], models = ["Усі"];
-let bodies = ["Усі", "Седан", "Позашляховик", "Мінівен", "Хетчбек", "Універсал", "Купе", "Кабріолет", "Пікап", "Ліфтбек","Автобус"];
+let bodies = ["Усі", "Седан", "Позашляховик", "Мінівен", "Хетчбек", "Універсал", "Купе", "Кабріолет", "Пікап", "Ліфтбек", "Автобус"];
 let transmissions = ["Усі", "Механічна", "Автоматична"];
 let sortings = ["За датою додавання", "За спаданням ціни", "За зростанням ціни"];
 let fuels = {};
@@ -94,8 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }*/
     let lastCarsString = sessionStorage.getItem("last");
     let lastCars = JSON.parse(lastCarsString);
-    if (lastCars) {
-        console.log(lastCars.filters)
+    if (lastCars && lastCars.data) {
         carsPage = lastCars.data.page;
         updatePagesButtons(lastCars.data.pages);
         pages = lastCars.data.pages;
@@ -133,14 +132,31 @@ document.addEventListener('DOMContentLoaded', function () {
         if (lastCars.filters.minYear != 2000) {
             minYearSlider.value = lastCars.filters.minYear;
             maxYearSlider.setAttribute('min', lastCars.filters.minYear);
+            updateYearLabel();
         }
         if (lastCars.filters.maxYear != maxYearSlider.getAttribute('max')) {
             maxYearSlider.value = lastCars.filters.maxYear;
             minYearSlider.setAttribute('max', lastCars.filters.maxYear);
+            updateYearLabel();
+        }
+        if (lastCars.filters.sortingType != 0) {
+            let selectedLi = createLi(sortings[lastCars.filters.sortingType]);
+            addSorting(selectedLi.innerText);
+            sortingOptions.parentElement.classList.remove("active");
+            selectSortingBtn.classList.remove("active");
+            selectSortingBtn.firstElementChild.innerText = selectedLi.innerText;
+        }
+        getMarks();
+        if (lastCars.filters.brand != "Усі") {
+            updateName(createLi(lastCars.filters.brand));
+            if (lastCars.filters.model != "Усі")
+                getModelsOfMark(lastCars.filters.model);
+            else
+                getModelsOfMark();
         }
     }
     else {
-applyFilter();
+        applyFilter();
     }
 });
 getMarks();
@@ -264,16 +280,7 @@ minYearSlider.oninput = (() => {
     minYearValue.classList.add("show");
     maxYearSlider.setAttribute('min', value);
     maxMinYear.textContent = value;
-    if (minYearSlider.value == maxYearSlider.value)
-        yearLabel.textContent = `Рік (${minYearSlider.value})`;
-    else if (minYearSlider.value == 2000 && maxYearSlider.value != maxYearSlider.getAttribute('max'))
-        yearLabel.textContent = `Рік (≤ ${maxYearSlider.value})`;
-    else if (minYearSlider.value != 2000 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
-        yearLabel.textContent = `Рік (≥ ${minYearSlider.value})`;
-    else if (minYearSlider.value == 2000 && maxYearSlider.value == maxYearSlider.getAttribute('max'))
-        yearLabel.textContent = `Рік`;
-    else
-        yearLabel.textContent = `Рік (${minYearSlider.value} — ${maxYearSlider.value})`;
+    updateYearLabel();
 });
 maxYearSlider.onblur = (() => maxYearValue.classList.remove("show"));
 maxYearSlider.oninput = (() => {
@@ -284,6 +291,9 @@ maxYearSlider.oninput = (() => {
     maxYearValue.classList.add("show");
     minYearSlider.setAttribute('max', valueMax);
     minMaxYear.textContent = valueMax;
+    updateYearLabel();
+});
+function updateYearLabel() {
     if (minYearSlider.value == maxYearSlider.value)
         yearLabel.textContent = `Рік (${minYearSlider.value})`;
     else if (minYearSlider.value == 2000 && maxYearSlider.value != maxYearSlider.getAttribute('max'))
@@ -294,7 +304,7 @@ maxYearSlider.oninput = (() => {
         yearLabel.textContent = `Рік`;
     else
         yearLabel.textContent = `Рік (${minYearSlider.value} — ${maxYearSlider.value})`;
-});
+}
 minYearSlider.onblur = (() => minYearValue.classList.remove("show"));
 const inputsWithComma = [engineVolume_min_input, engineVolume_max_input];
 inputsWithComma.forEach((inp) => {
@@ -328,7 +338,7 @@ apply_button.onclick = () => applyFilter();
 //#endregion
 
 //#region Ajax requests
-function getModelsOfMark() {
+function getModelsOfMark(applyModel = "") {
     var brand = selectBrandsBtn.firstElementChild.innerText;
     if (modelsCache[brand] == null) {
         fetch(`/home/GetModels?brand=${brand}`)
@@ -339,6 +349,8 @@ function getModelsOfMark() {
                 models = models.filter((n) => { return n != 'Інше' });
                 modelsCache[brand] = models;
                 addModel();
+                if (applyModel != "")
+                    updateModel(createLi(applyModel));
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
     }
@@ -358,7 +370,7 @@ function getMarks() {
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
-function applyFilter(page = 1) { 
+function applyFilter(page = 1) {
     filter.classList.remove("open");
     const filters = {
         body: bodies.indexOf(selectBodiesBtn.firstElementChild.innerHTML),
@@ -380,45 +392,50 @@ function applyFilter(page = 1) {
     };
     const carList = document.getElementById("carList");
     carsPage = page;
-
+    let filtersString = JSON.stringify(filters);
     updatePagesButtons(pages);
     carList.innerHTML = `<div class="cars-not-found" style="height: ${carList.clientHeight}px;"><div class="custom-loader"></div><h3 class="warning-text">Завантаження...</h3></div>`;
+    if (!carsCache[filtersString] || carsCache[filtersString].status == false) {
         fetch(`/api/v1/cars/getFiltered`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(filters)
+            body: filtersString
         })
             .then(response => response.json())
             .then(data => {
-                    const cacheKey = JSON.stringify(filters);
-                sessionStorage.setItem(cacheKey, JSON.stringify(data));
-                sessionStorage.setItem("last", JSON.stringify({ filters, data }));
-                if (data != null && data.status == true && data.cars.length > 0) {
-                    carsPage = data.page;
-                    
-                    updatePagesButtons(data.pages);
-                    pages = data.pages;
-                    carList.innerHTML = "";
-                    data.cars.forEach(car => {
-                        const block = formCar(car);
-                        carList.innerHTML += block;
-                    });
-                    carsCache[filters] = data;
-                    updateLikeButtons();
-                }
-                else if (data != null && data.status == true) {
-                    updatePagesButtons(0);
-                    carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Нічого не знайдено</h3></div>`;
-                }
-                else {
-                    updatePagesButtons(0);
-                    carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Щось пішло не так</h3></div>`;
-                }
+                setCarsData(data, filters, filtersString);
             })
             .catch(error => console.error("An error occurred while retrieving data:", error));
-    
+    }
+    else {
+        setCarsData(carsCache[filtersString],filters,filtersString);
+    }
+}
+function setCarsData(receivedData, filters, filtersString) {
+    sessionStorage.setItem("last", JSON.stringify({ filters, receivedData }));
+    if (receivedData != null && receivedData.status == true && receivedData.cars.length > 0) {
+        carsPage = receivedData.page;
+        updatePagesButtons(receivedData.pages);
+        pages = receivedData.pages;
+        carList.innerHTML = "";
+        receivedData.cars.forEach(car => {
+            const block = formCar(car);
+            carList.innerHTML += block;
+        });
+        carsCache[filtersString] = receivedData;
+        updateLikeButtons();
+    }
+    else if (receivedData != null && receivedData.status == true) {
+        updatePagesButtons(0);
+        carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Нічого не знайдено</h3></div>`;
+    }
+    else {
+        console.log(receivedData)
+        updatePagesButtons(0);
+        carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Щось пішло не так</h3></div>`;
+    }
 }
 //#endregion
 function formCar(car) {
@@ -432,7 +449,7 @@ function formCar(car) {
                                             <div class="car_container-info-parameters">
                                                 <div class="car_container-info-parameters-column">
                                                     <p class="car_container-info-parameters-column-text"><span>${svgCodes.race}</span>${car.mileage} тис. км</p>
-                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.fuel}</span>${fuelName(car.fuel)}, ${car.engineCapacity} ${car.fuel == 6 ?"кВт·год.":"л."}</p>
+                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.fuel}</span>${fuelName(car.fuel)}, ${car.engineCapacity} ${car.fuel == 6 ? "кВт·год." : "л."}</p>
                                                     ${car.vin == null ? `` : `<p class="car_container-info-parameters-column-text vin"><span>${svgCodes.car}</span>${car.vin}</p>`}
                                                     </div>
                                                 <div class="car_container-info-parameters-column">
