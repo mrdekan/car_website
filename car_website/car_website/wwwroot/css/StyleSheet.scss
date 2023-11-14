@@ -1,6 +1,7 @@
 ﻿@import "nullstyle.scss";
 @import "LoginAndRegister.scss";
 @import "Admin.scss";
+@import "Api.scss";
 @import "CarDetail.scss";
 @import "Profile.scss";
 @import "CreateCar.scss";
@@ -1303,7 +1304,7 @@ header {
     .car.mainPageCar {
         flex-direction: column;
         max-width: 95vw;
-        min-width: 400px;
+        width: 400px;
         align-items: start;
         padding: 10px;
         gap: 10px;
@@ -1603,7 +1604,7 @@ header {
     .car {
         flex-direction: column;
         max-width: 95vw;
-        min-width: 400px;
+        width: 400px;
         align-items: start;
         padding: 10px;
         gap: 10px;
@@ -1615,7 +1616,6 @@ header {
             transition: .2s;
             font-size: 20px;
             align-self: center;
-            //margin-top: 10px;
         }
 
         &_container {

@@ -1,12 +1,8 @@
 ﻿const root = document.documentElement;
-
-if (localStorage.getItem('theme') == 'light') {
-    setLight();
-}
-else {
-    setDark();
-}
+if (localStorage.getItem('theme') == 'light') setLight();
+else setDark()
 function setDark() {
+    localStorage.setItem('theme', 'dark');
     const themeSeparator = document.querySelector('.header_right-separator');
     if (themeSeparator)
         themeSeparator.style.setProperty('--custom-border-radius', '0 7px 7px 0');
@@ -27,6 +23,7 @@ function setDark() {
     root.style.setProperty('--filters-background', '#303030');
 }
 function setLight() {
+    localStorage.setItem('theme', 'light');
     const themeSeparator = document.querySelector('.header_right-separator');
     if (themeSeparator)
         themeSeparator.style.setProperty('--custom-border-radius', '7px 0 0 7px');
@@ -34,8 +31,8 @@ function setLight() {
     root.style.setProperty('--green-medium', '#4b6742');
     root.style.setProperty('--green-dark', '#415939');
     //root.style.setProperty('--background-main', '#ffffff');
-    root.style.setProperty('--background-main', '#f6f6f6');
     //root.style.setProperty('--background-secondary', '#f6f6f6');
+    root.style.setProperty('--background-main', '#f6f6f6');
     root.style.setProperty('--background-secondary', '#ffffff');
     root.style.setProperty('--text-default', '#000000');
     root.style.setProperty('--icons-invert', '0%');

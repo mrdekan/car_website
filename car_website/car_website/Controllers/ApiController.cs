@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 //API v1
 namespace car_website.Controllers.v1
 {
-    [Route("api/v{version:apiVersion}/[controller]/")]
+    [Route("api/v{version:apiVersion}/")]
     [ApiController]
     [ApiVersion("1.0")]
     public class ApiController : ExtendedApiController

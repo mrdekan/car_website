@@ -1,3 +1,234 @@
 ﻿@{
     ViewData["Title"] = "API";
 }
+<div class="api">
+    <h1>OneCar API v1 Documentation</h1>
+    <div class="wrapper-api">
+        <h2>Introdution</h2>
+        <div class="wrapper-api">
+            <p>Base URL:</p>
+            <div class="code"><span>/api/v<span class="color">{</span>version_number<span class="color">}</span>/<span class="color">{</span>controller<span class="color">}</span>/<span class="color">{</span>action<span class="color">}</span></span></div>
+            <p>Current version:</p>
+            <div class="code"><span>1.0</span></div>
+            <p>Example request:</p>
+            <div class="code">
+                <span>
+                    fetch(`/api/v1.0/ping`)<br>
+                    &emsp;.then(response => response.json())<br>
+                    &emsp;.then(data => {<br>
+                    &emsp;&emsp;//any actions with data<br>
+                    &emsp;})<br>
+                    &emsp;.catch(error => console.error("An error occurred while retrieving data:", error));
+                </span>
+            </div>
+
+            <p>Default error response:</p>
+            <div class="code">
+                <span>
+                    {<br>
+                    &emsp;"status":     false,<br>
+                    &emsp;"code": <span class="color">
+                        Error code
+                    </span><br>
+                    }
+                </span>
+            </div>
+            <p>Conditional marks:</p>
+            <div class="code">
+                <span>
+                    <span class="required"></span> - requires admins rights;
+                </span>
+            </div>
+        </div>
+        <h2>Response codes:</h2>
+        <div class="wrapper-api">
+            <p>The API uses standard HTTP status codes along with custom error codes to indicate the outcome of requests:</p>
+            <div class="code">
+                <span>
+                    &emsp;- <span class="color">
+                        200
+                    </span> Success: Everything is ok<br>
+                    &emsp;- <span class="color">
+                        400
+                    </span> Bad Request: The request is invalid or missing required parameters.<br>
+                    &emsp;- <span class="color">
+                        401
+                    </span> Unauthorized: Authentication failed or API key is invalid.<br>
+                    &emsp;- <span class="color">
+                        403
+                    </span> InsufficientPermissions: User rights do not allow the action to be performed.<br>
+                    &emsp;- <span class="color">
+                        404
+                    </span> Not Found: The requested resource does not exist.<br>
+                    &emsp;- <span class="color">
+                        409
+                    </span> Conflict: Data causes conflict with existing data.<br>
+                    &emsp;- <span class="color">
+                        500
+                    </span> Internal Server Error: An unexpected error occurred on the server.<br>
+                    &emsp;- <span class="color">
+                        501
+                    </span> NotImplemented: Method not implemented yet.
+                </span>
+            </div>
+        </div>
+        <h2>Endpoints:</h2>
+        <div class="wrapper-api">
+            <h3>General (controller - <span class="color">main</span>):</h3>
+            <div class="wrapper-api">
+                <p>Ping</p>
+                <div class="wrapper-api">
+                    <p>
+                        <span>
+                            Method: GET<br>
+                            Endpoint: '/ping'<br>
+                            Response:
+                        </span>
+                    </p>
+                    <div class="code">
+                        <span>
+                            {<br>
+                            &emsp;"status": true,<br>
+                            &emsp;"code": 200<br>
+                            &emsp;"currentTime": <span class="color">Current server's time</span><br>
+                            &emsp;"version": <span class="color">Current API's version</span><br>
+                            &emsp;"isLoggedIn": <span class="color">true or false</span><br>
+                            }
+                        </span>
+                    </div>
+                    <p><span>Example request URL:</span></p>
+                    <div class="code">
+                        <span>
+                            https://1auto.cn.ua/api/v1/main/ping
+                        </span>
+                    </div>
+                </div>
+                <p>Get currency rate</p>
+                <div class="wrapper-api">
+                    <p>
+                        <span>
+                            Method: GET<br>
+                            Endpoint: '/getCurrencyRate'<br>
+                            Response:
+                        </span>
+                    </p>
+                    <div class="code">
+                        <span>
+                            {<br>
+                            &emsp;"status": true,<br>
+                            &emsp;"code": 200<br>
+                            &emsp;"currencyRate": <span class="color">Real server's currency rate</span><br>
+                            &emsp;"officialCurrencyRate": <span class="color">UAH to USD currency rate from the NBU</span><br>
+                            }
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <h3>Cars:</h3>
+            <div class="wrapper-api">
+                <p>GetCarsCount:</p>
+                <div class="wrapper-api">
+                    <p>
+                        <span>
+                            Method: GET<br>
+                            Endpoint: '/getCarsCount'<br>
+                            Response:
+                        </span>
+                    </p>
+                    <div class="code">
+                        <span>
+                            {<br>
+                            &emsp;"Status": "true",<br>
+                            &emsp;"Code": "200",<br>
+                            &emsp;"CarsCount": Cars count,<br>
+                            }
+                        </span>
+                    </div>
+                </div>
+                <p>GetCars:</p>
+                <div class="wrapper-api">
+                    <p>
+                        <span>
+                            Method: GET<br>
+                            Endpoint: '/getCars'<br>
+                            Request params:
+                        </span>
+                    </p>
+                    <div class="code">
+                        <span>
+                            &emsp;"page": 1, // Optional<br>
+                            &emsp;"perPage": 10 // Optional <br>
+                        </span>
+                    </div>
+                    <p><span>Request example:</span></p>
+                    <div class="code">
+                        <span>
+                            /api/v1/getCars?page=2&perPage=5
+                        </span>
+                    </div>
+                    <p><span>Response:</span></p>
+                    <div class="code">
+                        <span>
+                            {<br>
+                            &emsp;"Status": "true",<br>
+                            &emsp;"Code": "200",<br>
+                            &emsp;"Cars": CarModels array,<br>
+                            &emsp;"Pages": Total number of pages,<br>
+                            &emsp;"Page": Current page number<br>
+                            }
+                        </span>
+                    </div>
+                </div>
+                <p>GetFilteredCars:</p>
+                <div class="wrapper-api">
+                    <p>
+                        <span>
+                            Method: POST<br>
+                            Endpoint: '/getFilteredCars'<br>
+                            Request body:
+                        </span>
+                    </p>
+                    <div class="code">
+                        <span>
+                            {<br>
+                            &emsp;"Status": "true",<br>
+                            &emsp;"Code": "200"<br>
+                            }
+                        </span>
+                    </div>
+                    <p><span>Response:</span></p>
+                    <div class="code">
+                        <span>
+                            {<br>
+                            &emsp;"Status": "true",<br>
+                            &emsp;"Code": "200"<br>
+                            }
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <h3>Users:</h3>
+            <div class="wrapper-api">
+                <p>GetUsersCount:</p>
+                <div class="wrapper-api">
+                    <p>
+                        <span>
+                            Method: GET<br>
+                            Endpoint: '/getUsersCount'<br>
+                            Response:
+                        </span>
+                    </p>
+                    <div class="code">
+                        <span>
+                            {<br>
+                            &emsp;"Status": "true",<br>
+                            &emsp;"Code": "200",<br>
+                            &emsp;"UsersCount": Users count,<br>
+                            }
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

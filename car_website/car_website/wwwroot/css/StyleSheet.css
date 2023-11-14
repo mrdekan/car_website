@@ -578,6 +578,85 @@ input[type=number] {
   --filters-background: #F3EFCA;
 }
 
+.api {
+  background: var(--background-main);
+  color: var(--text-default);
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 65px 15px 200px;
+}
+.api h1, .api h2 {
+  margin: 0 0 3px;
+}
+.api h1 {
+  font-size: 32px;
+}
+.api h2 {
+  margin: 8px 0 4px;
+  font-size: 28px;
+}
+.api h3 {
+  margin: 6px 0 4px;
+  font-size: 24px;
+}
+.api p {
+  font-size: 18px;
+  line-height: 24px;
+  margin: 4px 0 8px;
+}
+.api p span {
+  font-size: 16px;
+  font-weight: 100;
+  color: #dfdfdf;
+}
+.api .code {
+  width: fit-content;
+  padding: 10px;
+  background-color: var(--background-secondary);
+  border: 1px solid var(--gray-default);
+  color: var(--text-default);
+  font-size: 16px;
+  border-radius: 6px;
+  line-height: 26px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+.api .color {
+  color: var(--beige-default);
+}
+.api .wrapper-api {
+  padding: 12px 0 12px 12px;
+  margin-left: 4px;
+  margin-top: 12px;
+  position: relative;
+  border-left: 2px dotted var(--gray-default);
+}
+.api .wrapper-api::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--gray-default);
+  position: absolute;
+  margin: -16px 0 0 -17px;
+  transform: rotate(45deg);
+}
+
+:root {
+  --green-light: #537049;
+  --green-medium: #4b6742;
+  --green-dark: #415939;
+  --background-main: #ffffff;
+  --background-secondary: #f6f6f6;
+  --text-default: #000000;
+  --icons-invert: 0%;
+  --success-main: #3a784a;
+  --success-secondary: #D0E0CA;
+  --error-main: #c21111;
+  --error-secondary: #f7dfe5;
+  --gray-default: #404040;
+  --beige-default: #F3EFCA;
+  --theme-separator: -25px;
+  --filters-background: #F3EFCA;
+}
+
 .title {
   font-weight: 700;
   font-size: 30px;
@@ -661,6 +740,7 @@ input[type=number] {
   z-index: 10;
   background-color: rgba(150, 150, 150, 0.5);
   color: var(--background-main);
+  transition: 0.1s;
 }
 .slider button span {
   width: 30px;
@@ -983,6 +1063,16 @@ h4 {
   }
 }
 @media (max-width: 767px) {
+  .slider button {
+    cursor: none;
+    transition: 0.1s;
+  }
+  .slider button:hover {
+    background-color: rgba(150, 150, 150, 0.5);
+  }
+  .slider button:active {
+    background-color: rgba(150, 150, 150, 0.8);
+  }
   .title {
     font-size: 24px;
   }
@@ -2954,7 +3044,7 @@ header .header_right-dark-label::before {
   .car.mainPageCar {
     flex-direction: column;
     max-width: 95vw;
-    min-width: 400px;
+    width: 400px;
     align-items: start;
     padding: 10px;
     gap: 10px;
@@ -3193,7 +3283,7 @@ header .header_right-dark-label::before {
   .car {
     flex-direction: column;
     max-width: 95vw;
-    min-width: 400px;
+    width: 400px;
     align-items: start;
     padding: 10px;
     gap: 10px;

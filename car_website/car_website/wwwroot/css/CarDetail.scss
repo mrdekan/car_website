@@ -87,6 +87,7 @@
         z-index: 10;
         background-color: rgba(150,150,150,0.5);
         color: $background;
+        transition: 0.1s;
 
         span {
             width: 30px;
@@ -454,6 +455,18 @@ h4 {
 }
 
 @media (max-width: 767px) {
+    .slider button {
+        cursor: none;
+        transition: 0.1s;
+
+        &:hover {
+            background-color: rgba(150,150,150,0.5);
+        }
+
+        &:active {
+            background-color: rgba(150,150,150,0.8);
+        }
+    }
     .title{
         font-size: 24px;
     }
