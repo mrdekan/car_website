@@ -307,12 +307,13 @@ namespace car_website.Controllers
         {
             //if (!await IsAtorized())
             //return RedirectToAction("Register", "User");
-            return View(new CreateExpressSaleCarViewModel(await IsAtorized()));
+            return View(new CreateExpressSaleCarViewModel(_currencyUpdater.CurrentCurrency, await IsAtorized()));
         }
         [HttpPost]
         public async Task<IActionResult> CreateExpressSaleCar(CreateExpressSaleCarViewModel carVM)
         {
             User user = await GetCurrentUser();
+            carVM.Currency = _currencyUpdater.CurrentCurrency;
             if (ModelState.IsValid)
             {
                 if (user == null)
@@ -380,13 +381,15 @@ namespace car_website.Controllers
             {
                 return RedirectToAction("CreateExpressSaleCar");
             }
-            var brands = await _brandRepository.GetAll();
-            return View(new CarCreationPageViewModel() { CarBrands = brands.ToList(), CreateCarViewModel = new CreateCarViewModel() });
+            //var brands = await _brandRepository.GetAll();
+            var currency = _currencyUpdater.CurrentCurrency;
+            return View(new CarCreationPageViewModel() { CarBrands = new List<string>(), CreateCarViewModel = new CreateCarViewModel(), Currency = currency });
         }
         [HttpPost]
         public async Task<IActionResult> Create(CarCreationPageViewModel carVM)
         {
             User user = await GetCurrentUser();
+            carVM.Currency = _currencyUpdater.CurrentCurrency;
             if (user == null)
             {
                 return RedirectToAction("CreateExpressSaleCar");
@@ -474,8 +477,9 @@ namespace car_website.Controllers
             }
             else
             {
-                var brands = await _brandRepository.GetAll();
-                carVM.CarBrands = brands.ToList();
+                /*var brands = await _brandRepository.GetAll();
+                carVM.CarBrands = brands.ToList();*/
+                //carVM.Currency = _currencyUpdater.CurrentCurrency;
                 return View(carVM);
             }
         }

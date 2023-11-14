@@ -58,11 +58,11 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CreateCarViewModel.Year">Рік<span class="required"></span></label>
-                    <input class="input" asp-for=CreateCarViewModel.Year type="number" id="year" maxlength="4" placeholder="Рік" value="@DateTime.Now.Year" />
+                    <input class="input" asp-for=CreateCarViewModel.Year type="number" id="year" maxlength="4" placeholder="Рік" />
                     <span asp-validation-for="CreateCarViewModel.Year" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreateCarViewModel.Price">Ціна ($)<span class="required"></span></label>
+                    <label asp-for="CreateCarViewModel.Price" id="price-in-uah" currency="@Model.Currency">Ціна ($)<span class="required"></span></label>
                     <input asp-for="CreateCarViewModel.Price" type="number" class="input" id="price" maxlength="6" placeholder="Ціна" />
                     <span asp-validation-for="CreateCarViewModel.Price" class="text-danger"></span>
                 </div>
@@ -537,3 +537,4 @@
 <script src="~/js/creationCarPage.js" asp-append-version="true"></script>
 <script src="~/js/imagesPreviews.js" asp-append-version="true"></script>
 <script src="~/js/creationCarPageSelectBoxes.js" asp-append-version="true"></script>
+<script src="~/js/priceInUah.js" asp-append-version="true"></script>

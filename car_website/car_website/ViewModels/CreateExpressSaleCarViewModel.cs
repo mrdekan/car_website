@@ -4,13 +4,14 @@ namespace car_website.ViewModels
 {
     public class CreateExpressSaleCarViewModel
     {
-        public CreateExpressSaleCarViewModel()
+        public CreateExpressSaleCarViewModel(double currency)
         {
-
+            Currency = currency;
         }
-        public CreateExpressSaleCarViewModel(bool isLogged = false)
+        public CreateExpressSaleCarViewModel(double currency, bool isLogged = false)
         {
             IsLogged = isLogged;
+            Currency = currency;
         }
         [MaxLength(30, ErrorMessage = "Не більше 30 символів")]
         public string? Name { get; set; }
@@ -38,5 +39,6 @@ namespace car_website.ViewModels
         [MaxLength(500, ErrorMessage = "Занадто довгий опис")]
         public string? Description { get; set; }
         public bool IsLogged { get; set; }
+        public double Currency { get; set; }
     }
 }

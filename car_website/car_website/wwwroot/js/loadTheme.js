@@ -33,8 +33,10 @@ function setLight() {
     root.style.setProperty('--green-light', '#537049');
     root.style.setProperty('--green-medium', '#4b6742');
     root.style.setProperty('--green-dark', '#415939');
-    root.style.setProperty('--background-main', '#ffffff');
-    root.style.setProperty('--background-secondary', '#f6f6f6');
+    //root.style.setProperty('--background-main', '#ffffff');
+    root.style.setProperty('--background-main', '#f6f6f6');
+    //root.style.setProperty('--background-secondary', '#f6f6f6');
+    root.style.setProperty('--background-secondary', '#ffffff');
     root.style.setProperty('--text-default', '#000000');
     root.style.setProperty('--icons-invert', '0%');
     root.style.setProperty('--success-main', '#3a784a');

@@ -14,7 +14,13 @@ namespace car_website.Services
         public async Task<double> GetCurrencyRate(IAppSettingsDbRepository appSettingsDbRepository) =>
             await appSettingsDbRepository.GetCurrencyRate();
         private double usdCurrency;
+        /// <summary>
+        /// Actual
+        /// </summary>
         public double CurrentCurrency { get => usdCurrency; }
+        /// <summary>
+        /// Actual
+        /// </summary>
         public uint UsdToUah(double usd) => (uint)(usd * usdCurrency);
         internal async void UpdateCurrencies(IAppSettingsDbRepository appSettingsDbRepository)
         {
@@ -35,13 +41,5 @@ namespace car_website.Services
             });
         }
         private double GetCurrency(string name) => Currencies.Find(el => el.cc == name).rate;
-        /// <summary>
-        /// ConvertToUah() is obsolete. Use UsdToUah() instead.
-        /// </summary>
-        /// <returns></returns>
-        public uint ConvertToUAH(uint usd, IAppSettingsDbRepository appSettingsDbRepository)
-        {
-            return (uint)(GetCurrencyRate(appSettingsDbRepository).Result * usd);
-        }
     }
 }

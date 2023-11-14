@@ -113,11 +113,11 @@
         </div>
         <div class="create_section" two>
             <div class="form-group">
-                <label asp-for="Price">Ціна ($)</label>
+                <label id="price-in-uah" currency="@Model.CurrencyRate" asp-for="Price">Ціна ($)</label>
                 <div class="create_section-price">
                     <input asp-for="Price" type="number" class="input" currency="@Model.CurrencyRate" id="price" maxlength="6" placeholder="Ціна" value="@Model.OldData.Price" />
                     <span asp-validation-for="Price" class="text-danger"></span>
-                    <span id="price-in-uah">≈ @((int)(Model.OldData.Price * Model.CurrencyRate)) грн</span>
+                    @*<span >≈ @((int)(Model.OldData.Price * Model.CurrencyRate)) грн</span>*@
                 </div>
             </div>
             <div class="form-group">
@@ -534,3 +534,4 @@
 <script src="~/js/imagesPreviews.js" asp-append-version="true"></script>
 <script src="~/js/creationCarPage.js" asp-append-version="true"></script>
 <script src="~/js/creationCarPageSelectBoxes.js" asp-append-version="true"></script>
+<script src="~/js/priceInUah.js" asp-append-version="true"></script>

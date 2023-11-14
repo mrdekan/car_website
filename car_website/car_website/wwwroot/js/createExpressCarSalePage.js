@@ -11,8 +11,7 @@
     otherModelInp = document.getElementById('other-model-inp'),
     otherBrandInp = document.getElementById('other-brand-inp');
 const yearInput = document.getElementById("year-input");
-const priceUAH = document.getElementById('price-uah');
-const priceInput = document.getElementById('price-input');
+const priceInput = document.getElementById('price');
 const description = document.getElementById('description');
 const descriptionLimit = document.getElementById('description-limit');
 let currencyRate = 0;
@@ -37,10 +36,10 @@ yearInput.addEventListener("input", () => {
 priceInput.addEventListener("input", () => {
     if (priceInput.value.length > 7)
         priceInput.value = priceInput.value.slice(0, 7);
-    if (priceInput.value != '0' && priceInput.value != '' && currencyRate != 0)
+    /*if (priceInput.value != '0' && priceInput.value != '' && currencyRate != 0)
         priceUAH.innerHTML = `≈ ${formatNumberWithThousandsSeparator(Math.round(Number(priceInput.value) * currencyRate))} грн`;
     else
-        priceUAH.innerHTML = '';
+        priceUAH.innerHTML = '';*/
 });
 description.addEventListener("input", () => {
     if (description.value.length > Number(description.getAttribute('maxlength')))
@@ -87,9 +86,6 @@ function getModelsOfMark() {
     }
 }
 //#endregion
-function formatNumberWithThousandsSeparator(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-}
 //#region Custom select boxes
 function addBrand(selectedBrand) {
     if (!selectedBrand) {
