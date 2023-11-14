@@ -413,26 +413,25 @@ function applyFilter(page = 1) {
         setCarsData(carsCache[filtersString],filters,filtersString);
     }
 }
-function setCarsData(receivedData, filters, filtersString) {
-    sessionStorage.setItem("last", JSON.stringify({ filters, receivedData }));
-    if (receivedData != null && receivedData.status == true && receivedData.cars.length > 0) {
-        carsPage = receivedData.page;
-        updatePagesButtons(receivedData.pages);
-        pages = receivedData.pages;
+function setCarsData(data, filters, filtersString) {
+    sessionStorage.setItem("last", JSON.stringify({ filters, data }));
+    if (data != null && data.status == true && data.cars.length > 0) {
+        carsPage = data.page;
+        updatePagesButtons(data.pages);
+        pages = data.pages;
         carList.innerHTML = "";
-        receivedData.cars.forEach(car => {
+        data.cars.forEach(car => {
             const block = formCar(car);
             carList.innerHTML += block;
         });
-        carsCache[filtersString] = receivedData;
+        carsCache[filtersString] = data;
         updateLikeButtons();
     }
-    else if (receivedData != null && receivedData.status == true) {
+    else if (data != null && data.status == true) {
         updatePagesButtons(0);
         carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Нічого не знайдено</h3></div>`;
     }
     else {
-        console.log(receivedData)
         updatePagesButtons(0);
         carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Щось пішло не так</h3></div>`;
     }
