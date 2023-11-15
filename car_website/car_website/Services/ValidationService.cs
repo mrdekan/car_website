@@ -7,10 +7,12 @@ namespace car_website.Services
 {
     public class ValidationService : IValidationService
     {
-        private const int MAX_PHOTO_SIZE = 20; //Mb
+        private const int MAX_PHOTO_SIZE_IN_MB = 20;
         private const int NAME_MAX_LENGTH = 30;
         private const string NAME_PATTERN = @"^[а-яА-ЯёЁіІїЇєЄ'\s]+$";
         private const string PHONE_PATTERN = @"^38\d{10}$";
+        private const byte MIN_PASSWORD_LENGTH = 6;
+        private const byte MAX_PASSWORD_LENGTH = 16;
         private readonly IConfiguration _configuration;
 
         public ValidationService(IConfiguration configuration)
@@ -47,7 +49,7 @@ namespace car_website.Services
 
             try
             {
-                Uri uri = new Uri(url);
+                Uri uri = new(url);
                 string host = uri.Host.ToLower();
 
                 if (host.Contains("youtube.com"))
@@ -74,9 +76,11 @@ namespace car_website.Services
             }
         }
 
-
+        public bool IsValidPassword(string password) =>
+            password.Length >= MIN_PASSWORD_LENGTH
+            && password.Length <= MAX_PASSWORD_LENGTH;
         // 1048576 = 1024 * 1024 (b => Mb)
-        public bool IsLessThenNMb(IFormFile file, int maxSizeMb = MAX_PHOTO_SIZE) =>
+        public bool IsLessThenNMb(IFormFile file, int maxSizeMb = MAX_PHOTO_SIZE_IN_MB) =>
             file != null && ((double)file.Length / (1048576)) <= maxSizeMb;
 
         public bool FixPhoneNumber(ref string phone)

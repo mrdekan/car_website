@@ -28,5 +28,10 @@
         /// </summary>
         /// <returns>True if less or False if not</returns>
         public bool IsLessThenNMb(IFormFile file, int maxSizeMb = 20);
+        /// <summary>
+        /// Checks password length
+        /// </summary>
+        /// <returns>Result of validation</returns>
+        bool IsValidPassword(string password);
     }
 }

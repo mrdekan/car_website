@@ -157,6 +157,7 @@ addTransmission();
 addFuel();
 addDriveline();
 addSorting();
+isFilterClear();
 //#endregion
 //#region Pages & Likes
 openFilter.addEventListener('click', () => filter.classList.toggle("open"));
@@ -215,6 +216,27 @@ function updatePagesButtons(number) {
         }
     });
 }
+function isFilterClear() {
+    let res = true;
+    if (engineVolume_max_input.value
+        || engineVolume_min_input.value > 0
+        || price_max_input.value > 0
+        || price_min_input.value > 0
+        || race_max_input.value > 0
+        || race_min_input > 0
+        || minYearSlider.value != 2000
+        || maxYearSlider.value != 2023
+        || selectBrandsBtn.firstElementChild.innerText != "Усі"
+        || selectBodiesBtn.firstElementChild.innerText != "Усі"
+        || selectTransmissionsBtn.firstElementChild.innerText != "Усі"
+        || selectFuelsBtn.firstElementChild.innerText != "Усі"
+        || selectDrivelinesBtn.firstElementChild.innerText != "Усі"
+        || selectModelsBtn.firstElementChild.innerText != "Усі"
+    )
+        res = false;
+    if (!res) openFilter.setAttribute('filtered', '');
+    else openFilter.removeAttribute('filtered');
+}
 function clearFilters() {
     engineVolume_max_input.value = "";
     engineVolume_min_input.value = "";
@@ -249,6 +271,7 @@ function clearFilters() {
     maxYearSlider.setAttribute('min', minYearSlider.getAttribute('min'));
     yearLabel.textContent = `Рік`;
     applyFilter();
+    isFilterClear()
 }
 clear_filters.addEventListener("click", () => clearFilters());
 //#endregion
@@ -286,6 +309,7 @@ function updateYearLabel() {
         yearLabel.textContent = `Рік`;
     else
         yearLabel.textContent = `Рік (${minYearSlider.value} — ${maxYearSlider.value})`;
+    isFilterClear()
 }
 minYearSlider.onblur = (() => minYearValue.classList.remove("show"));
 const inputsWithComma = [engineVolume_min_input, engineVolume_max_input];
@@ -298,6 +322,7 @@ inputsWithComma.forEach((inp) => {
         if (value.includes('.')) length++;
         value = value.slice(0, length);
         event.target.value = value;
+        isFilterClear();
     });
     inp.addEventListener('keydown', (e) => {
         if ((e.target.value.includes('.') || e.target.value == '' || e.target.value.length >= (isElectro ? 3 : 2)) && (e.key == '.' || e.key == ','))
@@ -313,6 +338,7 @@ inputs.forEach((inp) => {
         if (currentValue.length > maxLength)
             currentValue = currentValue.slice(0, maxLength);
         event.target.value = currentValue;
+        isFilterClear();
     });
 })
 apply_button.onclick = () => applyFilter();
@@ -622,6 +648,7 @@ function updateName(selectedLi) {
     selectBrandsBtn.classList.remove("active");
     selectBrandsBtn.firstElementChild.innerText = selectedLi.innerText;
     getModelsOfMark();
+    isFilterClear();
 }
 function updateModel(selectedLi) {
     searchModelInp.value = "";
@@ -629,18 +656,21 @@ function updateModel(selectedLi) {
     modelsOptions.parentElement.classList.remove("active");
     selectModelsBtn.classList.remove("active");
     selectModelsBtn.firstElementChild.innerText = selectedLi.innerText;
+    isFilterClear();
 }
 function updateBody(selectedLi) {
     addBody(selectedLi.innerText);
     bodiesOptions.parentElement.classList.remove("active");
     selectBodiesBtn.classList.remove("active");
     selectBodiesBtn.firstElementChild.innerText = selectedLi.innerText;
+    isFilterClear();
 }
 function updateTransmission(selectedLi) {
     addTransmission(selectedLi.innerText);
     transmissionsOptions.parentElement.classList.remove("active");
     selectTransmissionsBtn.classList.remove("active");
     selectTransmissionsBtn.firstElementChild.innerText = selectedLi.innerText;
+    isFilterClear();
 }
 function updateFuel(selectedLi) {
     addFuel(selectedLi.innerText);
@@ -663,12 +693,14 @@ function updateFuel(selectedLi) {
     fuelsOptions.parentElement.classList.remove("active");
     selectFuelsBtn.classList.remove("active");
     selectFuelsBtn.firstElementChild.innerText = selectedLi.innerText;
+    isFilterClear();
 }
 function updateDriveline(selectedLi) {
     addDriveline(selectedLi.innerText);
     drivelinesOptions.parentElement.classList.remove("active");
     selectDrivelinesBtn.classList.remove("active");
     selectDrivelinesBtn.firstElementChild.innerText = selectedLi.innerText;
+    isFilterClear();
 }
 function updateSorting(selectedLi) {
     addSorting(selectedLi.innerText);
@@ -676,6 +708,7 @@ function updateSorting(selectedLi) {
     selectSortingBtn.classList.remove("active");
     selectSortingBtn.firstElementChild.innerText = selectedLi.innerText;
     applyFilter();
+    isFilterClear();
 }
 function hideBrand() {
     searchBrandInp.value = "";

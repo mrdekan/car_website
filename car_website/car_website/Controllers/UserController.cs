@@ -68,39 +68,43 @@ namespace car_website.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(CreateUserViewModel userVM)
         {
-            if (ModelState.IsValid)
+            // Additional validation
+            bool validation = true;
+            userVM.Email = userVM.Email.Replace(" ", "");
+            if (!_validationService.IsValidPassword(userVM.Password))
             {
-                // Validation
-                userVM.Email = userVM.Email.Replace(" ", "");
-                if (!_validationService.IsValidName(userVM.Name))
-                {
-                    ModelState.AddModelError("Name", "Некоректне ім'я");
-                    return View(userVM);
-                }
-                if (!_validationService.IsValidName(userVM.Surname))
-                {
-                    ModelState.AddModelError("Surname", "Некоректне прізвище");
-                    return View(userVM);
-                }
-                string phone = userVM.PhoneNumber;
-                if (!_validationService.FixPhoneNumber(ref phone))
-                {
-                    userVM.PhoneNumber = phone.Replace("+", "");
-                    ModelState.AddModelError("PhoneNumber", "Некоректний номер телефону");
-                    return View(userVM);
-                }
-                userVM.PhoneNumber = phone.Replace("+", "");
-                if (_userRepository.IsEmailTaken(userVM.Email).Result)
-                {
-                    ModelState.AddModelError("Email", "Адрес вже використовується");
-                    return View(userVM);
-                }
-                if (_userRepository.IsPhoneTaken(userVM.PhoneNumber).Result)
-                {
-                    ModelState.AddModelError("PhoneNumber", "Номер вже використовується");
-                    return View(userVM);
-                }
-
+                ModelState.AddModelError("Password", "Некоректне ім'я");
+                validation = false;
+            }
+            if (!_validationService.IsValidName(userVM.Name))
+            {
+                ModelState.AddModelError("Name", "Некоректне ім'я");
+                validation = false;
+            }
+            if (!_validationService.IsValidName(userVM.Surname))
+            {
+                ModelState.AddModelError("Surname", "Некоректне прізвище");
+                validation = false;
+            }
+            string phone = userVM.PhoneNumber;
+            if (!_validationService.FixPhoneNumber(ref phone))
+            {
+                ModelState.AddModelError("PhoneNumber", "Некоректний номер телефону");
+                validation = false;
+            }
+            userVM.PhoneNumber = phone.Replace("+", "");
+            if (_userRepository.IsEmailTaken(userVM.Email).Result)
+            {
+                ModelState.AddModelError("Email", "Адрес вже використовується");
+                validation = false;
+            }
+            if (_userRepository.IsPhoneTaken(userVM.PhoneNumber).Result)
+            {
+                ModelState.AddModelError("PhoneNumber", "Номер вже використовується");
+                validation = false;
+            }
+            if (ModelState.IsValid && validation)
+            {
                 // Creating a new user
                 User newUser = new(userVM, _userService, _userService.GenerateEmailConfirmationToken());
                 await _userRepository.Add(newUser);
@@ -167,19 +171,18 @@ namespace car_website.Controllers
             if (ModelState.IsValid)
             {
                 User user = await _userRepository.GetByEmailAsync(loginVM.Email.ToLower());
-                if (user != null
-                    && _userService.VerifyPassword(loginVM.Password, user.Password))
+                if (user != null && _userService.VerifyPassword(loginVM.Password, user.Password))
                 {
-                    byte[] bytes = Encoding.UTF8.GetBytes(user.PasswordHash);
 
+                    // Try to fix later
+                    byte[] bytes = Encoding.UTF8.GetBytes(user.PasswordHash);
                     string base64String = Convert.ToBase64String(bytes);
                     user.PasswordHash = base64String;
                     var claims = new Claim[]
-                {
-
-                    new Claim("Id",user.Id.ToString()),
-                    new Claim("Role",user.Role.ToString())
-                };
+                    {
+                        new Claim("Id",user.Id.ToString()),
+                        new Claim("Role",user.Role.ToString())
+                    };
                     try
                     {
                         await _signInManager.SignInWithClaimsAsync(user, isPersistent: true, claims);

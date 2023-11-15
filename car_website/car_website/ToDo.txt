@@ -3,7 +3,7 @@
 ✅mobile top offset
 ✅like buttons
 ✅loading anim in profile
-filters notification
+✅filters notification
 similar cars mobile
 ✅similar cars pixelated photo
 ✅filter similar cars (only !devs' cars)
@@ -17,8 +17,8 @@ car's color on the detail page
 finish api
 docs for api
 admin panel visual
-finish select boxes on the express car creation page
-create car page visual
+✅finish select boxes on the express car creation page
+✅create car page visual
 ✅restore fields after failed car creating
 brands editing
 fix year select slider

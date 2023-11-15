@@ -436,13 +436,14 @@ body {
     background: $green-dark;
     border-radius: 0 8px 8px 0;
     z-index: 50;
+    box-shadow: 0 0 7px rgba(0,0,0,0.3);
 
     span {
         display: block;
         margin: 3px 0 0 -3px;
     }
 
-    &::before {
+    &[filtered]::before {
         content: '';
         position: absolute;
         margin: -8px 0 0 8px;

@@ -23,7 +23,7 @@ namespace car_website.Controllers.v1
         private const byte MIN_PASSWORD_LENGTH = 6;
         private const byte MAX_PASSWORD_LENGTH = 16;
 
-        private readonly List<string> _importantIds = new List<string>() {
+        private readonly List<string> _importantIds = new() {
             "64c13fdbc749ae227de382a2",
             "64c6b5b68924f3866c514978",
             "64fee1c081693dba26ad5141",
