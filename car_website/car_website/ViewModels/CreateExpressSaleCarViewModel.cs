@@ -4,9 +4,8 @@ namespace car_website.ViewModels
 {
     public class CreateExpressSaleCarViewModel
     {
-        public CreateExpressSaleCarViewModel(double currency)
+        public CreateExpressSaleCarViewModel()
         {
-            Currency = currency;
         }
         public CreateExpressSaleCarViewModel(double currency, bool isLogged = false)
         {

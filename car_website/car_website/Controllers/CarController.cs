@@ -1,4 +1,5 @@
-﻿using car_website.Interfaces;
+﻿using car_website.Data.Enum;
+using car_website.Interfaces;
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
@@ -313,40 +314,57 @@ namespace car_website.Controllers
         public async Task<IActionResult> CreateExpressSaleCar(CreateExpressSaleCarViewModel carVM)
         {
             User user = await GetCurrentUser();
+            // Restoring the values ​​of fields that were reset
+            carVM.IsLogged = user != null;
             carVM.Currency = _currencyUpdater.CurrentCurrency;
-            if (ModelState.IsValid)
+
+            bool userInfoValidation = true;
+            if (user == null)
             {
-                if (user == null)
+                if (string.IsNullOrEmpty(carVM.Name))
                 {
-                    if (string.IsNullOrEmpty(carVM.Name))
-                    {
-                        ModelState.AddModelError("Name", "Обов'язкове поле");
-                        return View(carVM);
-                    }
-                    if (!_validationService.IsValidName(carVM.Name))
-                    {
-                        ModelState.AddModelError("Name", "Некорекнті дані");
-                        return View(carVM);
-                    }
-                    if (string.IsNullOrEmpty(carVM.Phone))
-                    {
-                        ModelState.AddModelError("Phone", "Обов'язкове поле");
-                        return View(carVM);
-                    }
-                    string phone = carVM.Phone;
-                    if (!_validationService.FixPhoneNumber(ref phone))
-                    {
-                        ModelState.AddModelError("Phone", "Некорекнті дані");
-                        return View(carVM);
-                    }
-                    carVM.Phone = phone;
+                    ModelState.AddModelError("Name", "Обов'язкове поле");
+                    userInfoValidation = false;
                 }
+                if (!_validationService.IsValidName(carVM.Name))
+                {
+                    ModelState.AddModelError("Name", "Некорекнті дані");
+                    userInfoValidation = false;
+                }
+                if (string.IsNullOrEmpty(carVM.Phone))
+                {
+                    ModelState.AddModelError("Phone", "Обов'язкове поле");
+                    userInfoValidation = false;
+                }
+
+                // A class field cannot be passed by reference
+                string phone = carVM.Phone;
+                if (!_validationService.FixPhoneNumber(ref phone))
+                {
+                    ModelState.AddModelError("Phone", "Некорекнті дані");
+                    userInfoValidation = false;
+                }
+                carVM.Phone = phone;
+            }
+            bool photoValidation = true;
+            if (!_validationService.IsLessThenNMb(carVM.Photo1))
+            {
+                ModelState.AddModelError("Photo1", "Не більше 20 Мб");
+                photoValidation = false;
+            }
+            if (!_validationService.IsLessThenNMb(carVM.Photo2))
+            {
+                ModelState.AddModelError("Photo2", "Не більше 20 Мб");
+                photoValidation = false;
+            }
+            if (ModelState.IsValid && userInfoValidation && photoValidation)
+            {
                 List<string> photosNames = new();
                 List<IFormFile> photos = new List<IFormFile> { carVM.Photo1, carVM.Photo2 }
                                                     .Where(photo => photo != null).ToList();
                 foreach (var photo in photos)
                 {
-                    var photoName = await _imageService.UploadPhotoAsync(photo);
+                    var photoName = await _imageService.UploadPhotoAsync(photo, $"{carVM.Brand}_{carVM.Model}_{carVM.Year}");
                     photosNames.Add(photoName);
                 }
                 if (user != null)
@@ -365,13 +383,13 @@ namespace car_website.Controllers
             }
             else
             {
-                if (user == null)
+                /*if (user == null)
                 {
                     if (string.IsNullOrEmpty(carVM.Name))
                         ModelState.AddModelError("Name", "Обов'язкове поле");
                     if (string.IsNullOrEmpty(carVM.Phone))
                         ModelState.AddModelError("Phone", "Обов'язкове поле");
-                }
+                }*/
                 return View(carVM);
             }
         }
@@ -381,20 +399,21 @@ namespace car_website.Controllers
             {
                 return RedirectToAction("CreateExpressSaleCar");
             }
-            //var brands = await _brandRepository.GetAll();
             var currency = _currencyUpdater.CurrentCurrency;
-            return View(new CarCreationPageViewModel() { CarBrands = new List<string>(), CreateCarViewModel = new CreateCarViewModel(), Currency = currency });
+            return View(new CarCreationPageViewModel() { CreateCarViewModel = new CreateCarViewModel(), Currency = currency });
         }
         [HttpPost]
         public async Task<IActionResult> Create(CarCreationPageViewModel carVM)
         {
             User user = await GetCurrentUser();
+            // Restoring the values ​​of fields that were reset
             carVM.Currency = _currencyUpdater.CurrentCurrency;
+
             if (user == null)
             {
                 return RedirectToAction("CreateExpressSaleCar");
             }
-            string userId = user.Id.ToString();
+
             bool additionalValidation = true;
             if (carVM.CreateCarViewModel.Year > DateTime.Now.Year + 1)
             {
@@ -442,9 +461,9 @@ namespace car_website.Controllers
                     ModelState.AddModelError("CreateCarViewModel.VideoURL", "Відео не знайдено");
                 }
             }
+
             if (ModelState.IsValid && additionalValidation && photosIsValid)
             {
-
                 var newCar = carVM.CreateCarViewModel;
                 if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
                     newCar.VideoURL = $"https://www.youtube.com/embed/{videoId}";
@@ -459,10 +478,10 @@ namespace car_website.Controllers
                 string preview = _imageService.CopyPhoto(photosNames[0]);
                 _imageService.ProcessImage(300, 200, preview);
                 preview = $"/Photos\\{preview}";
-                Car car = new(newCar, photosNames, userId, _imageService.GetPhotoAspectRatio(photosNames[0]), preview);
-                if (user.Role != Data.Enum.UserRole.User)
+                Car car = new(newCar, photosNames, user.Id.ToString(), _imageService.GetPhotoAspectRatio(photosNames[0]), preview);
+                if (user.Role != UserRole.User)
                 {
-                    if (user.Role == Data.Enum.UserRole.Dev) car.Priority = -1;
+                    if (user.Role == UserRole.Dev) car.Priority = -1;
                     await _brandRepository.AddIfDoesntExist(newCar.Brand, newCar.Model);
                     await _carRepository.Add(car);
                     user.CarsForSell.Add(car.Id);
@@ -477,9 +496,6 @@ namespace car_website.Controllers
             }
             else
             {
-                /*var brands = await _brandRepository.GetAll();
-                carVM.CarBrands = brands.ToList();*/
-                //carVM.Currency = _currencyUpdater.CurrentCurrency;
                 return View(carVM);
             }
         }

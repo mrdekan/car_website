@@ -81,6 +81,7 @@ namespace car_website.Services
 
         public bool FixPhoneNumber(ref string phone)
         {
+            if (phone == null) return false;
             phone = phone.Replace("+", "").Replace(" ", "");
             if (IsValidPhoneNumber(phone)) return true;
             if (IsOnlyLetters(phone))
@@ -99,7 +100,7 @@ namespace car_website.Services
             return false;
         }
         public bool IsValidName(string name) =>
-             name.Length < NAME_MAX_LENGTH && Regex.IsMatch(name, NAME_PATTERN);
+             name != null && name.Length < NAME_MAX_LENGTH && Regex.IsMatch(name, NAME_PATTERN);
         public bool IsValidPhoneNumber(string phone) =>
             Regex.IsMatch(phone, PHONE_PATTERN);
         private static bool IsOnlyLetters(string s) =>
