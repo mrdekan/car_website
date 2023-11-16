@@ -4,7 +4,7 @@
 ✅like buttons
 ✅loading anim in profile
 ✅filters notification
-similar cars mobile
+✅similar cars mobile
 ✅similar cars pixelated photo
 ✅filter similar cars (only !devs' cars)
 ✅connect likes in similar

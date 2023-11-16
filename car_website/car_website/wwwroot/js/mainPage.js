@@ -309,7 +309,6 @@ function updateYearLabel() {
         yearLabel.textContent = `Рік`;
     else
         yearLabel.textContent = `Рік (${minYearSlider.value} — ${maxYearSlider.value})`;
-    isFilterClear()
 }
 minYearSlider.onblur = (() => minYearValue.classList.remove("show"));
 const inputsWithComma = [engineVolume_min_input, engineVolume_max_input];
@@ -322,7 +321,6 @@ inputsWithComma.forEach((inp) => {
         if (value.includes('.')) length++;
         value = value.slice(0, length);
         event.target.value = value;
-        isFilterClear();
     });
     inp.addEventListener('keydown', (e) => {
         if ((e.target.value.includes('.') || e.target.value == '' || e.target.value.length >= (isElectro ? 3 : 2)) && (e.key == '.' || e.key == ','))
@@ -338,7 +336,6 @@ inputs.forEach((inp) => {
         if (currentValue.length > maxLength)
             currentValue = currentValue.slice(0, maxLength);
         event.target.value = currentValue;
-        isFilterClear();
     });
 })
 apply_button.onclick = () => applyFilter();
@@ -378,6 +375,7 @@ function getMarks() {
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function applyFilter(page = 1) {
+    isFilterClear();
     filter.classList.remove("open");
     const filters = {
         body: bodies.indexOf(selectBodiesBtn.firstElementChild.innerHTML),
@@ -648,7 +646,6 @@ function updateName(selectedLi) {
     selectBrandsBtn.classList.remove("active");
     selectBrandsBtn.firstElementChild.innerText = selectedLi.innerText;
     getModelsOfMark();
-    isFilterClear();
 }
 function updateModel(selectedLi) {
     searchModelInp.value = "";
@@ -656,21 +653,18 @@ function updateModel(selectedLi) {
     modelsOptions.parentElement.classList.remove("active");
     selectModelsBtn.classList.remove("active");
     selectModelsBtn.firstElementChild.innerText = selectedLi.innerText;
-    isFilterClear();
 }
 function updateBody(selectedLi) {
     addBody(selectedLi.innerText);
     bodiesOptions.parentElement.classList.remove("active");
     selectBodiesBtn.classList.remove("active");
     selectBodiesBtn.firstElementChild.innerText = selectedLi.innerText;
-    isFilterClear();
 }
 function updateTransmission(selectedLi) {
     addTransmission(selectedLi.innerText);
     transmissionsOptions.parentElement.classList.remove("active");
     selectTransmissionsBtn.classList.remove("active");
     selectTransmissionsBtn.firstElementChild.innerText = selectedLi.innerText;
-    isFilterClear();
 }
 function updateFuel(selectedLi) {
     addFuel(selectedLi.innerText);
@@ -693,14 +687,12 @@ function updateFuel(selectedLi) {
     fuelsOptions.parentElement.classList.remove("active");
     selectFuelsBtn.classList.remove("active");
     selectFuelsBtn.firstElementChild.innerText = selectedLi.innerText;
-    isFilterClear();
 }
 function updateDriveline(selectedLi) {
     addDriveline(selectedLi.innerText);
     drivelinesOptions.parentElement.classList.remove("active");
     selectDrivelinesBtn.classList.remove("active");
     selectDrivelinesBtn.firstElementChild.innerText = selectedLi.innerText;
-    isFilterClear();
 }
 function updateSorting(selectedLi) {
     addSorting(selectedLi.innerText);
@@ -708,7 +700,6 @@ function updateSorting(selectedLi) {
     selectSortingBtn.classList.remove("active");
     selectSortingBtn.firstElementChild.innerText = selectedLi.innerText;
     applyFilter();
-    isFilterClear();
 }
 function hideBrand() {
     searchBrandInp.value = "";

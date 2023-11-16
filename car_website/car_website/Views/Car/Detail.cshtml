@@ -187,7 +187,9 @@
             <script src="~/js/getUser.js" asp-append-version="true"></script>
         }
         <h4>Вас може зацікавити:</h4>
-        <div class="car_similar" id="similar-cars" carId="@Model.Id">
+        <div class="car_similar" id="similar-cars" carId="@Model.Id"></div>
+        <div class="wrapper profile" id="similar-cars-mobile">
+            <div id="cars-list" class="carList"></div>
         </div>
     </div>
 </div>
@@ -219,4 +221,4 @@
     </div>
 </div>
 
-<script src="~/js/carDetailPage.js" asp-append-version="true"></script>
+<script type="module" src="~/js/carDetailPage.js" asp-append-version="true"></script>

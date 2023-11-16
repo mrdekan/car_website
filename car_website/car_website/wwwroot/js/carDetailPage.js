@@ -1,4 +1,6 @@
-﻿const similarCarsBlock = document.getElementById('similar-cars');
+﻿import svgCodes from "./svgCodesConst.js";
+const similarCarsBlock = document.getElementById('similar-cars');
+const similarCarsBlockMobile = document.getElementById('similar-cars-mobile');
 const buyButton = document.getElementById('buy-car');
 const buyButtonNotLogged = document.getElementById('buy-car-notLogged');
 const buyResult = document.getElementById('buy-request-result');
@@ -160,8 +162,19 @@ function getSimilarCars() {
         .then(data => {
             if (data != null && data.success == true) {
                 similarCarsBlock.innerHTML = '';
+                similarCarsBlockMobile.innerHTML = '';
                 data.cars.forEach(car => {
-                    similarCarsBlock.innerHTML += `<div class="similarCar">
+                    similarCarsBlock.innerHTML += formPcCar(car);
+                    similarCarsBlockMobile.innerHTML += formCar(car);
+                });
+                updateLikeButtons();
+            }
+
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
+function formPcCar(car) {
+    return `<div class="similarCar">
                         <a href="/Car/Detail/${car.id}">${car.brand} ${car.model} ${car.year}</a>
                         <img alt="${car.brand} ${car.model} ${car.year}" src="${car.previewURL}">
                         <div class="similarCar_container-after">
@@ -180,12 +193,46 @@ function getSimilarCars() {
                             </div>
                         </div>
                     </div>`;
-                });
-                updateLikeButtons();
-            }
+}
+function formCar(car, waiting) {
+    return `<a class="car mainPageCar" href="/Car/Detail/${car.id}">
+                                  <p class="car_name">${car.brand} ${car.model} ${car.year}</p>
+                                  <div class="car_container">
+                                       <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="photo" src="${car.previewURL}" /></div></div>
+                                    <div class="car_container-info">
+                                    <p class="car_container-info-name">${car.brand} ${car.model} ${car.year}</p>
+                                            <div class="car_container-info-parameters">
+                                                <div class="car_container-info-parameters-column">
+                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.race}</span>${car.mileage} тис. км</p>
+                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.fuel}</span>${fuelName(car.fuel)}, ${car.engineCapacity} ${car.fuel == 6 ? "кВт·год." : "л."}</p>
+                                                    ${car.vin == null ? `` : `<p class="car_container-info-parameters-column-text vin"><span>${svgCodes.car}</span>${car.vin}</p>`}
+                                                    </div>
+                                                <div class="car_container-info-parameters-column">
+                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.transmission}</span>${transmissionName(car.carTransmission)}</p>
+                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.driveline}</span>${drivelineName(car.driveline)}</p>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="car_container-right">
+                                    <div class="car_container-right-price">
+                                                <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
+                                                <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
+                                            </div>
+                                            ${car.priority > 0 ? '<span class="car_container-right-top">Топ</span>' : ''}
+                                  <div class="car_container-right-like">
+                                 ${(waiting ? '' : `<input type="checkbox" class="car_container-right-like-cars" carId="${car.id}" carId="${car.id}" ${car.liked ? "checked" : ""}/>
+                   <span class="car_container-right-heart">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.272 4.95258C7.174 4.95258 6.077 5.34958 5.241 6.14458C4.441 6.90658 4 7.91758 4 8.99158C4 10.0646 4.441 11.0756 5.241 11.8376L12 18.2696L18.759 11.8376C19.559 11.0756 20 10.0646 20 8.99158C20 7.91858 19.559 6.90658 18.759 6.14458C17.088 4.55458 14.368 4.55458 12.697 6.14458L12 6.80858L11.303 6.14458C10.467 5.34958 9.37 4.95258 8.272 4.95258ZM12 20.9996L3.847 13.2406C2.656 12.1076 2 10.5986 2 8.99158C2 7.38458 2.656 5.87558 3.847 4.74158C6.067 2.62858 9.552 2.43858 12 4.16858C14.448 2.43858 17.933 2.62858 20.153 4.74158C21.344 5.87558 22 7.38458 22 8.99158C22 10.5986 21.344 12.1076 20.153 13.2406L12 20.9996Z" fill="currentColor"/></svg>
+                                  </span>
+                                  <span class="car_container-right-span"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 20.9996L3.847 13.2406C2.656 12.1076 2 10.5986 2 8.99158C2 7.38458 2.656 5.87558 3.847 4.74158C6.067 2.62858 9.552 2.43858 12 4.16858C14.448 2.43858 17.933 2.62858 20.153 4.74158C21.344 5.87558 22 7.38458 22 8.99158C22 10.5986 21.344 12.1076 20.153 13.2406L12 20.9996Z" fill="currentColor"/></svg>
+                                  </span>
 
-        })
-        .catch(error => console.error("An error occurred while retrieving data:", error));
+                   `)}
+                                  </div>
+                                  </div>
+                                  </a>`;
 }
 if (buyButton) {
     buyButton.addEventListener('click', () => {
@@ -245,3 +292,40 @@ function buyRequest() {
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 //#endregion
+function fuelName(id) {
+    switch (id) {
+        case 1:
+            return "Газ";
+        case 2:
+            return "Газ/Бензин";
+        case 3:
+            return "Бензин";
+        case 4:
+            return "Дизель";
+        case 5:
+            return "Гібрид";
+        case 6:
+            return "Електро";
+    }
+}
+function transmissionName(id) {
+    switch (id) {
+        case 1:
+            return "Механічна";
+        case 2:
+            return "Автомат";
+    }
+}
+function drivelineName(id) {
+    switch (id) {
+        case 1:
+            return "Передній";
+        case 2:
+            return "Задній";
+        case 3:
+            return "Повний";
+    }
+}
+function formatNumberWithThousandsSeparator(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
