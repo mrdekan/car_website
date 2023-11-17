@@ -69,6 +69,7 @@
                     </div>
                 }
             }
+
             @if (!string.IsNullOrEmpty(Model.VideoUrl))
             {
                 <div class="slider_element">
@@ -82,6 +83,34 @@
                     </svg>
                 </span>
             </button>
+        </div>
+        <div class="slider">
+            <div class="img_slides">
+                @for (int i = 0; i < Model.PhotosURL.Length; i++)
+                {
+                    @if (i == 0)
+                    {
+                        <input type="radio" name="radio-btn" id="radio@(i+1)" checked />
+                    }
+                    else
+                    {
+                        <input type="radio" name="radio-btn" id="radio@(i+1)" />
+                    }
+                }
+                @for (int i = 0; i < Model.PhotosURL.Length; i++)
+                {
+                    <div class="slide @(i==0?"first":"")">
+                        <img src="@Model.PhotosURL[i]" class="slider_element-image" alt="photo" />
+                        <img src="@Model.PhotosURL[i]" class="slider_element-background" alt="photo" />
+                    </div>
+                }
+                <div class="navigation">
+                    @for (int i = 0; i < Model.PhotosURL.Length; i++)
+                    {
+                        <label for="radio@(i+1)" class="navigation-btn"> </label>
+                    }
+                </div>
+            </div>
         </div>
         <div class="priceBuy">
             <div class="car_container-right-price onDetail">
@@ -159,7 +188,7 @@
         }
         @if (Model.Options != null)
         {
-                <div class="separate-line"></div>
+            <div class="separate-line"></div>
             <div class="features">
                 @for (int i = 0; i < features.Count(); i++)
                 {
@@ -179,7 +208,7 @@
                     }
                 }
             </div>
-                <div class="separate-line"></div>
+            <div class="separate-line"></div>
         }
         @if (isAdmin)
         {
