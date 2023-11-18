@@ -13,12 +13,12 @@
         {
             <div class="create_main">
                 <div class="create_main-section">
-                    <label>Як до Вас звертатися?</label>
+                    <label>Як до Вас звертатися?<span class="required"></span></label>
                     <input asp-for=Name class="input" type="text" placeholder="Ваше ім'я" />
                     <span asp-validation-for=Name class="text-danger"></span>
                 </div>
                 <div class="create_main-section">
-                    <label>Номер телефону</label>
+                    <label>Номер телефону<span class="required"></span></label>
                     <input asp-for=Phone class="input" type="text" placeholder="+380xxxxxxxxx" />
                     <span asp-validation-for=Phone class="text-danger"></span>
                 </div>
@@ -64,18 +64,17 @@
                 <span asp-validation-for="Model" class="text-danger"></span>
             </div>
             <div class="create_main-section">
-                <label>Рік</label>
+                <label>Рік<span class="required"></span></label>
                 <input class="input" asp-for=Year type="number" id="year-input" placeholder="Рік" />
                 <span asp-validation-for=Year class="text-danger"></span>
             </div>
         </div>
         <div class="create_main-section">
-            <label id="price-in-uah" currency="@Model.Currency">Вкажіть бажану ціну ($)</label>
+            <label id="price-in-uah" currency="@Model.Currency">Вкажіть бажану ціну ($)<span class="required"></span></label>
             <input class="input" asp-for=Price id="price" type="number" placeholder="Ціна" />
             <span asp-validation-for=Price class="text-danger"></span>
-            @*<span id="price-uah"></span>*@
         </div>
-        <label>Додайте два фото</label>
+        <label>Додайте два фото<span class="required"></span></label>
         <div class="create_photos">
             <div>
                 <div class="custom-file-uploader">

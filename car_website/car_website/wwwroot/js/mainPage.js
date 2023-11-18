@@ -143,6 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
             else
                 getModelsOfMark();
         }
+        isFilterClear();
     }
     else
         applyFilter();
@@ -273,7 +274,10 @@ function clearFilters() {
     applyFilter();
     isFilterClear()
 }
-clear_filters.addEventListener("click", () => clearFilters());
+clear_filters.onclick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    clearFilters();
+}
 //#endregion
 
 //#region input fields settings
@@ -338,7 +342,10 @@ inputs.forEach((inp) => {
         event.target.value = currentValue;
     });
 })
-apply_button.onclick = () => applyFilter();
+apply_button.onclick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    applyFilter();
+}
 //#endregion
 
 //#region Ajax requests

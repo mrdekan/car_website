@@ -15,6 +15,7 @@ const buyRequestPhoneInp = document.getElementById('request-phone');
 const imagesFullscreen = document.getElementById('img_full');
 const photos = document.querySelectorAll('.slider_element-image');
 const vin = document.getElementById('vin');
+const photosRadios = document.getElementsByName('radio-btn');
 let currentSlide = 0;
 window.addEventListener("keydown", escKeyPress);
 function escKeyPress(event) {
@@ -108,20 +109,29 @@ sendNotLoggedInRequest.addEventListener('click', () => {
     }
 });
 function showSlide() {
-    if (currentSlide >= slides.length) currentSlide = 0;
-    else if (currentSlide < 0) currentSlide = slides.length - 1;
-    slides.forEach((slide) => {
-        slide.style.display = 'none';
-    });
-    slides[currentSlide].style.display = 'flex';
+    for (let i = 0; i < photosRadios.length; i++) {
+        if (i == currentSlide)
+            photosRadios[i].checked = true;
+        else
+            photosRadios[i].checked = false;
+    }
 }
-showSlide();
+function getSlide() {
+    for (let i = 0; i < photosRadios.length; i++) {
+        if (photosRadios[i].checked)
+            return i;
+    }
+}
 sliderNext.addEventListener('click', () => {
+    currentSlide = getSlide();
     currentSlide++;
+    if (currentSlide >= photosRadios.length) currentSlide = 0;
     showSlide();
 });
 sliderPrev.addEventListener('click', () => {
+    currentSlide = getSlide();
     currentSlide--;
+    if (currentSlide < 0) currentSlide = photosRadios.length - 1;
     showSlide();
 });
 

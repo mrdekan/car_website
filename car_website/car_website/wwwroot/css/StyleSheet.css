@@ -729,35 +729,33 @@ input[type=number] {
 
 .img_slides {
   position: relative;
-  width: 500%;
-  height: 500px;
+  min-width: 500%;
+  height: 100%;
   display: flex;
+  max-width: none;
 }
 
 .img_slides input {
   display: none;
 }
 
-.slide {
-  width: 20%;
-  transition: 1s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.slider:hover .navigation {
+  bottom: 20px;
 }
 
 .navigation {
+  transition: 0.2s;
   position: absolute;
   width: 20%;
-  bottom: 20px;
+  bottom: -20px;
   display: flex;
   justify-content: center;
   z-index: 3;
 }
 
 .navigation-btn {
-  border: 2px solid orange;
-  padding: 5px;
+  border: 2px solid var(--beige-default);
+  padding: 7px;
   border-radius: 10px;
   cursor: pointer;
   transition: 0.6s;
@@ -791,12 +789,17 @@ input[type=number] {
   margin-left: -80%;
 }
 
+#radio6:checked ~ .first {
+  margin-left: -100%;
+}
+
 #radio1:checked ~ .navigation .navigation-btn[for=radio1],
 #radio2:checked ~ .navigation .navigation-btn[for=radio2],
 #radio3:checked ~ .navigation .navigation-btn[for=radio3],
 #radio4:checked ~ .navigation .navigation-btn[for=radio4],
-#radio5:checked ~ .navigation .navigation-btn[for=radio5] {
-  background: orange;
+#radio5:checked ~ .navigation .navigation-btn[for=radio5],
+#radio6:checked ~ .navigation .navigation-btn[for=radio6] {
+  background: var(--beige-default);
 }
 
 .slider {
@@ -812,8 +815,8 @@ input[type=number] {
   position: absolute;
   z-index: 10;
   background-color: rgba(150, 150, 150, 0.5);
-  color: var(--background-main);
-  transition: 0.1s;
+  color: var(--beige-default);
+  transition: 0.2s;
 }
 .slider button span {
   width: 30px;
@@ -821,7 +824,8 @@ input[type=number] {
   position: absolute;
 }
 .slider button:hover {
-  background-color: rgba(170, 170, 170, 0.8);
+  background-color: rgba(110, 110, 110, 0.55);
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
 }
 .slider #prev {
   border-radius: 0 10px 10px 0;
@@ -861,6 +865,21 @@ input[type=number] {
 .slider_element iframe {
   width: 100%;
   height: 100%;
+}
+
+.slide {
+  width: 20%;
+  transition: 1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slide iframe {
+  width: 100%;
+  height: 100%;
+}
+.slide .slider_element-image {
+  max-width: 20%;
 }
 
 h4 {
@@ -1140,12 +1159,25 @@ h4 {
   }
 }
 @media (max-width: 767px) {
+  .close {
+    font-size: 56px;
+    top: -12px;
+  }
   #similar-cars-mobile {
     display: block;
     display: flex;
     flex-direction: column;
     gap: 20px;
     align-items: center;
+  }
+  .navigation-btn {
+    cursor: default;
+  }
+  .slider {
+    max-height: 300px;
+  }
+  .navigation {
+    bottom: 20px;
   }
   .slider button {
     cursor: none;
