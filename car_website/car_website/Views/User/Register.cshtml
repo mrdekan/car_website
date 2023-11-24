@@ -27,24 +27,34 @@
         </div>
         <div class="form-group">
             <label asp-for="Password">Пароль</label>
+            <div class="form-group-pass">
             <input autocomplete="new-password" asp-for="Password" type="password" class="form-control" placeholder="Пароль" id="pass">
+            <button name="show-password" target-id="pass">
+                <span>
+                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24.9625 26.7313L20.7675 22.5363C18.9576 23.3603 16.9885 23.7755 15 23.7525C12.9498 23.778 10.9209 23.3355 9.0675 22.4588C7.63085 21.7578 6.3408 20.7897 5.26625 19.6063C4.12561 18.3836 3.22912 16.9542 2.625 15.395L2.5 15.0025L2.63125 14.6075C3.53476 12.3029 5.05532 10.2915 7.02625 8.79375L3.75 5.5175L5.51625 3.7525L26.7275 24.9638L24.965 26.7313H24.9625ZM8.795 10.5638C7.19741 11.6836 5.93581 13.2184 5.14625 15.0025C6.83927 18.9086 10.7448 21.3858 15 21.2525C16.3123 21.2633 17.6169 21.0519 18.8587 20.6275L16.6087 18.3775C16.1079 18.623 15.5578 18.7512 15 18.7525C12.9343 18.7395 11.263 17.0682 11.25 15.0025C11.2506 14.4435 11.3789 13.8919 11.625 13.39L8.795 10.5638ZM24.815 19.515L23.075 17.7763C23.807 16.9486 24.407 16.0131 24.8537 15.0025C23.1629 11.0945 19.2559 8.61635 15 8.7525C14.6913 8.7525 14.3813 8.76375 14.0813 8.785L11.875 6.57625C12.902 6.35654 13.9497 6.248 15 6.2525C17.0501 6.22706 19.0791 6.66953 20.9325 7.54625C22.3692 8.24717 23.6592 9.21525 24.7338 10.3988C25.8738 11.62 26.7703 13.0476 27.375 14.605L27.5 15.0025L27.3688 15.3975C26.7835 16.9201 25.9177 18.3193 24.8163 19.5225L24.815 19.515Z" fill="currentColor" />
+                    </svg>
+                </span>
+            </button>
+        </div>
             <span asp-validation-for="Password" class="text-danger"></span>
-            <div class="showpass">
-                <span>Показати пароль? </span>
-                <input type="checkbox" id="pass_show"/>
-            </div>
         </div>
         <div class="form-group">
             <label asp-for="ConfirmPassword">Підтвердіть пароль</label>
+            <div class="form-group-pass">
             <input autocomplete="new-password" asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Підтвердіть пароль" id="confirmpass">
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            <div class="showpass">
-                <span>Показати пароль? </span>
-                <input type="checkbox" id="confirmpass_show"/>
+                <button name="show-password" target-id="confirmpass">
+                    <span>
+                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M24.9625 26.7313L20.7675 22.5363C18.9576 23.3603 16.9885 23.7755 15 23.7525C12.9498 23.778 10.9209 23.3355 9.0675 22.4588C7.63085 21.7578 6.3408 20.7897 5.26625 19.6063C4.12561 18.3836 3.22912 16.9542 2.625 15.395L2.5 15.0025L2.63125 14.6075C3.53476 12.3029 5.05532 10.2915 7.02625 8.79375L3.75 5.5175L5.51625 3.7525L26.7275 24.9638L24.965 26.7313H24.9625ZM8.795 10.5638C7.19741 11.6836 5.93581 13.2184 5.14625 15.0025C6.83927 18.9086 10.7448 21.3858 15 21.2525C16.3123 21.2633 17.6169 21.0519 18.8587 20.6275L16.6087 18.3775C16.1079 18.623 15.5578 18.7512 15 18.7525C12.9343 18.7395 11.263 17.0682 11.25 15.0025C11.2506 14.4435 11.3789 13.8919 11.625 13.39L8.795 10.5638ZM24.815 19.515L23.075 17.7763C23.807 16.9486 24.407 16.0131 24.8537 15.0025C23.1629 11.0945 19.2559 8.61635 15 8.7525C14.6913 8.7525 14.3813 8.76375 14.0813 8.785L11.875 6.57625C12.902 6.35654 13.9497 6.248 15 6.2525C17.0501 6.22706 19.0791 6.66953 20.9325 7.54625C22.3692 8.24717 23.6592 9.21525 24.7338 10.3988C25.8738 11.62 26.7703 13.0476 27.375 14.605L27.5 15.0025L27.3688 15.3975C26.7835 16.9201 25.9177 18.3193 24.8163 19.5225L24.815 19.515Z" fill="currentColor" />
+                        </svg>
+                    </span>
+                </button>
             </div>
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
         </div>
         <button type="submit" class="sell-button">Зареєструватись</button>
         <div class="log-reg-change"><p>Вже зареєстровані? <a asp-controller="User" asp-action="Login">Увійти</a></p></div>
     </form>
 </div>
-<script src="~/js/registerPage.js" asp-append-version="true"></script>
+<script type="module" src="~/js/showPassword.js" asp-append-version="true"></script>

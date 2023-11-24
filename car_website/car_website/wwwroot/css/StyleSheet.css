@@ -142,6 +142,9 @@ input[type=number] {
   border-radius: 7px;
   transition: 0.2s;
 }
+.login-wrapper form input[type=text]:focus, .login-wrapper form input[type=password]:focus {
+  border: 1px solid var(--green-medium);
+}
 .login-wrapper form input::placeholder {
   color: var(--gray-default);
   transition: 0.2s;
@@ -154,14 +157,10 @@ input[type=number] {
 }
 .login-wrapper form label {
   display: block;
-  margin: 2px 0 2px 0;
+  margin: 2px 0 4px 0;
   font-size: 18px;
   transition: 0.2s;
   color: var(--text-default);
-}
-.login-wrapper form .showpass {
-  margin: 7px 0 0 0;
-  display: flex;
 }
 .login-wrapper form button {
   padding: 9px 12px;

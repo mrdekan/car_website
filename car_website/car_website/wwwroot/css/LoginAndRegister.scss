@@ -41,6 +41,10 @@
             color: $text-default;
             border-radius: 7px;
             transition: 0.2s;
+
+            &:focus {
+                border: 1px solid $green-medium;
+            }
         }
 
         input::placeholder {
@@ -57,15 +61,10 @@
 
         label {
             display: block;
-            margin: 2px 0 2px 0;
+            margin: 2px 0 4px 0;
             font-size: 18px;
             transition: 0.2s;
             color: $text-default;
-        }
-
-        .showpass {
-            margin: 7px 0 0 0;
-            display: flex;
         }
 
         button {

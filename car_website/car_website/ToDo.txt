@@ -25,5 +25,5 @@ fix year select slider
 simple statistics for admins
 ✅saving filters and page (session storage)
 ✅cars caching (main page)
-show password button
+✅show password button
 ✅approximate price on editing/creating car page 
