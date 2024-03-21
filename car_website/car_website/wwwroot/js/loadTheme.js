@@ -6,9 +6,9 @@ function setDark() {
     const themeSeparator = document.querySelector('.header_right-separator');
     if (themeSeparator)
         themeSeparator.style.setProperty('--custom-border-radius', '0 7px 7px 0');
-    root.style.setProperty('--green-light', '#6b9160');
-    root.style.setProperty('--green-medium', '#5A7A51');
-    root.style.setProperty('--green-dark', '#4C6C47');
+    root.style.setProperty('--green-light', '#5b8894'); //#006383
+    root.style.setProperty('--green-medium', '#3c7583'); //#184872
+    root.style.setProperty('--green-dark', '#186472'); //#133d61
     root.style.setProperty('--background-main', '#222222');
     root.style.setProperty('--background-secondary', '#303030');
     root.style.setProperty('--text-default', '#ffffff');
@@ -18,7 +18,7 @@ function setDark() {
     root.style.setProperty('--error-main', '#ff3636');
     root.style.setProperty('--error-secondary', '#442c31');
     root.style.setProperty('--gray-default', '#999999');
-    root.style.setProperty('--beige-default', '#e08a1a');
+    root.style.setProperty('--beige-default', '#f86820');
     root.style.setProperty('--theme-separator', '2px');
     root.style.setProperty('--filters-background', '#303030');
 }
@@ -27,9 +27,9 @@ function setLight() {
     const themeSeparator = document.querySelector('.header_right-separator');
     if (themeSeparator)
         themeSeparator.style.setProperty('--custom-border-radius', '7px 0 0 7px');
-    root.style.setProperty('--green-light', '#537049');
-    root.style.setProperty('--green-medium', '#4b6742');
-    root.style.setProperty('--green-dark', '#415939');
+    root.style.setProperty('--green-light', '#5b8894'); //#537049
+    root.style.setProperty('--green-medium', '#3c7583'); //#4b6742
+    root.style.setProperty('--green-dark', '#186472'); //#415939 old green colors
     //root.style.setProperty('--background-main', '#ffffff');
     //root.style.setProperty('--background-secondary', '#f6f6f6');
     root.style.setProperty('--background-main', '#f6f6f6');
@@ -41,7 +41,7 @@ function setLight() {
     root.style.setProperty('--error-main', '#ff3636 ');
     root.style.setProperty('--error-secondary', '#f7dfe5');
     root.style.setProperty('--gray-default', '#505050');
-    root.style.setProperty('--beige-default', '#ed7a13');
+    root.style.setProperty('--beige-default', '#f86820'); //#ed7a13
     root.style.setProperty('--theme-separator', '-31px');
     root.style.setProperty('--filters-background', '#F3EFCA');
 }
