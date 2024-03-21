@@ -24,7 +24,13 @@ body {
     flex-direction: column;
     gap: 20px;
 }
-
+.filters_wrapper {
+    position: sticky;
+    top: 30px;
+    height: fit-content;
+    max-height: calc(100vh - 100px);
+    height: calc(100vh - 100px);
+}
 .wrapper {
     margin: 50px 0 0 0;
     display: flex;
@@ -45,10 +51,12 @@ body {
     .filters_before {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 8px;
         max-width: 300px;
         padding: 5px 17px;
         margin: 25px 0 25px;
+        max-height: 100%;
+        height: 100%;
 
         p {
             color: $text-default;
@@ -78,11 +86,36 @@ body {
         transition: background 0.2s;
         display: flex;
         flex-direction: column;
-        gap: 5px;
-        max-width: 300px;
+        gap: 4px;
+        max-width: 100%;
         width: fit-content;
         padding: 10px 17px;
         border-radius: 3px;
+        max-height: calc(100% - 102px);
+
+        &_scroll {
+            padding-right: 5px;
+            overflow-y: auto;
+
+            &::-webkit-scrollbar {
+                width: 4px;
+                background-color: rgba(0, 0, 0, 0);
+                height: 10px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                border-radius: 5px; 
+                background: var(---green-dark);
+            }
+        }
+
+
+
+        &_selectors {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
 
         .input[type="number"], input[type="text"] {
             height: 32px;
@@ -118,7 +151,7 @@ body {
         }
 
         button {
-            margin: 5px 0;
+            margin: 4px 0;
         }
 
         #clear_filters {
@@ -128,6 +161,7 @@ body {
             color: $green-dark;
             font-weight: 700;
             transition: 0.2s;
+            margin: 0;
 
             &:hover {
                 transition: 0.2s;
@@ -494,14 +528,20 @@ header {
 
         span {
             display: block;
-            transform: skewX(-20deg);
-            width: 240px;
-            height: 150px;
-            background-color: $background-secondary;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            //transform: skewX(-20deg);
+            width: 143px;
+            height: 100px;
+            //background-color: $background-secondary;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
             transition: 0.2s;
-
-            &::before {
+            //margin-left: -10px;
+            //overflow: hidden;
+            img{
+                width: 100%;
+                height: 100%;
+                margin-top: 20px;
+            }
+            /*&::before {
                 content: "";
                 position: absolute;
                 top: 0;
@@ -509,7 +549,7 @@ header {
                 width: 130px;
                 height: 100%;
                 background-color: inherit;
-            }
+            }*/
         }
 
 
@@ -523,15 +563,15 @@ header {
             justify-self: center;
             display: block;
 
-            &::before {
+            /*&::before {
                 content: '';
                 width: 127px;
                 height: 100px;
-                background: url('/img/logo2.png');
+                //background: url('/img/logo2.png');
                 background-size: 100% 100%;
                 margin: 10px 0 0 0;
                 position: absolute;
-            }
+            }*/
         }
     }
 
@@ -1511,7 +1551,7 @@ header {
         cursor: default;
     }
     header {
-        .header_left {
+        /*.header_left {
             span {
                 display: block;
                 transform: skewX(-20deg);
@@ -1538,7 +1578,7 @@ header {
                     margin: 15px 0 0 0;
                 }
             }
-        }
+        }*/
     }
 
     .wrapper {
@@ -1550,17 +1590,22 @@ header {
         .filters {
             align-self: center;
             max-width: 100%;
-
+            max-height: 100%;
+            min-height: fit-content;
+            &_scroll{
+                overflow-y: initial;
+            }
             &_wrapper {
                 width: 100vw;
                 height: calc(100vh + 40px);
                 position: fixed;
                 z-index: 15;
-                top: -25px;
-                overflow-y: scroll;
+                overflow-y: auto;
                 left: -105%;
                 transition: 0.15s ease-in;
-
+                top: 50px;
+                max-height: 100vh;
+                background: var(--background-main);
                 &.open {
                     left: 0;
                 }
@@ -1569,13 +1614,15 @@ header {
             &_before {
                 transition: 0.2s;
                 z-index: 40;
-                top: 50px;
+                //top: 50px;
                 padding-top: 30px;
                 padding-bottom: 80px;
                 position: absolute;
                 width: 100%;
                 max-width: 100%;
                 background: $background;
+                max-height: none;
+                height: max-content;
             }
         }
     }

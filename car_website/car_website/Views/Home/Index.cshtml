@@ -36,7 +36,9 @@
                     <ul class="options" id="sortings"></ul>
                 </div>
             </div>
-            <div class="filters">
+            <div class ="filters">
+                <div class="filters_scroll">
+            <div class="filters_selectors">
                 <label>Тип кузова</label>
                 <div class="custom-select">
                     <div class="select-btn" id="bodiesButton">
@@ -147,10 +149,13 @@
                     <input class="input" type="text" id="engineVolume_min-input" placeholder="Від" />
                     <input class="input" type="text" maxlength="3" id="engineVolume_max-input" placeholder="До" />
                 </div>
+            </div>
+                </div>
                 <button id="refresh_cars">Пошук</button>
                 <button id="clear_filters">Очистити</button>
             </div>
-            <button id="save_filters">Розмістити запит</button>
+
+            @*<button id="save_filters">Розмістити запит</button>*@
         </div>
     </div>
     <div class="wrapper_right">
