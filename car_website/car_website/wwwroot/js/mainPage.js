@@ -223,8 +223,6 @@ function isFilterClear() {
         || engineVolume_min_input.value > 0
         || price_max_input.value > 0
         || price_min_input.value > 0
-        || race_max_input.value > 0
-        || race_min_input > 0
         || minYearSlider.value != 2000
         || maxYearSlider.value != 2023
         || selectBrandsBtn.firstElementChild.innerText != "Усі"
@@ -243,8 +241,8 @@ function clearFilters() {
     engineVolume_min_input.value = "";
     price_max_input.value = "";
     price_min_input.value = "";
-    race_max_input.value = "";
-    race_min_input.value = "";
+    /*race_max_input.value = "";
+    race_min_input.value = "";*/
     selectBrandsBtn.firstElementChild.innerText = "Усі";
     addBrand();
     selectSortingBtn.firstElementChild.innerText = "Сортування";
@@ -331,7 +329,7 @@ inputsWithComma.forEach((inp) => {
             e.preventDefault();
     });
 });
-const inputs = [price_max_input, price_min_input, race_max_input, race_min_input];
+const inputs = [price_max_input, price_min_input];
 inputs.forEach((inp) => {
     inp.addEventListener('input', function (event) {
         const maxLength = +event.target.getAttribute('maxlength');
@@ -397,8 +395,8 @@ function applyFilter(page = 1) {
         driveLine: drivelines.indexOf(selectDrivelinesBtn.firstElementChild.innerHTML),
         minEngineCapacity: Number(engineVolume_min_input.value),
         maxEngineCapacity: Number(engineVolume_max_input.value),
-        minMileage: Number(race_min_input.value),
-        maxMileage: Number(race_max_input.value),
+        minMileage: 0,
+        maxMileage: 0,
         page: page,
         sortingType: sortings.includes(selectSortingBtn.innerText) ? sortings.indexOf(selectSortingBtn.innerText) : 0,
     };

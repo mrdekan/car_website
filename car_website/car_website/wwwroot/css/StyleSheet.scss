@@ -553,26 +553,6 @@ header {
         }
 
 
-        a {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            position: absolute;
-            z-index: 5;
-            margin: -75px 0 0 50px;
-            user-select: none;
-            align-self: center;
-            justify-self: center;
-            display: block;
-
-            /*&::before {
-                content: '';
-                width: 127px;
-                height: 100px;
-                //background: url('/img/logo2.png');
-                background-size: 100% 100%;
-                margin: 10px 0 0 0;
-                position: absolute;
-            }*/
-        }
     }
 
     .header_center {
@@ -1547,6 +1527,9 @@ header {
 }
 
 @media (max-width: 767px) {
+    *{
+        cursor: default !important;
+    }
     .select-btn, li {
         cursor: default;
     }

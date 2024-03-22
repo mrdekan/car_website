@@ -2514,25 +2514,6 @@ header .header_left span img {
   height: 100%;
   margin-top: 20px;
 }
-header .header_left a {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  position: absolute;
-  z-index: 5;
-  margin: -75px 0 0 50px;
-  user-select: none;
-  align-self: center;
-  justify-self: center;
-  display: block;
-  /*&::before {
-      content: '';
-      width: 127px;
-      height: 100px;
-      //background: url('/img/logo2.png');
-      background-size: 100% 100%;
-      margin: 10px 0 0 0;
-      position: absolute;
-  }*/
-}
 header .header_center {
   display: flex;
   width: 60%;
@@ -3397,6 +3378,9 @@ header .header_right-dark-label::before {
 }
 
 @media (max-width: 767px) {
+  * {
+    cursor: default !important;
+  }
   .select-btn, li {
     cursor: default;
   }
