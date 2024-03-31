@@ -3,8 +3,11 @@ using car_website.Interfaces;
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using System.Security.Claims;
+using System.Text;
 
 namespace car_website.Controllers.v1
 {
@@ -46,6 +49,7 @@ namespace car_website.Controllers.v1
         private readonly IWaitingCarsRepository _waitingCarsRepository;
         private readonly IValidationService _validationService;
         private readonly IAppSettingsDbRepository _appSettingsDbRepository;
+        private readonly SignInManager<User> _signInManager;
         public UsersController(ICarRepository carRepository,
             IBrandRepository brandRepository,
             IImageService imageService,
@@ -58,7 +62,8 @@ namespace car_website.Controllers.v1
             ILogger<ApiController> logger,
             IUserService userService,
             IValidationService validationService,
-            IAppSettingsDbRepository appSettingsDbRepository) : base(userRepository)
+            IAppSettingsDbRepository appSettingsDbRepository,
+            SignInManager<User> signInManager) : base(userRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -73,6 +78,7 @@ namespace car_website.Controllers.v1
             _userService = userService;
             _validationService = validationService;
             _appSettingsDbRepository = appSettingsDbRepository;
+            _signInManager = signInManager;
         }
 
         #endregion Services & ctor
@@ -433,12 +439,48 @@ namespace car_website.Controllers.v1
 
         #endregion Change user's info
         #region Login & Register
+        [HttpGet("IsAuthorized")]
+        public async Task<ActionResult> IsAuthorized()
+        {
+            var user = await GetCurrentUser();
+            return Ok(new { Status = true, Code = HttpCodes.Success, IsAuthorized = user != null });
+        }
         [HttpGet("login")]
         public async Task<ActionResult> Login(string email, string password)
         {
-            if (string.IsNullOrEmpty(email))
-                return Ok(new { Status = false, Code = HttpCodes.BadRequest, ErrorMessage = "Уведіть пошту" });
-            return Ok(new { Status = false, Code = HttpCodes.NotImplemented });
+            if (email != "" && password != "")
+            {
+                User user = await _userRepository.GetByEmailAsync(email.ToLower());
+                if (user != null && _userService.VerifyPassword(password, user.Password))
+                {
+
+                    // Try to fix later
+                    byte[] bytes = Encoding.UTF8.GetBytes(user.PasswordHash);
+                    string base64String = Convert.ToBase64String(bytes);
+                    user.PasswordHash = base64String;
+                    var claims = new Claim[]
+                    {
+                        new Claim("Id",user.Id.ToString()),
+                        new Claim("Role",user.Role.ToString())
+                    };
+                    try
+                    {
+                        await _signInManager.SignInWithClaimsAsync(user, isPersistent: true, claims);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
+                    HttpContext.Session.SetString("UserId", user.Id.ToString());
+                    HttpContext.Session.SetInt32("UserRole", (int)user.Role);
+                    return Ok(new { Status = true, Code = HttpCodes.Success });
+                }
+                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+            }
+            else
+            {
+                return Ok(new { Status = false, Code = HttpCodes.BadRequest });
+            }
         }
         #endregion
     }
