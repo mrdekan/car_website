@@ -473,7 +473,9 @@ namespace car_website.Controllers.v1
                     }
                     HttpContext.Session.SetString("UserId", user.Id.ToString());
                     HttpContext.Session.SetInt32("UserRole", (int)user.Role);
-                    return Ok(new { Status = true, Code = HttpCodes.Success });
+                    if (user.Role == UserRole.User)
+                        return Ok(new { Status = true, Code = HttpCodes.Success });
+                    return Ok(new { Status = true, Code = HttpCodes.Success, IsAdmin = true });
                 }
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });
             }
