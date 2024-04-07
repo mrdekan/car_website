@@ -1,4 +1,6 @@
-﻿namespace car_website.Models
+﻿using car_website.Data.Enum;
+
+namespace car_website.Models
 {
     public class CarFromBotModel
     {
@@ -7,6 +9,8 @@
         public int Year { get; set; }
         public List<string> PhotosURL { get; set; }
         public int Price { get; set; }
-        public int MinPrice { get; set; }
+        public Transmission TransmissionType { get; set; }
+        public TypeFuel FuelType { get; set; }
+        public int Mileage { get; set; }
     }
 }
