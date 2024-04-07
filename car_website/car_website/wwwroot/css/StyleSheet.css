@@ -2464,7 +2464,7 @@ body {
 }
 
 footer {
-  height: 40px;
+  height: 130px;
   width: 100%;
   background-color: var(--green-dark);
   display: flex;
@@ -2476,6 +2476,36 @@ footer {
 }
 footer a {
   color: white;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+}
+.footer-container p {
+  font-size: 20px;
+}
+.footer-container span {
+  font-size: 18px;
+  display: block;
+  margin-left: 10px;
+  margin-bottom: 5px;
+}
+.footer-container-left {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.footer-container-left-icons {
+  margin-left: 10px;
+  display: flex;
+  gap: 15px;
+}
+
+.soc-media-icon {
+  width: 30px;
+  height: 30px;
+  display: block;
 }
 
 header {
