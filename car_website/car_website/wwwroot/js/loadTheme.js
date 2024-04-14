@@ -30,8 +30,6 @@ function setLight() {
     root.style.setProperty('--green-light', '#5b8894'); //#537049
     root.style.setProperty('--green-medium', '#3c7583'); //#4b6742
     root.style.setProperty('--green-dark', '#186472'); //#415939 old green colors
-    //root.style.setProperty('--background-main', '#ffffff');
-    //root.style.setProperty('--background-secondary', '#f6f6f6');
     root.style.setProperty('--background-main', '#f6f6f6');
     root.style.setProperty('--background-secondary', '#ffffff');
     root.style.setProperty('--text-default', '#000000');
