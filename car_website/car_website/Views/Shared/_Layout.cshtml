@@ -9,7 +9,7 @@
     <meta property="og:image" content="@ViewBag.ImageUrl">
     <meta name="google-site-verification" content="YwWSNuDzgSVpsDSwKNrHzrxkUBQveIgvZZTUkfmhJ24" />
     <meta name="keywords" content="придбати авто Чернігів, авто в Чернігові, Чернігів, купити авто, придбати авто, продаж авто Чернігів, купить авто, купить машину в Чернигове, продажа машин, 1auto, 1авто">
-    <meta name="description" content="Ласкаво просимо до 1Auto — вашого надійного партнера у світі автомобілів!"/>
+    <meta name="description" content="Ласкаво просимо до 1Auto — вашого надійного партнера у світі автомобілів!" />
     <title>@ViewData["Title"] - 1Auto</title>
     <link rel="icon" type="image/x-icon" href="/img/logo3.png">
     <link rel="stylesheet" href="~/css/StyleSheet.min.css" asp-append-version="true" />
@@ -28,15 +28,16 @@
     <header>
         <div class="header_left">
             <a asp-controller="Home" asp-action="Index">
-            <span><img src="~/img/1auto.png" alt="logo"/></span>
+                <span><img src="~/img/1auto.webp" alt="logo" /></span>
             </a>
         </div>
         <div class="header_center">
             <a asp-controller="Home" asp-action="Index" class="home-btn">Головна</a>
             @*<a asp-controller="Car" asp-action="Create">Продати авто</a>*@
-            <a asp-controller="Car" asp-action="CreateExpressSaleCar">Швидкий викуп</a>
+            @*<a asp-controller="Car" asp-action="CreateExpressSaleCar">Швидкий викуп</a>*@
+            <a asp-controller="Car" asp-action="AutoSelection">Автопідбір</a>
             <a asp-controller="Car" asp-action="Leasing">Авто в лізинг</a>
-            <a asp-controller="Car" asp-action="ImportingCar">Пригон авто</a>
+            @*<a asp-controller="Car" asp-action="ImportingCar">Пригон авто</a>*@
             <a asp-controller="Home" asp-action="Privacy" class="privacy-btn">Про нас</a>
         </div>
         <div class="header_right">
@@ -76,9 +77,10 @@
     <div id="dropdown-menu">
         <a asp-controller="Home" asp-action="Index">Головна</a>
         @*<a asp-controller="Car" asp-action="Create">Продати авто</a>*@
-        <a asp-controller="Car" asp-action="CreateExpressSaleCar">Швидкий викуп</a>
+        @*<a asp-controller="Car" asp-action="CreateExpressSaleCar">Швидкий викуп</a>*@
+        <a asp-controller="Car" asp-action="AutoSelection">Автопідбір</a>
         <a asp-controller="Car" asp-action="Leasing">Авто в лізинг</a>
-        <a asp-controller="Car" asp-action="ImportingCar">Пригон авто</a>
+        @*<a asp-controller="Car" asp-action="ImportingCar">Пригон авто</a>*@
         <a asp-controller="Home" asp-action="Privacy">Про нас</a>
         <div class="separator"></div>
         @if (User?.Identity?.IsAuthenticated ?? false)
@@ -96,10 +98,23 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
+    <footer class="border-top text-muted footer">
+        <div class="footer-container">
+            <div class="footer-container-left">
+                <p>Контакти</p>
+                <span>+38 0XX XXX XXXX</span>
+                <p>Ми в соціальних мережах</p>
+                <div class="footer-container-left-icons">
+                    <img src="~/img/instagram.webp" alt="inst" class="soc-media-icon" />
+                    <img src="~/img/tiktok.webp" alt="tiktok" class="soc-media-icon" />
+                    <img src="~/img/youtube.webp" alt="youtube" class="soc-media-icon" />
+                </div>
+            </div>
+        </div>
+        <div class="container" style="align-self: end">
             &copy; @DateTime.Now.Year - 1Auto - <a asp-area="" asp-controller="Home" asp-action="Privacy">Про нас</a>
         </div>
+        <a class="footer-map" href="https://maps.app.goo.gl/AvwJCdRWhnYpDsEk6"><img alt="map" src="~/img/map.webp" /></a>
     </footer>
     <script src="~/js/changeTheme.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

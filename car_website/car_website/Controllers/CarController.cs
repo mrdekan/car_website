@@ -46,6 +46,10 @@ namespace car_website.Controllers
         {
             return View();
         }
+        public IActionResult AutoSelection()
+        {
+            return View();
+        }
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {
