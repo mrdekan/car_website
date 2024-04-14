@@ -2562,8 +2562,8 @@ header .header_left {
 }
 header .header_left span {
   display: block;
-  width: 143px;
-  height: 100px;
+  width: 172px;
+  height: 120px;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
   transition: 0.2s;
   /*&::before {
@@ -2579,7 +2579,7 @@ header .header_left span {
 header .header_left span img {
   width: 100%;
   height: 100%;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 header .header_center {
   display: flex;

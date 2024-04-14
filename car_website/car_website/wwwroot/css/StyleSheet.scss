@@ -612,8 +612,8 @@ header {
         span {
             display: block;
             //transform: skewX(-20deg);
-            width: 143px;
-            height: 100px;
+            width: 172px;
+            height: 120px;
             //background-color: $background-secondary;
             filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
             transition: 0.2s;
@@ -622,7 +622,7 @@ header {
             img {
                 width: 100%;
                 height: 100%;
-                margin-top: 20px;
+                margin-top: 25px;
             }
             /*&::before {
                 content: "";
