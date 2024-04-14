@@ -2091,14 +2091,13 @@ body {
 
 .filters_wrapper {
   position: sticky;
-  top: 30px;
-  height: fit-content;
+  top: 60px;
   max-height: calc(100vh - 100px);
   height: calc(100vh - 100px);
 }
 
 .wrapper {
-  margin: 50px 0 0 0;
+  margin: 20px 0 0 0;
   display: flex;
   justify-content: center;
   gap: 50px;
@@ -2119,7 +2118,7 @@ body {
   max-width: 300px;
   padding: 5px 17px;
   margin: 25px 0 25px;
-  max-height: 100%;
+  max-height: calc(100% - 28px);
   height: 100%;
 }
 .wrapper .filters_before p {
@@ -2509,6 +2508,12 @@ footer a {
   color: white;
 }
 
+.footer-map {
+  height: 100%;
+}
+.footer-map img {
+  height: 100%;
+}
 .footer-container {
   display: flex;
   justify-content: space-between;
@@ -2537,6 +2542,7 @@ footer a {
   width: 30px;
   height: 30px;
   display: block;
+  border-radius: 7px;
 }
 
 header {
@@ -2703,6 +2709,7 @@ header .header_right-dark-label::before {
   display: flex;
   gap: 10px;
   margin: 10px 0;
+  min-height: 32px;
 }
 .pages_buttons-space {
   display: block;
