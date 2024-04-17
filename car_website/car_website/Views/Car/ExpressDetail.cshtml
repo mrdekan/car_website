@@ -1,0 +1,101 @@
+﻿@using System.Security.Claims;
+@using car_website.ViewModels;
+@using Microsoft.AspNetCore.Http;
+@model ExpressSaleCarViewModel
+@{
+    ViewData["Title"] = Model.Brand + " " + Model.Model;
+    string userId = "";
+    if (User != null && User.Identity != null)
+        userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
+    bool isAdmin = !string.IsNullOrEmpty(userId) && ViewContext.HttpContext.Session.GetInt32("Role") != 0;
+    bool isSelf = userId == Model.SellerId;
+}
+<div class="wrapper_carDetail-before">
+    <div class="wrapper_carDetail">
+        <h2 class="title">@Model.Brand @Model.Model @Model.Year</h2>
+        <div class="slider">
+            <button id="prev">
+                <span>
+                    <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.29289 0.292893C6.68342 -0.0976311 7.31658 -0.0976311 7.70711 0.292893L13.7071 6.29289C14.0976 6.68342 14.0976 7.31658 13.7071 7.70711C13.3166 8.09763 12.6834 8.09763 12.2929 7.70711L7 2.41421L1.70711 7.70711C1.31658 8.09763 0.683418 8.09763 0.292893 7.70711C-0.0976311 7.31658 -0.0976311 6.68342 0.292893 6.29289L6.29289 0.292893Z" fill="currentColor" />
+                    </svg>
+                </span>
+            </button>
+            <div class="img_slides">
+                @for (int i = 0; i < Model.PhotosURL.Length; i++)
+                {
+                    @if (i == 0)
+                    {
+                        <input type="radio" name="radio-btn" id="radio@(i+1)" checked />
+                    }
+                    else
+                    {
+                        <input type="radio" name="radio-btn" id="radio@(i+1)" />
+                    }
+                }
+                <div class="slides_wrapper">
+                    @for (int i = 0; i < Model.PhotosURL.Length; i++)
+                    {
+                        <div class="slide @(i==0?"first":"")">
+                            <img src="@Model.PhotosURL[i]" class="slider_element-image" alt="photo" />
+                            <img src="@Model.PhotosURL[i]" class="slider_element-background" alt="photo" />
+                        </div>
+                    }
+                </div>
+                <div class="navigation">
+                    @for (int i = 0; i < Model.PhotosURL.Length; i++)
+                    {
+                        <label for="radio@(i+1)" class="navigation-btn"> </label>
+                    }
+                </div>
+            </div>
+            <button id="next">
+                <span>
+                    <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.29289 0.292893C6.68342 -0.0976311 7.31658 -0.0976311 7.70711 0.292893L13.7071 6.29289C14.0976 6.68342 14.0976 7.31658 13.7071 7.70711C13.3166 8.09763 12.6834 8.09763 12.2929 7.70711L7 2.41421L1.70711 7.70711C1.31658 8.09763 0.683418 8.09763 0.292893 7.70711C-0.0976311 7.31658 -0.0976311 6.68342 0.292893 6.29289L6.29289 0.292893Z" fill="currentColor" />
+                    </svg>
+                </span>
+            </button>
+        </div>
+        <div class="priceBuy">
+            <div class="car_container-right-price onDetail">
+                <p class="car_container-right-price-USD">@Model.Price $</p>
+                <p class="car_container-right-price-UAH">≈ @Model.PriceUAH грн</p>
+            </div>
+        </div>
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <div class="car_description">
+                <p>@Model.Description</p>
+            </div>
+        }
+        
+        @if (isAdmin && Model.SellerId != null)
+        {
+            <div id="seller" sellerId=@Model.SellerId></div>
+            <script src="~/js/getUser.js" asp-append-version="true"></script>
+        }
+        else if (isAdmin && Model.SellerName != null && Model.Phone != null)
+        {
+            <div>
+                <div>
+                    <h4>Продавець:</h4>
+                    <p style="margin-bottom: 10px; font-size: 22px;">@Model.SellerName</p>
+                    <span style="font-size: 18px;">+@Model.Phone</span>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div id="img_full" class="popup">
+    <span class="close">&times;</span>
+    <div class="popup_images">
+        @foreach (var photo in Model.PhotosURL)
+        {
+            <img src="@photo" alt="photo" />
+        }
+    </div>
+</div>
+
+
+<script type="module" src="~/js/carDetailPage.js" asp-append-version="true"></script>

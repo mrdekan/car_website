@@ -55,16 +55,19 @@ imagesFullscreen.addEventListener("click", function (event) {
         newTab.focus();
     }
 });
+if (closeButton)
 closeButton.addEventListener("click", function () {
     popup.style.display = "none";
     enableScrolling();
 });
+if (popup)
 popup.addEventListener("mousedown", function (event) {
     if (event.target == popup) {
         popup.style.display = "none";
         enableScrolling();
     }
 });
+if (sendNotLoggedInRequest)
 sendNotLoggedInRequest.addEventListener('click', () => {
     let name = buyRequestNameInp.value;
     localStorage.setItem('name', name);
@@ -167,6 +170,7 @@ function updateLikeButtons() {
     });
 }
 function getSimilarCars() {
+    if (!similarCarsBlock && !similarCarsBlockMobile) return;
     fetch(`/Car/FindSimilarCars/${similarCarsBlock.getAttribute('carId')}`)
         .then(response => response.json())
         .then(data => {

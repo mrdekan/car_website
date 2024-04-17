@@ -210,9 +210,9 @@ function showData(data) {
                 data.cars.forEach(car => {
                     container.innerHTML += `<div class="car">
                                   <div class="car_container">
-                                        <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="${car.brand} ${car.model} ${car.year}" src="${car.photosURL[0]}" /></div></div>
+                                        <div class="car_container-img"> <div class="car_container-img-landscape"><img style="object-fit:cover; width: 100%;" alt="${car.brand} ${car.model} ${car.year}" src="${car.photosURL[0]}" /></div></div>
                                     <div class="car_container-info">
-                                        <a href="#">${car.brand} ${car.model} ${car.year}</a>
+                                        <a href="/Car/ExpressDetail/${car.id}" style="color: white; font-size: 26px;">${car.brand} ${car.model} ${car.year}</a>
                                     </div>
                                   </div>
                                   <div class="car_container-right">

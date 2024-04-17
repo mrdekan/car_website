@@ -14,6 +14,7 @@ namespace car_website.ViewModels
             Brand = car.Brand ?? "";
             Model = car.Model ?? "";
             Year = car.Year;
+            Description = car.Description;
             if (isAdmin)
             {
                 SellerId = car.SellerId;
@@ -32,5 +33,6 @@ namespace car_website.ViewModels
         public string? SellerId { get; set; }
         public string? SellerName { get; set; }
         public string? Phone { get; set; }
+        public string? Description { get; set; }
     }
 }

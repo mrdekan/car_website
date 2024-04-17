@@ -68,6 +68,20 @@ namespace car_website.Controllers
             return View(new CarDetailViewModel(car, _currencyUpdater, requested));
         }
         [HttpGet]
+        public async Task<IActionResult> ExpressDetail(string id)
+        {
+            if (!ObjectId.TryParse(id, out ObjectId carId))
+                return RedirectToAction("NotFound", "Home");
+            var car = await _expressSaleCarRepository.GetByIdAsync(carId);
+            if (car == null)
+                return RedirectToAction("NotFound", "Home");
+            var user = await GetCurrentUser();
+            if (user == null || !user.IsAdmin)
+                return RedirectToAction("NotFound", "Home");
+            return View(new ExpressSaleCarViewModel(car, _currencyUpdater, true));
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
             var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
