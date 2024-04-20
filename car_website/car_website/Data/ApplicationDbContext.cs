@@ -20,5 +20,6 @@ namespace car_website.Data
         public IMongoCollection<ExpressSaleCar> ExpressSaleCars => _database.GetCollection<ExpressSaleCar>("ExpressSaleCars");
         public IMongoCollection<AppSettingsDb> AppSettingsDbCollection => _database.GetCollection<AppSettingsDb>("AppSettingsDb");
         public IMongoCollection<PurchaseRequest> PurchaseRequests => _database.GetCollection<PurchaseRequest>("PurchaseRequest");
+        public IMongoCollection<CarFromBot> CarsFromBot => _database.GetCollection<CarFromBot>("CarsFromBot");
     }
 }

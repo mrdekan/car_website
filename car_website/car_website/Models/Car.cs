@@ -34,6 +34,7 @@ namespace car_website.Models
             Priority = 0;
             PreviewAspectRatio = aspectRatio;
             PreviewURL = previewURL;
+            IsSold = false;
         }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -58,6 +59,7 @@ namespace car_website.Models
         public int? Priority { get; set; }
         public float? PreviewAspectRatio { get; set; }
         public string? PreviewURL { get; set; }
+        public bool? IsSold { get; set; }
         public void ApplyEdits(CarEditingViewModel editing, IEnumerable<string> photos, string preview)
         {
             Price = editing.Price;
