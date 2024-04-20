@@ -72,12 +72,12 @@
         
         @if (isAdmin && Model.SellerId != null)
         {
-            <div id="seller" sellerId=@Model.SellerId></div>
+            <div id="seller" style="border: none" sellerId=@Model.SellerId></div>
             <script src="~/js/getUser.js" asp-append-version="true"></script>
         }
         else if (isAdmin && Model.SellerName != null && Model.Phone != null)
         {
-            <div>
+            <div style="margin-bottom: 20px;">
                 <div>
                     <h4>Продавець:</h4>
                     <p style="margin-bottom: 10px; font-size: 22px;">@Model.SellerName</p>
@@ -85,6 +85,11 @@
                 </div>
             </div>
         }
+        <button id="downloadButton" files="@string.Join("__",Model.PhotosURL)">Завантажити картинки</button>
+        <div class="create_section" two buttons>
+            <button class="cancel-button">Видалити</button>
+            <a asp-controller="Car" asp-action="ConfirmExpress" asp-route-id=@Model.Id class="sell-button">Виставити на продаж</a>
+        </div>
     </div>
 </div>
 <div id="img_full" class="popup">
@@ -99,3 +104,4 @@
 
 
 <script type="module" src="~/js/carDetailPage.js" asp-append-version="true"></script>
+<script type="module" src="~/js/downloadFiles.js" asp-append-version="true"></script>

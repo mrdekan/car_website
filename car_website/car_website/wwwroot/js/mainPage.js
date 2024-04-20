@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
             selectSortingBtn.classList.remove("active");
             selectSortingBtn.firstElementChild.innerText = selectedLi.innerText;
         }
-        getMarks();
+        //getMarks();
         if (lastCars.filters.brand != "Усі") {
             updateName(createLi(lastCars.filters.brand));
             if (lastCars.filters.model != "Усі")
@@ -451,7 +451,7 @@ function formCar(car) {
                                   <a class="car mainPageCar" href="/Car/Detail/${car.id}">
                                   <p class="car_name">${car.brand} ${car.model} ${car.year}</p>
                                   <div class="car_container">
-                                       <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="${car.brand} ${car.model} ${car.year}" src="${car.previewURL}" /></div></div>
+                                       <div class="car_container-img"> <div class="car_container-img-landscape"><img alt="${car.brand} ${car.model} ${car.year}" src="https:\\\\1auto.cn.ua${car.previewURL}" /></div></div>
                                     <div class="car_container-info">
                                     <p class="car_container-info-name">${car.brand} ${car.model} ${car.year}</p>
                                             <div class="car_container-info-parameters">

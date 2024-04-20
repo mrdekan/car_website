@@ -34,5 +34,9 @@
         /// </summary>
         /// <param name="photoNames">collection of photo URLs from web root path</param>
         void DeletePhotos(IEnumerable<string> photoNames);
+        /// <summary>
+        /// Downloading an IFormFile by URL
+        /// </summary>
+        Task<IFormFile> DownloadFileAsync(string url);
     }
 }

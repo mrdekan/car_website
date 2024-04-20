@@ -68,6 +68,15 @@ namespace car_website.Controllers
             return View(new CarDetailViewModel(car, _currencyUpdater, requested));
         }
         [HttpGet]
+        public async Task<IActionResult> ConfirmExpress(string id)
+        {
+            var user = await GetCurrentUser();
+            if (user == null || !user.IsAdmin)
+                return RedirectToAction("NotFound", "Home");
+            TempData["TmpExpressCarId"] = id;
+            return RedirectToAction("Create", "Car");
+        }
+        [HttpGet]
         public async Task<IActionResult> ExpressDetail(string id)
         {
             if (!ObjectId.TryParse(id, out ObjectId carId))
@@ -414,25 +423,72 @@ namespace car_website.Controllers
         public async Task<IActionResult> Create()
         {
             if (!await IsAtorized())
-            {
                 return RedirectToAction("CreateExpressSaleCar");
+            string id = "";
+            try
+            {
+                id = TempData["TmpExpressCarId"] as string;
+                TempData["TmpExpressCarId"] = null;
             }
+            catch { }
+            bool parsed = ObjectId.TryParse(id, out ObjectId objectId);
+            var car = parsed ? await _expressSaleCarRepository.GetByIdAsync(objectId) : null;
+            CreateCarViewModel carModel;
+            if (car != null)
+                carModel = new CreateCarViewModel(car);
+            else
+                carModel = new();
             var currency = _currencyUpdater.CurrentCurrency;
-            return View(new CarCreationPageViewModel() { CreateCarViewModel = new CreateCarViewModel(), Currency = currency });
+            return View(new CarCreationPageViewModel() { CreateCarViewModel = carModel, Currency = currency, ExpressCarId = car == null ? null : id, ExpressCarPhotos = car == null ? null : car.PhotosURL.ToList() });
         }
         [HttpPost]
         public async Task<IActionResult> Create(CarCreationPageViewModel carVM)
         {
             User user = await GetCurrentUser();
             // Restoring the values ​​of fields that were reset
-            carVM.Currency = _currencyUpdater.CurrentCurrency;
 
             if (user == null)
             {
                 return RedirectToAction("CreateExpressSaleCar");
             }
-
+            carVM.Currency = _currencyUpdater.CurrentCurrency;
+            if (carVM.ExpressCarId != null)
+            {
+                bool parsed = ObjectId.TryParse(carVM.ExpressCarId, out ObjectId objectId);
+                if (parsed)
+                {
+                    var expressCar = await _expressSaleCarRepository.GetByIdAsync(objectId);
+                    if (expressCar != null)
+                        carVM.ExpressCarPhotos = expressCar.PhotosURL.ToList();
+                }
+            }
             bool additionalValidation = true;
+            bool photosIsValid = true;
+            if (carVM.CreateCarViewModel.Photo1 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 1))
+            {
+                ModelState.AddModelError("CreateCarViewModel.Photo1", "Обов'язкове поле");
+                photosIsValid = false;
+            }
+            if (carVM.CreateCarViewModel.Photo2 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 2))
+            {
+                ModelState.AddModelError("CreateCarViewModel.Photo2", "Обов'язкове поле");
+                photosIsValid = false;
+            }
+            if (carVM.CreateCarViewModel.Photo3 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 3))
+            {
+                ModelState.AddModelError("CreateCarViewModel.Photo3", "Обов'язкове поле");
+                photosIsValid = false;
+            }
+            if (carVM.CreateCarViewModel.Photo4 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 4))
+            {
+                ModelState.AddModelError("CreateCarViewModel.Photo4", "Обов'язкове поле");
+                photosIsValid = false;
+            }
+            if (carVM.CreateCarViewModel.Photo5 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 5))
+            {
+                ModelState.AddModelError("CreateCarViewModel.Photo5", "Обов'язкове поле");
+                photosIsValid = false;
+            }
             if (carVM.CreateCarViewModel.Year > DateTime.Now.Year + 1)
             {
                 ModelState.AddModelError("CreateCarViewModel.Year", "Не продаємо авто з майбутнього :(");
@@ -444,7 +500,6 @@ namespace car_website.Controllers
                 additionalValidation = false;
             }
 
-            bool photosIsValid = true;
             if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo1))
             {
                 photosIsValid = false;
@@ -485,14 +540,23 @@ namespace car_website.Controllers
                 var newCar = carVM.CreateCarViewModel;
                 if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
                     newCar.VideoURL = $"https://www.youtube.com/embed/{videoId}";
-                List<string> photosNames = new();
+                List<string> photosNames = Enumerable.Repeat((string)null, 5).ToList();
+
+                if (carVM.ExpressCarPhotos != null)
+                {
+                    for (int i = 0; i < Math.Min(carVM.ExpressCarPhotos.Count, 5); i++)
+                    {
+                        photosNames[i] = carVM.ExpressCarPhotos[i];
+                    }
+                }
                 List<IFormFile> photos = new() { newCar.Photo1, newCar.Photo2, newCar.Photo3, newCar.Photo4, newCar.Photo5 };
                 photos = photos.Where(photo => photo != null).ToList();
-                foreach (var photo in photos)
+                for (int i = 0; i < photos.Count; i++)
                 {
-                    var photoName = await _imageService.UploadPhotoAsync(photo, $"{newCar.Brand}_{newCar.Model}_{newCar.Year}");
-                    photosNames.Add(photoName);
+                    var photoName = await _imageService.UploadPhotoAsync(photos[i], $"{newCar.Brand}_{newCar.Model}_{newCar.Year}");
+                    photosNames[i] = photoName;
                 }
+                photosNames = photosNames.Where(photo => photo != null).ToList();
                 string preview = _imageService.CopyPhoto(photosNames[0]);
                 _imageService.ProcessImage(300, 200, preview);
                 preview = $"/Photos\\{preview}";

@@ -6,20 +6,32 @@ namespace car_website.ViewModels
 {
     public class CreateCarViewModel
     {
+        public CreateCarViewModel()
+        {
+
+        }
+        public CreateCarViewModel(ExpressSaleCar expressSaleCar)
+        {
+            Model = expressSaleCar.Model;
+            Brand = expressSaleCar.Brand;
+            Price = expressSaleCar.Price;
+            Year = expressSaleCar.Year;
+            Description = expressSaleCar.Description;
+        }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [Range(1, 999999, ErrorMessage = "Некоректне значення")]
         public uint Price { get; set; }
         [Range(0, 999, ErrorMessage = "Некоректне значення")]
         public uint Mileage { get; set; }
-        [Required(ErrorMessage = "Обов'язкове поле")]
-        public IFormFile Photo1 { get; set; }
-        [Required(ErrorMessage = "Обов'язкове поле")]
+        //[Required(ErrorMessage = "Обов'язкове поле")]
+        public IFormFile? Photo1 { get; set; }
+        //[Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile? Photo2 { get; set; }
-        [Required(ErrorMessage = "Обов'язкове поле")]
+        //[Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile? Photo3 { get; set; }
-        [Required(ErrorMessage = "Обов'язкове поле")]
+        //[Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile? Photo4 { get; set; }
-        [Required(ErrorMessage = "Обов'язкове поле")]
+        //[Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile? Photo5 { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [RegularExpression(@"^(?!Any$).*", ErrorMessage = "Виберіть марку")]

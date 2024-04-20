@@ -11,6 +11,32 @@ namespace car_website.Services
         {
             _webHostEnvironment = webHostEnvironment;
         }
+
+        public async Task<IFormFile> DownloadFileAsync(string url)
+        {
+            if (Uri.TryCreate(url, UriKind.Relative, out Uri uri))
+            {
+                string filePath = Path.Combine(_webHostEnvironment.WebRootPath, url.TrimStart('/'));
+
+                if (File.Exists(filePath))
+                {
+                    using (var fileStream = new FileStream(filePath, FileMode.Open))
+                    {
+                        string fileName = Path.GetFileName(url);
+
+                        return new FormFile(fileStream, 0, fileStream.Length, "fileName", fileName);
+                    }
+                }
+                else
+                {
+                    throw new FileNotFoundException("File not found", filePath);
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid URL");
+            }
+        }
         public async Task<string> UploadPhotoAsync(IFormFile photo, string carInfo = "")
         {
             var photoName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);

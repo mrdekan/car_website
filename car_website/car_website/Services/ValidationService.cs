@@ -81,7 +81,7 @@ namespace car_website.Services
             && password.Length <= MAX_PASSWORD_LENGTH;
         // 1048576 = 1024 * 1024 (b => Mb)
         public bool IsLessThenNMb(IFormFile file, int maxSizeMb = MAX_PHOTO_SIZE_IN_MB) =>
-            file != null && ((double)file.Length / (1048576)) <= maxSizeMb;
+            file == null || ((double)file.Length / (1048576)) <= maxSizeMb;
 
         public bool FixPhoneNumber(ref string phone)
         {
