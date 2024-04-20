@@ -3,7 +3,7 @@
 
 
 deleteButton.addEventListener('click', () => {
-    if (confirm("Ви точно впевнені, що хочете видалити це авто?")) {
+    if (confirm(deleteButton.hasAttribute('delete') ? "Ви точно впевнені, що хочете видалити це авто?" : "Ви точно впевнені, що хочете відмітити це авто, як продане?")) {
         fetch(`/api/v1/cars/deleteCar/${deleteButton.getAttribute('carId')}`, {
             method: "DELETE"
         }).then(response => response.json())

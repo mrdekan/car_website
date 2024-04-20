@@ -60,6 +60,10 @@ namespace car_website.Models
         public float? PreviewAspectRatio { get; set; }
         public string? PreviewURL { get; set; }
         public bool? IsSold { get; set; }
+        public string? OwnerId { get; set; }
+        public string? OwnerName { get; set; }
+        public string? OwnerPhone { get; set; }
+
         public void ApplyEdits(CarEditingViewModel editing, IEnumerable<string> photos, string preview)
         {
             Price = editing.Price;

@@ -83,7 +83,7 @@ function getKeyByValue(object, value) {
 document.addEventListener('DOMContentLoaded', function () {
     let lastCarsString = sessionStorage.getItem("last");
     let lastCars = JSON.parse(lastCarsString);
-    if (lastCars && lastCars.data) {
+    if (lastCars && lastCars.data && false) {
         carsPage = lastCars.data.page;
         updatePagesButtons(lastCars.data.pages);
         pages = lastCars.data.pages;
@@ -379,6 +379,7 @@ function getMarks() {
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
+//applyFilter();
 function applyFilter(page = 1) {
     isFilterClear();
     filter.classList.remove("open");
@@ -451,7 +452,7 @@ function formCar(car) {
                                   <a class="car mainPageCar" href="/Car/Detail/${car.id}">
                                   <p class="car_name">${car.brand} ${car.model} ${car.year}</p>
                                   <div class="car_container">
-                                       <div class="car_container-img"> <div class="car_container-img-landscape"><img alt="${car.brand} ${car.model} ${car.year}" src="https:\\\\1auto.cn.ua${car.previewURL}" /></div></div>
+                                       <div class="car_container-img">${car.isSold?'<div class="car_container-img-sold"></div>':''} <div class="car_container-img-landscape"><img alt="${car.brand} ${car.model} ${car.year}" src="https:\\\\1auto.cn.ua${car.previewURL}" /></div></div>
                                     <div class="car_container-info">
                                     <p class="car_container-info-name">${car.brand} ${car.model} ${car.year}</p>
                                             <div class="car_container-info-parameters">

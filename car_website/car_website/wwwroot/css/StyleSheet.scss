@@ -370,6 +370,7 @@ body {
         min-width: 720px;
 
         &-img {
+            position: relative;
             min-width: 300px;
             max-width: 300px;
             height: 200px;
@@ -378,6 +379,32 @@ body {
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
+
+            &-sold {
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.3);
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                backdrop-filter: sepia(25%) blur(2px) invert(20%);
+
+                &::before {
+                    content: 'Продано';
+                    display: block;
+                    height: 70px;
+                    color: white;
+                    background: rgba(0,0,0,0.5);
+                    opacity: 0.7;
+                    font-size: 50px;
+                    text-align: center;
+                    line-height: 70px;
+                    font-weight: bold;
+                    width: 1500px;
+                    transform: rotate(-5deg) skew(-5deg);
+                }
+            }
 
             &-portrait {
                 min-width: 100%;

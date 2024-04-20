@@ -71,6 +71,7 @@ namespace car_website.Controllers.v1
             try
             {
                 IEnumerable<Car> filteredCars = await _carRepository.GetAll();
+                filteredCars = filteredCars.OrderBy(item => !item.IsSold).ToList();
                 var user = await GetCurrentUser();
                 if (user == null || user.Role != UserRole.Dev)
                     filteredCars = filteredCars.Where(car => car.Priority >= 0);
@@ -116,6 +117,7 @@ namespace car_website.Controllers.v1
             try
             {
                 IEnumerable<Car> cars = await _carRepository.GetAll();
+                cars = cars.OrderBy(item => !item.IsSold).ToList();
                 int _page = page ?? 1;
                 int _perPage = perPage ?? cars.Count();
                 int totalItems = cars.Count();
@@ -219,9 +221,15 @@ namespace car_website.Controllers.v1
             Car car = await _carRepository.GetByIdAsync(carId);
             if (car == null)
                 return Ok(new { Status = false, Code = HttpCodes.NotFound });
-            if (user.Role == 0 && user.Id.ToString() != car.SellerId)
+            if (user.Role == 0 && (user.Id.ToString() != car.SellerId || car.IsSold != false))
                 return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
-            if (await _carDeleteService.Delete(car))
+            if (car.IsSold == false)
+            {
+                car.IsSold = true;
+                await _carRepository.Update(car);
+                return Ok(new { Status = true, Code = HttpCodes.Success });
+            }
+            else if (car.IsSold == true && await _carDeleteService.Delete(car))
                 return Ok(new { Status = true, Code = HttpCodes.Success });
             return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
         }

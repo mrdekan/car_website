@@ -24,6 +24,7 @@ namespace car_website.ViewModels
             Liked = liked;
             Priority = car.Priority ?? 1;
             PreviewURL = car.PreviewURL ?? "";
+            IsSold = car.IsSold ?? false;
         }
         public string Id { get; set; }
         public uint Price { get; set; }
@@ -39,6 +40,7 @@ namespace car_website.ViewModels
         public float EngineCapacity { get; set; }
         public string? VIN { get; set; }
         public bool Liked { get; set; }
+        public bool IsSold { get; set; }
         public int Priority { get; set; }
         public string PreviewURL { get; set; }
     }

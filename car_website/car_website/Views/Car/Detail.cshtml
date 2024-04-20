@@ -43,7 +43,7 @@
 }
 <div class="wrapper_carDetail-before">
     <div class="wrapper_carDetail">
-        <h2 class="title">@Model.Brand @Model.Model @Model.Year</h2>
+        <h2 class="title">@Model.Brand @Model.Model @Model.Year @(Model.IsSold?" (Продано)":"")</h2>
         <div class="slider">
             <button id="prev">
                 <span>
@@ -108,7 +108,7 @@
                 <p class="car_container-right-price-UAH">≈ @Model.PriceUAH грн</p>
             </div>
             <div class="priceBuy_right">
-                @if (isAdmin && Model.Priority >= 0)
+                @if (isAdmin && Model.Priority >= 0 && !Model.IsSold)
                 {
                     if (Model.Priority < 1)
                     {
@@ -122,13 +122,15 @@
                 }
                 @if (isSelf || isAdmin)
                 {
-                    <a class="priceBuy_buy" asp-controller="Car" asp-action="Edit" asp-route-id=@Model.Id>Редагувати</a>
-                    <button id="delete" class="priceBuy_buy cancelBuy" cancel carId="@Model.Id">Видалити</button>
+                    if (!Model.IsSold){
+                        <a class="priceBuy_buy" asp-controller="Car" asp-action="Edit" asp-route-id=@Model.Id>Редагувати</a>
+                    }
+                    <button id="delete" class="priceBuy_buy cancelBuy" cancel @(Model.IsSold? "delete":"") carId="@Model.Id">@(Model.IsSold?"Видалити":"Продано")</button>
                     <script src="~/js/deleteCar.js" asp-append-version="true"></script>
                 }
 
 
-                @if (!isSelf)
+                @if (!isSelf && !Model.IsSold)
                 {
                     if (!string.IsNullOrEmpty(userId))
                     {
