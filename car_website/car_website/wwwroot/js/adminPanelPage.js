@@ -17,6 +17,7 @@ let waitingCarsPage = 1, waitingCarsCache;
 let usersPage = 1, usersCache;
 let brandsPage = 1, brandsCache;
 let expressCarsPage = 1, expressCarsCache;
+let ordersCache;
 let modelsCache = {};
 let selectedBrand;
 const pages_buttons_containers = document.getElementsByClassName("pages_buttons");
@@ -76,6 +77,13 @@ function updateInfo(target,page=1) {
     else if (target.id == "currencyRate") {
         showCurrencyEditor();
     }
+    else if (target.id == "orders") {
+        if (ordersCache == null)
+            getOrders();
+        else {
+            showData(ordersCache);
+        }
+    }
 }
 function deleteRequest(sender) {
     if (confirm(`Видалити цей запрос на ${sender.getAttribute('car')}?`)) {
@@ -95,6 +103,7 @@ function showData(data) {
     if (data == null || data.status == false || data.success == false)
         container.innerHTML = `<h3 class="warning-text">Помилка при отриманні даних</h3>`;
     else {
+        if (data.pages)
         updatePagesButtons(data.pages)
         console.log(usersPage)
         if (data.type == "Users") {
@@ -103,10 +112,10 @@ function showData(data) {
                 container.innerHTML = `<h3 class="warning-text">Тут ще нікого немає</h3>`;
             data.users.forEach(user => {
                 container.innerHTML += `<div class="user_container-element">
-                <a href="/User/Detail/${user.id}">${user.name} ${user.surname}${user.emailConfirmed?'<span class="confirmed"></span>':''}</a>
+                <a href="/User/Detail/${user.id}">${user.name} ${user.surname}${user.emailConfirmed ? '<span class="confirmed"></span>' : ''}</a>
                 <p>+${user.phoneNumber}</p>
                 <p>${user.email}</p>
-                ${user.role != 0 ? user.role == 1 ? '<span class="role">Адмін</span>' : user.role == 2 ? '<span class="role">Розробник</span>' :'<span class="role">Модератор</span>' : ''}
+                ${user.role != 0 ? user.role == 1 ? '<span class="role">Адмін</span>' : user.role == 2 ? '<span class="role">Розробник</span>' : '<span class="role">Модератор</span>' : ''}
             </div>`;
             });
         }
@@ -226,6 +235,24 @@ function showData(data) {
                 });
             }
         }
+        else if (data.type == "Orders"){
+            if (data.orders.length == 0)
+                container.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
+            else {
+                container.innerHTML = '';
+                data.orders.forEach(order => {
+                    container.innerHTML += `<div class='order'>
+                    <div class='order-row'><p>Марка: </p><span>${order.brand||'Не обрано'}</span></div>
+                    <div class='order-row'><p>Модель: </p><span>${order.model || 'Не обрано'}</span></div>
+                    <div class='order-row'><p>Рік: </p><span>${order.year || 'Не обрано'}</span></div>
+                    <div class='order-row'><p>Максимальна ціна: </p><span>${order.maxPrice || 'Не обрано'}</span></div>
+                    ${order.description?`<div class='order-row'><p>Опис:</p><span>${order.description}</span></div>`:''}
+                    <div class='order-row'><p>Ім'я: </p>${order.userId ? `<a href="/User/Detail/${order.userId}">${order.name}</a>`:`<span>${order.name}</span>`}</div>
+                    <div class='order-row'><p>Телефон: </p><span>${order.phone}</span></div>
+                    </div>`;
+                });
+            }
+        }
     }
 }
 function updatePagesButtons(number) {
@@ -289,6 +316,17 @@ function getUsers() {
             usersCache = data;
             updatePagesButtons(data.pages);
             showData(usersCache);
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
+function getOrders() {
+    fetch(`/api/v1/orders/getAll`)
+        .then(response => response.json())
+        .then(data => {
+            data.type = "Orders";
+            ordersCache = data;
+            //updatePagesButtons(data.pages);
+            showData(ordersCache);
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }

@@ -24,7 +24,7 @@ namespace car_website.ViewModels
             Liked = liked;
             Priority = car.Priority ?? 1;
             PreviewURL = car.PreviewURL ?? "";
-            IsSold = car.IsSold ?? false;
+            IsSold = car.IsSold;
         }
         public string Id { get; set; }
         public uint Price { get; set; }

@@ -1,5 +1,25 @@
 ﻿@import "Variables.scss";
-
+.order{
+    padding: 10px;
+    background: var(--background-secondary);
+    border-radius: 0 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    color: var(--text-default);
+    &-row{
+            font-size: 16px;
+        p{
+            font-weight: bold;
+        }
+        a{
+            color: white;
+            text-decoration: underline;
+        }
+        gap: 4px;
+        display: flex;
+    }
+}
 .buy-request {
     display: flex;
     gap: 30px;

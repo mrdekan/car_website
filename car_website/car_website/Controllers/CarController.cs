@@ -23,7 +23,8 @@ namespace car_website.Controllers
         private readonly IExpressSaleCarRepository _expressSaleCarRepository;
         private readonly IValidationService _validationService;
         private readonly IAppSettingsDbRepository _appSettingsDbRepository;
-        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository) : base(userRepository)
+        private readonly IPurchaseRequestRepository _purchaseRequestsRepository;
+        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository, IPurchaseRequestRepository purchaseRequestsRepository) : base(userRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -36,6 +37,7 @@ namespace car_website.Controllers
             _expressSaleCarRepository = expressSaleCarRepository;
             _validationService = validationService;
             _appSettingsDbRepository = appSettingsDbRepository;
+            _purchaseRequestsRepository = purchaseRequestsRepository;
         }
         #endregion
         public IActionResult Leasing()
@@ -47,6 +49,10 @@ namespace car_website.Controllers
             return View();
         }
         public IActionResult AutoSelection()
+        {
+            return View();
+        }
+        public IActionResult SelectCreateMethod()
         {
             return View();
         }
@@ -331,11 +337,69 @@ namespace car_website.Controllers
                 return Ok(new { SuccessCode = 1 });
             }
         }
+        public async Task<IActionResult> OrderCar()
+        {
+            return View(new CreatePurchaseRequestViewModel(_currencyUpdater.CurrentCurrency, await IsAuthorized()));
+        }
+        [HttpPost]
+        public async Task<IActionResult> OrderCar(CreatePurchaseRequestViewModel carVM)
+        {
+            User user = await GetCurrentUser();
+            // Restoring the values ​​of fields that were reset
+            carVM.IsLogged = user != null;
+            carVM.Currency = _currencyUpdater.CurrentCurrency;
+
+            bool userInfoValidation = true;
+            if (user == null)
+            {
+                if (string.IsNullOrEmpty(carVM.Name))
+                {
+                    ModelState.AddModelError("Name", "Обов'язкове поле");
+                    userInfoValidation = false;
+                }
+                if (!_validationService.IsValidName(carVM.Name))
+                {
+                    ModelState.AddModelError("Name", "Некоректні дані");
+                    userInfoValidation = false;
+                }
+                if (string.IsNullOrEmpty(carVM.Phone))
+                {
+                    ModelState.AddModelError("Phone", "Обов'язкове поле");
+                    userInfoValidation = false;
+                }
+
+                // A class field cannot be passed by reference
+                string phone = carVM.Phone;
+                if (!_validationService.FixPhoneNumber(ref phone))
+                {
+                    ModelState.AddModelError("Phone", "Некоректні дані");
+                    userInfoValidation = false;
+                }
+                carVM.Phone = phone;
+            }
+
+            bool additionalValidation = true;
+            if (carVM.MaxPrice == null && carVM.Description == null && carVM.Model == null && carVM.Brand == null)
+            {
+                ModelState.AddModelError("Description", "Потрібна детальніша інформація для розміщення запиту");
+                additionalValidation = false;
+            }
+            if (ModelState.IsValid && userInfoValidation && additionalValidation)
+            {
+                var order = carVM.GetModel(user?.Id);
+                await _purchaseRequestsRepository.Add(order);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View(carVM);
+            }
+        }
         public async Task<IActionResult> CreateExpressSaleCar()
         {
             //if (!await IsAtorized())
             //return RedirectToAction("Register", "User");
-            return View(new CreateExpressSaleCarViewModel(_currencyUpdater.CurrentCurrency, await IsAtorized()));
+            return View(new CreateExpressSaleCarViewModel(_currencyUpdater.CurrentCurrency, await IsAuthorized()));
         }
         [HttpPost]
         public async Task<IActionResult> CreateExpressSaleCar(CreateExpressSaleCarViewModel carVM)
@@ -355,7 +419,7 @@ namespace car_website.Controllers
                 }
                 if (!_validationService.IsValidName(carVM.Name))
                 {
-                    ModelState.AddModelError("Name", "Некорекнті дані");
+                    ModelState.AddModelError("Name", "Некоректні дані");
                     userInfoValidation = false;
                 }
                 if (string.IsNullOrEmpty(carVM.Phone))
@@ -368,7 +432,7 @@ namespace car_website.Controllers
                 string phone = carVM.Phone;
                 if (!_validationService.FixPhoneNumber(ref phone))
                 {
-                    ModelState.AddModelError("Phone", "Некорекнті дані");
+                    ModelState.AddModelError("Phone", "Некоректні дані");
                     userInfoValidation = false;
                 }
                 carVM.Phone = phone;
@@ -422,7 +486,7 @@ namespace car_website.Controllers
         }
         public async Task<IActionResult> Create()
         {
-            if (!await IsAtorized())
+            if (!await IsAuthorized())
                 return RedirectToAction("CreateExpressSaleCar");
             string id = "";
             try
@@ -584,7 +648,7 @@ namespace car_website.Controllers
         [HttpGet]
         public async Task<ActionResult<bool>> Like(string carId, bool isLiked)
         {
-            if (!await IsAtorized())
+            if (!await IsAuthorized())
                 return Ok(new { Success = false });
             User user = await GetCurrentUser();
             Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(carId));

@@ -1,0 +1,85 @@
+﻿@using car_website.ViewModels;
+@model CreatePurchaseRequestViewModel 
+@{
+    ViewData["Title"] = "Замовити авто";
+}
+<div class="create">
+    <form method="post" asp-action="OrderCar" enctype="multipart/form-data">
+        <h2 class="info-text">
+            <strong>Хочете придбати авто якого немає на сайті? Залиште свій запит!</strong>
+        </h2>
+        @if (!Model.IsLogged)
+        {
+            <div class="create_main">
+                <div class="create_main-section">
+                    <label>Як до Вас звертатися?<span class="required" title="Обов'язкове поле"></span></label>
+                    <input asp-for=Name class="input" type="text" placeholder="Ваше ім'я" />
+                    <span asp-validation-for=Name class="text-danger"></span>
+                </div>
+                <div class="create_main-section">
+                    <label>Номер телефону<span class="required" title="Обов'язкове поле"></span></label>
+                    <input asp-for=Phone class="input" type="text" placeholder="+380xxxxxxxxx" />
+                    <span asp-validation-for=Phone class="text-danger"></span>
+                </div>
+            </div>
+        }
+        <div class="create_main">
+            <div class="create_main-section">
+                <label asp-for="Brand">Марка</label>
+                <input asp-for="Brand" type="hidden" id="real-brand-inp" />
+                <div class="custom-select">
+                    <div class="select-btn" id="brandsButton" large>
+                        <span>Не обрано</span>
+                        <input type="text" id="other-brand-inp" class="other-input" placeholder="Напишіть марку" />
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <div class="search">
+                            <i class="uil uil-search"></i>
+                            <input spellcheck="false" type="text" placeholder="Пошук" id="searchCar">
+                        </div>
+                        <ul class="options" id="brands"></ul>
+                    </div>
+                </div>
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+            <div class="create_main-section">
+                <label asp-for="Model">Модель</label>
+                <input asp-for="Model" type="hidden" id="real-model-inp" />
+                <div class="custom-select">
+                    <div class="select-btn" id="modelsButton" large>
+                        <span>Не обрано</span>
+                        <input type="text" id="other-model-inp" class="other-input" placeholder="Напишіть модель" />
+                        <i class="uil uil-angle-down"></i>
+                    </div>
+                    <div class="content">
+                        <div class="search">
+                            <i class="uil uil-search"></i>
+                            <input spellcheck="false" type="text" placeholder="Пошук" id="searchModel">
+                        </div>
+                        <ul class="options" id="models"></ul>
+                    </div>
+                </div>
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+            <div class="create_main-section">
+                <label>Рік</label>
+                <input class="input" asp-for=Year type="number" id="year-input" placeholder="Рік" />
+                <span asp-validation-for=Year class="text-danger"></span>
+            </div>
+        </div>
+        <div class="create_main-section">
+            <label id="price-in-uah" currency="@Model.Currency">Вкажіть максимальну ціну ($)</label>
+            <input class="input" asp-for=MaxPrice id="price" type="number" placeholder="Ціна" />
+            <span asp-validation-for=MaxPrice class="text-danger"></span>
+        </div>
+        <label>За необхідності додайте опис</label>
+        <textarea asp-for=Description placeholder="Додатковий опис" rows="4" maxlength="500" id="description"></textarea>
+        <span id="description-limit">0/500</span>
+        <span asp-validation-for=Description class="text-danger"></span>
+        <button type="submit" class="sell-button">Опублікувати запит</button>
+    </form>
+</div>
+<script src="~/js/createExpressCarSalePage.js" asp-append-version="true"></script>
+<script src="~/js/imagesPreviews.js" asp-append-version="true"></script>
+<script src="~/js/priceInUah.js" asp-append-version="true"></script>

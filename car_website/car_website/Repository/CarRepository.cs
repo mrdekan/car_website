@@ -51,7 +51,7 @@ namespace car_website.Repository
         {
             try
             {
-                return _dbContext.Cars.CountDocuments(Builders<Car>.Filter.Where(c => (c.Priority ?? 1) >= 0));
+                return _dbContext.Cars.CountDocuments(Builders<Car>.Filter.Where(c => (c.Priority ?? 1) >= 0 && !c.IsSold));
             }
             catch
             {

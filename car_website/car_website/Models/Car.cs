@@ -59,7 +59,7 @@ namespace car_website.Models
         public int? Priority { get; set; }
         public float? PreviewAspectRatio { get; set; }
         public string? PreviewURL { get; set; }
-        public bool? IsSold { get; set; }
+        public bool IsSold { get; set; }
         public string? OwnerId { get; set; }
         public string? OwnerName { get; set; }
         public string? OwnerPhone { get; set; }

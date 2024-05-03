@@ -20,7 +20,7 @@ namespace car_website.Controllers
                 return ((ClaimsIdentity)User.Identity).Claims?.FirstOrDefault()?.Value ?? "";
             return "";
         }
-        protected async Task<bool> IsAtorized() =>
+        protected async Task<bool> IsAuthorized() =>
             await GetCurrentUser() != null;
         protected async Task<User> GetCurrentUser()
         {

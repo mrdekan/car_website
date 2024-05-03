@@ -253,6 +253,28 @@ input[type=number] {
   --filters-background: #F3EFCA;
 }
 
+.order {
+  padding: 10px;
+  background: var(--background-secondary);
+  border-radius: 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: var(--text-default);
+}
+.order-row {
+  font-size: 16px;
+  gap: 4px;
+  display: flex;
+}
+.order-row p {
+  font-weight: bold;
+}
+.order-row a {
+  color: white;
+  text-decoration: underline;
+}
+
 .buy-request {
   display: flex;
   gap: 30px;
@@ -2051,6 +2073,61 @@ body {
   height: fit-content;
 }
 
+.notification {
+  position: fixed;
+  width: fit-content;
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  background: var(--background-secondary);
+  transition: 0.35s;
+  margin: auto;
+  z-index: 999;
+  top: 100vh;
+  width: 300px;
+  color: var(--text-default);
+  left: calc(50% - 150px);
+}
+
+.select-create-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: calc(100vh - 180px);
+  gap: 20px;
+}
+.select-create-btns a {
+  position: relative;
+  padding: 10px;
+  padding-left: 51px;
+  border-radius: 8px;
+  background: var(--green-medium);
+  transition: 0.25s;
+  color: white;
+  font-size: 24px;
+  min-width: 240px;
+  text-align: center;
+}
+.select-create-btns a:hover {
+  background: var(--green-light);
+  transition: 0.25s;
+}
+
+.create-button-tg::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  background: url("../img/telegram.png");
+  background-size: 100%;
+  top: 3px;
+  left: 6px;
+}
+
 .cards {
   display: flex;
   justify-content: space-around;
@@ -2551,14 +2628,36 @@ footer a {
 }
 .footer-container span {
   font-size: 18px;
-  display: block;
+  display: flex;
+  align-items: center;
   margin-left: 10px;
-  margin-bottom: 5px;
 }
 .footer-container-left {
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+.footer-container-left span {
+  cursor: pointer;
+  width: fit-content;
+}
+.footer-container-left button {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  padding: 1px;
+  margin-right: 4px;
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+}
+.footer-container-left button span {
+  margin: 0;
+}
+.footer-container-left-soc {
+  display: flex;
+  gap: 15px;
+  align-items: center;
 }
 .footer-container-left-icons {
   margin-left: 10px;

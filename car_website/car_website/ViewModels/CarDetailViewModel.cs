@@ -32,7 +32,7 @@ namespace car_website.ViewModels
             SellerId = car.SellerId;
             Priority = car.Priority ?? 0;
             PreviewURL = car.PreviewURL ?? "";
-            IsSold = car.IsSold ?? false;
+            IsSold = car.IsSold;
         }
         public string Id { get; set; }
         public string SellerId { get; set; }
