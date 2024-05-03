@@ -3579,6 +3579,13 @@ header .header_right-dark-label::before {
   .select-btn, li {
     cursor: default;
   }
+  .footer {
+    flex-direction: column;
+    height: 230px;
+  }
+  .footer-map {
+    height: 100px;
+  }
   header {
     /*.header_left {
         span {

@@ -1726,7 +1726,13 @@ header {
     .select-btn, li {
         cursor: default;
     }
-
+    .footer {
+            flex-direction: column;
+            height: 230px;
+        &-map{
+            height: 100px;
+        }
+    }
     header {
         /*.header_left {
             span {
