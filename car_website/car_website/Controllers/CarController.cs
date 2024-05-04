@@ -337,46 +337,39 @@ namespace car_website.Controllers
                 return Ok(new { SuccessCode = 1 });
             }
         }
+        public async Task<IActionResult> Orders()
+        {
+            return View();
+        }
         public async Task<IActionResult> OrderCar()
         {
-            return View(new CreatePurchaseRequestViewModel(_currencyUpdater.CurrentCurrency, await IsAuthorized()));
+            if (!await IsAdmin())
+                return RedirectToAction("NotFound", "Home");
+            return View(new CreatePurchaseRequestViewModel(_currencyUpdater.CurrentCurrency));
         }
         [HttpPost]
         public async Task<IActionResult> OrderCar(CreatePurchaseRequestViewModel carVM)
         {
             User user = await GetCurrentUser();
+            if (user == null || !user.IsAdmin)
+                return RedirectToAction("NotFound", "Home");
             // Restoring the values ​​of fields that were reset
-            carVM.IsLogged = user != null;
             carVM.Currency = _currencyUpdater.CurrentCurrency;
 
             bool userInfoValidation = true;
-            if (user == null)
+            if (!string.IsNullOrWhiteSpace(carVM.Name) && !_validationService.IsValidName(carVM.Name))
             {
-                if (string.IsNullOrEmpty(carVM.Name))
-                {
-                    ModelState.AddModelError("Name", "Обов'язкове поле");
-                    userInfoValidation = false;
-                }
-                if (!_validationService.IsValidName(carVM.Name))
-                {
-                    ModelState.AddModelError("Name", "Некоректні дані");
-                    userInfoValidation = false;
-                }
-                if (string.IsNullOrEmpty(carVM.Phone))
-                {
-                    ModelState.AddModelError("Phone", "Обов'язкове поле");
-                    userInfoValidation = false;
-                }
-
-                // A class field cannot be passed by reference
-                string phone = carVM.Phone;
-                if (!_validationService.FixPhoneNumber(ref phone))
-                {
-                    ModelState.AddModelError("Phone", "Некоректні дані");
-                    userInfoValidation = false;
-                }
-                carVM.Phone = phone;
+                ModelState.AddModelError("Name", "Некоректні дані");
+                userInfoValidation = false;
             }
+
+            string phone = carVM.Phone;
+            if (!string.IsNullOrWhiteSpace(phone) && !_validationService.FixPhoneNumber(ref phone))
+            {
+                ModelState.AddModelError("Phone", "Некоректні дані");
+                userInfoValidation = false;
+            }
+            carVM.Phone = phone;
 
             bool additionalValidation = true;
             if (carVM.MaxPrice == null && carVM.Description == null && carVM.Model == null && carVM.Brand == null)

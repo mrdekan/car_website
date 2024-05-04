@@ -11,9 +11,7 @@
                 <label for="buyRequests" id="buyRequests-label">Запити на покупку</label>
             </div>
             <div class="radio">
-                <input type="radio" id="orders"
-                       name="action" value="orders">
-                <label for="orders" id="orders-label">Замовлення</label>
+                <a asp-controller="Car" asp-action="OrderCar">Додати замовлення</a>
             </div>
             <div class="radio">
                 <input type="radio" id="waitingCars"

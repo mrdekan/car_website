@@ -4,15 +4,13 @@ namespace car_website.ViewModels
 {
     public class PurchaseRequestViewModel
     {
-        public PurchaseRequestViewModel(PurchaseRequest model, User? user)
+        public PurchaseRequestViewModel(PurchaseRequest model, bool isAdmin)
         {
             UserId = model.UserId;
-            Name = model.Name;
-            Phone = model.Phone;
-            if (user != null)
+            if (isAdmin)
             {
-                Name = user.SurName + " " + user.Name;
-                Phone = user.PhoneNumber;
+                Name = model.Name;
+                Phone = model.Phone;
             }
             Brand = model.Brand;
             Model = model.Model;

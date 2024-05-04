@@ -3,7 +3,6 @@ using car_website.Interfaces;
 using car_website.Models;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace car_website.Controllers.v1
 {
@@ -27,29 +26,9 @@ namespace car_website.Controllers.v1
         [HttpGet("getAll")]
         public async Task<ActionResult<IEnumerable<PurchaseRequest>>> GetOrders()
         {
-            if (!IsAdmin().Result)
-            {
-                return Ok(new
-                {
-                    Status = false,
-                    Code = HttpCodes.InsufficientPermissions
-                });
-            }
             var orders = await _purchaseRequestRepository.GetAll();
-            List<PurchaseRequestViewModel> ordersRes = new();
-            foreach (var order in orders)
-            {
-                PurchaseRequestViewModel temp;
-                User user = null;
-                if (order.UserId != null)
-                {
-                    bool parsed = ObjectId.TryParse(order.UserId, out ObjectId objectId);
-                    if (parsed)
-                        user = await _userRepository.GetByIdAsync(objectId);
-                }
-                temp = new(order, user);
-                ordersRes.Add(temp);
-            }
+            bool isAdmin = await IsAdmin();
+            List<PurchaseRequestViewModel> ordersRes = orders.Select(el => new PurchaseRequestViewModel(el, isAdmin)).ToList();
             return Ok(new
             {
                 Status = true,

@@ -10,9 +10,8 @@ namespace car_website.ViewModels
         {
 
         }
-        public CreatePurchaseRequestViewModel(double currency, bool isLogged = false)
+        public CreatePurchaseRequestViewModel(double currency)
         {
-            IsLogged = isLogged;
             Currency = currency;
         }
         [MaxLength(30, ErrorMessage = "Не більше 30 символів")]
@@ -29,7 +28,6 @@ namespace car_website.ViewModels
         [MaxLength(500, ErrorMessage = "Занадто довгий опис")]
         public string? Description { get; set; }
         public double Currency { get; set; }
-        public bool IsLogged { get; set; }
         public PurchaseRequest GetModel(ObjectId? userId)
         {
             var model = new PurchaseRequest();

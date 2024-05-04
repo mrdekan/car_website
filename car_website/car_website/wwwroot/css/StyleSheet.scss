@@ -14,6 +14,7 @@ body {
     font-family: 'Roboto', sans-serif;
     height: fit-content;
 }
+
 .notification {
     position: fixed;
     width: fit-content;
@@ -31,6 +32,35 @@ body {
     color: var(--text-default);
     left: calc(50% - 150px);
 }
+
+.orders {
+    h1 {
+        color: var(--text-default);
+        padding: 80px 0 15px;
+        text-align: center;
+        font-size: 26px;
+        transition: color 0.2s;
+    }
+
+    max-width: 750px;
+    padding: 0 10px;
+    margin: auto;
+
+    &-row {
+        display: flex;
+        gap: 3%;
+    }
+}
+
+#orders-container {
+    border-collapse: collapse;
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
 .select-create-btns {
     display: flex;
     align-items: center;
@@ -663,11 +693,13 @@ footer {
             display: flex;
             flex-direction: column;
             gap: 5px;
-            span{
+
+            span {
                 cursor: pointer;
                 width: fit-content;
             }
-            button{
+
+            button {
                 width: 20px;
                 height: 20px;
                 border-radius: 4px;
@@ -676,10 +708,12 @@ footer {
                 background: transparent;
                 border: 1px solid white;
                 color: white;
-                span{
+
+                span {
                     margin: 0;
                 }
             }
+
             &-soc {
                 display: flex;
                 gap: 15px;
@@ -1719,6 +1753,10 @@ header {
 }
 
 @media (max-width: 767px) {
+    .orders-row{
+        flex-direction: column;
+        gap: 10px;
+    }
     * {
         cursor: default !important;
     }
@@ -1726,13 +1764,16 @@ header {
     .select-btn, li {
         cursor: default;
     }
+
     .footer {
-            flex-direction: column;
-            height: 230px;
-        &-map{
+        flex-direction: column;
+        height: 230px;
+
+        &-map {
             height: 100px;
         }
     }
+
     header {
         /*.header_left {
             span {
@@ -1747,7 +1788,7 @@ header {
                     top: 0;
                     left: -30px;
                     width: 130px;
-                    height: 100%;
+                    height: 100%; 
                     background-color: inherit;
                 }
             }

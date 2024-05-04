@@ -1,28 +1,22 @@
 ﻿@using car_website.ViewModels;
-@model CreatePurchaseRequestViewModel 
+@model CreatePurchaseRequestViewModel
 @{
     ViewData["Title"] = "Замовити авто";
 }
 <div class="create">
     <form method="post" asp-action="OrderCar" enctype="multipart/form-data">
-        <h2 class="info-text">
-            <strong>Хочете придбати авто якого немає на сайті? Залиште свій запит!</strong>
-        </h2>
-        @if (!Model.IsLogged)
-        {
-            <div class="create_main">
-                <div class="create_main-section">
-                    <label>Як до Вас звертатися?<span class="required" title="Обов'язкове поле"></span></label>
-                    <input asp-for=Name class="input" type="text" placeholder="Ваше ім'я" />
-                    <span asp-validation-for=Name class="text-danger"></span>
-                </div>
-                <div class="create_main-section">
-                    <label>Номер телефону<span class="required" title="Обов'язкове поле"></span></label>
-                    <input asp-for=Phone class="input" type="text" placeholder="+380xxxxxxxxx" />
-                    <span asp-validation-for=Phone class="text-danger"></span>
-                </div>
+        <div class="create_main">
+            <div class="create_main-section">
+                <label>Для кого авто?<span class="required" title="Обов'язкове поле"></span></label>
+                <input asp-for=Name class="input" type="text" placeholder="Ім'я" />
+                <span asp-validation-for=Name class="text-danger"></span>
             </div>
-        }
+            <div class="create_main-section">
+                <label>Номер телефону<span class="required" title="Обов'язкове поле"></span></label>
+                <input asp-for=Phone class="input" type="text" placeholder="+380xxxxxxxxx" />
+                <span asp-validation-for=Phone class="text-danger"></span>
+            </div>
+        </div>
         <div class="create_main">
             <div class="create_main-section">
                 <label asp-for="Brand">Марка</label>
