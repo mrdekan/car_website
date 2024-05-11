@@ -16,6 +16,6 @@ namespace car_website.Models
         public int? MaxPrice { get; set; }
         public int? Year { get; set; }
         public string? Description { get; set; }
-
+        public bool IsSold { get; set; }
     }
 }

@@ -21,7 +21,8 @@ namespace car_website.Controllers
         private readonly IValidationService _validationService;
         private readonly IAppSettingsDbRepository _appSettingsDbRepository;
         private readonly IImageService _imageService;
-        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, RoleManager<Role> roleManager, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository, IImageService imageService) : base(userRepository)
+        private readonly IPurchaseRequestRepository _purchaseRequestRepository;
+        public AdminController(ICarRepository carRepository, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, IBrandRepository brandRepository, CurrencyUpdater currencyUpdater, RoleManager<Role> roleManager, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository, IImageService imageService, IPurchaseRequestRepository purchaseRequestRepository) : base(userRepository)
         {
             _carRepository = carRepository;
             _userRepository = userRepository;
@@ -33,6 +34,7 @@ namespace car_website.Controllers
             _validationService = validationService;
             _appSettingsDbRepository = appSettingsDbRepository;
             _imageService = imageService;
+            _purchaseRequestRepository = purchaseRequestRepository;
         }
         #endregion
         public async Task<IActionResult> Panel()
@@ -57,11 +59,16 @@ namespace car_website.Controllers
         {
             /*if (HttpContext.Session.GetInt32("UserRole") != 2)
                 return RedirectToAction("Index", "Home");*/
-            var cars = await _carRepository.GetAll();
+            /*var cars = await _carRepository.GetAll();
             foreach (var car in cars)
             {
                 car.IsSold = false;
-                await _carRepository.Update(car);
+              */
+            var orders = await _purchaseRequestRepository.GetAll();
+            foreach (var order in orders)
+            {
+                order.IsSold = false;
+                await _purchaseRequestRepository.Update(order);
             }
             /*var car = await _carRepository.GetByIdAsync(ObjectId.Parse("64cd39e120782f15caafd533"));
             car.Priority = 2;

@@ -33,6 +33,14 @@ body {
     left: calc(50% - 150px);
 }
 
+.delete-order {
+    width: 100%;
+    padding: 6px;
+    border-radius: 8px;
+    background: var(--error-main);
+    color: white;
+}
+
 .orders {
     h1 {
         color: var(--text-default);
@@ -1753,10 +1761,11 @@ header {
 }
 
 @media (max-width: 767px) {
-    .orders-row{
+    .orders-row {
         flex-direction: column;
         gap: 10px;
     }
+
     * {
         cursor: default !important;
     }

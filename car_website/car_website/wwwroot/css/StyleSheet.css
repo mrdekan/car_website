@@ -2093,6 +2093,14 @@ body {
   left: calc(50% - 150px);
 }
 
+.delete-order {
+  width: 100%;
+  padding: 6px;
+  border-radius: 8px;
+  background: var(--error-main);
+  color: white;
+}
+
 .orders {
   max-width: 750px;
   padding: 0 10px;

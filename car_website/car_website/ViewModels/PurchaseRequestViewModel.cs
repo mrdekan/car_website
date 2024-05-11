@@ -17,7 +17,11 @@ namespace car_website.ViewModels
             MaxPrice = model.MaxPrice;
             Year = model.Year;
             Description = model.Description;
+            Id = model.Id.ToString();
+            IsSold = model.IsSold;
         }
+        public string Id { get; set; }
+        public bool IsSold { get; set; }
         public string? UserId { get; set; }
         public string? Name { get; set; }
         public string? Phone { get; set; }

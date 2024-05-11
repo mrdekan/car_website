@@ -1,5 +1,6 @@
 ﻿const container = document.getElementById('orders-container');
 
+const isAdmin = container.hasAttribute('adm');
 getOrders();
 
 function getOrders() {
@@ -25,6 +26,7 @@ function getOrders() {
                                 ${order.description ? `<div class='order-row'><p>Опис:</p><span>${order.description}</span></div>` : ''}
                                 ${order.name ? `<div class='order-row'><p>Ім'я: </p><span>${order.name}</span></div>` : ''}
                                 ${order.phone ? `<div class='order-row'><p>Телефон: </p><span>${order.phone}</span></div>` : ''}
+                                ${isAdmin ? `<button class="delete-order" id="${order.id}">Видалити</button>`:''}
                                 </div>`;
                         }
                         temp += '</div>';

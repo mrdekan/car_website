@@ -38,6 +38,7 @@ namespace car_website.ViewModels
             model.Year = Year;
             model.Description = Description;
             model.MaxPrice = MaxPrice;
+            model.IsSold = false;
             if (userId != null)
                 model.UserId = userId.ToString();
             return model;
