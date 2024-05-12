@@ -53,6 +53,11 @@
             </div>
             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
         </div>
+        <div class="form-group">
+            <label asp-for="Referral">Реферальний код</label>
+            <input autocomplete="email" asp-for="Referral" type="text" class="form-control" placeholder="Введіть код">
+            <span asp-validation-for="Referral" class="text-danger"></span>
+        </div>
         <button type="submit" class="sell-button" style="min-width: 100%;">Зареєструватись</button>
         <div class="log-reg-change"><p>Вже зареєстровані? <a asp-controller="User" asp-action="Login">Увійти</a></p></div>
     </form>

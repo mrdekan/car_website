@@ -76,7 +76,7 @@ namespace car_website.Services
             }
         }
 
-        public bool IsValidPassword(string password) =>
+        public bool IsValidPassword(string password) => password != null &&
             password.Length >= MIN_PASSWORD_LENGTH
             && password.Length <= MAX_PASSWORD_LENGTH;
         // 1048576 = 1024 * 1024 (b => Mb)

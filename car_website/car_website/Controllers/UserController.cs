@@ -25,8 +25,9 @@ namespace car_website.Controllers
         private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IValidationService _validationService;
+        private readonly IConfiguration _configuration;
 
-        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository, CurrencyUpdater currencyUpdater, ICarRepository carRepository, IWaitingCarsRepository waitingCarsRepository, IBuyRequestRepository buyRequestRepository, UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager, IValidationService validationService) : base(userRepository)
+        public UserController(IUserService userService, IEmailService emailService, IUserRepository userRepository, CurrencyUpdater currencyUpdater, ICarRepository carRepository, IWaitingCarsRepository waitingCarsRepository, IBuyRequestRepository buyRequestRepository, UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager, IValidationService validationService, IConfiguration configuration) : base(userRepository)
         {
             _userService = userService;
             _emailService = emailService;
@@ -39,6 +40,7 @@ namespace car_website.Controllers
             _roleManager = roleManager;
             _signInManager = signInManager;
             _validationService = validationService;
+            _configuration = configuration;
         }
         #endregion
 
@@ -101,6 +103,11 @@ namespace car_website.Controllers
             if (_userRepository.IsPhoneTaken(userVM.PhoneNumber).Result)
             {
                 ModelState.AddModelError("PhoneNumber", "Номер вже використовується");
+                validation = false;
+            }
+            if (userVM.Referral != _configuration.GetSection("Referral")["Main"])
+            {
+                ModelState.AddModelError("Referral", "Код недійсний");
                 validation = false;
             }
             if (ModelState.IsValid && validation)

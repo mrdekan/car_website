@@ -23,6 +23,7 @@ namespace car_website.ViewModels
         [Required(ErrorMessage = "Обов'язкове поле")]
         [Compare("Password", ErrorMessage = "Паролі не співпадають")]
         public string ConfirmPassword { get; set; }
-
+        [Required(ErrorMessage = "Обов'язкове поле")]
+        public string Referral { get; set; }
     }
 }
