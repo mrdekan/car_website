@@ -2209,7 +2209,6 @@ body {
   position: sticky;
   top: 60px;
   max-height: calc(100vh - 100px);
-  height: calc(100vh - 100px);
 }
 
 .wrapper {
@@ -2232,8 +2231,8 @@ body {
   flex-direction: column;
   gap: 8px;
   max-width: 300px;
-  padding: 5px 17px;
-  margin: 25px 0 25px;
+  padding: 5px 17px 50px;
+  margin: 25px 0;
   max-height: calc(100% - 28px);
   height: 100%;
 }
