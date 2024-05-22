@@ -159,7 +159,7 @@ body {
 .filters_wrapper {
     position: sticky;
     top: 60px;
-    max-height: calc(100vh - 150px);
+    max-height: calc(100vh - 195px);
   //  height: calc(100vh - 100px);
 }
 
@@ -658,6 +658,7 @@ body {
 
 footer {
     height: 3.5vw;
+    min-height:90px;
     width: 100%;
     background-color: $green-dark;
     display: flex;
@@ -688,25 +689,28 @@ footer {
 
     &-container {
         display: flex;
-        justify-content: space-between;
+        flex-direction:column;
+        gap:5px;
 
         p {
-            font-size: 20px;
+            font-size: 17px;
         }
 
         span {
-            font-size: 18px;
+            font-size: 15px;
             display: flex;
             align-items: center;
-            margin-left: 10px;
+            //margin-left: 10px;
             //margin-bottom: 5px;
         }
 
         &-left {
             display: flex;
             //flex-direction: column;
-            align-items: center;
+            //align-items: center;
             gap: 5px;
+            justify-content: start;
+            flex-direction: column;
 
             span {
                 cursor: pointer;
@@ -735,7 +739,6 @@ footer {
             }
 
             &-icons {
-                margin-left: 10px;
                 display: flex;
                 gap: 15px;
             }
@@ -744,8 +747,8 @@ footer {
 }
 
 .soc-media-icon {
-    width: 30px;
-    height: 30px;
+    width: 23px;
+    height: 23px;
     display: block;
     border-radius: 7px;
 }
@@ -776,8 +779,10 @@ header {
             //margin-left: -10px;
             //overflow: hidden;
             img {
-                width: 9.75vw;
-                height: 6.5vw;
+                // width: 9.75vw;
+                // height: 6.5vw;
+                width: 150px;
+                height: 100px;
                 margin-top: 25px;
             }
             /*&::before {
@@ -1782,17 +1787,19 @@ header {
 
     .footer {
         flex-direction: column;
-        height: 230px;
+        align-items:normal;
 
         &-map {
+            display:none;
             height: 100px;
         }
     }
 
     header {
-        /*.header_left {
+        .header_left {
+
             span {
-                display: block;
+                /* display: block;
                 transform: skewX(-20deg);
                 width: 150px;
                 height: 100px;
@@ -1805,10 +1812,14 @@ header {
                     width: 130px;
                     height: 100%; 
                     background-color: inherit;
+                }*/
+                img {
+                    height: 60px;
+                    width:90px;
                 }
             }
 
-            a {
+            /*a {
                 margin: -75px 0 0 28px;
 
                 &::before {
@@ -1817,7 +1828,9 @@ header {
                     margin: 15px 0 0 0;
                 }
             }
-        }*/
+
+            */
+        }
     }
 
     .wrapper {
@@ -1835,6 +1848,12 @@ header {
 
             &_scroll {
                 overflow-y: initial;
+            }
+            /*&_sellectors {
+                
+            }*/
+            .range-slider {
+                justify-content: center;
             }
 
             &_wrapper {
