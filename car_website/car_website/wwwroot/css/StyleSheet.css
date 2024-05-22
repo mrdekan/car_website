@@ -3677,9 +3677,6 @@ header .header_right-dark-label::before {
     max-width: 100%;
     max-height: 100%;
     min-height: fit-content;
-    /*&_sellectors {
-
-    }*/
   }
   .wrapper .filters_scroll {
     overflow-y: initial;
