@@ -130,6 +130,10 @@
         margin-right: 3%;
         margin-top: 50px;
 
+        &.open {
+            left: 0;
+        }
+
         a {
             font-size: 20px;
             color: #969696;
@@ -154,8 +158,8 @@
                 content: "";
                 background-color: $green-dark;
                 position: absolute;
-                height: 40px;
-                width: 21%;
+                //height: 40px;
+                //width: 21%;
                 background-size: 26px 26px;
                 margin: -9px 0 0 -25%;
                 z-index: -1;
@@ -174,11 +178,14 @@
             input[type="radio"]:checked + label {
                 color: white;
                 transition: 0.22s;
+                position: relative;
             }
 
             input[type="radio"]:checked + label::before {
                 margin: -9px 0 0 -10px;
                 transition: 0.3s;
+                height: 100%;
+                width: 100%;
             }
         }
     }
@@ -345,31 +352,69 @@
         }
     }
 }
-.currency {
-    background: $background-secondary;
-    padding: 20px;
-    border-radius: 0 16px 0 16px;
-    transition: 0.2s;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
 
-    p {
-        color: $text-default;
-        transition: color 0.2s;
-        font-size: 16px;
-    }
-
-    button {
-        padding: 6px;
-        border-radius: 8px;
-        background: $green-medium;
+    .currency {
+        background: $background-secondary;
+        padding: 20px;
+        border-radius: 0 16px 0 16px;
         transition: 0.2s;
-        color: white;
-        font-size: 16px;
-        &:hover {
-            background: $green-light;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        p {
+            color: $text-default;
+            transition: color 0.2s;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 6px;
+            border-radius: 8px;
+            background: $green-medium;
             transition: 0.2s;
+            color: white;
+            font-size: 16px;
+
+            &:hover {
+                background: $green-light;
+                transition: 0.2s;
+            }
         }
     }
+#open-admin-left {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 30vh;
+    width: 43px;
+    height: 42px;
+    background: $green-dark;
+    border-radius: 0 8px 8px 0;
+    z-index: 50;
+    box-shadow: 0 0 7px rgba(0,0,0,0.3);
 }
+    @media (max-width: 767px) {
+        .admin {
+
+            &_left {
+                width: 100vw;
+                height: calc(100vh + 40px);
+                position: fixed;
+                z-index: 15;
+                overflow-y: auto;
+                left: -105%;
+                transition: 0.15s ease-in;
+                top: 50px;
+                max-height: 100vh;
+                background: var(--background-main);
+
+                &.open {
+                    left: 0;
+                }
+            }
+        }
+        #open-admin-left {
+            display: block;
+        }
+    }

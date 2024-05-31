@@ -686,55 +686,59 @@ h4 {
 
     .features {
         max-height: 410px;
+        padding-left:10px;
     }
+    .feature {
+        padding: 0;
+        width:auto;
+        }
+        .priceBuy {
+            margin-left: 10px;
+            margin-right: 10px;
 
-    .priceBuy {
-        margin-left: 10px;
-        margin-right: 10px;
+            &_right {
+                display: flex;
+                flex-direction: column;
+                align-items: end;
+                width: 155px;
+                gap: 5px;
+            }
 
-        &_right {
-            display: flex;
-            flex-direction: column;
-            align-items: end;
-            width: 155px;
-            gap: 5px;
+            &_buy {
+                font-size: 16px;
+                padding: 5px 10px;
+                min-width: 0;
+                min-width: 155px;
+                min-height: 30px;
+                text-align: center;
+            }
+
+            a {
+                font-size: 16px;
+                height: 30px;
+            }
         }
 
-        &_buy {
-            font-size: 16px;
-            padding: 5px 10px;
-            min-width: 0;
-            min-width: 155px;
-            min-height: 30px;
-            text-align: center;
+        .popup {
+            &_images {
+                width: 100%;
+            }
         }
 
-        a {
-            font-size: 16px;
-            height: 30px;
+        h4 {
+            font-size: 14px;
+            padding-left: 10px;
+        }
+
+        .car_description {
+            padding-left: 10px;
+        }
+
+        .popup_content {
+            width: 80%;
+        }
+
+        .car_similar {
+            display: none;
         }
     }
-
-    .popup {
-        &_images {
-            width: 100%;
-        }
-    }
-
-    h4 {
-        font-size: 14px;
-        padding-left: 10px;
-    }
-
-    .car_description {
-        padding-left: 10px;
-    }
-
-    .popup_content {
-        width: 80%;
-    }
-
-    .car_similar {
-        display: none;
-    }
-}

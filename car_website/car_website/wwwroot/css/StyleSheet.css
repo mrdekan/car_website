@@ -375,6 +375,9 @@ input[type=number] {
   margin-right: 3%;
   margin-top: 50px;
 }
+.admin_left.open {
+  left: 0;
+}
 .admin_left a {
   font-size: 20px;
   color: #969696;
@@ -398,8 +401,6 @@ input[type=number] {
   content: "";
   background-color: var(--green-dark);
   position: absolute;
-  height: 40px;
-  width: 21%;
   background-size: 26px 26px;
   margin: -9px 0 0 -25%;
   z-index: -1;
@@ -414,10 +415,13 @@ input[type=number] {
 .admin_left .radio input[type=radio]:checked + label {
   color: white;
   transition: 0.22s;
+  position: relative;
 }
 .admin_left .radio input[type=radio]:checked + label::before {
   margin: -9px 0 0 -10px;
   transition: 0.3s;
+  height: 100%;
+  width: 100%;
 }
 .admin_right {
   padding: 10px 2%;
@@ -583,6 +587,39 @@ input[type=number] {
   transition: 0.2s;
 }
 
+#open-admin-left {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 30vh;
+  width: 43px;
+  height: 42px;
+  background: var(--green-dark);
+  border-radius: 0 8px 8px 0;
+  z-index: 50;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 767px) {
+  .admin_left {
+    width: 100vw;
+    height: calc(100vh + 40px);
+    position: fixed;
+    z-index: 15;
+    overflow-y: auto;
+    left: -105%;
+    transition: 0.15s ease-in;
+    top: 50px;
+    max-height: 100vh;
+    background: var(--background-main);
+  }
+  .admin_left.open {
+    left: 0;
+  }
+  #open-admin-left {
+    display: block;
+  }
+}
 :root {
   --green-light: #537049;
   --green-medium: #4b6742;
@@ -1283,6 +1320,11 @@ h4 {
   }
   .features {
     max-height: 410px;
+    padding-left: 10px;
+  }
+  .feature {
+    padding: 0;
+    width: auto;
   }
   .priceBuy {
     margin-left: 10px;
