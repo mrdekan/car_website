@@ -33,6 +33,7 @@ namespace car_website.ViewModels
             Priority = car.Priority ?? 0;
             PreviewURL = car.PreviewURL ?? "";
             IsSold = car.IsSold;
+            AdditionalPhone = car.AdditionalPhone;
         }
         public string Id { get; set; }
         public string SellerId { get; set; }
@@ -57,6 +58,7 @@ namespace car_website.ViewModels
         public int Priority { get; set; }
         public string PreviewURL { get; set; }
         public bool IsSold { get; set; }
+        public string? AdditionalPhone { get; set; }
         private string GetTransmission(Transmission tr) => (tr == Transmission.Automatic ? "Автомат" : "Механічна");
         private string GetBody(TypeBody b)
         {

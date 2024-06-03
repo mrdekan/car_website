@@ -179,6 +179,15 @@
     background: $beige-default;
 }
 
+.additional-phone{
+    padding: 20px 0;
+    border-bottom: 2px solid var(--gray-default);
+    font-size: 20px;
+    strong{
+        cursor: pointer;
+    }
+}
+
 .slider {
     display: flex;
     justify-content: space-between;

@@ -891,6 +891,15 @@ input[type=number] {
   background: var(--beige-default);
 }
 
+.additional-phone {
+  padding: 20px 0;
+  border-bottom: 2px solid var(--gray-default);
+  font-size: 20px;
+}
+.additional-phone strong {
+  cursor: pointer;
+}
+
 .slider {
   display: flex;
   justify-content: space-between;
