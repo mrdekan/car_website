@@ -24,6 +24,7 @@
         AirSuspension,
         ESP,
         CarAudioSystem,
-        AlloyWheels
+        AlloyWheels,
+        ClimatControl
     }
 }

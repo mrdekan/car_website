@@ -2,12 +2,14 @@
     let notificationTimeout;
     const activeNotifications = [];
 
-    function showNotification(message, duration = 3000) {
-        // Скрываем все активные уведомления
+    function showNotification(message, isError = false) {
+        let duration = 3000;
         activeNotifications.forEach(notification => hideNotification(notification));
 
         const notificationElement = document.createElement('div');
         notificationElement.classList.add('notification');
+        if (isError)
+            notificationElement.classList.add('notification-error');
         notificationElement.textContent = message;
         document.body.appendChild(notificationElement);
         activeNotifications.push(notificationElement);

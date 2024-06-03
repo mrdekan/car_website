@@ -68,5 +68,7 @@ namespace car_website.ViewModels
         public string? OtherModelName { get; set; }
         public CarFeatures Features { get; set; } = new CarFeatures();
         public string? VideoURL { get; set; }
+        [MaxLength(13, ErrorMessage = "Не більше 13 символів")]
+        public string? AdditionalPhone { get; set; }
     }
 }

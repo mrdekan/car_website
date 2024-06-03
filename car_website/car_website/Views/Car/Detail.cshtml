@@ -37,7 +37,8 @@
             "Пневмопідвіска",
             "ESP",
             "Автомагнітола",
-            "Легкосплавні диски"
+            "Легкосплавні диски",
+            "Клімат контроль"
         };
 
 }
@@ -184,6 +185,7 @@
             <div class="features">
                 @for (int i = 0; i < features.Count(); i++)
                 {
+                    if (features[i] == "Кондиціонер" && Model.Options.Contains(CarOptions.ClimatControl)) continue;
                     if (Model.Options.Contains((CarOptions)i))
                     {
                         <p class="feature">

@@ -23,6 +23,9 @@ namespace car_website.Models
                     case CarOptions.AirConditioner:
                         AirConditioner = options.Contains(CarOptions.AirConditioner);
                         break;
+                    case CarOptions.ClimatControl:
+                        ClimatControl = options.Contains(CarOptions.ClimatControl);
+                        break;
                     case CarOptions.CentralLock:
                         CentralLock = options.Contains(CarOptions.CentralLock);
                         break;
@@ -96,6 +99,9 @@ namespace car_website.Models
 
         // Кондиціонер (Air conditioner)
         public bool AirConditioner { get; set; }
+
+        // Клімат контроль (Climat control)
+        public bool ClimatControl { get; set; }
 
         // Центральний замок (Central lock)
         public bool CentralLock { get; set; }

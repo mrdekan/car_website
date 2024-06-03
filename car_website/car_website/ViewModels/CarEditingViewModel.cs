@@ -61,6 +61,8 @@ namespace car_website.ViewModels
         [MaxLength(4, ErrorMessage = "Некоректне значення")]
         [MinLength(1, ErrorMessage = "Обов'язкове поле")]
         public string EngineCapacity { get; set; }
+        [MaxLength(13, ErrorMessage = "Не більше 13 символів")]
+        public string? Phone { get; set; }
         public void MovePhotosToArray()
         {
             Photos = new IFormFile[5];

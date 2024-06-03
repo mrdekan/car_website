@@ -556,7 +556,13 @@ namespace car_website.Controllers
                 ModelState.AddModelError("CreateCarViewModel.VIN", "Довжина VIN номеру — 17 символів");
                 additionalValidation = false;
             }
-
+            string? phone = carVM.CreateCarViewModel.AdditionalPhone;
+            if (phone != null && phone.Length > 0 && !_validationService.FixPhoneNumber(ref phone))
+            {
+                ModelState.AddModelError("CreateCarViewModel.AdditionalPhone", "Некоректний номер телефону");
+                additionalValidation = false;
+            }
+            carVM.CreateCarViewModel.AdditionalPhone = phone.Replace("+", "");
             if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo1))
             {
                 photosIsValid = false;
@@ -617,7 +623,7 @@ namespace car_website.Controllers
                 string preview = _imageService.CopyPhoto(photosNames[0]);
                 _imageService.ProcessImage(300, 200, preview);
                 preview = $"/Photos\\{preview}";
-                Car car = new(newCar, photosNames, user.Id.ToString(), _imageService.GetPhotoAspectRatio(photosNames[0]), preview);
+                Car car = new(newCar, photosNames, user.Id.ToString(), _imageService.GetPhotoAspectRatio(photosNames[0]), preview, user.Role != UserRole.User);
                 if (user.Role != UserRole.User)
                 {
                     if (user.Role == UserRole.Dev) car.Priority = -1;

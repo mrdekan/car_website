@@ -389,7 +389,6 @@
 @media (max-width: 1510px) {
   .create {
     background: var(--background-secondary);
-    width: 100vw;
   }
   .create_container {
     flex-direction: column;

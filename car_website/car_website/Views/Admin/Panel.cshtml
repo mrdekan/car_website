@@ -60,10 +60,9 @@
                 <a asp-controller="Admin" asp-action="Api">API</a>
             </div>
             <div class="radio">
-                @if (ViewContext.HttpContext.Session.GetInt32("Role") == 2)
-                {
-                    <a asp-controller="Admin" asp-action="AdminAction">AdminAction</a>
-                }
+                <input type="radio" id="dev"
+                       name="action" value="dev">
+                <label for="dev" id="dev-label">Dev</label>
             </div>
         </div>
     </div>
@@ -77,4 +76,4 @@
         </div>
     </div>
 </div>
-<script src="~/js/adminPanelPage.js" asp-append-version="true"></script>
+<script src="~/js/adminPanelPage.js" asp-append-version="true" type="module"></script>

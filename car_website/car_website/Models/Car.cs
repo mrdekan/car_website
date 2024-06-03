@@ -8,7 +8,7 @@ namespace car_website.Models
 {
     public class Car
     {
-        public Car(CreateCarViewModel carVM, List<string> urlPhotos, string sellerId, float aspectRatio, string previewURL)
+        public Car(CreateCarViewModel carVM, List<string> urlPhotos, string sellerId, float aspectRatio, string previewURL, bool isAdmin)
         {
             Price = carVM.Price;
             PhotosURL = urlPhotos.ToArray();
@@ -35,6 +35,8 @@ namespace car_website.Models
             PreviewAspectRatio = aspectRatio;
             PreviewURL = previewURL;
             IsSold = false;
+            if (isAdmin)
+                AdditionalPhone = carVM.AdditionalPhone;
         }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -63,7 +65,7 @@ namespace car_website.Models
         public string? OwnerId { get; set; }
         public string? OwnerName { get; set; }
         public string? OwnerPhone { get; set; }
-
+        public string? AdditionalPhone { get; set; }
         public void ApplyEdits(CarEditingViewModel editing, IEnumerable<string> photos, string preview)
         {
             Price = editing.Price;

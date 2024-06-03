@@ -31,6 +31,11 @@ body {
     width: 300px;
     color: var(--text-default);
     left: calc(50% - 150px);
+
+    &-error {
+        background: var(---error-main);
+        color: white;
+    }
 }
 
 .delete-order {
@@ -74,9 +79,16 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: calc(100vh - 180px);
+    height: calc(100vh - 140px);
     gap: 20px;
 
+    p{
+        color: var(--text-default);
+        font-size: 24px;
+    }
+    span{
+        color: var(--text-default);
+    }
     a {
         position: relative;
         padding: 10px;
@@ -96,6 +108,11 @@ body {
     }
 }
 
+.create-button-tg:hover {
+    background: var(--green-medium) !important;
+    cursor: not-allowed;
+    transition: 0;
+}
 .create-button-tg::before {
     content: '';
     display: block;
@@ -107,7 +124,17 @@ body {
     top: 3px;
     left: 6px;
 }
-
+.create-button-form::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    background: url('../img/form.png');
+    background-size: 100%;
+    top: 3px;
+    left: 6px;
+}
 .create-button-form {
 }
 
@@ -1006,7 +1033,7 @@ header {
 
 .pb-3 {
     padding: 0 calc(10px - (100vw - 100%)) 0 0;
-    min-height: calc(100vh - 180px);
+    min-height: calc(100vh - 140px);
 }
 //------------------Custom select start-------
 

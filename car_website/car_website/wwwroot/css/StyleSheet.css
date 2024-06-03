@@ -2024,7 +2024,6 @@ h4 {
 @media (max-width: 1510px) {
   .create {
     background: var(--background-secondary);
-    width: 100vw;
   }
   .create_container {
     flex-direction: column;
@@ -2134,6 +2133,10 @@ body {
   color: var(--text-default);
   left: calc(50% - 150px);
 }
+.notification-error {
+  background: var(---error-main);
+  color: white;
+}
 
 .delete-order {
   width: 100%;
@@ -2174,8 +2177,15 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: calc(100vh - 180px);
+  height: calc(100vh - 140px);
   gap: 20px;
+}
+.select-create-btns p {
+  color: var(--text-default);
+  font-size: 24px;
+}
+.select-create-btns span {
+  color: var(--text-default);
 }
 .select-create-btns a {
   position: relative;
@@ -2194,6 +2204,12 @@ body {
   transition: 0.25s;
 }
 
+.create-button-tg:hover {
+  background: var(--green-medium) !important;
+  cursor: not-allowed;
+  transition: 0;
+}
+
 .create-button-tg::before {
   content: "";
   display: block;
@@ -2201,6 +2217,18 @@ body {
   width: 36px;
   height: 36px;
   background: url("../img/telegram.png");
+  background-size: 100%;
+  top: 3px;
+  left: 6px;
+}
+
+.create-button-form::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  background: url("../img/form.png");
   background-size: 100%;
   top: 3px;
   left: 6px;
@@ -2976,7 +3004,7 @@ header .header_right-dark-label::before {
 
 .pb-3 {
   padding: 0 calc(10px - (100vw - 100%)) 0 0;
-  min-height: calc(100vh - 180px);
+  min-height: calc(100vh - 140px);
 }
 
 .select-btn, li {

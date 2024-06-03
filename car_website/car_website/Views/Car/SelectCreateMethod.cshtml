@@ -1,5 +1,10 @@
-﻿<div class="select-create-btns">
+﻿@{
+    ViewData["Title"] = "Продати авто";
+}
+
+<div class="select-create-btns">
     <p>Оберіть спосіб внесення інформації</p>
     <a asp-controller="Car" asp-action="Create" class="create-button-form">Форма на сайті</a>
-    <a href="https://t.me/one_auto_cn_bot" class="create-button-tg">Telegram бот</a>
+    <a @*href="https://t.me/one_auto_cn_bot"*@ class="create-button-tg" title="В розробці">Telegram бот</a>
+    <span>Бот знаходиться в розробці</span>
 </div>
