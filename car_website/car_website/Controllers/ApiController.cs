@@ -10,16 +10,6 @@ namespace car_website.Controllers.v1
     [ApiVersion("1.0")]
     public class ApiController : ExtendedApiController
     {
-        #region Constants
-        private const byte CARS_PER_PAGE = 3;
-        private const byte WAITING_CARS_PER_PAGE = 5;
-        private const byte BUY_REQUESTS_PER_PAGE = 5;
-        private const byte FAV_CARS_PER_PAGE = 10;
-        private const byte NAME_MAX_LENGTH = 25;
-        private readonly string[] ADMIN_ROLES = { "Dev", "Admin" };
-        private const uint JWT_LIFETIME_DAYS = 60;
-        #endregion
-
         #region Services & ctor
         private readonly ICarRepository _carRepository;
         private readonly IImageService _imageService;

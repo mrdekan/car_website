@@ -71,7 +71,10 @@
         <textarea asp-for=Description placeholder="Додатковий опис" rows="4" maxlength="500" id="description"></textarea>
         <span id="description-limit">0/500</span>
         <span asp-validation-for=Description class="text-danger"></span>
-        <button type="submit" class="sell-button">Опублікувати запит</button>
+        <div class="create_section" two buttons>
+            <a asp-controller="Admin" asp-action="Panel" class="cancel-button">Повернутись</a>
+            <button type="submit" class="sell-button">Опублікувати запит</button>
+        </div>
     </form>
 </div>
 <script src="~/js/createExpressCarSalePage.js" asp-append-version="true"></script>
