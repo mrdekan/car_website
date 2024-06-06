@@ -46,7 +46,7 @@
 .create {
   display: flex;
   align-items: center;
-  min-height: calc(100vh - 90px);
+  min-height: calc(100vh - 140px);
   max-height: fit-content;
 }
 .create .form-group label {
@@ -440,6 +440,7 @@
   .create .sell-button {
     margin: 0 auto;
     min-width: 90%;
+    max-width: 80vw !important;
   }
   .create .cancel-button {
     margin: 0 auto;

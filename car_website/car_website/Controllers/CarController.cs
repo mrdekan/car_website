@@ -556,13 +556,16 @@ namespace car_website.Controllers
                 ModelState.AddModelError("CreateCarViewModel.VIN", "Довжина VIN номеру — 17 символів");
                 additionalValidation = false;
             }
-            string? phone = carVM.CreateCarViewModel.AdditionalPhone;
-            if (phone != null && phone.Length > 0 && !_validationService.FixPhoneNumber(ref phone))
+            if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.AdditionalPhone))
             {
-                ModelState.AddModelError("CreateCarViewModel.AdditionalPhone", "Некоректний номер телефону");
-                additionalValidation = false;
+                string? phone = carVM.CreateCarViewModel.AdditionalPhone;
+                if (phone != null && phone.Length > 0 && !_validationService.FixPhoneNumber(ref phone))
+                {
+                    ModelState.AddModelError("CreateCarViewModel.AdditionalPhone", "Некоректний номер телефону");
+                    additionalValidation = false;
+                }
+                carVM.CreateCarViewModel.AdditionalPhone = phone.Replace("+", "");
             }
-            carVM.CreateCarViewModel.AdditionalPhone = phone.Replace("+", "");
             if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo1))
             {
                 photosIsValid = false;

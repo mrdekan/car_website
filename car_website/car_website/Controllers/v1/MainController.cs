@@ -56,7 +56,7 @@ namespace car_website.Controllers.v1
         }
         #endregion
         [HttpGet("ping")]
-        public IActionResult Ping() => Ok(new { Status = true, Code = HttpCodes.Success, Time = DateTime.Now, Version = 1.0, IsLoggedIn = IsAtorized().Result });
+        public IActionResult Ping() => Ok(new { Status = true, Code = HttpCodes.Success, Time = DateTime.Now, Version = 1.0 });
         [HttpGet("getCurrencyRate")]
         public async Task<IActionResult> GetCurrencyRate()
         {
