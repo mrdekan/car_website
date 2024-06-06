@@ -442,8 +442,8 @@ namespace car_website.Controllers.v1
         [HttpGet("IsAuthorized")]
         public async Task<ActionResult> IsAuthorized()
         {
-            var user = await GetCurrentUser();
-            return Ok(new { Status = true, Code = HttpCodes.Success, IsAuthorized = user != null });
+            //var user = await GetCurrentUser();
+            return Ok(new { Status = true, Code = HttpCodes.Success, IsAuthorized = IsAtorized().Result });
         }
         [HttpGet("login")]
         public async Task<ActionResult> Login(string email, string password)
