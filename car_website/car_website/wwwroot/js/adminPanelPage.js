@@ -231,6 +231,7 @@ function showData(data) {
             else {
                 container.innerHTML = '<div class="brands-and-models"></div>';
                 container.firstElementChild.innerHTML += '<div id="modelsCont"></div><div id="brandsCont"></div>';
+                
                 let brandsContainer = document.getElementById('brandsCont');
                 brandsContainer.innerHTML = `<div class="new-model"><input type="text" placeholder="Назва марки" id="new-brand-name"/>
                 <button onclick="addBrand(this)"><span>${svgCodes.add}
