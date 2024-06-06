@@ -16,6 +16,7 @@ adminLeft = document.querySelector('.admin-left'),
 radioButtons = document.querySelectorAll('input[name="action"]'),
 container = document.getElementById('container');
 let buyRequestsPage = 1, buyRequestsCache;
+let botCarsPage = 1, botCarsCache;
 let waitingCarsPage = 1, waitingCarsCache;
 let usersPage = 1, usersCache;
 let brandsPage = 1, brandsCache;
@@ -76,6 +77,13 @@ function updateInfo(target,page=1) {
             getExpressSaleCars();
         else {
             showData(expressCarsCache);
+        }
+    }
+    else if (target.id == "botCars") {
+        if (botCarsCache == null)
+            getBotCars();
+        else {
+            showData(botCarsCache);
         }
     }
     else if (target.id == "currencyRate") {
@@ -155,6 +163,38 @@ function showData(data) {
                                     <div class="car_container-right-price">
                                                 <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.car.price)} $</p>
                                                 <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.car.priceUAH)} грн</p>
+                                            </div>
+                                  </div>
+                                  </a>`;
+            });
+        }
+        else if (data.type == "BotCars") {
+            console.log(data);
+            container.innerHTML = "";
+            if (data.cars.length == 0)
+                container.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
+            data.cars.forEach(car => {
+                container.innerHTML += `<a class="car mainPageCar" href="/Car/WaitingCarDetail/${car.id}">
+                                  <p class="car_name">${car.brand} ${car.model} ${car.year}</p>
+                                  <div class="car_container">
+                                       <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="${car.brand} ${car.model} ${car.year}" src="${car.previewURL}" /></div></div>
+                                    <div class="car_container-info">
+                                    <p class="car_container-info-name">${car.brand} ${car.model} ${car.year}</p>
+                                            <div class="car_container-info-parameters">
+                                                <div class="car_container-info-parameters-column">
+                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.fuel}</span>${fuelName(car.fuel)}, ${car.engineCapacity} ${car.fuel == 6 ? "кВт·год." : "л."}</p>
+                                                    </div>
+                                                <div class="car_container-info-parameters-column">
+                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.transmission}</span>${transmissionName(car.carTransmission)}</p>
+                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.driveline}</span>${drivelineName(car.driveline)}</p>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="car_container-right">
+                                    <div class="car_container-right-price">
+                                                <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
+                                                <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
                                             </div>
                                   </div>
                                   </a>`;
@@ -376,6 +416,17 @@ function getUsers() {
             usersCache = data;
             updatePagesButtons(data.pages);
             showData(usersCache);
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
+}
+function getBotCars() {
+    fetch(`/api/v1/bot/getAll?page=${botCarsPage}`)
+        .then(response => response.json())
+        .then(data => {
+            data.type = "BotCars";
+            botCarsCache = data;
+            updatePagesButtons(data.pages);
+            showData(botCarsCache);
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
