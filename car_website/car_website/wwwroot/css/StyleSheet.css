@@ -440,7 +440,6 @@ input[type=number] {
 }
 .brands-and-models #brandsCont {
   min-width: fit-content;
-  max-width: 20vw;
   display: flex;
   flex-direction: column;
   padding: 0 1vw;
@@ -499,7 +498,6 @@ input[type=number] {
   color: var(--text-default);
   transition: 0.2s;
   width: 100%;
-  width: 310px;
 }
 .brands-and-models .new-model:last-child {
   border-bottom: none;

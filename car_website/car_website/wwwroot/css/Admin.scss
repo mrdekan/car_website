@@ -210,7 +210,7 @@
 
     #brandsCont {
         min-width: fit-content;
-        max-width: 20vw;
+        //max-width: 20vw;
         display: flex;
         flex-direction: column;
         //gap: 2.5vh;
@@ -277,7 +277,7 @@
             color: $text-default;
             transition: 0.2s;
             width: 100%;
-            width: 310px;
+            //width: 310px;
         }
 
         &:last-child {
