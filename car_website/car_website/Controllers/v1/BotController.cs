@@ -148,6 +148,7 @@ namespace car_website.Controllers.v1
     {
         public BotCarLightModel(CarFromBot model, CurrencyUpdater currencyUpdater)
         {
+            Id = model.Id.ToString();
             Brand = model.Brand;
             Model = model.Model;
             Year = model.Year;
@@ -159,6 +160,7 @@ namespace car_website.Controllers.v1
             PreviewURL = model.PreviewURL;
             Driveline = model.DrivelineType;
         }
+        public string Id { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
         public int Year { get; set; }
