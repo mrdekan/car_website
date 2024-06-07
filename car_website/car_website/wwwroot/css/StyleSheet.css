@@ -428,6 +428,7 @@ input[type=number] {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
 }
 
 .brands-and-models {
@@ -442,16 +443,17 @@ input[type=number] {
   min-width: fit-content;
   display: flex;
   flex-direction: column;
-  padding: 0 1vw;
+  padding: 0 7px;
   border-left: 1px solid var(--gray-default);
-  margin-left: 100px;
+  width: 50%;
 }
 .brands-and-models #modelsCont {
-  min-width: fit-content;
+  width: 50%;
+  min-width: 50%;
   max-width: 20vw;
   display: flex;
   flex-direction: column;
-  padding: 0 1vw;
+  padding: 0 7px;
   border-left: 1px solid var(--gray-default);
 }
 .brands-and-models input[type=radio]:checked + label {
@@ -476,6 +478,7 @@ input[type=number] {
   border-bottom: 1px solid var(--gray-default);
 }
 .brands-and-models .new-model button {
+  min-width: 36px;
   border-radius: 10px;
   width: 36px;
   height: 36px;
@@ -2122,6 +2125,10 @@ body {
   transition: 0.2s;
   font-family: "Roboto", sans-serif;
   height: fit-content;
+}
+
+.copy-on-click {
+  cursor: pointer !important;
 }
 
 .notification {
