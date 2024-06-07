@@ -24,7 +24,8 @@ namespace car_website.Controllers
         private readonly IValidationService _validationService;
         private readonly IAppSettingsDbRepository _appSettingsDbRepository;
         private readonly IPurchaseRequestRepository _purchaseRequestsRepository;
-        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository, IPurchaseRequestRepository purchaseRequestsRepository) : base(userRepository)
+        private readonly ICarFromBotRepository _carFromBotRepository;
+        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository, IPurchaseRequestRepository purchaseRequestsRepository, ICarFromBotRepository carFromBotRepository) : base(userRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -38,8 +39,25 @@ namespace car_website.Controllers
             _validationService = validationService;
             _appSettingsDbRepository = appSettingsDbRepository;
             _purchaseRequestsRepository = purchaseRequestsRepository;
+            _carFromBotRepository = carFromBotRepository;
         }
         #endregion
+        public async Task<IActionResult> BotDetail(string id)
+        {
+            if (!IsAdmin().Result) return BadRequest();
+            bool parsed = ObjectId.TryParse(id, out ObjectId carId);
+            if (!parsed) return BadRequest("Invalid id");
+            CarFromBot car = await _carFromBotRepository.GetByIdAsync(carId);
+            if (car == null) return NotFound();
+            User user = null;
+            if (car.SellerId != null)
+            {
+                bool parsedSellerId = ObjectId.TryParse(car.SellerId, out ObjectId sellerId);
+                if (parsedSellerId)
+                    user = await _userRepository.GetByIdAsync(sellerId);
+            }
+            return View(new CarFromBotDetailViewModel(car, user, _currencyUpdater));
+        }
         public IActionResult Leasing()
         {
             return View();
