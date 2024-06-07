@@ -1,4 +1,4 @@
-﻿import { notificationModule } from './notificationModule.js';
+﻿//import { notificationModule } from './notificationModule.js';
 const svgCodes = {
     edit: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_217_311)"><path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/><path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></g><defs><clipPath id="clip0_217_311"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>`,
     delete: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_217_304)"><path d="M4.5 5V22H19.5V5H4.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 5H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 5L9.6445 2H14.3885L16 5H8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></g><defs><clipPath id="clip0_217_304"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>`,
@@ -174,7 +174,7 @@ function showData(data) {
             if (data.cars.length == 0)
                 container.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
             data.cars.forEach(car => {
-                container.innerHTML += `<a class="car mainPageCar" href="/Car/BotDetail/${car.id}">
+                container.innerHTML += `<a class="car mainPageCar" href="/Car/WaitingCarDetail/${car.id}">
                                   <p class="car_name">${car.brand} ${car.model} ${car.year}</p>
                                   <div class="car_container">
                                        <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="${car.brand} ${car.model} ${car.year}" src="${car.previewURL}" /></div></div>
@@ -308,18 +308,18 @@ function putRequest(endpoint) {
         .then(response => response.json())
         .then(data => {
             if (data && data.message)
-                notificationModule.showNotification(data.message);
+                showNotification(data.message);
             else {
                 console.error('Response: ',data);
                 if (data && data.code)
-                    notificationModule.showNotification(`Помилка (HHTP Code ${data.code})`, true);
+                    showNotification(`Помилка (HHTP Code ${data.code})`, true);
                 else
-                    notificationModule.showNotification('Невідома помилка', true);
+                    showNotification('Невідома помилка', true);
             }
         })
         .catch(error => {
             console.error("An error occurred while retrieving data:", error);
-            notificationModule.showNotification('Невідома помилка', true);
+            showNotification('Невідома помилка', true);
         });
 }
 function showDevPanel() {
@@ -346,14 +346,14 @@ function showDevPanel() {
             else {
                 console.error('Response: ', data);
                 if (data && data.code)
-                    notificationModule.showNotification(`Помилка (HHTP Code ${data.code})`, true);
+                    showNotification(`Помилка (HHTP Code ${data.code})`, true);
                 else
-                    notificationModule.showNotification('Невідома помилка', true);
+                    showNotification('Невідома помилка', true);
             }
         })
         .catch(error => {
             console.error("An error occurred while retrieving data:", error);
-            notificationModule.showNotification('Невідома помилка', true);
+            showNotification('Невідома помилка', true);
         });
 }
 function updatePagesButtons(number) {
@@ -665,3 +665,39 @@ function formatNumberWithThousandsSeparator(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
 //#endregion
+function showNotification(message, isError = false) {
+    let duration = 3000;
+    activeNotifications.forEach(notification => hideNotification(notification));
+
+    const notificationElement = document.createElement('div');
+    notificationElement.classList.add('notification');
+    if (isError)
+        notificationElement.classList.add('notification-error');
+    notificationElement.textContent = message;
+    document.body.appendChild(notificationElement);
+    activeNotifications.push(notificationElement);
+
+    setTimeout(() => {
+        notificationElement.style.transform = 'translateY(-125%)';
+        clearTimeout(notificationTimeout);
+        notificationTimeout = setTimeout(() => {
+            hideNotification(notificationElement);
+        }, duration);
+    }, 50);
+
+    notificationElement.addEventListener('click', () => {
+        hideNotification(notificationElement);
+    });
+}
+
+function hideNotification(notificationElement) {
+    notificationElement.style.transform = 'translateY(10%)';
+    notificationElement.style.opacity = '0.3';
+    setTimeout(() => {
+        notificationElement.parentNode.removeChild(notificationElement);
+        const index = activeNotifications.indexOf(notificationElement);
+        if (index !== -1) {
+            activeNotifications.splice(index, 1);
+        }
+    }, 500);
+}
