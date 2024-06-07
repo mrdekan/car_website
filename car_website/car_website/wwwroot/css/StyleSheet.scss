@@ -14,7 +14,9 @@ body {
     font-family: 'Roboto', sans-serif;
     height: fit-content;
 }
-
+.copy-on-click{
+    cursor: pointer !important;
+}
 .notification {
     position: fixed;
     width: fit-content;
