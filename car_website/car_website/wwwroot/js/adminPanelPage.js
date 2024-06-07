@@ -231,8 +231,29 @@ function showData(data) {
             else {
                 container.innerHTML = '<div class="brands-and-models"></div>';
                 container.firstElementChild.innerHTML += '<div id="modelsCont"></div><div id="brandsCont"></div>';
-                
                 let brandsContainer = document.getElementById('brandsCont');
+                let modelsContainer = document.getElementById('modelsCont');
+                function toggleVisibility() {
+                    if (modelsContainer.style.display === 'block' || modelsContainer.style.display === '') {
+                        brandsContainer.style.display = 'none';
+                    } else {
+                        brandsContainer.style.display = 'block';
+                    }
+                }
+                // Example of opening modelsCont
+                modelsContainer.addEventListener('click', function () {
+                    modelsContainer.style.display = 'block';
+                    toggleVisibility();
+                });
+
+                // Example of hiding modelsCont
+                brandsContainer.addEventListener('click', function () {
+                    modelsContainer.style.display = 'none';
+                    toggleVisibility();
+                });
+
+                // Initial call to set the correct visibility state
+                //toggleVisibility();
                 brandsContainer.innerHTML = `<div class="new-model"><input type="text" placeholder="Назва марки" id="new-brand-name"/>
                 <button onclick="addBrand(this)"><span>${svgCodes.add}
                 </span></button></div>`;
@@ -303,6 +324,9 @@ function showData(data) {
         }
     }
 }
+
+
+
 function putRequest(endpoint) {
     fetch(`/api/v1/main/${endpoint}`, { method:'PUT' })
         .then(response => response.json())
