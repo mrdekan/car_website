@@ -339,6 +339,7 @@ namespace car_website.Controllers
         }
         public async Task<IActionResult> Orders()
         {
+            await IsAdmin();
             return View();
         }
         public async Task<IActionResult> OrderCar()
