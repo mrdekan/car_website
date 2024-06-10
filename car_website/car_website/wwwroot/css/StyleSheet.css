@@ -2293,7 +2293,7 @@ body {
 .filters_wrapper {
   position: sticky;
   top: 60px;
-  max-height: calc(100vh - 195px);
+  max-height: calc(100vh - 85px);
 }
 
 .wrapper {
@@ -2353,8 +2353,9 @@ body {
   max-height: calc(100% - 102px);
 }
 .wrapper .filters_scroll {
-  padding-right: 5px;
+  padding-right: 4px;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 .wrapper .filters_scroll::-webkit-scrollbar {
   width: 4px;

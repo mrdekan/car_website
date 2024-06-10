@@ -7,43 +7,43 @@ const svgCodes = {
     race: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_14_212)"><path d="M15.1486 9.3893C15.1486 9.3893 13.534 13.9404 12.7667 14.735C11.9994 15.5296 10.7333 15.5517 9.93872 14.7844C9.14412 14.0171 9.12202 12.7509 9.88932 11.9564C10.6566 11.1618 15.1486 9.3893 15.1486 9.3893Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19.4246 19.4246C21.3248 17.5245 22.5 14.8995 22.5 12C22.5 6.201 17.799 1.5 12 1.5C6.201 1.5 1.5 6.201 1.5 12C1.5 14.8995 2.67525 17.5245 4.57538 19.4246" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 2V4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.4227 5.57105L17.8684 6.82965" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.2613 13.6164L19.3126 13.1665" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.73877 13.6164L4.68751 13.1665" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.57733 5.57105L6.13162 6.82965" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_14_212"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>`
 }
 const selectBrandsBtn = document.getElementById("brandsButton"),
-searchBrandInp = document.getElementById("searchCar"),
-brandsOptions = document.getElementById("brands"),
-selectModelsBtn = document.getElementById("modelsButton"),
-searchModelInp = document.getElementById("searchModel"),
-modelsOptions = document.getElementById("models"),
-selectBodiesBtn = document.getElementById("bodiesButton"),
-bodiesOptions = document.getElementById("bodies"),
-selectTransmissionsBtn = document.getElementById("transmissionsButton"),
-transmissionsOptions = document.getElementById("transmissions"),
-selectFuelsBtn = document.getElementById("fuelsButton"),
-fuelsOptions = document.getElementById("fuels"),
-selectDrivelinesBtn = document.getElementById("drivelinesButton"),
-drivelinesOptions = document.getElementById("drivelines"),
-selectSortingBtn = document.getElementById("sortingButton"),
-sortingOptions = document.getElementById("sortings"),
-apply_button = document.getElementById("refresh_cars"),
-year_min_select = document.getElementById("year_min-select"),
-year_max_select = document.getElementById("year_max-select"),
-price_max_input = document.getElementById("price_max-input"),
-price_min_input = document.getElementById("price_min-input"),
-race_max_input = document.getElementById("race_max-input"),
-race_min_input = document.getElementById("race_min-input"),
-engineVolume_min_input = document.getElementById("engineVolume_min-input"),
-engineVolume_max_input = document.getElementById("engineVolume_max-input"),
-clear_filters = document.getElementById("clear_filters"),
-pages_buttons_containers = document.getElementsByClassName("pages_buttons"),
-minYearValue = document.getElementById('min-year-value'),
-minYearSlider = document.getElementById('min-year-slider'),
-maxYearValue = document.getElementById('max-year-value'),
-maxYearSlider = document.getElementById('max-year-slider'),
-minMaxYear = document.getElementById('min-max-year'),
-maxMinYear = document.getElementById('max-min-year'),
-currentYear = minYearSlider.getAttribute('max'),
-yearLabel = document.getElementById('year-label'),
-openFilter = document.getElementById('open-filters'),
-filter = document.querySelector('.filters_wrapper'),
-engineVolumeLbl = document.getElementById('engine-volume-lbl');
+    searchBrandInp = document.getElementById("searchCar"),
+    brandsOptions = document.getElementById("brands"),
+    selectModelsBtn = document.getElementById("modelsButton"),
+    searchModelInp = document.getElementById("searchModel"),
+    modelsOptions = document.getElementById("models"),
+    selectBodiesBtn = document.getElementById("bodiesButton"),
+    bodiesOptions = document.getElementById("bodies"),
+    selectTransmissionsBtn = document.getElementById("transmissionsButton"),
+    transmissionsOptions = document.getElementById("transmissions"),
+    selectFuelsBtn = document.getElementById("fuelsButton"),
+    fuelsOptions = document.getElementById("fuels"),
+    selectDrivelinesBtn = document.getElementById("drivelinesButton"),
+    drivelinesOptions = document.getElementById("drivelines"),
+    selectSortingBtn = document.getElementById("sortingButton"),
+    sortingOptions = document.getElementById("sortings"),
+    apply_button = document.getElementById("refresh_cars"),
+    year_min_select = document.getElementById("year_min-select"),
+    year_max_select = document.getElementById("year_max-select"),
+    price_max_input = document.getElementById("price_max-input"),
+    price_min_input = document.getElementById("price_min-input"),
+    race_max_input = document.getElementById("race_max-input"),
+    race_min_input = document.getElementById("race_min-input"),
+    engineVolume_min_input = document.getElementById("engineVolume_min-input"),
+    engineVolume_max_input = document.getElementById("engineVolume_max-input"),
+    clear_filters = document.getElementById("clear_filters"),
+    pages_buttons_containers = document.getElementsByClassName("pages_buttons"),
+    minYearValue = document.getElementById('min-year-value'),
+    minYearSlider = document.getElementById('min-year-slider'),
+    maxYearValue = document.getElementById('max-year-value'),
+    maxYearSlider = document.getElementById('max-year-slider'),
+    minMaxYear = document.getElementById('min-max-year'),
+    maxMinYear = document.getElementById('max-min-year'),
+    currentYear = minYearSlider.getAttribute('max'),
+    yearLabel = document.getElementById('year-label'),
+    openFilter = document.getElementById('open-filters'),
+    filter = document.querySelector('.filters_wrapper'),
+    engineVolumeLbl = document.getElementById('engine-volume-lbl');
 //#endregion
 
 //#region Selects content
@@ -66,7 +66,19 @@ let modelsCache = {};
 let carsCache = {};
 let pages = 0;
 let isElectro = false;
-//#endregion
+const filtersCont = document.querySelector('.filters_wrapper');
+const updateFiltersSize = () => {
+    let height = document.body.scrollHeight - window.innerHeight;
+    if (height > 0 && filtersCont) {
+        if (height - window.scrollY > 90)
+            filtersCont.style.maxHeight = 'calc(100vh - 85px)';
+        else
+            filtersCont.style.maxHeight = `calc(100vh - ${195 - (height - window.scrollY)}px)`;
+    }
+}
+window.addEventListener('scroll', updateFiltersSize);
+window.addEventListener('resize', updateFiltersSize);
+
 
 //#region Functions' calls
 function createLi(text) {
@@ -421,7 +433,7 @@ function applyFilter(page = 1) {
             .catch(error => console.error("An error occurred while retrieving data:", error));
     }
     else
-        setCarsData(carsCache[filtersString],filters,filtersString);
+        setCarsData(carsCache[filtersString], filters, filtersString);
 }
 function setCarsData(data, filters, filtersString) {
     sessionStorage.setItem("last", JSON.stringify({ filters, data }));
@@ -452,7 +464,7 @@ function formCar(car) {
                                   <a class="car mainPageCar" href="/Car/Detail/${car.id}">
                                   <p class="car_name">${car.brand} ${car.model} ${car.year}</p>
                                   <div class="car_container">
-                                       <div class="car_container-img">${car.isSold?'<div class="car_container-img-sold"></div>':''} <div class="car_container-img-landscape"><img alt="${car.brand} ${car.model} ${car.year}" src="https:\\\\1auto.cn.ua${car.previewURL}" /></div></div>
+                                       <div class="car_container-img">${car.isSold ? '<div class="car_container-img-sold"></div>' : ''} <div class="car_container-img-landscape"><img alt="${car.brand} ${car.model} ${car.year}" src="https:\\\\1auto.cn.ua${car.previewURL}" /></div></div>
                                     <div class="car_container-info">
                                     <p class="car_container-info-name">${car.brand} ${car.model} ${car.year}</p>
                                             <div class="car_container-info-parameters">

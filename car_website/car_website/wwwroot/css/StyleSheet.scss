@@ -188,7 +188,7 @@ body {
 .filters_wrapper {
     position: sticky;
     top: 60px;
-    max-height: calc(100vh - 195px);
+    max-height: calc(100vh - 85px);
   //  height: calc(100vh - 100px);
 }
 
@@ -255,8 +255,10 @@ body {
         max-height: calc(100% - 102px);
 
         &_scroll {
-            padding-right: 5px;
+            //max-width: calc(100% - 4px);
+            padding-right: 4px;
             overflow-y: auto;
+            box-sizing: border-box;
 
             &::-webkit-scrollbar {
                 width: 4px;
