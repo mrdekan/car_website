@@ -2162,7 +2162,6 @@ body {
 }
 
 .orders {
-  max-width: 750px;
   padding: 0 10px;
   margin: auto;
 }
@@ -2183,6 +2182,7 @@ body {
   width: 100%;
   display: flex;
   gap: 10px;
+  align-items: center;
   flex-direction: column;
   margin-bottom: 20px;
 }
@@ -3646,6 +3646,11 @@ header .header_right-dark-label::before {
 @keyframes d8 {
   100% {
     background-position: 100% 0, 100% 100%, 0 100%, 0 0;
+  }
+}
+@media (max-width: 1400px) {
+  .car_container-img-sold::before {
+    font-size: 45px;
   }
 }
 @media (max-width: 1000px) {

@@ -57,7 +57,7 @@ body {
         transition: color 0.2s;
     }
 
-    max-width: 750px;
+    //max-width: 750px;
     padding: 0 10px;
     margin: auto;
 
@@ -72,6 +72,7 @@ body {
     width: 100%;
     display: flex;
     gap: 10px;
+    align-items: center;
     flex-direction: column;
     margin-bottom: 20px;
 }
@@ -1738,7 +1739,11 @@ header {
         background-position: 100% 0,100% 100%,0 100%,0 0
     }
 }
-
+@media(max-width: 1400px){
+    .car_container-img-sold::before {
+        font-size: 45px;
+    }
+}
 @media (max-width: 1000px) {
     .home-btn {
         display: none;
@@ -1960,7 +1965,6 @@ header {
         &_container {
             min-width: 0;
             margin: 0;
-
             img {
                 height: 100%;
             }

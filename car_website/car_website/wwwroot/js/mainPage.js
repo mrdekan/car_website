@@ -457,6 +457,7 @@ function setCarsData(data, filters, filtersString) {
         updatePagesButtons(0);
         carList.innerHTML = `<div class="cars-not-found"><h3 class="warning-text">Щось пішло не так</h3></div>`;
     }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 //#endregion
 function formCar(car) {
