@@ -11,7 +11,7 @@
 ✅editing cars
 deleting users
 ✅deleting cars
-? purchase requests
+✅purchase requests
 ✅optimize getFiltered request (remove unnecessary fields & optimize filtering)
 car's color on the detail page
 finish api

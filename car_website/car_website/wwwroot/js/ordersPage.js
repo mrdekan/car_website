@@ -22,46 +22,32 @@ function getOrders() {
                         let temp = '';
                             for (let i = 0; i < data.orders.length;i++) {
                             order = data.orders[i];
-                            temp += `<div class='car'>
-                            <
-                                <div class='order-row'><p>Марка: </p><span>${order.brand || 'Не обрано'}</span></div>
-                                <div class='order-row'><p>Модель: </p><span>${order.model || 'Не обрано'}</span></div>
-                                <div class='order-row'><p>Рік: </p><span>${order.year || 'Не обрано'}</span></div>
-                                <div class='order-row'><p>Максимальна ціна: </p><span>${order.maxPrice || 'Не обрано'}</span></div>
-                                ${order.description ? `<div class='order-row'><p>Опис:</p><span>${order.description}</span></div>` : ''}
-                                ${order.name ? `<div class='order-row'><p>Ім'я: </p><span>${order.name}</span></div>` : ''}
-                                ${order.phone ? `<div class='order-row'><p>Телефон: </p><span>${order.phone}</span></div>` : ''}
-                                ${isAdmin ? `<button class="delete-order" id="${order.id}">Видалити</button>`:''}
-                                </div>`;
                             temp += `
-                                  <a class="car" href="/Car/Detail/${'none'}">
+                                  <div class="car">
                                   <p class="car_name">${order.brand} ${order.model} ${order.year}</p>
                                   <div class="car_container">
                                        <div class="car_container-img"><div class="car_container-img-landscape" style="justify-content: start;"><img alt="${order.brand} ${order.model} ${order.year}" src="/img/order.jpg" /></div></div>
                                     <div class="car_container-info">
                                     <p class="car_container-info-name">${order.brand ? order.brand:''} ${order.model ? order.model:''} ${order.year?order.year:''}</p>
-                                            <div class="car_container-info-parameters">
-                                                <div class="car_container-info-parameters-column">
-                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.race}</span>${order.mileage} тис. км</p>
-                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.fuel}</span>${fuelName(order.fuel)}, ${order.engineCapacity} ${order.fuel == 6 ? "кВт·год." : "л."}</p>
-                                                    ${order.vin == null ? `` : `<p class="car_container-info-parameters-column-text vin"><span>${svgCodes.car}</span>${order.vin}</p>`}
-                                                    </div>
-                                                <div class="car_container-info-parameters-column">
-                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.transmission}</span>${transmissionName(order.carTransmission)}</p>
-                                                    <p class="car_container-info-parameters-column-text"><span>${svgCodes.driveline}</span>${drivelineName(order.driveline)}</p>
+                                            <div class="car_container-info-parameters" style="height: calc(100% - 30px); padding-top: 15px;">
+                                                <div class="car_container-info-parameters-column" style="gap: 0; justify-content: space-between; height: 100%;">
+                                                    ${order.description ? `<div class='order-row'><p style="min-width: fit-content; font-size: 18px;">Опис:</p><span span style="font-size: 18px;">${order.description}</span></div>` : ''}
+                                ${order.name ? `<div class='order-row'><p style="min-width: fit-content; font-size: 18px;">Ім'я: </p><span style="font-size: 18px;">${order.name}</span></div>` : ''}
+                                ${order.phone ? `<div class='order-row'><p style="min-width: fit-content; font-size: 18px;">Телефон: </p><span span style="font-size: 18px;">+${order.phone}</span></div>` : ''}
                                                     </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="car_container-right">
                                     <div class="car_container-right-price">
-                                                <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(order.maxPrice)} $</p>
-                                                <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(order.priceUAH)} грн</p>
+                                                <p class="car_container-right-price-USD">До ${formatNumberWithThousandsSeparator(order.maxPrice)} $</p>
+                                                <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(order.maxPriceUAH)} грн</p>
+                                            ${isAdmin ? `<button class="delete-order" style="margin-top:80px; font-size: 18px;" onclick="deleteOrder('${order.id}')">Видалити</button>` : ''}
                                             </div>
                                   </div>
-                                  </a>`;
+                                  </div>`;
                         }
-                        container.innerHTML += temp;
+                        container.innerHTML = temp;
                     }
                 else
                     container.innerHTML = `<h3 style="text-align: center;" class="warning-text">Запити на покупку відсутні</h3>`;
@@ -69,41 +55,58 @@ function getOrders() {
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
-function fuelName(id) {
-    switch (id) {
-        case 1:
-            return "Газ";
-        case 2:
-            return "Газ/Бензин";
-        case 3:
-            return "Бензин";
-        case 4:
-            return "Дизель";
-        case 5:
-            return "Гібрид";
-        case 6:
-            return "Електро";
-    }
-}
-function transmissionName(id) {
-    switch (id) {
-        case 1:
-            return "Механічна";
-        case 2:
-            return "Автомат";
-    }
-}
-function drivelineName(id) {
-    switch (id) {
-        case 1:
-            return "Передній";
-        case 2:
-            return "Задній";
-        case 3:
-            return "Повний";
-    }
+function deleteOrder(id) {
+    fetch(`/api/v1/orders/delete/${id}`, { method:'DELETE' })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                getOrders();
+                showNotification('Запит успішно видалено');
+            }
+            else if (data.status == false)
+                showNotification('Сталася помилка: ' + data.code, true);
+                else
+                showNotification('Сталася невідома помилка', true);
+        })
+        .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function formatNumberWithThousandsSeparator(number) {
     if (!number) return 'none';
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+function showNotification(message, isError = false) {
+    let duration = 3000;
+    activeNotifications.forEach(notification => hideNotification(notification));
+
+    const notificationElement = document.createElement('div');
+    notificationElement.classList.add('notification');
+    if (isError)
+        notificationElement.classList.add('notification-error');
+    notificationElement.textContent = message;
+    document.body.appendChild(notificationElement);
+    activeNotifications.push(notificationElement);
+
+    setTimeout(() => {
+        notificationElement.style.transform = 'translateY(-125%)';
+        clearTimeout(notificationTimeout);
+        notificationTimeout = setTimeout(() => {
+            hideNotification(notificationElement);
+        }, duration);
+    }, 50);
+
+    notificationElement.addEventListener('click', () => {
+        hideNotification(notificationElement);
+    });
+}
+
+function hideNotification(notificationElement) {
+    notificationElement.style.transform = 'translateY(10%)';
+    notificationElement.style.opacity = '0.3';
+    setTimeout(() => {
+        notificationElement.parentNode.removeChild(notificationElement);
+        const index = activeNotifications.indexOf(notificationElement);
+        if (index !== -1) {
+            activeNotifications.splice(index, 1);
+        }
+    }, 500);
 }

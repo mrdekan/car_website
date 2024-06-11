@@ -119,7 +119,15 @@ namespace car_website.Controllers.v1
         {
             try
             {
+                User user = await GetCurrentUser();
+                if (!user.IsAdmin) return Ok(new
+                {
+                    Status = false,
+                    Code = HttpCodes.InsufficientPermissions
+                });
                 IEnumerable<CarFromBot> cars = await _carFromBotRepository.GetAll();
+                if (user.Role != UserRole.Dev)
+                    cars = cars.Where(car => car.Id.ToString() != "6661fdb83051981300bbd1cd");
                 int _page = page ?? 1;
                 int _perPage = perPage ?? cars.Count();
                 int totalItems = cars.Count();

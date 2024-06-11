@@ -1,10 +1,11 @@
 ﻿using car_website.Models;
+using car_website.Services;
 
 namespace car_website.ViewModels
 {
     public class PurchaseRequestViewModel
     {
-        public PurchaseRequestViewModel(PurchaseRequest model, bool isAdmin)
+        public PurchaseRequestViewModel(PurchaseRequest model, bool isAdmin, CurrencyUpdater currencyUpdater)
         {
             UserId = model.UserId;
             if (isAdmin)
@@ -15,6 +16,8 @@ namespace car_website.ViewModels
             Brand = model.Brand;
             Model = model.Model;
             MaxPrice = model.MaxPrice;
+            if (MaxPrice != null)
+                MaxPriceUAH = currencyUpdater.UsdToUah((MaxPrice ?? 0));
             Year = model.Year;
             Description = model.Description;
             Id = model.Id.ToString();
@@ -28,6 +31,7 @@ namespace car_website.ViewModels
         public string? Brand { get; set; }
         public string? Model { get; set; }
         public int? MaxPrice { get; set; }
+        public uint? MaxPriceUAH { get; set; }
         public int? Year { get; set; }
         public string? Description { get; set; }
     }

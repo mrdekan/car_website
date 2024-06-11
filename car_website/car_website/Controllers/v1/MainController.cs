@@ -106,7 +106,7 @@ namespace car_website.Controllers.v1
                 if (isDebug)
                     return Ok(new { Status = false, Code = HttpCodes.BadRequest });
 
-                if (!IsAdmin().Result)
+                if (GetCurrentUser().Result.Role != UserRole.Dev)
                     return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
 
                 var cars = await _carRepository.GetAll();
@@ -134,7 +134,7 @@ namespace car_website.Controllers.v1
                 if (isDebug)
                     return Ok(new { Status = false, Code = HttpCodes.BadRequest });
 
-                if (!IsAdmin().Result)
+                if (GetCurrentUser().Result.Role != UserRole.Dev)
                     return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
 
                 var users = await _userRepository.GetAll();
@@ -162,7 +162,7 @@ namespace car_website.Controllers.v1
                 if (isDebug)
                     return Ok(new { Status = false, Code = HttpCodes.BadRequest });
 
-                if (!IsAdmin().Result)
+                if (GetCurrentUser().Result.Role != UserRole.Dev)
                     return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
 
                 var orders = await _purchaseRequestRepository.GetAll();
@@ -190,7 +190,7 @@ namespace car_website.Controllers.v1
                 if (action != "ask" && action != "exec")
                     return Ok(new { Status = false, Code = HttpCodes.BadRequest });
 
-                if (!IsAdmin().Result)
+                if (GetCurrentUser().Result.Role != UserRole.Dev)
                     return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
 
                 if (action == "ask")
