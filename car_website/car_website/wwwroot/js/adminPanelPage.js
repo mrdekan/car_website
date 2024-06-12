@@ -175,7 +175,7 @@ function showData(data) {
             if (data.cars.length == 0)
                 container.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
             data.cars.forEach(car => {
-                container.innerHTML += `<a class="car mainPageCar" href="/Car/WaitingCarDetail/${car.id}">
+                container.innerHTML += `<a class="car mainPageCar" href="/Car/BotDetail/${car.id}">
                                   <p class="car_name">${car.brand} ${car.model} ${car.year}</p>
                                   <div class="car_container">
                                        <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="${car.brand} ${car.model} ${car.year}" src="${car.previewURL}" /></div></div>

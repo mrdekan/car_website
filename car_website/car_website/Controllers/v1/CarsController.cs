@@ -82,6 +82,7 @@ namespace car_website.Controllers.v1
                 else if (filter.SortingType == SortingType.PriceToHigher)
                     filteredCars = filteredCars.OrderBy(car => car.Price);
                 filteredCars = filteredCars.OrderByDescending(car => (car.Priority ?? 0) < 0 ? 0 : (car.Priority ?? 0)).ToList();
+                filteredCars = filteredCars.OrderBy(car => car.IsSold).ToList();
                 int perPage = filter.Page <= 0 ? filteredCars.Count() : filter.PerPage ?? CARS_PER_PAGE;
                 int page = filter.Page <= 0 ? 1 : filter.Page;
                 filteredCars = filteredCars.Where(car => car.MatchesFilter(filter)).ToList();
