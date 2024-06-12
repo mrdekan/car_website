@@ -1766,8 +1766,28 @@ header {
 
 @media (max-width: 500px) {
     .orderCar {
-        .car_container-img{
-            display: none;
+        height: fit-content !important;
+
+        .car_container {
+            flex-direction: column;
+        }
+
+        .car_container-info-parameters {
+            padding: 12px 0 !important;
+            .car_container-info-parameters-column{
+                gap: 6px !important;
+            }
+        }
+
+        .car_container-img {
+            min-width: 100% !important;
+            height: fit-content;
+
+            img {
+                min-width: 100% !important;
+                height: 100%;
+                object-fit: cover;
+            }
         }
     }
 }

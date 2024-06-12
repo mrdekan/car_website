@@ -3658,8 +3658,26 @@ header .header_right-dark-label::before {
   }
 }
 @media (max-width: 500px) {
+  .orderCar {
+    height: fit-content !important;
+  }
+  .orderCar .car_container {
+    flex-direction: column;
+  }
+  .orderCar .car_container-info-parameters {
+    padding: 12px 0 !important;
+  }
+  .orderCar .car_container-info-parameters .car_container-info-parameters-column {
+    gap: 6px !important;
+  }
   .orderCar .car_container-img {
-    display: none;
+    min-width: 100% !important;
+    height: fit-content;
+  }
+  .orderCar .car_container-img img {
+    min-width: 100% !important;
+    height: 100%;
+    object-fit: cover;
   }
 }
 .custom-loader {
