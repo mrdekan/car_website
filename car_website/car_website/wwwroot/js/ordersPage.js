@@ -23,13 +23,13 @@ function getOrders() {
                             for (let i = 0; i < data.orders.length;i++) {
                             order = data.orders[i];
                             temp += `
-                                  <div class="car">
-                                  <p class="car_name">${order.brand} ${order.model} ${order.year}</p>
+                                  <div class="car mainPageCar orderCar">
+                                  <p class="car_name">${order.brand ? order.brand : ''} ${order.model ? order.model : ''} ${order.year ? order.year : ''}</p>
                                   <div class="car_container">
                                        <div class="car_container-img"><div class="car_container-img-landscape" style="justify-content: start;"><img alt="${order.brand} ${order.model} ${order.year}" src="/img/order.jpg" /></div></div>
-                                    <div class="car_container-info">
+                                    <div class="car_container-info car-zero-padding">
                                     <p class="car_container-info-name">${order.brand ? order.brand:''} ${order.model ? order.model:''} ${order.year?order.year:''}</p>
-                                            <div class="car_container-info-parameters" style="height: calc(100% - 30px); padding-top: 15px;">
+                                            <div class="car_container-info-parameters car-order-parameters" style="padding-top: 15px;">
                                                 <div class="car_container-info-parameters-column" style="gap: 0; justify-content: space-between; height: 100%;">
                                                     ${order.description ? `<div class='order-row'><p style="min-width: fit-content; font-size: 18px;">Опис:</p><span span style="font-size: 18px;">${order.description}</span></div>` : ''}
                                 ${order.name ? `<div class='order-row'><p style="min-width: fit-content; font-size: 18px;">Ім'я: </p><span style="font-size: 18px;">${order.name}</span></div>` : ''}
@@ -39,9 +39,11 @@ function getOrders() {
                                         </div>
                                     </div>
                                     <div class="car_container-right">
-                                    <div class="car_container-right-price">
+                                    <div class="car_container-right-price car-order-flex">
+                                    <div>
                                                 <p class="car_container-right-price-USD">До ${formatNumberWithThousandsSeparator(order.maxPrice)} $</p>
                                                 <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(order.maxPriceUAH)} грн</p>
+                                                </div>
                                             ${isAdmin ? `<button class="delete-order" style="margin-top:80px; font-size: 18px;" onclick="deleteOrder('${order.id}')">Видалити</button>` : ''}
                                             </div>
                                   </div>

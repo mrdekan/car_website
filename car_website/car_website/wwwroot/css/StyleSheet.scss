@@ -14,9 +14,11 @@ body {
     font-family: 'Roboto', sans-serif;
     height: fit-content;
 }
-.copy-on-click{
+
+.copy-on-click {
     cursor: pointer !important;
 }
+
 .notification {
     position: fixed;
     width: fit-content;
@@ -56,7 +58,6 @@ body {
         font-size: 26px;
         transition: color 0.2s;
     }
-
     //max-width: 750px;
     padding: 0 10px;
     margin: auto;
@@ -85,13 +86,15 @@ body {
     height: calc(100vh - 140px);
     gap: 20px;
 
-    p{
+    p {
         color: var(--text-default);
         font-size: 24px;
     }
-    span{
+
+    span {
         color: var(--text-default);
     }
+
     a {
         position: relative;
         padding: 10px;
@@ -116,6 +119,7 @@ body {
     cursor: not-allowed;
     transition: 0;
 }
+
 .create-button-tg::before {
     content: '';
     display: block;
@@ -127,6 +131,7 @@ body {
     top: 3px;
     left: 6px;
 }
+
 .create-button-form::before {
     content: '';
     display: block;
@@ -138,6 +143,7 @@ body {
     top: 3px;
     left: 6px;
 }
+
 .create-button-form {
 }
 
@@ -190,7 +196,7 @@ body {
     position: sticky;
     top: 60px;
     max-height: calc(100vh - 85px);
-  //  height: calc(100vh - 100px);
+    //  height: calc(100vh - 100px);
 }
 
 .wrapper {
@@ -690,7 +696,7 @@ body {
 
 footer {
     height: 3.5vw;
-    min-height:90px;
+    min-height: 90px;
     width: 100%;
     background-color: $green-dark;
     display: flex;
@@ -699,13 +705,14 @@ footer {
     transition: 0.2s;
     padding-left: 10px;
     color: white;
-    
+
     a {
         color: white;
     }
 }
+
 .footer-map:hover {
-    transform: scale(2.0); 
+    transform: scale(2.0);
 }
 
 .footer {
@@ -721,8 +728,8 @@ footer {
 
     &-container {
         display: flex;
-        flex-direction:column;
-        gap:5px;
+        flex-direction: column;
+        gap: 5px;
 
         p {
             font-size: 17px;
@@ -1593,7 +1600,41 @@ header {
     margin: 3px 0 0 5px;
 }
 
+.car-order-parameters {
+    height: calc(100% - 30px);
+}
+
+.orderCar {
+}
+
 @media (max-width: 1400px) {
+    .orderCar {
+        width: fit-content !important;
+        min-height: fit-content !important;
+    }
+
+    .car-order-flex {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        button {
+            margin-top: 0 !important;
+            margin-left: 50px;
+            max-width: 150px;
+        }
+    }
+
+    .car-order-parameters {
+        height: 100%;
+        padding-top: 0 !important;
+    }
+
+    .car-zero-padding {
+        padding: 0;
+        height: 100%;
+    }
+
     .cars-not-found {
         width: 370px;
         margin-top: 15px;
@@ -1601,7 +1642,7 @@ header {
 
     .car.mainPageCar {
         flex-direction: column;
-        max-width: 95vw;
+        max-width: 95vw !important;
         width: 400px;
         align-items: start;
         padding: 10px;
@@ -1723,6 +1764,14 @@ header {
     }
 }
 
+@media (max-width: 500px) {
+    .orderCar {
+        .car_container-img{
+            display: none;
+        }
+    }
+}
+
 .custom-loader {
     width: 20px;
     height: 20px;
@@ -1739,11 +1788,13 @@ header {
         background-position: 100% 0,100% 100%,0 100%,0 0
     }
 }
-@media(max-width: 1400px){
+
+@media(max-width: 1400px) {
     .car_container-img-sold::before {
         font-size: 45px;
     }
 }
+
 @media (max-width: 1000px) {
     .home-btn {
         display: none;
@@ -1823,10 +1874,10 @@ header {
 
     .footer {
         flex-direction: column;
-        align-items:normal;
+        align-items: normal;
 
         &-map {
-            display:none;
+            display: none;
             height: 100px;
         }
     }
@@ -1851,10 +1902,9 @@ header {
                 }*/
                 img {
                     height: 60px;
-                    width:90px;
+                    width: 90px;
                 }
             }
-
             /*a {
                 margin: -75px 0 0 28px;
 
@@ -1965,6 +2015,7 @@ header {
         &_container {
             min-width: 0;
             margin: 0;
+
             img {
                 height: 100%;
             }

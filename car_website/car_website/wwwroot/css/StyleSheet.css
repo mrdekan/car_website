@@ -3532,14 +3532,40 @@ header .header_right-dark-label::before {
   margin: 3px 0 0 5px;
 }
 
+.car-order-parameters {
+  height: calc(100% - 30px);
+}
+
 @media (max-width: 1400px) {
+  .orderCar {
+    width: fit-content !important;
+    min-height: fit-content !important;
+  }
+  .car-order-flex {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .car-order-flex button {
+    margin-top: 0 !important;
+    margin-left: 50px;
+    max-width: 150px;
+  }
+  .car-order-parameters {
+    height: 100%;
+    padding-top: 0 !important;
+  }
+  .car-zero-padding {
+    padding: 0;
+    height: 100%;
+  }
   .cars-not-found {
     width: 370px;
     margin-top: 15px;
   }
   .car.mainPageCar {
     flex-direction: column;
-    max-width: 95vw;
+    max-width: 95vw !important;
     width: 400px;
     align-items: start;
     padding: 10px;
@@ -3630,6 +3656,11 @@ header .header_right-dark-label::before {
   .car.mainPageCar .car_container-right-span {
     position: static;
     cursor: default;
+  }
+}
+@media (max-width: 500px) {
+  .orderCar .car_container-img {
+    display: none;
   }
 }
 .custom-loader {
