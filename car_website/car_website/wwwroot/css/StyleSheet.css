@@ -432,8 +432,6 @@ input[type=number] {
 }
 
 .brands-and-models {
-  display: flex;
-  flex-direction: row-reverse;
   font-size: 22px;
 }
 .brands-and-models input[type=radio] {
