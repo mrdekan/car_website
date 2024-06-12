@@ -227,25 +227,27 @@ function showData(data) {
             });
         }
         else if (data.type == "Brands") {
+            updatePagesButtons(1);
             if (data.brands.length == 0)
                 container.innerHTML = `<h3 class="warning-text">Тут ще нічого немає</h3>`;
             else {
                 container.innerHTML = '<div class="brands-and-models"></div>';
-                container.firstElementChild.innerHTML += '<div id="modelsCont"></div><div id="brandsCont"></div>';
+                container.firstElementChild.innerHTML += '<div id="modelsCont" style="display:none"></div><div id="brandsCont"></div>';
                 let brandsContainer = document.getElementById('brandsCont');
                 let modelsContainer = document.getElementById('modelsCont');
-                function toggleVisibility() {
+
+                /*function toggleVisibility() {
                     if (modelsContainer.style.display === 'block' || modelsContainer.style.display === '') {
                         brandsContainer.style.display = 'none';
                     } else {
                         brandsContainer.style.display = 'block';
                     }
-                }
+                }*/
                 // Example of opening modelsCont
                 brandsContainer.addEventListener('click', function () {
                     modelsContainer.style.display = 'block';
                     brandsContainer.style.display = 'none';
-                    toggleVisibility();
+                   // toggleVisibility();
                 });
 
                 // Example of hiding modelsCont
@@ -634,10 +636,17 @@ async function getModelsOfMark(brand, forced = false) {
     else
         showModels(brand);
 }
+function hideModels() {
+    let brandsContainer = document.getElementById('brandsCont');
+    let modelsContainer = document.getElementById('modelsCont');
+    modelsContainer.style.display = 'none';
+    brandsContainer.style.display = 'block';
+}
 function showModels(brand) {
     let modelsContainer = document.getElementById('modelsCont');
     if (modelsContainer == null) return;
-    modelsContainer.innerHTML = `<div class="new-model"><input type="text" placeholder="Назва моделі" id="new-model-name"/><button onclick="addModel(this)" brand="${brand}"><span>${svgCodes.add}</span></button><button onclick="addModel(this)" brand="${brand}"><span>${svgCodes.cross}</span></button></div>`;
+    modelsContainer.innerHTML = `<div class="new-model"><input type="text" placeholder="Назва моделі" id="new-model-name"/><button onclick="addModel(this)" brand="${brand}"><span>${svgCodes.add}</span>
+                    </button><button onclick="hideModels()"><span>${svgCodes.cross}</span></button></div>`;
     modelsCache[brand].forEach(model => {
         modelsContainer.innerHTML += `<div class="model"><p>${model}</p><div model_buttons>
                     <button onclick="changeModelToEditMode(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-edit"><span>${svgCodes.edit}

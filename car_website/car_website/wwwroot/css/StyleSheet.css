@@ -432,6 +432,10 @@ input[type=number] {
 
 .brands-and-models {
   font-size: 22px;
+  /*input[type="radio"]:checked + label {
+      background: $green-dark;
+      color: white;
+  }*/
 }
 .brands-and-models input[type=radio] {
   display: none;
@@ -453,17 +457,13 @@ input[type=number] {
   padding: 0 7px;
   border-left: 1px solid var(--gray-default);
 }
-.brands-and-models input[type=radio]:checked + label {
-  background: var(--green-dark);
-  color: white;
-}
 .brands-and-models label {
   padding: 5px 10px 5px 0.7vh;
   background: none;
   transition: 0.2s;
   border-radius: 5px;
   user-select: none;
-  color: var(--gray-default);
+  color: var(--text-default);
   cursor: pointer;
 }
 .brands-and-models .new-model {
@@ -613,6 +613,14 @@ input[type=number] {
   }
   .admin_left.open {
     left: 0;
+  }
+  .brands-and-models #modelsCont {
+    width: 100%;
+    min-width: 50%;
+    max-width: none;
+  }
+  .brands-and-models #brandsCont {
+    width: 100%;
   }
   #open-admin-left {
     display: block;

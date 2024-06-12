@@ -238,11 +238,10 @@
         border-left: 1px solid $gray-default;
         //gap: 2.5vh;
     }
-
-    input[type="radio"]:checked + label {
+    /*input[type="radio"]:checked + label {
         background: $green-dark;
         color: white;
-    }
+    }*/
 
     label {
         padding: 5px 10px 5px 0.7vh;
@@ -250,7 +249,7 @@
         transition: 0.2s;
         border-radius: 5px;
         user-select: none;
-        color: $gray-default;
+        color: $text-default;
         cursor: pointer;
     }
 
@@ -425,6 +424,18 @@
             &.open {
                 left: 0;
             }
+        }
+    }
+
+    .brands-and-models {
+        #modelsCont {
+            width: 100%;
+            min-width: 50%;
+            max-width: none;
+        }
+
+        #brandsCont{
+            width:100%;
         }
     }
 
