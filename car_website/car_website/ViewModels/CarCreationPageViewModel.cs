@@ -7,5 +7,7 @@
         public double Currency { get; set; }
         public List<string>? ExpressCarPhotos { get; set; }
         public string? ExpressCarId { get; set; }
+        public string? BotCarId { get; set; }
+        public string? PreviewURL { get; set; }
     }
 }

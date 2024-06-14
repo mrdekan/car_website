@@ -97,6 +97,10 @@
                 </div>
             </div>
         }
+        <div class="create_section" two buttons>
+            <button class="cancel-button" id="delete" carId="@Model.Id">Видалити</button>
+            <a asp-controller="Car" asp-action="ConfirmBot" asp-route-id=@Model.Id class="sell-button">Виставити на продаж</a>
+        </div>
     </div>
 </div>
 <div id="img_full" class="popup">
@@ -110,4 +114,5 @@
 </div>
 
 <script type="module" src="~/js/carDetailPage.js" asp-append-version="true"></script>
+<script type="module" src="~/js/botCarDetailPage.js" type="module" asp-append-version="true"></script>
 <script src="~/js/copyOnClick.js" type="module" asp-append-version="true"></script>

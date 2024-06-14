@@ -16,8 +16,8 @@ namespace car_website.Models
             Model = carVM.Model.Replace('_', ' ');
             CarTransmission = (Transmission)carVM.CarTransmission;
             Body = carVM.Body;
-            Fuel = carVM.Fuel;
-            Driveline = carVM.Driveline;
+            Fuel = (TypeFuel)carVM.Fuel;
+            Driveline = (TypeDriveline)carVM.Driveline;
             CarColor = carVM.CarColor;
             Year = carVM.Year;
             Description = carVM.Description ?? "";

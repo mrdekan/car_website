@@ -18,6 +18,17 @@ namespace car_website.ViewModels
             Year = expressSaleCar.Year;
             Description = expressSaleCar.Description;
         }
+        public CreateCarViewModel(CarFromBot botCar)
+        {
+            Model = botCar.Model;
+            Brand = botCar.Brand;
+            Price = (uint)botCar.Price;
+            Year = (uint)botCar.Year;
+            CarTransmission = (int)botCar.TransmissionType;
+            Driveline = (int)botCar.DrivelineType;
+            Fuel = (int)botCar.FuelType;
+            EngineCapacity = botCar.EngineCapacity.ToString();
+        }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [Range(1, 999999, ErrorMessage = "Некоректне значення")]
         public uint Price { get; set; }
@@ -44,13 +55,13 @@ namespace car_website.ViewModels
         [MinLength(1, ErrorMessage = "Виберіть модель")]
         public string Model { get; set; }
         [Range(1, 2, ErrorMessage = "Оберіть значення")]
-        public Transmission CarTransmission { get; set; }
+        public int CarTransmission { get; set; }
         [Range(1, 100, ErrorMessage = "Оберіть значення")]
         public TypeBody Body { get; set; }
         [Range(1, 100, ErrorMessage = "Оберіть значення")]
-        public TypeFuel Fuel { get; set; }
+        public int Fuel { get; set; }
         [Range(1, 100, ErrorMessage = "Оберіть значення")]
-        public TypeDriveline Driveline { get; set; }
+        public int Driveline { get; set; }
         [Range(0, 10, ErrorMessage = "Оберіть значення")]
         public Color CarColor { get; set; } = Color.Any;
         public uint Year { get; set; }

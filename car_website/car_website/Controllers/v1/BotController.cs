@@ -3,6 +3,7 @@ using car_website.Interfaces;
 using car_website.Models;
 using car_website.Services;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace car_website.Controllers.v1
 {
@@ -150,6 +151,35 @@ namespace car_website.Controllers.v1
                 _logger.LogError("Get cars error: {0}", ex.ToString());
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
+        }
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteBotCar(string id)
+        {
+            bool isAdmin = await IsAdmin();
+            if (!isAdmin) return Ok(new
+            {
+                Status = false,
+                Code = HttpCodes.InsufficientPermissions
+            });
+            bool parsed = ObjectId.TryParse(id, out ObjectId orderId);
+            if (!parsed) return Ok(new
+            {
+                Status = false,
+                Code = HttpCodes.BadRequest
+            });
+            CarFromBot botCar = await _carFromBotRepository.GetByIdAsync(orderId);
+            if (botCar == null) return Ok(new
+            {
+                Status = false,
+                Code = HttpCodes.NotFound
+            });
+            //await _carFromBotRepository.Delete(botCar);
+            return Ok(new
+            {
+                Status = true,
+                Code = HttpCodes.Success,
+                BotCar = botCar,
+            });
         }
     }
     public class BotCarLightModel

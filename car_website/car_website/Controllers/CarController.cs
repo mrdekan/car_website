@@ -101,6 +101,15 @@ namespace car_website.Controllers
             return RedirectToAction("Create", "Car");
         }
         [HttpGet]
+        public async Task<IActionResult> ConfirmBot(string id)
+        {
+            var user = await GetCurrentUser();
+            if (user == null || !user.IsAdmin)
+                return RedirectToAction("NotFound", "Home");
+            TempData["TmpBotCarId"] = id;
+            return RedirectToAction("Create", "Car");
+        }
+        [HttpGet]
         public async Task<IActionResult> ExpressDetail(string id)
         {
             if (!ObjectId.TryParse(id, out ObjectId carId))
@@ -501,21 +510,35 @@ namespace car_website.Controllers
             if (!await IsAuthorized())
                 return RedirectToAction("CreateExpressSaleCar");
             string id = "";
+            bool botCar = false;
             try
             {
                 id = TempData["TmpExpressCarId"] as string;
                 TempData["TmpExpressCarId"] = null;
+                if (TempData["TmpBotCarId"] != null)
+                {
+                    id = TempData["TmpBotCarId"] as string;
+                    TempData["TmpBotCarId"] = null;
+                    botCar = true;
+                }
             }
             catch { }
             bool parsed = ObjectId.TryParse(id, out ObjectId objectId);
-            var car = parsed ? await _expressSaleCarRepository.GetByIdAsync(objectId) : null;
+            ExpressSaleCar expressCar = null;
+            if (!botCar && parsed)
+                expressCar = await _expressSaleCarRepository.GetByIdAsync(objectId);
+            CarFromBot carFromBot = null;
+            if (botCar && parsed)
+                carFromBot = await _carFromBotRepository.GetByIdAsync(objectId);
             CreateCarViewModel carModel;
-            if (car != null)
-                carModel = new CreateCarViewModel(car);
+            if (expressCar != null)
+                carModel = new CreateCarViewModel(expressCar);
+            else if (carFromBot != null)
+                carModel = new CreateCarViewModel(carFromBot);
             else
                 carModel = new();
             var currency = _currencyUpdater.CurrentCurrency;
-            return View(new CarCreationPageViewModel() { CreateCarViewModel = carModel, Currency = currency, ExpressCarId = car == null ? null : id, ExpressCarPhotos = car == null ? null : car.PhotosURL.ToList() });
+            return View(new CarCreationPageViewModel() { CreateCarViewModel = carModel, Currency = currency, ExpressCarId = expressCar == null ? null : id, ExpressCarPhotos = expressCar == null ? (carFromBot?.PhotosURL) : expressCar.PhotosURL.ToList(), PreviewURL = carFromBot?.PreviewURL, BotCarId = carFromBot?.Id.ToString() });
         }
         [HttpPost]
         public async Task<IActionResult> Create(CarCreationPageViewModel carVM)
