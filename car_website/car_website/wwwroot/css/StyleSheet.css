@@ -2666,6 +2666,17 @@ body {
   justify-content: space-around;
 }
 
+/*@supports (backdrop-filter: sepia(25%) blur(2px) invert(20%)) {
+    .car_conainer-img-sold {
+        backdrop-filter: sepia(25%) blur(2px) invert(20%);
+    }
+}*/
+@-moz-document url-prefix() {
+  .car_container-img-sold {
+    backdrop-filter: none;
+    background: rgba(70, 70, 70, 0.55) !important;
+  }
+}
 #dropdown-menu {
   right: 0;
   top: -650px;
