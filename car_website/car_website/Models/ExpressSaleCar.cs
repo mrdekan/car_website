@@ -1,10 +1,11 @@
-﻿using car_website.ViewModels;
+﻿using car_website.Interfaces;
+using car_website.ViewModels;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace car_website.Models
 {
-    public class ExpressSaleCar
+    public class ExpressSaleCar : IDbStorable
     {
         // For authorized users
         public ExpressSaleCar(CreateExpressSaleCarViewModel carVM, string sellerId, List<string> photos)

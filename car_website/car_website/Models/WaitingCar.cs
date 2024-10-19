@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace car_website.Models
 {
-    public class WaitingCar
+    public class WaitingCar : IDbStorable
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

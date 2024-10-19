@@ -326,7 +326,7 @@ namespace car_website.Controllers
                 });
             try
             {
-                var brands = await _brandRepository.GetAll();
+                var brands = await _brandRepository.GetAllNames();
                 brands = brands.OrderBy(brand => brand);
                 int totalItems = brands.Count();
                 int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);

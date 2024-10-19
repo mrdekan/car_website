@@ -1,11 +1,12 @@
 ﻿using car_website.Controllers.v1;
 using car_website.Data.Enum;
+using car_website.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace car_website.Models
 {
-    public class CarFromBot
+    public class CarFromBot : IDbStorable
     {
         public CarFromBot(BotCarModel model, string preview, List<string> photos, User user)
         {

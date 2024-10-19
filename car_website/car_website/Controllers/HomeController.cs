@@ -96,7 +96,7 @@ namespace car_website.Controllers
         {
             try
             {
-                var brands = await _brandRepository.GetAll();
+                var brands = await _brandRepository.GetAllNames();
                 if (brands == null)
                     return Ok(new { Success = false, Brands = new List<string>() });
                 return Ok(new { Success = true, Brands = brands.OrderBy(brand => brand) });

@@ -1,4 +1,5 @@
 ﻿using car_website.Data.Enum;
+using car_website.Interfaces;
 using car_website.ViewModels;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -6,7 +7,7 @@ using System.Globalization;
 
 namespace car_website.Models
 {
-    public class Car : BaseCar
+    public class Car : ExtendedBaseCar, IDbStorable
     {
         public Car(CreateCarViewModel carVM, List<string> urlPhotos, string sellerId, float aspectRatio, string previewURL, bool isAdmin)
         {
@@ -41,17 +42,7 @@ namespace car_website.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
-        public string[] PhotosURL { get; set; }
-        public Transmission CarTransmission { get; set; }
-        public TypeBody Body { get; set; }
-        public TypeFuel Fuel { get; set; }
-        public TypeDriveline Driveline { get; set; }
-        public Color CarColor { get; set; }
-        public string? Description { get; set; }
-        public float EngineCapacity { get; set; }
         public string? VIN { get; set; }
-        public CarOptions[] Options { get; set; }
-        public int Mileage { get; set; }
         public string SellerId { get; set; }
         public string? VideoURL { get; set; }
         public int? Priority { get; set; }

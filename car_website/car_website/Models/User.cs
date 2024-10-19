@@ -8,7 +8,7 @@ using MongoDbGenericRepository.Attributes;
 namespace car_website.Models
 {
     [CollectionName("Users")]
-    public class User : MongoIdentityUser<ObjectId>
+    public class User : MongoIdentityUser<ObjectId>, IDbStorable
     {
         public User()
         {

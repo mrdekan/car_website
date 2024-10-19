@@ -54,7 +54,7 @@ namespace car_website.Controllers.v1
         {
             try
             {
-                var brands = await _brandRepository.GetAll();
+                var brands = await _brandRepository.GetAllNames();
                 if (brands == null)
                     return Ok(new { Status = false, Code = HttpCodes.NotFound });
                 return Ok(new { Status = true, Code = HttpCodes.Success, Brands = brands.OrderBy(brand => brand) });

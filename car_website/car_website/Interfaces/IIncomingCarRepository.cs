@@ -2,7 +2,7 @@
 
 namespace car_website.Interfaces
 {
-    public interface IWaitingCarsRepository : IBaseRepository<WaitingCar>
+    public interface IIncomingCarRepository : IBaseRepository<IncomingCar>
     {
     }
 }
