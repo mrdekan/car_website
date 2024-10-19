@@ -1,4 +1,6 @@
 ﻿using car_website.Interfaces;
+using car_website.Interfaces.Repository;
+using car_website.Interfaces.Service;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 

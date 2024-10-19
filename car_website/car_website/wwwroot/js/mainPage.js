@@ -362,7 +362,7 @@ apply_button.onclick = () => {
 function getModelsOfMark(applyModel = "") {
     var brand = selectBrandsBtn.firstElementChild.innerText;
     if (modelsCache[brand] == null) {
-        fetch(`/home/GetModels?brand=${brand}`)
+        fetch(`/api/v1/brands/getModels?brand=${brand}`)
             .then(response => response.json())
             .then(data => {
                 models = ["Усі"];
@@ -381,7 +381,7 @@ function getModelsOfMark(applyModel = "") {
     }
 }
 function getMarks() {
-    fetch(`/home/GetBrands`)
+    fetch(`/api/v1/brands/getAll`)
         .then(response => response.json())
         .then(data => {
             brands = ["Усі"];

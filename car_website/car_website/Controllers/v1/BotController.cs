@@ -1,5 +1,6 @@
 ﻿using car_website.Data.Enum;
-using car_website.Interfaces;
+using car_website.Interfaces.Repository;
+using car_website.Interfaces.Service;
 using car_website.Models;
 using car_website.Services;
 using Microsoft.AspNetCore.Mvc;

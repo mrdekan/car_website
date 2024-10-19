@@ -1,4 +1,4 @@
-﻿using car_website.Interfaces;
+﻿using car_website.Interfaces.Repository;
 
 namespace car_website.Services
 {

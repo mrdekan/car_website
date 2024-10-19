@@ -2860,6 +2860,21 @@ header .header_center {
 header .header_center a {
   color: white;
   font-size: 18px;
+  position: relative;
+}
+header .header_center .incoming-car-notification {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--beige-default);
+  border-radius: 50%;
+  line-height: 20px;
+  text-align: center;
+  display: block;
+  color: white;
+  top: -10px;
+  right: -25px;
+  font-size: 15px;
 }
 header .header_right {
   display: flex;

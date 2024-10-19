@@ -1,4 +1,4 @@
-﻿namespace car_website.Interfaces
+﻿namespace car_website.Interfaces.Service
 {
     public interface IEmailService
     {

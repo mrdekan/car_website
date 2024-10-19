@@ -855,6 +855,22 @@ header {
         a {
             color: white;
             font-size: 18px;
+            position: relative;
+        }
+
+        .incoming-car-notification {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: $beige-default;
+            border-radius: 50%;
+            line-height: 20px;
+            text-align: center;
+            display: block;
+            color: white;
+            top: -10px;
+            right: -25px;
+            font-size: 15px;
         }
     }
 

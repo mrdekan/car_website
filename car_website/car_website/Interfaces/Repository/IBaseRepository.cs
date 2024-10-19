@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 
-namespace car_website.Interfaces
+namespace car_website.Interfaces.Repository
 {
     public interface IBaseRepository<T>
     {

@@ -1,4 +1,5 @@
 ﻿using car_website.Interfaces;
+using car_website.Interfaces.Repository;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -23,10 +24,10 @@ namespace car_website.Repository
             await _collection.Find(obj => true).ToListAsync();
 
         public virtual async Task<T> GetByIdAsync(ObjectId id) =>
-            await _collection.Find(car => car.Id == id).FirstOrDefaultAsync();
+            await _collection.Find(obj => obj.Id == id).FirstOrDefaultAsync();
 
         public virtual async Task<IEnumerable<T>> GetByIdListAsync(IEnumerable<ObjectId> ids) =>
-            await _collection.Find(car => ids.Contains(car.Id)).ToListAsync();
+            await _collection.Find(obj => ids.Contains(obj.Id)).ToListAsync();
 
         public virtual long GetCount()
         {

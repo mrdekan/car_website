@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Запити";
+    ViewData["DescriptionSearch"] = "Хочете продати своє авто? Можливо, ми шукаємо саме його! Ознайомтесь із нашим списком запитів.";
     string userId = "";
     if (User != null && User.Identity != null)
         userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";

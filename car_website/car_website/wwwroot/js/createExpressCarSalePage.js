@@ -57,7 +57,7 @@ function getCurrencyRate() {
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 function getMarks() {
-    fetch(`/home/GetBrands`)
+    fetch(`/api/v1/brands/getAll`)
         .then(response => response.json())
         .then(data => {
             brands = data.brands;
@@ -70,7 +70,7 @@ function getMarks() {
 function getModelsOfMark() {
     var brand = selectBrandsBtn.firstElementChild.innerText;
     if (modelsCache[brand] == null) {
-        fetch(`/home/GetModels?brand=${brand}`)
+        fetch(`/api/v1/brands/getModels?brand=${brand}`)
             .then(response => response.json())
             .then(data => {
                 models = data.models;

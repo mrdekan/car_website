@@ -1,4 +1,4 @@
-﻿using car_website.Interfaces;
+﻿using car_website.Interfaces.Service;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 

@@ -624,7 +624,7 @@ function changeModelToEditMode(button) {
 async function getModelsOfMark(brand, forced = false) {
     brand = brand.replace('_', ' ');
     if (modelsCache[brand] == null || forced) {
-        fetch(`/home/GetModels?brand=${brand}`)
+        fetch(`/api/v1/brands/getModels?brand=${brand}`)
             .then(response => response.json())
             .then(data => {
                 data.models = data.models.filter((n) => { return n != 'Інше' });

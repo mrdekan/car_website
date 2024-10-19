@@ -1,4 +1,5 @@
-﻿using car_website.Interfaces;
+﻿using car_website.Interfaces.Repository;
+using car_website.Interfaces.Service;
 using car_website.Models;
 
 namespace car_website.Services

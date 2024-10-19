@@ -1,5 +1,6 @@
 ﻿using car_website.Data.Enum;
-using car_website.Interfaces;
+using car_website.Interfaces.Repository;
+using car_website.Interfaces.Service;
 using car_website.Models;
 using car_website.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -64,7 +65,21 @@ namespace car_website.Controllers.v1
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
         }
-
+        [HttpGet("getModels")]
+        public async Task<ActionResult<IEnumerable<string>>> GetModels(string brand)
+        {
+            try
+            {
+                var brandObj = await _brandRepository.GetByName(brand);
+                if (brandObj == null)
+                    return Ok(new { Success = false, Models = new List<string>() });
+                return Ok(new { Success = true, Models = brandObj.Models.OrderBy(model => model) });
+            }
+            catch
+            {
+                return Ok(new { Success = false, Models = new List<string>() });
+            }
+        }
         #region Brands & Models editing
         [HttpPost("addModel")]
         public async Task<ActionResult<bool>> AddModel(string brand, string model)

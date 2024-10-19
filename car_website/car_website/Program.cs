@@ -1,5 +1,6 @@
 ﻿using car_website.Data;
-using car_website.Interfaces;
+using car_website.Interfaces.Repository;
+using car_website.Interfaces.Service;
 using car_website.Models;
 using car_website.Repository;
 using car_website.Services;

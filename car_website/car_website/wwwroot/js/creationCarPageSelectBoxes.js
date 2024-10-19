@@ -118,7 +118,7 @@ otherBrandInp.addEventListener('input', function () {
 function getModelsOfMark() {
     var brand = selectBrandsBtn.firstElementChild.innerText;
     if (modelsCache[brand] == null) {
-        fetch(`/home/GetModels?brand=${brand}`)
+        fetch(`/api/v1/brands/getModels?brand=${brand}`)
             .then(response => response.json())
             .then(data => {
                 models = ["Не обрано"];
@@ -134,7 +134,7 @@ function getModelsOfMark() {
     }
 }
 function getMarks() {
-    fetch(`/home/GetBrands`)
+    fetch(`/api/v1/brands/getAll`)
         .then(response => response.json())
         .then(data => {
             let prevBrand = brandRealInp.value;
@@ -145,7 +145,7 @@ function getMarks() {
             if (prevBrand.length > 0) {
                 if (brands.includes(prevBrand)) {
                     updateName(createLi(prevBrand));
-                    fetch(`/home/GetModels?brand=${prevBrand}`)
+                    fetch(`/api/v1/brands/getModels?brand=${prevBrand}`)
                         .then(response => response.json())
                         .then(data => {
                             models = ["Не обрано"];
