@@ -34,8 +34,8 @@ namespace car_website.ViewModels
         public string? Brand { get; set; }
         public string? Model { get; set; }
         [Range(1900, 3000, ErrorMessage = "Уведіть коректне значення")]
-        public uint? Year { get; set; }
-        public uint? Mileage { get; set; }
+        public int? Year { get; set; }
+        public int? Mileage { get; set; }
         [MaxLength(3, ErrorMessage = "Занадто велике значення")]
         public string? EngineVolume { get; set; }
         public CarFeatures Features { get; set; }
@@ -54,7 +54,7 @@ namespace car_website.ViewModels
         public Color CarColor { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [Range(1, 999999, ErrorMessage = "Некоректне значення")]
-        public uint Price { get; set; }
+        public int Price { get; set; }
         [MaxLength(17, ErrorMessage = "Довжина VIN номеру — 17 символів")]
         public string? VIN { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]

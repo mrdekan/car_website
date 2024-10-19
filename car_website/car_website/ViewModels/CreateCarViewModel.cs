@@ -22,8 +22,8 @@ namespace car_website.ViewModels
         {
             Model = botCar.Model;
             Brand = botCar.Brand;
-            Price = (uint)botCar.Price;
-            Year = (uint)botCar.Year;
+            Price = botCar.Price;
+            Year = botCar.Year;
             CarTransmission = (int)botCar.TransmissionType;
             Driveline = (int)botCar.DrivelineType;
             Fuel = (int)botCar.FuelType;
@@ -31,9 +31,9 @@ namespace car_website.ViewModels
         }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [Range(1, 999999, ErrorMessage = "Некоректне значення")]
-        public uint Price { get; set; }
+        public int Price { get; set; }
         [Range(0, 999, ErrorMessage = "Некоректне значення")]
-        public uint Mileage { get; set; }
+        public int Mileage { get; set; }
         //[Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile? Photo1 { get; set; }
         //[Required(ErrorMessage = "Обов'язкове поле")]
@@ -64,7 +64,7 @@ namespace car_website.ViewModels
         public int Driveline { get; set; }
         [Range(0, 10, ErrorMessage = "Оберіть значення")]
         public Color CarColor { get; set; } = Color.Any;
-        public uint Year { get; set; }
+        public int Year { get; set; }
         [MaxLength(500, ErrorMessage = "Не більше 500 символів")]
         public string? Description { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]

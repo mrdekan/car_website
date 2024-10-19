@@ -23,10 +23,10 @@ namespace car_website.ViewModels
             }
         }
         public string Id { get; set; }
-        public uint Price { get; set; }
-        public uint Mileage { get; set; }
-        public uint PriceUAH { get; set; }
-        public uint Year { get; set; }
+        public int Price { get; set; }
+        public int Mileage { get; set; }
+        public int PriceUAH { get; set; }
+        public int Year { get; set; }
         public string[] PhotosURL { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }

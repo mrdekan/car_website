@@ -27,16 +27,16 @@ namespace car_website.ViewModels
             IsSold = car.IsSold;
         }
         public string Id { get; set; }
-        public uint Price { get; set; }
-        public uint Mileage { get; set; }
-        public uint PriceUAH { get; set; }
+        public int Price { get; set; }
+        public int Mileage { get; set; }
+        public int PriceUAH { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
         public Transmission CarTransmission { get; set; }
         public TypeBody Body { get; set; }
         public TypeFuel Fuel { get; set; }
         public TypeDriveline Driveline { get; set; }
-        public uint Year { get; set; }
+        public int Year { get; set; }
         public float EngineCapacity { get; set; }
         public string? VIN { get; set; }
         public bool Liked { get; set; }

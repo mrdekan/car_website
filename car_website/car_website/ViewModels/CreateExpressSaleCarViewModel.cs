@@ -18,7 +18,7 @@ namespace car_website.ViewModels
         public string? Phone { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [Range(1, 9999999, ErrorMessage = "Некоректне значення")]
-        public uint? Price { get; set; }
+        public int? Price { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         public IFormFile? Photo1 { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
@@ -34,7 +34,7 @@ namespace car_website.ViewModels
         public string? Model { get; set; }
         [Required(ErrorMessage = "Обов'язкове поле")]
         [Range(1900, 3000, ErrorMessage = "Некоректне значення")]
-        public uint? Year { get; set; }
+        public int? Year { get; set; }
         [MaxLength(500, ErrorMessage = "Занадто довгий опис")]
         public string? Description { get; set; }
         public bool IsLogged { get; set; }

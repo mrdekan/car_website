@@ -47,12 +47,12 @@ namespace car_website.ViewModels
         public string Fuel { get; set; }
         public string Driveline { get; set; }
         public string CarColor { get; set; }
-        public uint Year { get; set; }
+        public int Year { get; set; }
         public string Description { get; set; }
         public string EngineCapacity { get; set; }
         public string VIN { get; set; }
         public CarOptions[] Options { get; set; }
-        public uint Mileage { get; set; }
+        public int Mileage { get; set; }
         public string? VideoUrl { get; set; }
         public bool Requested { get; set; }
         public int Priority { get; set; }

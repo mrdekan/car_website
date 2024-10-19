@@ -21,7 +21,7 @@ namespace car_website.Services
         /// <summary>
         /// Actual
         /// </summary>
-        public uint UsdToUah(double usd) => (uint)(usd * usdCurrency);
+        public int UsdToUah(double usd) => (int)(usd * usdCurrency);
         internal async void UpdateCurrencies(IAppSettingsDbRepository appSettingsDbRepository)
         {
             await Task.Run(() =>
