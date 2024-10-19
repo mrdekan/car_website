@@ -486,7 +486,7 @@ function formCar(car) {
                                                 <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
                                                 <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
                                             </div>
-                                            ${car.priority > 0 ? '<span class="car_container-right-top">Топ</span>' : ''}
+                                            ${car.priority > 0 && !car.isSold ? '<span class="car_container-right-top">Топ</span>' : ''}
                                   <div class="car_container-right-like">
                                   <input type="checkbox" class="car_container-right-like-cars" carId="${car.id}" ${car.liked ? "checked" : ""}/>
                                   <span class="car_container-right-heart">

@@ -166,6 +166,111 @@ namespace car_website.Controllers.v1
                     IsAdmin().Result)
             });
         }
+        [HttpGet("findSimilarCars/{id}")]
+        public async Task<ActionResult<IEnumerable<LiteCarViewModel>>> FindSimilarCars(string id)
+        {
+            try
+            {
+                var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
+                var cars = await _carRepository.GetAll();
+                var user = await GetCurrentUser();
+                cars = cars.Where(car => car.Priority >= 0 && !car.IsSold);
+                var tasks = new List<Task<Tuple<Car, byte>>>();
+                foreach (var el in cars)
+                {
+                    if (el.Id != car.Id)
+                    {
+                        var task = Task.Run(() => DistanceCoefficient(car, el));
+                        tasks.Add(task);
+                    }
+                }
+                await Task.WhenAll(tasks);
+                var results = tasks.Select(task => task.Result).ToList();
+                var topThree = results.OrderByDescending(tuple => tuple.Item2).Take(3).ToList();
+                var similarCars = topThree.Select(tuple => tuple.Item1).ToList();
+                return Ok(new
+                {
+                    Success = true,
+                    Cars = similarCars.Select(el =>
+                    new CarInListViewModel(el, _currencyUpdater, user != null && user.Favorites.Contains(el.Id))).ToList()
+                });
+            }
+            catch
+            {
+                return Ok(new { Success = false, Cars = new List<LiteCarViewModel>() });
+            }
+        }
+        private static async Task<Tuple<Car, byte>> DistanceCoefficient(Car baseCar, Car compared)
+        {
+            byte score = 0;
+            await Task.Run(() =>
+            {
+                if (baseCar.Brand == compared.Brand)
+                {
+                    score += 4;
+                    if (baseCar.Model == compared.Model)
+                        score += 4;
+                }
+                if (baseCar.Fuel == compared.Fuel)
+                    score += 2;
+                else if (baseCar.Fuel == Data.Enum.TypeFuel.GasAndGasoline
+                && compared.Fuel == Data.Enum.TypeFuel.Gas)
+                    score += 1;
+                else if (baseCar.Fuel == Data.Enum.TypeFuel.Gas
+                && compared.Fuel == Data.Enum.TypeFuel.GasAndGasoline)
+                    score += 1;
+                else if (baseCar.Fuel == Data.Enum.TypeFuel.GasAndGasoline
+                && compared.Fuel == Data.Enum.TypeFuel.Gasoline)
+                    score += 1;
+                else if (baseCar.Fuel == Data.Enum.TypeFuel.Gasoline
+                && compared.Fuel == Data.Enum.TypeFuel.GasAndGasoline)
+                    score += 1;
+                if (compared.Year >= baseCar.Year - 3
+                && compared.Year <= baseCar.Year + 3)
+                    score += 2;
+                else if (compared.Year >= baseCar.Year - 5
+                && compared.Year <= baseCar.Year + 5)
+                    score += 1;
+                if (compared.Price >= (float)baseCar.Price * 0.75f
+                && compared.Price <= (float)baseCar.Price * 1.25f)
+                    score += 4;
+                else if (compared.Price >= (float)baseCar.Price * 0.65f
+                && compared.Price <= (float)baseCar.Price * 1.35f)
+                    score += 2;
+                if (compared.EngineCapacity >= baseCar.EngineCapacity - 0.5
+                && compared.EngineCapacity <= baseCar.EngineCapacity + 0.5)
+                    score += 1;
+                if (baseCar.Body == compared.Body)
+                    score += 5;
+                else if (baseCar.Body == Data.Enum.TypeBody.Sedan
+                && compared.Body == Data.Enum.TypeBody.Coupe)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.Coupe
+                && compared.Body == Data.Enum.TypeBody.Sedan)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.SUV
+                && compared.Body == Data.Enum.TypeBody.StationWagon)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.StationWagon
+                && compared.Body == Data.Enum.TypeBody.SUV)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.Coupe
+                && compared.Body == Data.Enum.TypeBody.Convertible)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.Convertible
+                && compared.Body == Data.Enum.TypeBody.Coupe)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.Sedan
+                && compared.Body == Data.Enum.TypeBody.StationWagon)
+                    score += 2;
+                else if (baseCar.Body == Data.Enum.TypeBody.StationWagon
+                && compared.Body == Data.Enum.TypeBody.Sedan)
+                    score += 2;
+                if (baseCar.CarTransmission == compared.CarTransmission)
+                    score += 3;
+            });
+            return new Tuple<Car, byte>(compared, score);
+        }
 
         [HttpGet("getExpressSaleCars")]
         public async Task<ActionResult<IEnumerable<Car>>> GetExpressSaleCars([FromQuery] int? page = null,

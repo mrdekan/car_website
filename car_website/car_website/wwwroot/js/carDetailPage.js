@@ -171,7 +171,7 @@ function updateLikeButtons() {
 }
 function getSimilarCars() {
     if (!similarCarsBlock && !similarCarsBlockMobile) return;
-    fetch(`/Car/FindSimilarCars/${similarCarsBlock.getAttribute('carId')}`)
+    fetch(`/api/v1/cars/findSimilarCars/${similarCarsBlock.getAttribute('carId')}`)
         .then(response => response.json())
         .then(data => {
             if (data != null && data.success == true) {
