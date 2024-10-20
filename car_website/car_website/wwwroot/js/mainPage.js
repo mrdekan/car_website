@@ -391,7 +391,6 @@ function getMarks() {
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
-//applyFilter();
 function applyFilter(page = 1) {
     isFilterClear();
     filter.classList.remove("open");

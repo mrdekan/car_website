@@ -16,7 +16,7 @@ namespace car_website.Models
             Brand = carVM.Brand;
             Model = carVM.Model.Replace('_', ' ');
             CarTransmission = (Transmission)carVM.CarTransmission;
-            Body = carVM.Body;
+            Body = (TypeBody)carVM.Body;
             Fuel = (TypeFuel)carVM.Fuel;
             Driveline = (TypeDriveline)carVM.Driveline;
             CarColor = carVM.CarColor;
@@ -52,6 +52,7 @@ namespace car_website.Models
         public string? OwnerName { get; set; }
         public string? OwnerPhone { get; set; }
         public string? AdditionalPhone { get; set; }
+        public Color CarColor { get; set; }
         public CarOptions[]? Options { get; set; }
         public void ApplyEdits(CarEditingViewModel editing, IEnumerable<string> photos, string preview)
         {

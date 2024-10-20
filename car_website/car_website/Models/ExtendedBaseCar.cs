@@ -10,8 +10,6 @@ namespace car_website.Models
         public TypeBody Body { get; set; }
         public TypeFuel Fuel { get; set; }
         public TypeDriveline Driveline { get; set; }
-        public Color CarColor { get; set; }
-        public string? Description { get; set; }
         public float EngineCapacity { get; set; }
         public int Mileage { get; set; }
     }

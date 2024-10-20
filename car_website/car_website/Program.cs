@@ -33,6 +33,7 @@ builder.Services.AddScoped<IBuyRequestRepository, BuyRequestRepository>();
 builder.Services.AddScoped<IPurchaseRequestRepository, PurchaseRequestRepository>();
 builder.Services.AddScoped<IExpressSaleCarRepository, ExpressSaleCarRepository>();
 builder.Services.AddScoped<ICarFromBotRepository, CarFromBotRepository>();
+builder.Services.AddScoped<IIncomingCarRepository, IncomingCarRepository>();
 builder.Services.AddScoped<IAppSettingsDbRepository, AppSettingsDbRepository>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IUserService, UserService>();

@@ -209,17 +209,17 @@ namespace car_website.Controllers.v1
                 }
                 if (baseCar.Fuel == compared.Fuel)
                     score += 2;
-                else if (baseCar.Fuel == Data.Enum.TypeFuel.GasAndGasoline
-                && compared.Fuel == Data.Enum.TypeFuel.Gas)
+                else if (baseCar.Fuel == TypeFuel.GasAndGasoline
+                && compared.Fuel == TypeFuel.Gas)
                     score += 1;
-                else if (baseCar.Fuel == Data.Enum.TypeFuel.Gas
-                && compared.Fuel == Data.Enum.TypeFuel.GasAndGasoline)
+                else if (baseCar.Fuel == TypeFuel.Gas
+                && compared.Fuel == TypeFuel.GasAndGasoline)
                     score += 1;
-                else if (baseCar.Fuel == Data.Enum.TypeFuel.GasAndGasoline
-                && compared.Fuel == Data.Enum.TypeFuel.Gasoline)
+                else if (baseCar.Fuel == TypeFuel.GasAndGasoline
+                && compared.Fuel == TypeFuel.Gasoline)
                     score += 1;
-                else if (baseCar.Fuel == Data.Enum.TypeFuel.Gasoline
-                && compared.Fuel == Data.Enum.TypeFuel.GasAndGasoline)
+                else if (baseCar.Fuel == TypeFuel.Gasoline
+                && compared.Fuel == TypeFuel.GasAndGasoline)
                     score += 1;
                 if (compared.Year >= baseCar.Year - 3
                 && compared.Year <= baseCar.Year + 3)
@@ -227,40 +227,40 @@ namespace car_website.Controllers.v1
                 else if (compared.Year >= baseCar.Year - 5
                 && compared.Year <= baseCar.Year + 5)
                     score += 1;
-                if (compared.Price >= (float)baseCar.Price * 0.75f
-                && compared.Price <= (float)baseCar.Price * 1.25f)
+                if (compared.Price >= baseCar.Price * 0.75f
+                && compared.Price <= baseCar.Price * 1.25f)
                     score += 4;
-                else if (compared.Price >= (float)baseCar.Price * 0.65f
-                && compared.Price <= (float)baseCar.Price * 1.35f)
+                else if (compared.Price >= baseCar.Price * 0.65f
+                && compared.Price <= baseCar.Price * 1.35f)
                     score += 2;
                 if (compared.EngineCapacity >= baseCar.EngineCapacity - 0.5
                 && compared.EngineCapacity <= baseCar.EngineCapacity + 0.5)
                     score += 1;
                 if (baseCar.Body == compared.Body)
                     score += 5;
-                else if (baseCar.Body == Data.Enum.TypeBody.Sedan
-                && compared.Body == Data.Enum.TypeBody.Coupe)
+                else if (baseCar.Body == TypeBody.Sedan
+                && compared.Body == TypeBody.Coupe)
                     score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.Coupe
-                && compared.Body == Data.Enum.TypeBody.Sedan)
+                else if (baseCar.Body == TypeBody.Coupe
+                && compared.Body == TypeBody.Sedan)
                     score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.SUV
-                && compared.Body == Data.Enum.TypeBody.StationWagon)
+                else if (baseCar.Body == TypeBody.SUV
+                && compared.Body == TypeBody.StationWagon)
                     score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.StationWagon
-                && compared.Body == Data.Enum.TypeBody.SUV)
+                else if (baseCar.Body == TypeBody.StationWagon
+                && compared.Body == TypeBody.SUV)
                     score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.Coupe
-                && compared.Body == Data.Enum.TypeBody.Convertible)
+                else if (baseCar.Body == TypeBody.Coupe
+                && compared.Body == TypeBody.Convertible)
                     score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.Convertible
-                && compared.Body == Data.Enum.TypeBody.Coupe)
+                else if (baseCar.Body == TypeBody.Convertible
+                && compared.Body == TypeBody.Coupe)
                     score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.Sedan
-                && compared.Body == Data.Enum.TypeBody.StationWagon)
+                else if (baseCar.Body == TypeBody.Sedan
+                && compared.Body == TypeBody.StationWagon)
                     score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.StationWagon
-                && compared.Body == Data.Enum.TypeBody.Sedan)
+                else if (baseCar.Body == TypeBody.StationWagon
+                && compared.Body == TypeBody.Sedan)
                     score += 2;
                 if (baseCar.CarTransmission == compared.CarTransmission)
                     score += 3;
@@ -445,7 +445,7 @@ namespace car_website.Controllers.v1
         public ActionResult<long> GetIncomingCarsCount()
         {
             //ToDo: implement
-            return Ok(new { Status = true, Code = HttpCodes.Success, Count = 3 });
+            return Ok(new { Status = true, Code = HttpCodes.Success, Count = 5 });
         }
     }
 }

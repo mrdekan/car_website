@@ -14,8 +14,8 @@ namespace car_website.Models
             PhotosURL = photos.ToArray();
             Brand = carVM.Brand;
             Model = carVM.Model;
-            Price = carVM.Price ?? 0;
-            Year = carVM.Year ?? 0;
+            Price = carVM.Price;
+            Year = carVM.Year;
             Description = carVM.Description;
         }
         // Not authorized users
@@ -24,8 +24,8 @@ namespace car_website.Models
             PhotosURL = photos.ToArray();
             Brand = carVM.Brand;
             Model = carVM.Model;
-            Price = carVM.Price ?? 0;
-            Year = carVM.Year ?? 0;
+            Price = carVM.Price;
+            Year = carVM.Year;
             Description = carVM.Description;
             SellerName = carVM.Name;
             Phone = carVM.Phone;

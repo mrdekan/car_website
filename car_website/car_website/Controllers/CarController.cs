@@ -79,6 +79,13 @@ namespace car_website.Controllers
         {
             return View();
         }
+        public async Task<IActionResult> AddIncomingCar()
+        {
+            var user = await GetCurrentUser();
+            if (user == null) return RedirectToAction("Login", "User");
+            if (user.IsAdmin) return BadRequest();
+            return View(new CreateIncomingCarViewModel());
+        }
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {
@@ -613,5 +620,12 @@ namespace car_website.Controllers
             }
             return Ok(new { Success = false });
         }
+        #region Incoming cars
+        [HttpPost]
+        public async Task<IActionResult> AddIncomingCar(CreateIncomingCarViewModel carVM)
+        {
+            return BadRequest();
+        }
+        #endregion
     }
 }

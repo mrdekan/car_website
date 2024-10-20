@@ -40,7 +40,6 @@ namespace car_website.ViewModels
         public TypeFuel Fuel { get; set; }
         public TypeDriveline Driveline { get; set; }
         public Color CarColor { get; set; }
-        public string? Description { get; set; }
         public float EngineCapacity { get; set; }
         public string? VIN { get; set; }
         public CarOptions[] Options { get; set; }
