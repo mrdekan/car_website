@@ -22,7 +22,6 @@ namespace car_website.Controllers.v1
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly IConfiguration _configuration;
         private readonly IExpressSaleCarRepository _expressSaleCarRepository;
-        private readonly ILogger<ApiController> _logger;
         private readonly IUserService _userService;
         public BrandsController(ICarRepository carRepository,
             IBrandRepository brandRepository,
@@ -33,7 +32,6 @@ namespace car_website.Controllers.v1
             CurrencyUpdater currencyUpdater,
             IConfiguration configuration,
             IExpressSaleCarRepository expressSaleCarRepository,
-            ILogger<ApiController> logger,
             IUserService userService) : base(userRepository)
         {
             _carRepository = carRepository;
@@ -45,7 +43,6 @@ namespace car_website.Controllers.v1
             _currencyUpdater = currencyUpdater;
             _configuration = configuration;
             _expressSaleCarRepository = expressSaleCarRepository;
-            _logger = logger;
             _userService = userService;
         }
         #endregion

@@ -1,10 +1,14 @@
 ﻿using car_website.Data.Enum;
 
-namespace car_website.Models
+namespace car_website.ViewModels
 {
-    public abstract class ExtendedBaseCar : BaseCar
+    public class IncomingCarViewModel
     {
-        public string? PreviewURL { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public int Year { get; set; }
+        public string Price { get; set; }
+        public string PriceUAH { get; set; }
         public string[] PhotosURL { get; set; }
         public Transmission CarTransmission { get; set; }
         public TypeBody Body { get; set; }

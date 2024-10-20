@@ -75,6 +75,10 @@ namespace car_website.Controllers
         {
             return View();
         }
+        public IActionResult IncomingCars()
+        {
+            return View();
+        }
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {

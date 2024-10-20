@@ -47,12 +47,12 @@ namespace car_website.Models
         public string? VideoURL { get; set; }
         public int? Priority { get; set; }
         public float? PreviewAspectRatio { get; set; }
-        public string? PreviewURL { get; set; }
         public bool IsSold { get; set; }
         public string? OwnerId { get; set; }
         public string? OwnerName { get; set; }
         public string? OwnerPhone { get; set; }
         public string? AdditionalPhone { get; set; }
+        public CarOptions[]? Options { get; set; }
         public void ApplyEdits(CarEditingViewModel editing, IEnumerable<string> photos, string preview)
         {
             Price = editing.Price;

@@ -44,7 +44,6 @@ namespace car_website.Controllers.v1
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly IExpressSaleCarRepository _expressSaleCarRepository;
         private readonly IImageService _imageService;
-        private readonly ILogger<ApiController> _logger;
         private readonly IUserRepository _userRepository;
         private readonly IUserService _userService;
         private readonly IWaitingCarsRepository _waitingCarsRepository;
@@ -60,7 +59,6 @@ namespace car_website.Controllers.v1
             CurrencyUpdater currencyUpdater,
             IConfiguration configuration,
             IExpressSaleCarRepository expressSaleCarRepository,
-            ILogger<ApiController> logger,
             IUserService userService,
             IValidationService validationService,
             IAppSettingsDbRepository appSettingsDbRepository,
@@ -75,7 +73,6 @@ namespace car_website.Controllers.v1
             _currencyUpdater = currencyUpdater;
             _configuration = configuration;
             _expressSaleCarRepository = expressSaleCarRepository;
-            _logger = logger;
             _userService = userService;
             _validationService = validationService;
             _appSettingsDbRepository = appSettingsDbRepository;
@@ -208,9 +205,8 @@ namespace car_website.Controllers.v1
                     Page = page
                 });
             }
-            catch (Exception ex)
+            catch
             {
-                _logger.LogError("Get user's buy requests error: {0}", ex.ToString());
                 return Ok(new
                 {
                     Status = false,
@@ -256,9 +252,8 @@ namespace car_website.Controllers.v1
                     Page = page
                 });
             }
-            catch (Exception ex)
+            catch
             {
-                _logger.LogError("Get user's cars error: {0}", ex.ToString());
                 return Ok(new
                 {
                     Status = false,
@@ -298,9 +293,8 @@ namespace car_website.Controllers.v1
                     Page = page
                 });
             }
-            catch (Exception ex)
+            catch
             {
-                _logger.LogError("Get favorite cars error: {0}", ex.ToString());
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
         }
@@ -341,9 +335,8 @@ namespace car_website.Controllers.v1
                     Page = page
                 });
             }
-            catch (Exception ex)
+            catch
             {
-                _logger.LogError("Get waiting cars error: {0}", ex.ToString());
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
         }
@@ -367,9 +360,8 @@ namespace car_website.Controllers.v1
                 await _userRepository.Update(user);
                 return Ok(new { Status = true, Code = HttpCodes.Success });
             }
-            catch (Exception ex)
+            catch
             {
-                _logger.LogError("Remove admin error: {0}", ex.ToString());
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
         }
@@ -390,9 +382,8 @@ namespace car_website.Controllers.v1
                 await _userRepository.Update(user);
                 return Ok(new { Status = true, Code = HttpCodes.Success });
             }
-            catch (Exception ex)
+            catch
             {
-                _logger.LogError("Set admin error: {0}", ex.ToString());
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
         }

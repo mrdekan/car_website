@@ -1,5 +1,4 @@
-﻿using car_website.Data.Enum;
-using car_website.Models;
+﻿using car_website.Models;
 using car_website.Services;
 
 namespace car_website.ViewModels
@@ -16,9 +15,9 @@ namespace car_website.ViewModels
             PriceUAH = string.Format("{0:n0}", currencyUpdater.UsdToUah(car.Price)).Replace(",", " ");
             PhotosURL = car.PhotosURL;
             EngineCapacity = car.EngineCapacity;
-            Fuel = GetFuel(car.FuelType);
-            CarTransmission = GetTransmission(car.TransmissionType);
-            Driveline = GetTypeDriveline(car.DrivelineType);
+            Fuel = car.FuelType.GetName();
+            CarTransmission = car.TransmissionType.GetName();
+            Driveline = car.DrivelineType.GetName();
             Name = car.Name;
             Phone = car.Phone;
             PreviewURL = car.PreviewURL;
@@ -44,38 +43,5 @@ namespace car_website.ViewModels
         public string? Name { get; set; }
         public string? Phone { get; set; }
         public string? SellerId { get; set; }
-        private string GetTransmission(Transmission tr) => (tr == Transmission.Automatic ? "Автомат" : "Механічна");
-        private string GetFuel(TypeFuel fuel)
-        {
-            switch (fuel)
-            {
-                case TypeFuel.Gas:
-                    return "Газ";
-                case TypeFuel.GasAndGasoline:
-                    return "Газ/Бензин";
-                case TypeFuel.Gasoline:
-                    return "Бензин";
-                case TypeFuel.Diesel:
-                    return "Дизель";
-                case TypeFuel.Hybrid:
-                    return "Гібрид";
-                case TypeFuel.Electro:
-                    return "Електро";
-            }
-            return "";
-        }
-        private string GetTypeDriveline(TypeDriveline driveline)
-        {
-            switch (driveline)
-            {
-                case TypeDriveline.Front:
-                    return "Передній";
-                case TypeDriveline.Rear:
-                    return "Задній";
-                case TypeDriveline.AWD:
-                    return "Повний";
-            }
-            return "";
-        }
     }
 }
