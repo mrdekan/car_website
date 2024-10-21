@@ -1,5 +1,17 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using System.Security.Claims;
+@using Microsoft.AspNetCore.Http;
 @{
+    string userId = "";
+    if (User != null && User.Identity != null)
+        userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
+    bool isAdmin = !string.IsNullOrEmpty(userId) && ViewContext.HttpContext.Session.GetInt32("Role") != 0;
 }
+@if(isAdmin){
+    <a asp-action="AddIncomingCar" asp-controller="Car" style="margin: 100px; padding: 15px; color: white; background: red; display: block;">Додати</a>
+}
+<div class="pages_buttons"></div>
+<div class="wrapper profile">
+    <div id="cars-list" class="carList"></div>
+</div>
+<div class="pages_buttons"></div>
+<script src="~/js/incomingCars.js" asp-append-version="true"></script>

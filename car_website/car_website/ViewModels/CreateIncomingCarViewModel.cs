@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using car_website.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace car_website.ViewModels
 {
@@ -8,7 +9,12 @@ namespace car_website.ViewModels
         {
 
         }
-        [Required]
+        public CreateIncomingCarViewModel(CurrencyUpdater currencyUpdater)
+        {
+            Currency = currencyUpdater.CurrentCurrency;
+        }
+        [Required(ErrorMessage = "Обов'язкове поле")]
         public string ArrivalDate { get; set; }
+        public double Currency { get; set; }
     }
 }

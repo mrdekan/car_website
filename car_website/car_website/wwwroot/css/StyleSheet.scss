@@ -572,7 +572,10 @@ body {
         &-info {
             padding-left: 30px;
             //width: 100%;
-
+            &-arrive{
+                margin-top: 15px;
+                font-size: 20px;
+            }
             &-name {
                 color: $text-default;
                 transition: 0.2s;

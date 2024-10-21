@@ -33,5 +33,10 @@
         /// </summary>
         /// <returns>Result of validation</returns>
         bool IsValidPassword(string password);
+        /// <summary>
+        /// Checks arrival date in dd.MM.yyyy format
+        /// </summary>
+        /// <returns>Result of validation</returns>
+        bool IsValidArrivalDate(string arrivalDate);
     }
 }

@@ -26,7 +26,8 @@ namespace car_website.Controllers
         private readonly IAppSettingsDbRepository _appSettingsDbRepository;
         private readonly IPurchaseRequestRepository _purchaseRequestsRepository;
         private readonly ICarFromBotRepository _carFromBotRepository;
-        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository, IPurchaseRequestRepository purchaseRequestsRepository, ICarFromBotRepository carFromBotRepository) : base(userRepository)
+        private readonly IIncomingCarRepository _incomingCarRepository;
+        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository, IPurchaseRequestRepository purchaseRequestsRepository, ICarFromBotRepository carFromBotRepository, IIncomingCarRepository incomingCarRepository) : base(userRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -41,6 +42,7 @@ namespace car_website.Controllers
             _appSettingsDbRepository = appSettingsDbRepository;
             _purchaseRequestsRepository = purchaseRequestsRepository;
             _carFromBotRepository = carFromBotRepository;
+            _incomingCarRepository = incomingCarRepository;
         }
         #endregion
         public async Task<IActionResult> BotDetail(string id)
@@ -75,16 +77,17 @@ namespace car_website.Controllers
         {
             return View();
         }
-        public IActionResult IncomingCars()
+        public async Task<IActionResult> IncomingCars()
         {
+            await IsAdmin();
             return View();
         }
         public async Task<IActionResult> AddIncomingCar()
         {
             var user = await GetCurrentUser();
             if (user == null) return RedirectToAction("Login", "User");
-            if (user.IsAdmin) return BadRequest();
-            return View(new CreateIncomingCarViewModel());
+            if (!user.IsAdmin) return BadRequest();
+            return View(new CreateIncomingCarViewModel(_currencyUpdater));
         }
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
@@ -455,9 +458,8 @@ namespace car_website.Controllers
             // Restoring the values ​​of fields that were reset
 
             if (user == null)
-            {
                 return RedirectToAction("CreateExpressSaleCar");
-            }
+
             carVM.Currency = _currencyUpdater.CurrentCurrency;
             if (carVM.ExpressCarId != null)
             {
@@ -469,33 +471,10 @@ namespace car_website.Controllers
                         carVM.ExpressCarPhotos = expressCar.PhotosURL.ToList();
                 }
             }
+
             bool additionalValidation = true;
             bool photosIsValid = true;
-            if (carVM.CreateCarViewModel.Photo1 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 1))
-            {
-                ModelState.AddModelError("CreateCarViewModel.Photo1", "Обов'язкове поле");
-                photosIsValid = false;
-            }
-            if (carVM.CreateCarViewModel.Photo2 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 2))
-            {
-                ModelState.AddModelError("CreateCarViewModel.Photo2", "Обов'язкове поле");
-                photosIsValid = false;
-            }
-            if (carVM.CreateCarViewModel.Photo3 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 3))
-            {
-                ModelState.AddModelError("CreateCarViewModel.Photo3", "Обов'язкове поле");
-                photosIsValid = false;
-            }
-            if (carVM.CreateCarViewModel.Photo4 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 4))
-            {
-                ModelState.AddModelError("CreateCarViewModel.Photo4", "Обов'язкове поле");
-                photosIsValid = false;
-            }
-            if (carVM.CreateCarViewModel.Photo5 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 5))
-            {
-                ModelState.AddModelError("CreateCarViewModel.Photo5", "Обов'язкове поле");
-                photosIsValid = false;
-            }
+
             if (carVM.CreateCarViewModel.Year > DateTime.Now.Year + 1)
             {
                 ModelState.AddModelError("CreateCarViewModel.Year", "Не продаємо авто з майбутнього :(");
@@ -516,31 +495,23 @@ namespace car_website.Controllers
                 }
                 carVM.CreateCarViewModel.AdditionalPhone = phone.Replace("+", "");
             }
-            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo1))
+
+            //Photos validation
+            var photosArr = new[] { carVM.CreateCarViewModel.Photo1, carVM.CreateCarViewModel.Photo2, carVM.CreateCarViewModel.Photo3, carVM.CreateCarViewModel.Photo4, carVM.CreateCarViewModel.Photo5 };
+            for (int i = 0; i < photosArr.Length; i++)
             {
-                photosIsValid = false;
-                ModelState.AddModelError("CreateCarViewModel.Photo1", $"Не більше {MAX_PHOTO_SIZE}Мб");
+                if (photosArr[i] == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < i + 1))
+                {
+                    ModelState.AddModelError("CreateCarViewModel.Photo" + (i + 1), "Обов'язкове поле");
+                    photosIsValid = false;
+                }
+                else if (!_validationService.IsLessThenNMb(photosArr[i]))
+                {
+                    photosIsValid = false;
+                    ModelState.AddModelError("CreateCarViewModel.Photo" + (i + 1), $"Не більше {MAX_PHOTO_SIZE}Мб");
+                }
             }
-            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo2))
-            {
-                photosIsValid = false;
-                ModelState.AddModelError("CreateCarViewModel.Photo2", $"Не більше {MAX_PHOTO_SIZE}Мб");
-            }
-            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo3))
-            {
-                photosIsValid = false;
-                ModelState.AddModelError("CreateCarViewModel.Photo3", $"Не більше {MAX_PHOTO_SIZE}Мб");
-            }
-            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo4))
-            {
-                photosIsValid = false;
-                ModelState.AddModelError("CreateCarViewModel.Photo4", $"Не більше {MAX_PHOTO_SIZE}Мб");
-            }
-            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo5))
-            {
-                photosIsValid = false;
-                ModelState.AddModelError("CreateCarViewModel.Photo5", $"Не більше {MAX_PHOTO_SIZE}Мб");
-            }
+
             string videoId = "";
             if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
             {
@@ -624,7 +595,67 @@ namespace car_website.Controllers
         [HttpPost]
         public async Task<IActionResult> AddIncomingCar(CreateIncomingCarViewModel carVM)
         {
-            return BadRequest();
+            User user = await GetCurrentUser();
+            // Restoring the values ​​of fields that were reset
+
+            if (user == null)
+                return RedirectToAction("CreateExpressSaleCar");
+
+            carVM.Currency = _currencyUpdater.CurrentCurrency;
+
+            bool additionalValidation = true;
+            bool photosIsValid = true;
+
+            if (carVM.Year > DateTime.Now.Year + 1)
+            {
+                ModelState.AddModelError("Year", "Не продаємо авто з майбутнього :(");
+                additionalValidation = false;
+            }
+            if (!_validationService.IsValidArrivalDate(carVM.ArrivalDate))
+            {
+                ModelState.AddModelError("ArrivalDate", "Некоректна дата");
+                additionalValidation = false;
+            }
+
+            //Photos validation
+            var photosArr = new[] { carVM.Photo1, carVM.Photo2, carVM.Photo3, carVM.Photo4, carVM.Photo5 };
+            for (int i = 0; i < photosArr.Length; i++)
+            {
+                if (photosArr[i] == null)
+                {
+                    ModelState.AddModelError("Photo" + (i + 1), "Обов'язкове поле");
+                    photosIsValid = false;
+                }
+                else if (!_validationService.IsLessThenNMb(photosArr[i]))
+                {
+                    photosIsValid = false;
+                    ModelState.AddModelError("Photo" + (i + 1), $"Не більше {MAX_PHOTO_SIZE}Мб");
+                }
+            }
+
+            if (ModelState.IsValid && additionalValidation && photosIsValid)
+            {
+                List<string> photosNames = Enumerable.Repeat((string)null, 5).ToList();
+
+                List<IFormFile> photos = new() { carVM.Photo1, carVM.Photo2, carVM.Photo3, carVM.Photo4, carVM.Photo5 };
+                photos = photos.Where(photo => photo != null).ToList();
+                for (int i = 0; i < photos.Count; i++)
+                {
+                    var photoName = await _imageService.UploadPhotoAsync(photos[i], $"{carVM.Brand}_{carVM.Model}_{carVM.Year}");
+                    photosNames[i] = photoName;
+                }
+                photosNames = photosNames.Where(photo => photo != null).ToList();
+                string preview = _imageService.CopyPhoto(photosNames[0]);
+                _imageService.ProcessImage(300, 200, preview);
+                preview = $"/Photos\\{preview}";
+                IncomingCar car = new(carVM, photosNames, preview, user.Id);
+                await _incomingCarRepository.Add(car);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View(carVM);
+            }
         }
         #endregion
     }

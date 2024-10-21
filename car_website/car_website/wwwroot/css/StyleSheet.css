@@ -2622,6 +2622,10 @@ body {
 .car_container-info {
   padding-left: 30px;
 }
+.car_container-info-arrive {
+  margin-top: 15px;
+  font-size: 20px;
+}
 .car_container-info-name {
   color: var(--text-default);
   transition: 0.2s;
