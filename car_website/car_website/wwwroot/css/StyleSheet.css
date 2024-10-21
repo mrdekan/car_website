@@ -2621,10 +2621,23 @@ body {
 }
 .car_container-info {
   padding-left: 30px;
+  position: relative;
 }
 .car_container-info-arrive {
+  position: absolute;
+  left: 298px;
+  bottom: 0;
   margin-top: 15px;
   font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+.car_container-info-arrive span {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 0 8px 0 -20px;
+  color: var(--beige-default);
 }
 .car_container-info-name {
   color: var(--text-default);
@@ -2998,7 +3011,9 @@ header .header_right-dark-label::before {
 .pages_buttons {
   display: flex;
   gap: 10px;
-  margin: 10px 0;
+  padding: 10px 0;
+  margin: 0 auto;
+  width: fit-content;
   min-height: 32px;
 }
 .pages_buttons-space {

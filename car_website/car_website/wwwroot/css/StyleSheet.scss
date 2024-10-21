@@ -571,11 +571,27 @@ body {
 
         &-info {
             padding-left: 30px;
+            position: relative;
             //width: 100%;
-            &-arrive{
+            &-arrive {
+                position: absolute;
+                //width: 100%;
+                left: 298px;
+                bottom: 0;
                 margin-top: 15px;
                 font-size: 20px;
+                display: flex;
+                align-items: center;
+
+                span {
+                    display: block;
+                    width: 24px;
+                    height: 24px;
+                    margin: 0 8px 0 -20px;
+                    color: $beige-default;
+                }
             }
+
             &-name {
                 color: $text-default;
                 transition: 0.2s;
@@ -1011,7 +1027,9 @@ header {
 .pages_buttons {
     display: flex;
     gap: 10px;
-    margin: 10px 0;
+    padding: 10px 0;
+    margin: 0 auto;
+    width: fit-content;
     min-height: 32px;
 
     &-space {

@@ -1,0 +1,180 @@
+﻿@using System.Security.Claims;
+@using car_website.Data.Enum;
+@using car_website.ViewModels;
+@using Microsoft.AspNetCore.Http;
+@using car_website.ViewModels.Pages;
+@model IncomingCarDetailViewModel
+@{
+    ViewBag.Title = Model.Brand + " " + Model.Model + " " + Model.Year;
+    ViewBag.Description = $"{Model.Price}$ · {Model.Body} · {Model.Fuel}, {Model.EngineCapacity}  · {Model.Mileage}тис. км · {Model.Driveline} · {Model.CarTransmission}";
+    ViewData["DescriptionSearch"] = $"{Model.Price}$ · {Model.Body} · {Model.Fuel}, {Model.EngineCapacity}  · {Model.Mileage}тис. км · {Model.Driveline} · {Model.CarTransmission}";
+    ViewData["Keywords"] = string.Join(", ", new string[] { Model.Brand, Model.Model, Model.Year.ToString() });
+    ViewBag.ImageUrl = Model.PreviewURL;
+    string userId = "";
+    if (User != null && User.Identity != null)
+        userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
+    bool isAdmin = !string.IsNullOrEmpty(userId) && ViewContext.HttpContext.Session.GetInt32("Role") != 0;
+    bool isSelf = userId == Model.SellerId;
+}
+<div class="wrapper_carDetail-before">
+    <div class="wrapper_carDetail">
+        <h2 class="title">@Model.Brand @Model.Model @Model.Year</h2>
+        <div class="slider">
+            <button id="prev">
+                <span>
+                    <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.29289 0.292893C6.68342 -0.0976311 7.31658 -0.0976311 7.70711 0.292893L13.7071 6.29289C14.0976 6.68342 14.0976 7.31658 13.7071 7.70711C13.3166 8.09763 12.6834 8.09763 12.2929 7.70711L7 2.41421L1.70711 7.70711C1.31658 8.09763 0.683418 8.09763 0.292893 7.70711C-0.0976311 7.31658 -0.0976311 6.68342 0.292893 6.29289L6.29289 0.292893Z" fill="currentColor" />
+                    </svg>
+                </span>
+            </button>
+            <div class="img_slides">
+                @for (int i = 0; i < Model.PhotosURL.Length; i++)
+                {
+                    @if (i == 0)
+                    {
+                        <input type="radio" name="radio-btn" id="radio@(i+1)" checked />
+                    }
+                    else
+                    {
+                        <input type="radio" name="radio-btn" id="radio@(i+1)" />
+                    }
+                }
+                <div class="slides_wrapper">
+                    @for (int i = 0; i < Model.PhotosURL.Length; i++)
+                    {
+                        <div class="slide @(i==0?"first":"")">
+                            <img src="@Model.PhotosURL[i]" class="slider_element-image" alt="photo" />
+                            <img src="@Model.PhotosURL[i]" class="slider_element-background" alt="photo" />
+                        </div>
+                    }
+                </div>
+                <div class="navigation">
+                    @for (int i = 0; i < Model.PhotosURL.Length; i++)
+                    {
+                        <label for="radio@(i+1)" class="navigation-btn"> </label>
+                    }
+                </div>
+            </div>
+            <button id="next">
+                <span>
+                    <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.29289 0.292893C6.68342 -0.0976311 7.31658 -0.0976311 7.70711 0.292893L13.7071 6.29289C14.0976 6.68342 14.0976 7.31658 13.7071 7.70711C13.3166 8.09763 12.6834 8.09763 12.2929 7.70711L7 2.41421L1.70711 7.70711C1.31658 8.09763 0.683418 8.09763 0.292893 7.70711C-0.0976311 7.31658 -0.0976311 6.68342 0.292893 6.29289L6.29289 0.292893Z" fill="currentColor" />
+                    </svg>
+                </span>
+            </button>
+        </div>
+        <div class="priceBuy">
+            <div class="car_container-right-price onDetail">
+                <p class="car_container-right-price-USD">@Model.Price $</p>
+                <p class="car_container-right-price-UAH">≈ @Model.PriceUAH грн</p>
+            </div>
+            <div class="priceBuy_right">
+                @*@if (isAdmin && Model.Priority >= 0 && !Model.IsSold)
+                {
+                    if (Model.Priority < 1)
+                    {
+                        <button id="top" class="priceBuy_buy" carId="@Model.Id">В топ</button>
+                    }
+                    else
+                    {
+                        <button id="top" class="priceBuy_buy cancelBuy" cancel carId="@Model.Id">Прибрати з топу</button>
+                    }
+                    <script src="~/js/moveToTop.js" asp-append-version="true"></script>
+                }*@
+                @*@if (isSelf || isAdmin)
+                {
+                    if (!Model.IsSold)
+                    {
+                        <a class="priceBuy_buy" asp-controller="Car" asp-action="Edit" asp-route-id=@Model.Id>Редагувати</a>
+                    }
+                    <button id="delete" class="priceBuy_buy cancelBuy" cancel @(Model.IsSold ? "delete" : "") carId="@Model.Id">@(Model.IsSold ? "Видалити" : "Продано")</button>
+                    <script src="~/js/deleteCar.js" asp-append-version="true"></script>
+                }*@
+
+
+                @*@if (!isSelf && !Model.IsSold)
+                {
+                    if (!string.IsNullOrEmpty(userId))
+                    {
+                        @if (Model.Requested)
+                        {
+                            <button class="priceBuy_buy cancelBuy" id="buy-car" carId="@Model.Id" cancel>Скасувати запит</button>
+                        }
+                        else
+                        {
+                            <button class="priceBuy_buy" id="buy-car" carId="@Model.Id">Купити</button>
+                        }
+                    }
+                    else
+                    {
+                        <button class="priceBuy_buy" id="buy-car-notLogged">Купити</button>
+                    }
+                }*@
+            </div>
+        </div>
+
+        <div id="buy-request-result"></div>
+        <div class="car_container-info-parameters onDetail">
+            <div class="car_container-info-parameters-column onDetail">
+                <p class="car_container-info-parameters-column-text"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_14_212)"><path d="M15.1486 9.3893C15.1486 9.3893 13.534 13.9404 12.7667 14.735C11.9994 15.5296 10.7333 15.5517 9.93872 14.7844C9.14412 14.0171 9.12202 12.7509 9.88932 11.9564C10.6566 11.1618 15.1486 9.3893 15.1486 9.3893Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /><path d="M19.4246 19.4246C21.3248 17.5245 22.5 14.8995 22.5 12C22.5 6.201 17.799 1.5 12 1.5C6.201 1.5 1.5 6.201 1.5 12C1.5 14.8995 2.67525 17.5245 4.57538 19.4246" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /><path d="M12 2V4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /><path d="M19.4227 5.57105L17.8684 6.82965" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /><path d="M21.2613 13.6164L19.3126 13.1665" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /><path d="M2.73877 13.6164L4.68751 13.1665" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /><path d="M4.57733 5.57105L6.13162 6.82965" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></g><defs><clipPath id="clip0_14_212"><rect width="24" height="24" fill="white" /></clipPath></defs></svg></span>@Model.Mileage тис. км</p>
+                <p class="car_container-info-parameters-column-text"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 22.75H3.5C3.09 22.75 2.75 22.41 2.75 22V5.00001C2.75 2.76001 4.26 1.25001 6.5 1.25001H14.5C16.74 1.25001 18.25 2.76001 18.25 5.00001V22C18.25 22.41 17.91 22.75 17.5 22.75ZM4.25 21.25H16.75V5.00001C16.75 3.59001 15.91 2.75001 14.5 2.75001H6.5C5.09 2.75001 4.25 3.59001 4.25 5.00001V21.25Z" fill="currentColor" /><path d="M18.9999 22.75H1.99994C1.58994 22.75 1.24994 22.41 1.24994 22C1.24994 21.59 1.58994 21.25 1.99994 21.25H18.9999C19.4099 21.25 19.7499 21.59 19.7499 22C19.7499 22.41 19.4099 22.75 18.9999 22.75Z" fill="currentColor" /><path d="M12.6102 10.75H8.38023C6.75023 10.75 5.74023 9.74 5.74023 8.11V6.88C5.74023 5.25 6.75023 4.24001 8.38023 4.24001H12.6102C14.2402 4.24001 15.2502 5.25 15.2502 6.88V8.11C15.2502 9.74 14.2402 10.75 12.6102 10.75ZM8.39023 5.75C7.58023 5.75 7.25023 6.08 7.25023 6.89V8.12C7.25023 8.93 7.58023 9.25999 8.39023 9.25999H12.6202C13.4302 9.25999 13.7602 8.93 13.7602 8.12V6.89C13.7602 6.08 13.4302 5.75 12.6202 5.75H8.39023Z" fill="currentColor" /><path d="M9.49994 13.75H6.49994C6.08994 13.75 5.74994 13.41 5.74994 13C5.74994 12.59 6.08994 12.25 6.49994 12.25H9.49994C9.90994 12.25 10.2499 12.59 10.2499 13C10.2499 13.41 9.90994 13.75 9.49994 13.75Z" fill="currentColor" /><path d="M17.5 16.76C17.09 16.76 16.75 16.43 16.75 16.01C16.75 15.6 17.08 15.26 17.5 15.26L21.25 15.25V10.46L19.66 9.66998C19.29 9.47998 19.14 9.02998 19.32 8.65998C19.51 8.28998 19.96 8.13999 20.33 8.31999L22.33 9.31999C22.58 9.44999 22.74 9.70998 22.74 9.98998V15.99C22.74 16.4 22.41 16.74 21.99 16.74L17.5 16.76Z" fill="currentColor" /></svg></span>@Model.Fuel, @Model.EngineCapacity</p>
+
+            </div>
+            <div class="car_container-info-parameters-column onDetail">
+                <p class="car_container-info-parameters-column-text"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 15.75C9.93 15.75 8.25 14.07 8.25 12C8.25 9.93 9.93 8.25 12 8.25C14.07 8.25 15.75 9.93 15.75 12C15.75 14.07 14.07 15.75 12 15.75ZM12 9.75C10.76 9.75 9.75 10.76 9.75 12C9.75 13.24 10.76 14.25 12 14.25C13.24 14.25 14.25 13.24 14.25 12C14.25 10.76 13.24 9.75 12 9.75Z" fill="currentColor" /><path d="M15.21 22.19C15 22.19 14.79 22.16 14.58 22.11C13.96 21.94 13.44 21.55 13.11 21L12.99 20.8C12.4 19.78 11.59 19.78 11 20.8L10.89 20.99C10.56 21.55 10.04 21.95 9.42 22.11C8.79 22.28 8.14 22.19 7.59 21.86L5.87 20.87C5.26 20.52 4.82 19.95 4.63 19.26C4.45 18.57 4.54 17.86 4.89 17.25C5.18 16.74 5.26 16.28 5.09 15.99C4.92 15.7 4.49 15.53 3.9 15.53C2.44 15.53 1.25 14.34 1.25 12.88V11.12C1.25 9.66 2.44 8.47 3.9 8.47C4.49 8.47 4.92 8.3 5.09 8.01C5.26 7.72 5.19 7.26 4.89 6.75C4.54 6.14 4.45 5.42 4.63 4.74C4.81 4.05 5.25 3.48 5.87 3.13L7.6 2.14C8.73 1.47 10.22 1.86 10.9 3.01L11.02 3.21C11.61 4.23 12.42 4.23 13.01 3.21L13.12 3.02C13.8 1.86 15.29 1.47 16.43 2.15L18.15 3.14C18.76 3.49 19.2 4.06 19.39 4.75C19.57 5.44 19.48 6.15 19.13 6.76C18.84 7.27 18.76 7.73 18.93 8.02C19.1 8.31 19.53 8.48 20.12 8.48C21.58 8.48 22.77 9.67 22.77 11.13V12.89C22.77 14.35 21.58 15.54 20.12 15.54C19.53 15.54 19.1 15.71 18.93 16C18.76 16.29 18.83 16.75 19.13 17.26C19.48 17.87 19.58 18.59 19.39 19.27C19.21 19.96 18.77 20.53 18.15 20.88L16.42 21.87C16.04 22.08 15.63 22.19 15.21 22.19ZM12 18.49C12.89 18.49 13.72 19.05 14.29 20.04L14.4 20.23C14.52 20.44 14.72 20.59 14.96 20.65C15.2 20.71 15.44 20.68 15.64 20.56L17.37 19.56C17.63 19.41 17.83 19.16 17.91 18.86C17.99 18.56 17.95 18.25 17.8 17.99C17.23 17.01 17.16 16 17.6 15.23C18.04 14.46 18.95 14.02 20.09 14.02C20.73 14.02 21.24 13.51 21.24 12.87V11.11C21.24 10.48 20.73 9.96 20.09 9.96C18.95 9.96 18.04 9.52 17.6 8.75C17.16 7.98 17.23 6.97 17.8 5.99C17.95 5.73 17.99 5.42 17.91 5.12C17.83 4.82 17.64 4.58 17.38 4.42L15.65 3.43C15.22 3.17 14.65 3.32 14.39 3.76L14.28 3.95C13.71 4.94 12.88 5.5 11.99 5.5C11.1 5.5 10.27 4.94 9.7 3.95L9.59 3.75C9.34 3.33 8.78 3.18 8.35 3.43L6.62 4.43C6.36 4.58 6.16 4.83 6.08 5.13C6 5.43 6.04 5.74 6.19 6C6.76 6.98 6.83 7.99 6.39 8.76C5.95 9.53 5.04 9.97 3.9 9.97C3.26 9.97 2.75 10.48 2.75 11.12V12.88C2.75 13.51 3.26 14.03 3.9 14.03C5.04 14.03 5.95 14.47 6.39 15.24C6.83 16.01 6.76 17.02 6.19 18C6.04 18.26 6 18.57 6.08 18.87C6.16 19.17 6.35 19.41 6.61 19.57L8.34 20.56C8.55 20.69 8.8 20.72 9.03 20.66C9.27 20.6 9.47 20.44 9.6 20.23L9.71 20.04C10.28 19.06 11.11 18.49 12 18.49Z" fill="currentColor" /></svg></span>@Model.CarTransmission</p>
+                <p class="car_container-info-parameters-column-text">
+                    <span>
+                        <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none"><path d="M950 5007 c-50 -16 -136 -103 -149 -152 -7 -26 -11 -208 -11 -531 l0 -490 28 -55 c33 -66 93 -113 162 -128 80 -17 356 -14 419 5 64 19 127 73 155 134 18 39 21 70 24 243 l4 197 143 0 142 0 6 -58 c5 -66 32 -124 74 -164 36 -35 109 -68 151 -68 18 0 40 -8 52 -20 19 -19 20 -33 20 -252 0 -268 5 -285 83 -354 50 -44 102 -64 166 -64 l41 0 0 -1180 0 -1180 -439 0 -439 0 -4 198 c-3 172 -6 203 -24 242 -28 61 -91 115 -155 134 -72 22 -364 22 -435 1 -66 -19 -121 -67 -150 -129 l-24 -51 0 -490 c0 -323 4 -504 11 -530 14 -53 99 -136 155 -153 59 -17 406 -16 457 2 57 21 100 58 132 117 29 54 29 55 33 257 l4 202 978 0 978 0 4 -202 c4 -202 4 -203 33 -257 32 -59 75 -96 132 -117 58 -20 404 -19 466 2 56 19 131 97 147 152 6 23 10 225 10 527 l0 490 -24 51 c-29 62 -84 110 -150 129 -71 21 -363 21 -435 -1 -64 -19 -127 -73 -155 -134 -18 -39 -21 -70 -24 -242 l-4 -198 -439 0 -439 0 0 1180 0 1180 43 0 c97 0 188 58 228 145 16 35 19 68 19 273 0 219 1 233 20 252 12 12 34 20 53 20 41 0 114 33 150 68 42 40 69 98 74 164 l6 58 142 0 143 0 4 -197 c3 -173 6 -204 24 -243 28 -61 91 -115 155 -134 63 -19 339 -22 419 -5 69 15 129 62 163 128 l27 55 0 490 c0 303 -4 505 -10 528 -16 55 -91 133 -147 152 -62 21 -408 22 -466 2 -57 -21 -100 -58 -132 -117 -29 -54 -29 -55 -33 -256 l-4 -203 -144 0 -144 0 0 38 c0 96 -50 182 -132 227 l-53 30 -505 0 c-502 0 -505 0 -546 -22 -87 -47 -132 -115 -141 -214 l-6 -59 -142 0 -143 0 -4 203 c-4 201 -4 202 -33 256 -32 59 -75 96 -132 117 -48 17 -411 17 -463 1z m420 -206 c6 -13 10 -180 10 -474 0 -429 -1 -455 -19 -471 -16 -14 -40 -16 -187 -14 -168 3 -168 3 -181 28 -10 19 -12 126 -11 478 3 390 5 454 18 462 8 5 92 10 187 10 160 0 173 -1 183 -19z m2750 9 c13 -8 15 -72 18 -462 1 -352 -1 -459 -11 -478 -13 -25 -13 -25 -181 -28 -147 -2 -171 0 -187 14 -18 16 -19 42 -19 471 0 294 4 461 10 474 10 18 23 19 183 19 95 0 179 -5 187 -10z m-1089 -290 c18 -10 19 -23 19 -184 0 -196 1 -192 -77 -205 -95 -15 -155 -60 -194 -146 -16 -35 -19 -69 -19 -268 0 -138 -4 -236 -10 -248 -10 -18 -23 -19 -190 -19 -167 0 -180 1 -190 19 -6 12 -10 110 -10 248 0 199 -3 233 -19 268 -39 86 -99 131 -194 146 -78 13 -77 9 -77 205 0 154 2 174 18 183 24 14 916 15 943 1z m-1669 -3257 c17 -15 18 -43 18 -470 0 -294 -4 -461 -10 -474 -10 -18 -23 -19 -183 -19 -95 0 -179 5 -187 10 -13 8 -15 72 -15 473 0 379 3 467 14 480 20 25 335 25 363 0z m2765 -13 c10 -19 12 -126 11 -478 -3 -390 -5 -454 -18 -462 -8 -5 -92 -10 -187 -10 -160 0 -173 1 -183 19 -6 13 -10 179 -10 472 0 409 2 454 17 471 15 17 32 18 187 16 l170 -3 13 -25z" /></g></svg>
+                    </span>@Model.Driveline
+                </p>
+
+            </div>
+        </div>
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <div class="car_description">
+                <p>@Model.Description</p>
+            </div>
+        }
+        @if (isAdmin)
+        {
+            <div id="seller" sellerId=@Model.SellerId></div>
+            <script src="~/js/getUser.js" asp-append-version="true"></script>
+        }
+        <h4>Вас може зацікавити:</h4>
+        <div class="car_similar" id="similar-cars" carId="@Model.Id"></div>
+        <div class="wrapper profile" id="similar-cars-mobile">
+            <div id="cars-list" class="carList"></div>
+        </div>
+    </div>
+</div>
+<div id="img_full" class="popup">
+    <span class="close">&times;</span>
+    <div class="popup_images">
+        @foreach (var photo in Model.PhotosURL)
+        {
+            <img src="@photo" alt="photo" />
+        }
+    </div>
+</div>
+@*<div id="popup" class="popup">
+    <div class="popup_content">
+        <span id="closePopup" class="close">&times;</span>
+        <p class="popup_header">Заповніть анкету</p>
+        <div class="form-group">
+            <label>Як до Вас звертатись?</label>
+            <input type="text" class="form-control" id="request-name" placeholder="Ваше ім'я'">
+            <span class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Номер тел.</label>
+            <input type="number" class="form-control" placeholder="+380xxxxxxxxx" id="request-phone">
+            <span class="text-danger"></span>
+        </div>
+        <button class="sell-button" id="notLoggedIngRequestSend">Надіслати</button>
+        <div class="log-reg-change"><p>Або <a asp-controller="User" asp-action="Register">зареєструйтесь</a></p></div>
+    </div>
+</div>*@
+
+<script type="module" src="~/js/carDetailPage.js" asp-append-version="true"></script>
+<script src="~/js/copyOnClick.js" type="module" asp-append-version="true"></script>

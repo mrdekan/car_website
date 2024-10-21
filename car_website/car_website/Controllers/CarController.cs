@@ -4,6 +4,7 @@ using car_website.Interfaces.Service;
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
+using car_website.ViewModels.Pages;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -88,6 +89,16 @@ namespace car_website.Controllers
             if (user == null) return RedirectToAction("Login", "User");
             if (!user.IsAdmin) return BadRequest();
             return View(new CreateIncomingCarViewModel(_currencyUpdater));
+        }
+        [HttpGet]
+        public async Task<IActionResult> IncomingCarDetail(string id)
+        {
+            if (!ObjectId.TryParse(id, out ObjectId carId))
+                return RedirectToAction("NotFound", "Home");
+            var car = await _incomingCarRepository.GetByIdAsync(carId);
+            if (car == null)
+                return RedirectToAction("NotFound", "Home");
+            return View(new IncomingCarDetailViewModel(car, _currencyUpdater));
         }
         [HttpGet]
         public async Task<IActionResult> Detail(string id)

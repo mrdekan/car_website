@@ -165,14 +165,17 @@ namespace car_website.Controllers.v1
         {
             try
             {
-                var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
+                bool parsed = ObjectId.TryParse(id, out ObjectId carId);
+                ExtendedBaseCar car = await _carRepository.GetByIdAsync(carId);
+                car ??= await _incomingCarRepository.GetByIdAsync(carId);
+                if (car == null) return Ok(new { Status = false, Code = HttpCodes.NotFound, Cars = new List<LiteCarViewModel>() });
                 var cars = await _carRepository.GetAll();
                 var user = await GetCurrentUser();
                 cars = cars.Where(car => car.Priority >= 0 && !car.IsSold);
                 var tasks = new List<Task<Tuple<Car, byte>>>();
                 foreach (var el in cars)
                 {
-                    if (el.Id != car.Id)
+                    if (el.Id != carId)
                     {
                         var task = Task.Run(() => DistanceCoefficient(car, el));
                         tasks.Add(task);
@@ -194,7 +197,7 @@ namespace car_website.Controllers.v1
                 return Ok(new { Success = false, Cars = new List<LiteCarViewModel>() });
             }
         }
-        private static async Task<Tuple<Car, byte>> DistanceCoefficient(Car baseCar, Car compared)
+        private static async Task<Tuple<Car, byte>> DistanceCoefficient(ExtendedBaseCar baseCar, Car compared)
         {
             byte score = 0;
             await Task.Run(() =>

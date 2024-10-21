@@ -9,9 +9,11 @@
 @if(isAdmin){
     <a asp-action="AddIncomingCar" asp-controller="Car" style="margin: 100px; padding: 15px; color: white; background: red; display: block;">Додати</a>
 }
+<div>
 <div class="pages_buttons"></div>
-<div class="wrapper profile">
+    <div class="wrapper">
     <div id="cars-list" class="carList"></div>
 </div>
 <div class="pages_buttons"></div>
+</div>
 <script src="~/js/incomingCars.js" asp-append-version="true"></script>
