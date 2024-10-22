@@ -268,7 +268,7 @@ namespace car_website.Controllers
                 else
                 {
                     Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
-                    if (user.Role != Data.Enum.UserRole.Dev && (car.Priority ?? 0) < 0)
+                    if (user.Role != Data.Enum.UserRole.Dev && (car.Priority) < 0)
                         return Ok(new { SuccessCode = 2 });
                     BuyRequest buyRequest = new()
                     {
@@ -659,7 +659,7 @@ namespace car_website.Controllers
                 string preview = _imageService.CopyPhoto(photosNames[0]);
                 _imageService.ProcessImage(300, 200, preview);
                 preview = $"/Photos\\{preview}";
-                IncomingCar car = new(carVM, photosNames, preview, user.Id);
+                IncomingCar car = new(carVM, photosNames, preview, user.Id, user.Role == UserRole.Dev);
                 await _incomingCarRepository.Add(car);
                 return RedirectToAction("Index", "Home");
             }

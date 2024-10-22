@@ -6,10 +6,13 @@
         userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
     bool isAdmin = !string.IsNullOrEmpty(userId) && ViewContext.HttpContext.Session.GetInt32("Role") != 0;
 }
-@if(isAdmin){
-    <a asp-action="AddIncomingCar" asp-controller="Car" style="margin: 100px; padding: 15px; color: white; background: red; display: block;">Додати</a>
-}
-<div>
+<div class="incomingCars">
+    <h2>Авто в дорозі</h2>
+    <p class="incomingCars-info">Можливо, саме Ваш автомобіль уже прямує до нас зі США. Слідкуйте за нашим списком машин, які скоро будуть доступні!</p>
+    @if (isAdmin)
+    {
+        <a asp-action="AddIncomingCar" asp-controller="Car" class="incomingCars-add">Додати</a>
+    }
 <div class="pages_buttons"></div>
     <div class="wrapper">
     <div id="cars-list" class="carList"></div>

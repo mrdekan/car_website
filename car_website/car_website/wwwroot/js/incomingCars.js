@@ -76,7 +76,7 @@ function updateCarsList(target, page = 1) {
     }
 }
 function getCars() {
-    fetch(`/api/v1/cars/getIncomingCars?page=${carsPage}`)
+    fetch(`/api/v1/cars/getIncomingCars?page=${carsPage}&perpage=1`)
         .then(response => response.json())
         .then(data => {
             if (data != null && data.status == true) {

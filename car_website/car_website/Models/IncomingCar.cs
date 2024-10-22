@@ -2,15 +2,14 @@
 using car_website.Interfaces;
 using car_website.ViewModels;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 using System.Globalization;
 
 namespace car_website.Models
 {
-    public class IncomingCar : ExtendedBaseCar, IDbStorable
+    public class IncomingCar : ExtendedBaseCarWithId, IDbStorable
     {
         public IncomingCar() { }
-        public IncomingCar(CreateIncomingCarViewModel carVM, IEnumerable<string> photoNames, string previewURL, ObjectId sellerId)
+        public IncomingCar(CreateIncomingCarViewModel carVM, IEnumerable<string> photoNames, string previewURL, ObjectId sellerId, bool isDev)
         {
             SellerId = sellerId;
             Brand = carVM.Brand;
@@ -27,10 +26,8 @@ namespace car_website.Models
             PreviewURL = previewURL;
             PhotosURL = photoNames.ToArray();
             ArrivalDate = carVM.ArrivalDate;
+            Priority = isDev ? -1 : 0;
         }
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id { get; set; }
         //dd.MM.yyyy format
         public string ArrivalDate { get; private set; }
         public void SetArrivalDate(DateTime date)

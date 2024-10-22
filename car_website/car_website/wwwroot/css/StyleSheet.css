@@ -3008,13 +3008,47 @@ header .header_right-dark-label::before {
   color: var(--gray-default);
 }
 
+.incomingCars {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+.incomingCars .incomingCars-add {
+  padding: 7px 15px;
+  border-radius: 3px;
+  background: var(--green-dark);
+  color: white;
+  text-align: center;
+  font-size: 20px;
+  transition: background 0.2s;
+  margin-bottom: 10px;
+}
+.incomingCars .incomingCars-add:hover {
+  background: var(--green-medium);
+}
+.incomingCars h2 {
+  font-size: 30px;
+  color: var(--text-default);
+  transition: 0.2s;
+  padding-bottom: 15px;
+}
+.incomingCars .incomingCars-info {
+  color: var(--gray-default);
+  transition: 0.2s;
+  font-size: 22px;
+  text-align: center;
+  max-width: 60%;
+  padding-bottom: 15px;
+}
+
 .pages_buttons {
   display: flex;
   gap: 10px;
   padding: 10px 0;
   margin: 0 auto;
   width: fit-content;
-  min-height: 32px;
+  height: fit-content;
 }
 .pages_buttons-space {
   display: block;

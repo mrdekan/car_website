@@ -23,7 +23,12 @@ function getIncomingCarsCount() {
         .then(data => {
             if (data.code === 200 && data.count != undefined && data.count != null) {
                 localStorage.setItem('incomingCarsCount', JSON.stringify({ time: Date.now(), count: data.count }));
-                document.getElementById('incomingCarsCount').innerHTML = data.count;
+                const elem = document.getElementById('incomingCarsCount');
+                elem.innerHTML = data.count;
+                if (data.count != 0)
+                    elem.style.display = 'block';
+                else 
+                    elem.style.display = 'none';
             }
         })
         .catch(error => console.error("An error occurred while retrieving data:", error));

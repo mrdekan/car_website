@@ -28,7 +28,7 @@ namespace car_website.ViewModels
             VideoUrl = car.VideoURL;
             Requested = requested;
             SellerId = car.SellerId;
-            Priority = car.Priority ?? 0;
+            Priority = car.Priority;
             PreviewURL = car.PreviewURL ?? "";
             IsSold = car.IsSold;
             AdditionalPhone = car.AdditionalPhone;

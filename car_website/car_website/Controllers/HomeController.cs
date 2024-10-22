@@ -10,11 +10,13 @@ namespace car_website.Controllers
     {
         #region Services & ctor
         private readonly ICarRepository _carRepository;
+        private readonly IIncomingCarRepository _incomingCarRepository;
         private readonly CurrencyUpdater _currencyUpdater;
-        public HomeController(ICarRepository carRepository, CurrencyUpdater currencyUpdater, IUserRepository userRepository) : base(userRepository)
+        public HomeController(ICarRepository carRepository, CurrencyUpdater currencyUpdater, IUserRepository userRepository, IIncomingCarRepository incomingCarRepository) : base(userRepository)
         {
             _carRepository = carRepository;
             _currencyUpdater = currencyUpdater;
+            _incomingCarRepository = incomingCarRepository;
         }
         #endregion
 
@@ -23,7 +25,8 @@ namespace car_website.Controllers
         {
             await IsAdmin();
             var carsCount = _carRepository.GetCount();
-            IndexPageViewModel vm = new() { CarsCount = carsCount };
+            var incomingCarsCount = _incomingCarRepository.GetCount();
+            IndexPageViewModel vm = new() { CarsCount = carsCount + incomingCarsCount };
             return View(vm);
         }
 

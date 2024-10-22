@@ -27,7 +27,7 @@ namespace car_website.ViewModels
             Mileage = car.Mileage;
             Liked = liked;
             SellerId = isAdmin ? car.SellerId : "";
-            Priority = car.Priority ?? 1;
+            Priority = car.Priority;
             AspectRatio = car.PreviewAspectRatio ?? 0;
             PreviewURL = car.PreviewURL ?? PhotosURL[0];
         }
