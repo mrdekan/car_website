@@ -29,6 +29,19 @@ namespace car_website.ViewModels
             Fuel = (int)botCar.FuelType;
             EngineCapacity = botCar.EngineCapacity.ToString();
         }
+        public CreateCarViewModel(IncomingCar incomingCar)
+        {
+            Model = incomingCar.Model;
+            Brand = incomingCar.Brand;
+            Price = incomingCar.Price;
+            Year = incomingCar.Year;
+            CarTransmission = (int)incomingCar.CarTransmission;
+            Driveline = (int)incomingCar.Driveline;
+            Fuel = (int)incomingCar.Fuel;
+            Description = incomingCar.Description;
+            Mileage = incomingCar.Mileage;
+            EngineCapacity = incomingCar.EngineCapacity.ToString();
+        }
         [Range(0, 10, ErrorMessage = "Оберіть значення")]
         public Color CarColor { get; set; } = Color.Any;
         [MaxLength(17, ErrorMessage = "Довжина VIN номеру — 17 символів")]

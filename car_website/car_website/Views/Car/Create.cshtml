@@ -183,9 +183,9 @@
                         <div class="img-upload-content">
                             <img alt="Приклад" src="~/img/1pos.png" />
                             <div class="custom-file-uploader">
-                                @if (Model.ExpressCarPhotos != null && Model.ExpressCarPhotos.Count > 0)
+                                @if (Model.TempCarPhotos != null && Model.TempCarPhotos.Count > 0)
                                 {
-                                    <img src="@Model.ExpressCarPhotos[0]" alt="preview" old id="Photo4-old" />
+                                    <img src="@Model.TempCarPhotos[0]" alt="preview" old id="Photo4-old" />
                                 }
                                 <input asp-for="CreateCarViewModel.Photo1" id="Photo1" type="file" accept="image/*" class="photoInp">
                                 <div class="custom-file-uploader-btn">+</div>
@@ -199,9 +199,9 @@
                         <div class="img-upload-content">
                             <img alt="Приклад" src="~/img/2pos.png" />
                             <div class="custom-file-uploader">
-                                @if (Model.ExpressCarPhotos != null && Model.ExpressCarPhotos.Count > 1)
+                                @if (Model.TempCarPhotos != null && Model.TempCarPhotos.Count > 1)
                                 {
-                                    <img src="@Model.ExpressCarPhotos[1]" alt="preview" old id="Photo4-old" />
+                                    <img src="@Model.TempCarPhotos[1]" alt="preview" old id="Photo4-old" />
                                 }
                                 <input asp-for="CreateCarViewModel.Photo2" id="Photo2" type="file" accept="image/*" class="photoInp">
                                 <div class="custom-file-uploader-btn">+</div>
@@ -215,9 +215,9 @@
                         <div class="img-upload-content">
                             <img alt="Приклад" src="~/img/3pos.png" />
                             <div class="custom-file-uploader">
-                                @if (Model.ExpressCarPhotos != null && Model.ExpressCarPhotos.Count > 2)
+                                @if (Model.TempCarPhotos != null && Model.TempCarPhotos.Count > 2)
                                 {
-                                    <img src="@Model.ExpressCarPhotos[2]" alt="preview" old id="Photo4-old" />
+                                    <img src="@Model.TempCarPhotos[2]" alt="preview" old id="Photo4-old" />
                                 }
                                 <input asp-for="CreateCarViewModel.Photo3" id="Photo3" type="file" accept="image/*" class="photoInp">
                                 <div class="custom-file-uploader-btn">+</div>
@@ -231,9 +231,9 @@
                         <div class="img-upload-content">
                             <img alt="Приклад" src="~/img/4pos.png" />
                             <div class="custom-file-uploader">
-                                @if (Model.ExpressCarPhotos != null && Model.ExpressCarPhotos.Count > 3)
+                                @if (Model.TempCarPhotos != null && Model.TempCarPhotos.Count > 3)
                                 {
-                                    <img src="@Model.ExpressCarPhotos[3]" alt="preview" old id="Photo4-old" />
+                                    <img src="@Model.TempCarPhotos[3]" alt="preview" old id="Photo4-old" />
                                 }
                                 <input asp-for="CreateCarViewModel.Photo4" id="Photo4" type="file" accept="image/*" class="photoInp">
                                 <div class="custom-file-uploader-btn">+</div>
@@ -247,9 +247,9 @@
                         <div class="img-upload-content">
                             <img alt="Приклад" src="~/img/5pos.png" />
                             <div class="custom-file-uploader">
-                                @if (Model.ExpressCarPhotos != null && Model.ExpressCarPhotos.Count > 4)
+                                @if (Model.TempCarPhotos != null && Model.TempCarPhotos.Count > 4)
                                 {
-                                    <img src="@Model.ExpressCarPhotos[4]" alt="preview" old id="Photo4-old" />
+                                    <img src="@Model.TempCarPhotos[4]" alt="preview" old id="Photo4-old" />
                                 }
                                 <input asp-for="CreateCarViewModel.Photo5" id="Photo5" type="file" accept="image/*" class="photoInp">
                                 <div class="custom-file-uploader-btn">+</div>
@@ -575,7 +575,7 @@
             </div>
         </div>
 
-        <input type="hidden" asp-for="@Model.ExpressCarId" />
+        <input type="hidden" asp-for="@Model.TempId" />
         <button type="submit" class="sell-button">Опублікувати оголошення</button>
     </form>
 </div>

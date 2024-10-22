@@ -121,18 +121,39 @@ namespace car_website.Controllers
         public async Task<IActionResult> ConfirmExpress(string id)
         {
             var user = await GetCurrentUser();
+            bool parsed = ObjectId.TryParse(id, out ObjectId objectId);
+            if (!parsed) return BadRequest();
+            var expressCar = await _expressSaleCarRepository.GetByIdAsync(objectId);
+            if (expressCar == null) return NotFound();
             if (user == null || !user.IsAdmin)
                 return RedirectToAction("NotFound", "Home");
-            TempData["TmpExpressCarId"] = id;
+            TempData[TempIdTypes.ExpressCar] = id;
             return RedirectToAction("Create", "Car");
         }
         [HttpGet]
         public async Task<IActionResult> ConfirmBot(string id)
         {
             var user = await GetCurrentUser();
+            bool parsed = ObjectId.TryParse(id, out ObjectId objectId);
+            if (!parsed) return BadRequest();
+            var botCar = await _carFromBotRepository.GetByIdAsync(objectId);
+            if (botCar == null) return NotFound();
             if (user == null || !user.IsAdmin)
                 return RedirectToAction("NotFound", "Home");
-            TempData["TmpBotCarId"] = id;
+            TempData[TempIdTypes.BotCar] = id;
+            return RedirectToAction("Create", "Car");
+        }
+        [HttpGet]
+        public async Task<IActionResult> ConfirmIncomingCar(string id)
+        {
+            var user = await GetCurrentUser();
+            bool parsed = ObjectId.TryParse(id, out ObjectId objectId);
+            if (!parsed) return BadRequest();
+            var incomingCar = await _incomingCarRepository.GetByIdAsync(objectId);
+            if (incomingCar == null) return NotFound();
+            if (user == null || !user.IsAdmin)
+                return RedirectToAction("NotFound", "Home");
+            TempData[TempIdTypes.IncomingCar] = id;
             return RedirectToAction("Create", "Car");
         }
         [HttpGet]
@@ -431,36 +452,64 @@ namespace car_website.Controllers
         {
             if (!await IsAuthorized())
                 return RedirectToAction("CreateExpressSaleCar");
-            string id = "";
-            bool botCar = false;
+            string? id = "";
+            int tempCarType = -1; //-1 - none; 0 - express; 1 - bot; 2 - incoming
             try
             {
-                id = TempData["TmpExpressCarId"] as string;
-                TempData["TmpExpressCarId"] = null;
-                if (TempData["TmpBotCarId"] != null)
+                if (TempData[TempIdTypes.IncomingCar] != null)
                 {
-                    id = TempData["TmpBotCarId"] as string;
-                    TempData["TmpBotCarId"] = null;
-                    botCar = true;
+                    id = TempData[TempIdTypes.IncomingCar] as string;
+                    tempCarType = 2;
+                    TempData[TempIdTypes.IncomingCar] = null;
+                }
+                else if (TempData[TempIdTypes.ExpressCar] != null)
+                {
+                    id = TempData[TempIdTypes.ExpressCar] as string;
+                    tempCarType = 0;
+                    TempData[TempIdTypes.ExpressCar] = null;
+                }
+                else if (TempData[TempIdTypes.BotCar] != null)
+                {
+                    id = TempData[TempIdTypes.BotCar] as string;
+                    tempCarType = 1;
+                    TempData[TempIdTypes.BotCar] = null;
                 }
             }
             catch { }
             bool parsed = ObjectId.TryParse(id, out ObjectId objectId);
-            ExpressSaleCar expressCar = null;
-            if (!botCar && parsed)
-                expressCar = await _expressSaleCarRepository.GetByIdAsync(objectId);
-            CarFromBot carFromBot = null;
-            if (botCar && parsed)
-                carFromBot = await _carFromBotRepository.GetByIdAsync(objectId);
-            CreateCarViewModel carModel;
-            if (expressCar != null)
-                carModel = new CreateCarViewModel(expressCar);
-            else if (carFromBot != null)
-                carModel = new CreateCarViewModel(carFromBot);
-            else
-                carModel = new();
+            CreateCarViewModel carModel = null;
+            CarMediaTempData carMediaData = null;
+            if (tempCarType == 0 && parsed)
+            {
+                ExpressSaleCar expressCar = await _expressSaleCarRepository.GetByIdAsync(objectId);
+                if (expressCar != null)
+                {
+                    carMediaData = new(expressCar);
+                    carModel = new CreateCarViewModel(expressCar);
+                }
+            }
+            else if (tempCarType == 1 && parsed)
+            {
+                CarFromBot carFromBot = await _carFromBotRepository.GetByIdAsync(objectId);
+                if (carFromBot != null)
+                {
+                    carMediaData = new(carFromBot);
+                    carModel = new CreateCarViewModel(carFromBot);
+                }
+            }
+            else if (tempCarType == 2 && parsed)
+            {
+                IncomingCar incomingCar = await _incomingCarRepository.GetByIdAsync(objectId);
+                if (incomingCar != null)
+                {
+                    carMediaData = new(incomingCar);
+                    carModel = new CreateCarViewModel(incomingCar);
+                }
+            }
+            carModel ??= new();
+            carMediaData ??= new();
             var currency = _currencyUpdater.CurrentCurrency;
-            return View(new CarCreationPageViewModel() { CreateCarViewModel = carModel, Currency = currency, ExpressCarId = expressCar == null ? null : id, ExpressCarPhotos = expressCar == null ? (carFromBot?.PhotosURL) : expressCar.PhotosURL.ToList(), PreviewURL = carFromBot?.PreviewURL, BotCarId = carFromBot?.Id.ToString() });
+            return View(new CarCreationPageViewModel() { CreateCarViewModel = carModel, Currency = currency, TempId = carMediaData.Id, TempCarPhotos = carMediaData.PhotosURL, PreviewURL = carMediaData.PreviewURL });
         }
         [HttpPost]
         public async Task<IActionResult> Create(CarCreationPageViewModel carVM)
@@ -472,14 +521,43 @@ namespace car_website.Controllers
                 return RedirectToAction("CreateExpressSaleCar");
 
             carVM.Currency = _currencyUpdater.CurrentCurrency;
-            if (carVM.ExpressCarId != null)
+            if (carVM.TempId != null)
             {
-                bool parsed = ObjectId.TryParse(carVM.ExpressCarId, out ObjectId objectId);
+                string type = carVM.TempId[..3];
+                string id = carVM.TempId[3..];
+                bool parsed = ObjectId.TryParse(id, out ObjectId objectId);
                 if (parsed)
                 {
-                    var expressCar = await _expressSaleCarRepository.GetByIdAsync(objectId);
-                    if (expressCar != null)
-                        carVM.ExpressCarPhotos = expressCar.PhotosURL.ToList();
+                    switch (type)
+                    {
+                        case "exp":
+                            {
+                                var expressCar = await _expressSaleCarRepository.GetByIdAsync(objectId);
+                                if (expressCar != null)
+                                    carVM.TempCarPhotos = expressCar.PhotosURL.ToList();
+                                break;
+                            }
+                        case "bot":
+                            {
+                                var botCar = await _carFromBotRepository.GetByIdAsync(objectId);
+                                if (botCar != null)
+                                {
+                                    carVM.TempCarPhotos = botCar.PhotosURL.ToList();
+                                    carVM.PreviewURL = botCar.PreviewURL;
+                                }
+                                break;
+                            }
+                        case "inc":
+                            {
+                                var incomingCar = await _incomingCarRepository.GetByIdAsync(objectId);
+                                if (incomingCar != null)
+                                {
+                                    carVM.TempCarPhotos = incomingCar.PhotosURL.ToList();
+                                    carVM.PreviewURL = incomingCar.PreviewURL;
+                                }
+                                break;
+                            }
+                    }
                 }
             }
 
@@ -511,7 +589,7 @@ namespace car_website.Controllers
             var photosArr = new[] { carVM.CreateCarViewModel.Photo1, carVM.CreateCarViewModel.Photo2, carVM.CreateCarViewModel.Photo3, carVM.CreateCarViewModel.Photo4, carVM.CreateCarViewModel.Photo5 };
             for (int i = 0; i < photosArr.Length; i++)
             {
-                if (photosArr[i] == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < i + 1))
+                if (photosArr[i] == null && (carVM.TempCarPhotos == null || carVM.TempCarPhotos.Count < i + 1))
                 {
                     ModelState.AddModelError("CreateCarViewModel.Photo" + (i + 1), "Обов'язкове поле");
                     photosIsValid = false;
@@ -540,11 +618,11 @@ namespace car_website.Controllers
                     newCar.VideoURL = $"https://www.youtube.com/embed/{videoId}";
                 List<string> photosNames = Enumerable.Repeat((string)null, 5).ToList();
 
-                if (carVM.ExpressCarPhotos != null)
+                if (carVM.TempCarPhotos != null)
                 {
-                    for (int i = 0; i < Math.Min(carVM.ExpressCarPhotos.Count, 5); i++)
+                    for (int i = 0; i < Math.Min(carVM.TempCarPhotos.Count, 5); i++)
                     {
-                        photosNames[i] = carVM.ExpressCarPhotos[i];
+                        photosNames[i] = carVM.TempCarPhotos[i];
                     }
                 }
                 List<IFormFile> photos = new() { newCar.Photo1, newCar.Photo2, newCar.Photo3, newCar.Photo4, newCar.Photo5 };
@@ -669,5 +747,12 @@ namespace car_website.Controllers
             }
         }
         #endregion
+    }
+
+    internal static class TempIdTypes
+    {
+        public const string ExpressCar = "TmpExpressCarId";
+        public const string BotCar = "TmpBotCarId";
+        public const string IncomingCar = "TmpIncomingCarId";
     }
 }
