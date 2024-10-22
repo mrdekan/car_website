@@ -1,6 +1,7 @@
 ﻿@using System.Security.Claims;
 @model WaitingCar
 @{
+    ViewBag.Index = "False";
     ViewData["Title"] = Model.Car.Brand + " " + Model.Car.Model;
     string userId = "";
     if (User != null && User.Identity != null)

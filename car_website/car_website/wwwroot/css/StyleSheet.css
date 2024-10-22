@@ -2216,7 +2216,7 @@ body {
   transition: 0.25s;
   color: white;
   font-size: 24px;
-  min-width: 240px;
+  min-width: 300px;
   text-align: center;
 }
 .select-create-btns a:hover {
@@ -2249,6 +2249,18 @@ body {
   width: 36px;
   height: 36px;
   background: url("../img/form.png");
+  background-size: 100%;
+  top: 3px;
+  left: 6px;
+}
+
+.create-button-incoming::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  background: url("../img/time.svg");
   background-size: 100%;
   top: 3px;
   left: 6px;

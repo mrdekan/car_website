@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Http;
 @model ExpressSaleCarViewModel
 @{
+    ViewBag.Index = "False";
     ViewData["Title"] = Model.Brand + " " + Model.Model;
     string userId = "";
     if (User != null && User.Identity != null)

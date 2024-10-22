@@ -103,8 +103,8 @@ function setCarsFromData() {
 }
 function formCar(car) {
     console.log(car);
-    return `<a class="car" href="/Car/IncomingCarDetail/${car.id}">
-                                  <p class="car_name">${car.info} ${car.model} ${car.year}</p>
+    return `<a class="car mainPageCar" href="/Car/IncomingCarDetail/${car.id}">
+                                  <p class="car_name">${car.brand} ${car.model} ${car.year}</p>
                                   <div class="car_container">
                                        <div class="car_container-img"> <div class="car_container-img-landscape"><img  alt="photo" src="${car.previewURL}" /></div></div>
                                     <div class="car_container-info">

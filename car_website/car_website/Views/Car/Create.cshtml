@@ -5,6 +5,7 @@
 @using car_website.ViewModels;
 @{
     ViewData["Title"] = "Опублікувати оголошення";
+    ViewBag.Index = "False";
     string userId = "";
     if (User != null && User.Identity != null)
         userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";

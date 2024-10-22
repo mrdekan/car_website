@@ -3,6 +3,7 @@
 @using car_website.ViewModels;
 @model CarFromBotDetailViewModel
 @{
+    ViewBag.Index = "False";
     ViewData["Title"] = Model.Brand + " " + Model.Model;
     ViewBag.Title = Model.Brand + " " + Model.Model + " " + Model.Year;
     ViewBag.Description = $"{Model.Price}$ · {Model.Fuel}, {Model.EngineCapacity} · {Model.Driveline} · {Model.CarTransmission}";

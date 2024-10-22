@@ -4,6 +4,7 @@
 @using car_website.Data.Enum
 @using car_website.ViewModels;
 @{
+    ViewBag.Index = "False";
     ViewData["Title"] = "Додати авто";
     string userId = "";
     if (User != null && User.Identity != null)

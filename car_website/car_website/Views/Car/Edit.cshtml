@@ -7,6 +7,7 @@
 @model CarEditingViewModel
 @{
     ViewData["Title"] = $"{Model.OldData.Brand} {Model.OldData.Model} - редагувати";
+    ViewBag.Index = "False";
     string userId = "";
     if (User != null && User.Identity != null)
         userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
