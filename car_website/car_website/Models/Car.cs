@@ -24,10 +24,6 @@ namespace car_website.Models
             VIN = carVM.VIN;
             Mileage = carVM.Mileage;
             Options = FeaturesClassToArray(carVM.Features);
-            if (carVM.OtherBrandName != null)
-                this.Brand = carVM.OtherBrandName;
-            if (carVM.OtherModelName != null)
-                this.Model = carVM.OtherModelName;
             SellerId = sellerId;
             VideoURL = carVM.VideoURL;
             Priority = 0;

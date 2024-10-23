@@ -20,11 +20,8 @@ namespace car_website.ViewModels.Response
             Year = car.Year;
             EngineCapacity = car.EngineCapacity;
             Mileage = car.Mileage;
-            int daysUntilArrive = car.DaysUntilArrive();
             PreviewURL = car.PreviewURL ?? "";
-            if (daysUntilArrive > 0)
-                ArriveMessage = $"Прибуде через {daysUntilArrive} {GetDayWord(daysUntilArrive)}";
-            else ArriveMessage = "Скоро прибуде";
+            ArriveMessage = car.GetArriveMessage();
         }
         public string PreviewURL { get; set; }
         public string ArriveMessage { get; set; }
@@ -40,14 +37,5 @@ namespace car_website.ViewModels.Response
         public TypeDriveline Driveline { get; set; }
         public int Year { get; set; }
         public float EngineCapacity { get; set; }
-        public static string GetDayWord(int days)
-        {
-            if (days % 10 == 1 && days % 100 != 11)
-                return "день";
-            else if (days % 10 >= 2 && days % 10 <= 4 && (days % 100 < 10 || days % 100 >= 20))
-                return "дні";
-            else
-                return "днів";
-        }
     }
 }

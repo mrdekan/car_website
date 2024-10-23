@@ -96,7 +96,7 @@
             <a asp-controller="User" asp-action="Login" class="header_right-button" id="login-button">Вхід</a>
         }
     </div>
-    <div class="container">
+    <div class="container" id="main-cont" auth=@((User?.Identity?.IsAuthenticated ?? false).ToString())>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

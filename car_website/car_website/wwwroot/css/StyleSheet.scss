@@ -592,6 +592,26 @@ body {
                 display: flex;
                 align-items: center;
 
+                &-mobile {
+                    display: none;
+                    font-size: 14px;
+                    height: min-content;
+                    display: flex;
+                    align-items: center;
+                    span {
+                        display: block;
+                        width: 18px;
+                        height: 18px;
+                        margin: 0 8px 0 -20px;
+                        color: $beige-default;
+
+                        svg {
+                            width: 18px;
+                            height: 18px;
+                        }
+                    }
+                }
+
                 span {
                     display: block;
                     width: 24px;
@@ -1767,7 +1787,13 @@ header {
 
             &-info {
                 align-self: center;
-
+                padding-left: 0;
+                &-arrive{
+                    display: none;
+                    &-mobile{
+                        display: flex;
+                    }
+                }
                 &-name {
                     display: none;
                 }
@@ -1776,7 +1802,7 @@ header {
                     margin: 0;
                     flex-direction: column;
                     gap: 10px;
-
+                    padding-top: 0;
 
                     &.onDetail {
                         flex-direction: row;

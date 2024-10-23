@@ -41,5 +41,23 @@ namespace car_website.Models
             DateTime arrival = GetArrivaleDateTime();
             return (int)Math.Round((arrival - today).TotalDays);
         }
+        public string GetArriveMessage()
+        {
+            int daysUntilArrive = DaysUntilArrive();
+            string res;
+            if (daysUntilArrive > 0)
+                res = $"Прибуде через {daysUntilArrive} {GetDayWord(daysUntilArrive)}";
+            else res = "Скоро прибуде";
+            return res;
+        }
+        private static string GetDayWord(int days)
+        {
+            if (days % 10 == 1 && days % 100 != 11)
+                return "день";
+            else if (days % 10 >= 2 && days % 10 <= 4 && (days % 100 < 10 || days % 100 >= 20))
+                return "дні";
+            else
+                return "днів";
+        }
     }
 }

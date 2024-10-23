@@ -25,9 +25,12 @@ namespace car_website.ViewModels
                 VIN = carObj.VIN;
                 Priority = carObj.Priority;
                 IsSold = carObj.IsSold;
+                ArriveMessage = null;
             }
-            else
+            else if (car.GetType() == typeof(IncomingCar))
             {
+                IncomingCar carObj = (IncomingCar)car;
+                ArriveMessage = carObj.GetArriveMessage();
                 IsSold = false;
                 Priority = 0;
             }
@@ -48,5 +51,6 @@ namespace car_website.ViewModels
         public bool IsSold { get; set; }
         public int Priority { get; set; }
         public string PreviewURL { get; set; }
+        public string? ArriveMessage { get; set; }
     }
 }

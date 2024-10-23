@@ -38,6 +38,7 @@ namespace car_website.ViewModels
             CarTransmission = (int)incomingCar.CarTransmission;
             Driveline = (int)incomingCar.Driveline;
             Fuel = (int)incomingCar.Fuel;
+            Body = (int)incomingCar.Body;
             Description = incomingCar.Description;
             Mileage = incomingCar.Mileage;
             EngineCapacity = incomingCar.EngineCapacity.ToString();
@@ -46,10 +47,6 @@ namespace car_website.ViewModels
         public Color CarColor { get; set; } = Color.Any;
         [MaxLength(17, ErrorMessage = "Довжина VIN номеру — 17 символів")]
         public string? VIN { get; set; }
-        [MaxLength(30, ErrorMessage = "Занадто довга назва")]
-        public string? OtherBrandName { get; set; }
-        [MaxLength(30, ErrorMessage = "Занадто довга назва")]
-        public string? OtherModelName { get; set; }
         public CarFeatures Features { get; set; } = new CarFeatures();
         public string? VideoURL { get; set; }
         [MaxLength(13, ErrorMessage = "Не більше 13 символів")]

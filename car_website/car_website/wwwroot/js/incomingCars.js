@@ -127,6 +127,7 @@ function formCar(car) {
                                                 <p class="car_container-right-price-USD">${formatNumberWithThousandsSeparator(car.price)} $</p>
                                                 <p class="car_container-right-price-UAH">≈ ${formatNumberWithThousandsSeparator(car.priceUAH)} грн</p>
                                             </div>
+                                            ${car.arriveMessage ? `<p class="car_container-info-arrive-mobile"><span>${svgCodes.time}</span>${car.arriveMessage}</p>`:''}
                                   </div>
                                   </a>`;
 }

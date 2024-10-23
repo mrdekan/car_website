@@ -2644,6 +2644,24 @@ body {
   display: flex;
   align-items: center;
 }
+.car_container-info-arrive-mobile {
+  display: none;
+  font-size: 14px;
+  height: min-content;
+  display: flex;
+  align-items: center;
+}
+.car_container-info-arrive-mobile span {
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 0 8px 0 -20px;
+  color: var(--beige-default);
+}
+.car_container-info-arrive-mobile span svg {
+  width: 18px;
+  height: 18px;
+}
 .car_container-info-arrive span {
   display: block;
   width: 24px;
@@ -3686,6 +3704,13 @@ header .header_right-dark-label::before {
   }
   .car.mainPageCar .car_container-info {
     align-self: center;
+    padding-left: 0;
+  }
+  .car.mainPageCar .car_container-info-arrive {
+    display: none;
+  }
+  .car.mainPageCar .car_container-info-arrive-mobile {
+    display: flex;
   }
   .car.mainPageCar .car_container-info-name {
     display: none;
@@ -3694,6 +3719,7 @@ header .header_right-dark-label::before {
     margin: 0;
     flex-direction: column;
     gap: 10px;
+    padding-top: 0;
   }
   .car.mainPageCar .car_container-info-parameters.onDetail {
     flex-direction: row;
