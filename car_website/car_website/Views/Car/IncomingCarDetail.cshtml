@@ -68,19 +68,16 @@
                 <p class="car_container-right-price-USD">@Model.Price $</p>
                 <p class="car_container-right-price-UAH">≈ @Model.PriceUAH грн</p>
             </div>
-            <div class="priceBuy_right">
-                @*@if (isAdmin && Model.Priority >= 0 && !Model.IsSold)
+            <p class="detail-arrive-message">
+                <span>
+                    <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_120_426)"><path d="M15 27.5C21.9036 27.5 27.5 21.9036 27.5 15C27.5 8.09644 21.9036 2.5 15 2.5C8.09644 2.5 2.5 8.09644 2.5 15C2.5 21.9036 8.09644 27.5 15 27.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /><path d="M15.0051 7.5L15.0044 15.0055L20.304 20.3051" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></g><defs></defs></svg>
+                </span>@Model.ArriveMessage
+            </p>
+                @if (isAdmin && userId == Model.SellerId)
                 {
-                    if (Model.Priority < 1)
-                    {
-                        <button id="top" class="priceBuy_buy" carId="@Model.Id">В топ</button>
-                    }
-                    else
-                    {
-                        <button id="top" class="priceBuy_buy cancelBuy" cancel carId="@Model.Id">Прибрати з топу</button>
-                    }
-                    <script src="~/js/moveToTop.js" asp-append-version="true"></script>
-                }*@
+            <div class="priceBuy_right">
+                    <a asp-controller="Car" asp-action="ConfirmIncomingCar" asp-route-id=@Model.Id class="sell-button">Авто прибуло</a>
+                
                 @*@if (isSelf || isAdmin)
                 {
                     if (!Model.IsSold)
@@ -111,6 +108,7 @@
                     }
                 }*@
             </div>
+                }
         </div>
 
         <div id="buy-request-result"></div>

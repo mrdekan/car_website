@@ -41,7 +41,7 @@
             @*<a asp-controller="Car" asp-action="ImportingCar">Пригон авто</a>*@
             @*<a asp-controller="Home" asp-action="Privacy" class="privacy-btn">Про нас</a>*@
             @*<a asp-controller="Car" asp-action="Orders">Пошук авто</a>*@
-            <a asp-controller="Car" asp-action="IncomingCars">Авто в дорозі<span class="incoming-car-notification" id="incomingCarsCount">0</span></a>
+            <a asp-controller="Car" asp-action="IncomingCars">Авто в дорозі<span class="incoming-car-notification" style="display: none;" id="incomingCarsCount">0</span></a>
         </div>
         <div class="header_right">
             <div class="header_right-theme">
@@ -85,7 +85,8 @@
         <a asp-controller="Car" asp-action="Leasing">Авто в лізинг/кредит</a>
         @*<a asp-controller="Car" asp-action="ImportingCar">Пригон авто</a>*@
         @*<a asp-controller="Home" asp-action="Privacy">Про нас</a>*@
-        <a asp-controller="Car" asp-action="Orders">Пошук авто</a>
+        @*<a asp-controller="Car" asp-action="Orders">Пошук авто</a>*@
+        <a asp-controller="Car" asp-action="IncomingCars" style="position: relative;">Авто в дорозі<span class="incoming-car-notification" style="display: none;" id="incomingCarsCountMob">0</span></a>
         <div class="separator"></div>
         @if (User?.Identity?.IsAuthenticated ?? false)
         {
@@ -131,7 +132,7 @@
 
     </footer>
     <script src="~/js/changeTheme.js" asp-append-version="true"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" type="module" asp-append-version="true"></script>
     <script src="~/js/copyOnClick.js" type="module" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

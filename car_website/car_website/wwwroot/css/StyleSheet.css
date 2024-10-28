@@ -748,6 +748,17 @@ input[type=number] {
   margin-top: 50px;
 }
 
+.detail-arrive-message {
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+  gap: 5px;
+}
+.detail-arrive-message span {
+  display: block;
+  color: var(--beige-default);
+}
+
 .wrapper_carDetail {
   width: 60vw;
   color: var(--text-default);
@@ -2648,7 +2659,6 @@ body {
   display: none;
   font-size: 14px;
   height: min-content;
-  display: flex;
   align-items: center;
 }
 .car_container-info-arrive-mobile span {
@@ -2863,6 +2873,25 @@ footer a {
   border-radius: 7px;
 }
 
+.incoming-car-notification {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--beige-default);
+  border-radius: 50%;
+  line-height: 20px;
+  text-align: center;
+  display: block;
+  color: white;
+  top: -10px;
+  right: -25px;
+  font-size: 15px;
+}
+
+#incomingCarsCountMob {
+  top: -4px;
+}
+
 header {
   position: sticky;
   top: 0;
@@ -2908,20 +2937,6 @@ header .header_center a {
   color: white;
   font-size: 18px;
   position: relative;
-}
-header .header_center .incoming-car-notification {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: var(--beige-default);
-  border-radius: 50%;
-  line-height: 20px;
-  text-align: center;
-  display: block;
-  color: white;
-  top: -10px;
-  right: -25px;
-  font-size: 15px;
 }
 header .header_right {
   display: flex;

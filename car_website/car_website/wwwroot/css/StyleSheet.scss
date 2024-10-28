@@ -596,7 +596,6 @@ body {
                     display: none;
                     font-size: 14px;
                     height: min-content;
-                    display: flex;
                     align-items: center;
                     span {
                         display: block;
@@ -850,7 +849,23 @@ footer {
     display: block;
     border-radius: 7px;
 }
-
+.incoming-car-notification {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: $beige-default;
+    border-radius: 50%;
+    line-height: 20px;
+    text-align: center;
+    display: block;
+    color: white;
+    top: -10px;
+    right: -25px;
+    font-size: 15px;
+}
+#incomingCarsCountMob {
+    top: -4px;
+}
 header {
     position: sticky;
     top: 0;
@@ -904,21 +919,6 @@ header {
             color: white;
             font-size: 18px;
             position: relative;
-        }
-
-        .incoming-car-notification {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: $beige-default;
-            border-radius: 50%;
-            line-height: 20px;
-            text-align: center;
-            display: block;
-            color: white;
-            top: -10px;
-            right: -25px;
-            font-size: 15px;
         }
     }
 

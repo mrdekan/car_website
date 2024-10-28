@@ -24,6 +24,7 @@ namespace car_website.ViewModels.Pages
             Mileage = car.Mileage;
             PreviewURL = car.PreviewURL ?? "";
             SellerId = car.SellerId.ToString();
+            ArriveMessage = car.GetArriveMessage();
         }
         public string Id { get; set; }
         public string SellerId { get; set; }
@@ -41,5 +42,6 @@ namespace car_website.ViewModels.Pages
         public string EngineCapacity { get; set; }
         public int Mileage { get; set; }
         public string PreviewURL { get; set; }
+        public string ArriveMessage { get; set; }
     }
 }

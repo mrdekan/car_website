@@ -1,4 +1,4 @@
-﻿import { notificationModule } from './notificationModule.js';
+﻿import { notificationModule } from './modules/notificationModule.js/index.js';
 const deleteBtn = document.getElementById('delete');
 deleteBtn.addEventListener('click', () => {
     if(confirm(`Видалити це авто? Ви не матиме можливості відновити його потім.`))

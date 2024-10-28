@@ -1,4 +1,4 @@
-﻿import { notificationModule } from './notificationModule.js';
+﻿import { notificationModule } from './modules/notificationModule.js/index.js';
 
 const copyButtons = document.querySelectorAll('.copy-on-click');
 copyButtons.forEach(function (button) {
