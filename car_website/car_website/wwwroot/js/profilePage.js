@@ -179,7 +179,8 @@ radioButtons.forEach(function (radio) {
     radio.addEventListener('change', handleRadioChange);
 });
 function updateLikeButtons() {
-    likeButtons = document.getElementsByClassName("car_container-right-like-cars");
+    let likeButtons = document.getElementsByClassName("car_container-right-like-cars");
+    if (likeButtons)
     Array.from(likeButtons).forEach(like => {
         like.addEventListener('change', function (event) {
             fetch(`/car/like?carId=${event.target.getAttribute('carId')}&isLiked=${like.checked}`)

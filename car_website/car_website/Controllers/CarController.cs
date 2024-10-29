@@ -521,25 +521,30 @@ namespace car_website.Controllers
                 return RedirectToAction("CreateExpressSaleCar");
 
             carVM.Currency = _currencyUpdater.CurrentCurrency;
+            ObjectId tempCarObjectId = ObjectId.Empty;
+            bool tempIdParsed = false;
+            ExpressSaleCar expressCar = null;
+            CarFromBot botCar = null;
+            IncomingCar incomingCar = null;
             if (carVM.TempId != null)
             {
                 string type = carVM.TempId[..3];
                 string id = carVM.TempId[3..];
-                bool parsed = ObjectId.TryParse(id, out ObjectId objectId);
-                if (parsed)
+                tempIdParsed = ObjectId.TryParse(id, out tempCarObjectId);
+                if (tempIdParsed)
                 {
                     switch (type)
                     {
                         case "exp":
                             {
-                                var expressCar = await _expressSaleCarRepository.GetByIdAsync(objectId);
+                                expressCar = await _expressSaleCarRepository.GetByIdAsync(tempCarObjectId);
                                 if (expressCar != null)
                                     carVM.TempCarPhotos = expressCar.PhotosURL.ToList();
                                 break;
                             }
                         case "bot":
                             {
-                                var botCar = await _carFromBotRepository.GetByIdAsync(objectId);
+                                botCar = await _carFromBotRepository.GetByIdAsync(tempCarObjectId);
                                 if (botCar != null)
                                 {
                                     carVM.TempCarPhotos = botCar.PhotosURL.ToList();
@@ -549,7 +554,7 @@ namespace car_website.Controllers
                             }
                         case "inc":
                             {
-                                var incomingCar = await _incomingCarRepository.GetByIdAsync(objectId);
+                                incomingCar = await _incomingCarRepository.GetByIdAsync(tempCarObjectId);
                                 if (incomingCar != null)
                                 {
                                     carVM.TempCarPhotos = incomingCar.PhotosURL.ToList();
@@ -626,22 +631,31 @@ namespace car_website.Controllers
                     }
                 }
                 List<IFormFile> photos = new() { newCar.Photo1, newCar.Photo2, newCar.Photo3, newCar.Photo4, newCar.Photo5 };
-                photos = photos.Where(photo => photo != null).ToList();
+                //photos = photos.Where(photo => photo != null).ToList();
                 for (int i = 0; i < photos.Count; i++)
                 {
+                    if (photos[i] == null) continue;
                     var photoName = await _imageService.UploadPhotoAsync(photos[i], $"{newCar.Brand}_{newCar.Model}_{newCar.Year}");
                     photosNames[i] = photoName;
                 }
                 photosNames = photosNames.Where(photo => photo != null).ToList();
-                string preview = _imageService.CopyPhoto(photosNames[0]);
-                _imageService.ProcessImage(300, 200, preview);
-                preview = $"/Photos\\{preview}";
+                string preview = string.Empty;
+                if (newCar.Photo1 == null && carVM.PreviewURL != null)
+                    preview = carVM.PreviewURL;
+                else
+                {
+                    preview = _imageService.CopyPhoto(photosNames[0]);
+                    _imageService.ProcessImage(300, 200, preview);
+                    preview = $"/Photos\\{preview}";
+                }
                 Car car = new(newCar, photosNames, user.Id.ToString(), _imageService.GetPhotoAspectRatio(photosNames[0]), preview, user.Role != UserRole.User);
                 if (user.Role != UserRole.User)
                 {
                     if (user.Role == UserRole.Dev) car.Priority = -1;
                     await _brandRepository.AddIfDoesntExist(newCar.Brand, newCar.Model);
                     await _carRepository.Add(car);
+                    if (incomingCar != null)
+                        await _incomingCarRepository.Delete(incomingCar);
                     user.CarsForSell.Add(car.Id);
                     await _userRepository.Update(user);
                     return RedirectToAction("Index", "Home");
