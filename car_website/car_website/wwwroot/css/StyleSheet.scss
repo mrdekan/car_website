@@ -585,24 +585,33 @@ body {
             &-arrive {
                 position: absolute;
                 //width: 100%;
-                left: 298px;
+                left: 273px;
                 bottom: 0;
                 margin-top: 15px;
                 font-size: 20px;
                 display: flex;
                 align-items: center;
+                color: white;
+                background: $beige-default;
+                padding: 4px 10px 4px 25px;
+                border-radius: 20px;
 
                 &-mobile {
                     display: none;
                     font-size: 14px;
                     height: min-content;
                     align-items: center;
+                    background: $beige-default;
+                    padding: 4px 10px 4px 25px;
+                    border-radius: 20px;
+                    line-height: 17px;
+
                     span {
                         display: block;
                         width: 18px;
                         height: 18px;
                         margin: 0 8px 0 -20px;
-                        color: $beige-default;
+                        color: white;
 
                         svg {
                             width: 18px;
@@ -616,7 +625,7 @@ body {
                     width: 24px;
                     height: 24px;
                     margin: 0 8px 0 -20px;
-                    color: $beige-default;
+                    color: white;
                 }
             }
 
@@ -855,7 +864,7 @@ footer {
     height: 20px;
     background: $beige-default;
     border-radius: 50%;
-    line-height: 20px;
+    line-height: 21px;
     text-align: center;
     display: block;
     color: white;

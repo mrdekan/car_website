@@ -971,6 +971,7 @@ input[type=number] {
   max-height: 500px;
   z-index: 2;
   position: absolute;
+  height: 500px;
 }
 .slider_element-background {
   min-width: 100%;
@@ -2648,25 +2649,33 @@ body {
 }
 .car_container-info-arrive {
   position: absolute;
-  left: 298px;
+  left: 273px;
   bottom: 0;
   margin-top: 15px;
   font-size: 20px;
   display: flex;
   align-items: center;
+  color: white;
+  background: var(--beige-default);
+  padding: 4px 10px 4px 25px;
+  border-radius: 20px;
 }
 .car_container-info-arrive-mobile {
   display: none;
   font-size: 14px;
   height: min-content;
   align-items: center;
+  background: var(--beige-default);
+  padding: 4px 10px 4px 25px;
+  border-radius: 20px;
+  line-height: 17px;
 }
 .car_container-info-arrive-mobile span {
   display: block;
   width: 18px;
   height: 18px;
   margin: 0 8px 0 -20px;
-  color: var(--beige-default);
+  color: white;
 }
 .car_container-info-arrive-mobile span svg {
   width: 18px;
@@ -2677,7 +2686,7 @@ body {
   width: 24px;
   height: 24px;
   margin: 0 8px 0 -20px;
-  color: var(--beige-default);
+  color: white;
 }
 .car_container-info-name {
   color: var(--text-default);
@@ -2879,7 +2888,7 @@ footer a {
   height: 20px;
   background: var(--beige-default);
   border-radius: 50%;
-  line-height: 20px;
+  line-height: 21px;
   text-align: center;
   display: block;
   color: white;
