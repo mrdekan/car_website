@@ -1,12 +1,11 @@
 ﻿import { getIncomingCarsCount } from './modules/getIncomingCarsCount.js';
-const burgerButton = document.getElementById('nav-icon2');
-const menu = document.getElementById('dropdown-menu');
+const burgerButton = document.getElementById('nav-icon2'),
+menu = document.getElementById('dropdown-menu');
 burgerButton.addEventListener("click", function () {
     this.classList.toggle("open");
     menu.classList.toggle("open");
 });
 const oldData = localStorage.getItem('incomingCarsCount');
-let needReload = false;
 if (oldData) {
     const obj = JSON.parse(oldData);
     if (!obj.count || Date.now() - obj.time > 600000)
@@ -20,5 +19,4 @@ if (oldData) {
         elemMob.style.display = 'block';
     }
 }
-else
-    getIncomingCarsCount();
+else getIncomingCarsCount();

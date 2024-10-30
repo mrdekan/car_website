@@ -1,4 +1,4 @@
-﻿import svgCodes from "./svgCodesConst.js";
+﻿import svgCodes from "./modules/svgCodesConst.js/index.js";
 const show_pass_btns = document.getElementsByName('show-password');
 show_pass_btns.forEach(btn => {
     btn.addEventListener('click', (e) => {

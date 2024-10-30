@@ -1,5 +1,5 @@
-﻿const themeRadiosLight = document.getElementById('light');
-const themeRadiosDark = document.getElementById('dark');
+﻿const themeRadiosLight = document.getElementById('light'),
+themeRadiosDark = document.getElementById('dark');
 if (localStorage.getItem('theme') == 'dark') themeRadiosDark.checked = true;
 else themeRadiosLight.checked = true;
 function handleRadioChange(radio) {

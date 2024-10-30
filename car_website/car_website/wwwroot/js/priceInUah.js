@@ -1,12 +1,8 @@
-﻿const inputForPriceInUsd = document.getElementById('price');
-const spanForPriceInUah = document.getElementById('price-in-uah');
-const text = spanForPriceInUah.innerHTML;
+﻿import { formatNumberWithThousandsSeparator } from './modules/formCar.js';
+const inputForPriceInUsd = document.getElementById('price'),
+spanForPriceInUah = document.getElementById('price-in-uah'),
+text = spanForPriceInUah.innerHTML;
 spanForPriceInUah.innerHTML = `${text} ≈ ${formatNumberWithThousandsSeparator(Math.round((+inputForPriceInUsd.value) * (+spanForPriceInUah.getAttribute('currency').replace(',','.'))))} грн`;
-
 inputForPriceInUsd.addEventListener('input', () => {
     spanForPriceInUah.innerHTML = `${text} ≈ ${formatNumberWithThousandsSeparator(Math.round((+inputForPriceInUsd.value) * (+spanForPriceInUah.getAttribute('currency').replace(',', '.'))))} грн`;
 });
-
-function formatNumberWithThousandsSeparator(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-}

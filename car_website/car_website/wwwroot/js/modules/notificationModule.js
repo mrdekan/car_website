@@ -1,11 +1,9 @@
 ﻿export const notificationModule = (function () {
     let notificationTimeout;
     const activeNotifications = [];
-
     function showNotification(message, isError = false) {
         let duration = 3000;
         activeNotifications.forEach(notification => hideNotification(notification));
-
         const notificationElement = document.createElement('div');
         notificationElement.classList.add('notification');
         if (isError)
@@ -13,7 +11,6 @@
         notificationElement.textContent = message;
         document.body.appendChild(notificationElement);
         activeNotifications.push(notificationElement);
-
         setTimeout(() => {
             notificationElement.style.transform = 'translateY(-125%)';
             clearTimeout(notificationTimeout);
@@ -21,12 +18,10 @@
                 hideNotification(notificationElement);
             }, duration);
         }, 50);
-
         notificationElement.addEventListener('click', () => {
             hideNotification(notificationElement);
         });
     }
-
     function hideNotification(notificationElement) {
         notificationElement.style.transform = 'translateY(10%)';
         notificationElement.style.opacity = '0.3';
@@ -38,7 +33,6 @@
             }
         }, 500);
     }
-
     return {
         showNotification
     };

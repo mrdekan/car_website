@@ -1,22 +1,22 @@
-﻿import svgCodes from "./svgCodesConst.js";
+﻿import svgCodes from "./modules/svgCodesConst.js/index.js";
 import { fuelName, transmissionName, drivelineName, formatNumberWithThousandsSeparator } from './modules/formCar.js';
-const similarCarsBlock = document.getElementById('similar-cars');
-const similarCarsBlockMobile = document.getElementById('similar-cars-mobile');
-const buyButton = document.getElementById('buy-car');
-const buyButtonNotLogged = document.getElementById('buy-car-notLogged');
-const buyResult = document.getElementById('buy-request-result');
-const sliderNext = document.getElementById('next');
-const sliderPrev = document.getElementById('prev');
-const slides = document.querySelectorAll('.slider_element');
-const popup = document.getElementById('popup');
-const closeButton = document.getElementById('closePopup');
-const sendNotLoggedInRequest = document.getElementById('notLoggedIngRequestSend');
-const buyRequestNameInp = document.getElementById('request-name');
-const buyRequestPhoneInp = document.getElementById('request-phone');
-const imagesFullscreen = document.getElementById('img_full');
-const photos = document.querySelectorAll('.slider_element-image');
-const vin = document.getElementById('vin');
-const photosRadios = document.getElementsByName('radio-btn');
+const similarCarsBlock = document.getElementById('similar-cars'),
+similarCarsBlockMobile = document.getElementById('similar-cars-mobile'),
+buyButton = document.getElementById('buy-car'),
+buyButtonNotLogged = document.getElementById('buy-car-notLogged'),
+buyResult = document.getElementById('buy-request-result'),
+sliderNext = document.getElementById('next'),
+sliderPrev = document.getElementById('prev'),
+slides = document.querySelectorAll('.slider_element'),
+popup = document.getElementById('popup'),
+closeButton = document.getElementById('closePopup'),
+sendNotLoggedInRequest = document.getElementById('notLoggedIngRequestSend'),
+buyRequestNameInp = document.getElementById('request-name'),
+buyRequestPhoneInp = document.getElementById('request-phone'),
+imagesFullscreen = document.getElementById('img_full'),
+photos = document.querySelectorAll('.slider_element-image'),
+vin = document.getElementById('vin'),
+photosRadios = document.getElementsByName('radio-btn');
 let currentSlide = 0;
 window.addEventListener("keydown", escKeyPress);
 function escKeyPress(event) {
@@ -113,12 +113,8 @@ sendNotLoggedInRequest.addEventListener('click', () => {
     }
 });
 function showSlide() {
-    for (let i = 0; i < photosRadios.length; i++) {
-        if (i == currentSlide)
-            photosRadios[i].checked = true;
-        else
-            photosRadios[i].checked = false;
-    }
+    for (let i = 0; i < photosRadios.length; i++)
+        photosRadios[i].checked = i == currentSlide;
 }
 function getSlide() {
     for (let i = 0; i < photosRadios.length; i++) {
@@ -145,14 +141,9 @@ function disableScrolling() {
     window.onscroll = function () { window.scrollTo(x, y); };
 }
 
-function enableScrolling() {
+const enableScrolling=()=>
     window.onscroll = function () { };
-}
-
 getSimilarCars();
-
-
-
 //#region Ajax requests
 function updateLikeButtons() {
     let likeButtons = document.getElementsByClassName("car_container-right-like-cars");
@@ -284,9 +275,7 @@ function buyRequest() {
                     <p>Будь ласка, оновіть сторінку або спробуйте пізніше.</p>`;
                 resBlock.classList.add("buy-request-result-error")
             }
-            else if (data.successCode == 2) {
-                window.location.href = '/User/Login';
-            }
+            else if (data.successCode == 2) window.location.href = '/User/Login';
             buyResult.innerHTML = '';
             buyResult.appendChild(resBlock);
             setTimeout(function () {

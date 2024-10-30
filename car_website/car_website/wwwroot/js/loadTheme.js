@@ -4,8 +4,7 @@ else setDark()
 function setDark() {
     localStorage.setItem('theme', 'dark');
     const themeSeparator = document.querySelector('.header_right-separator');
-    if (themeSeparator)
-        themeSeparator.style.setProperty('--custom-border-radius', '0 7px 7px 0');
+    if (themeSeparator) themeSeparator.style.setProperty('--custom-border-radius', '0 7px 7px 0');
     root.style.setProperty('--green-light', '#5b8894'); //#006383
     root.style.setProperty('--green-medium', '#3c7583'); //#184872
     root.style.setProperty('--green-dark', '#186472'); //#133d61
@@ -25,8 +24,7 @@ function setDark() {
 function setLight() {
     localStorage.setItem('theme', 'light');
     const themeSeparator = document.querySelector('.header_right-separator');
-    if (themeSeparator)
-        themeSeparator.style.setProperty('--custom-border-radius', '7px 0 0 7px');
+    if (themeSeparator) themeSeparator.style.setProperty('--custom-border-radius', '7px 0 0 7px');
     root.style.setProperty('--green-light', '#5b8894'); //#537049
     root.style.setProperty('--green-medium', '#3c7583'); //#4b6742
     root.style.setProperty('--green-dark', '#186472'); //#415939 old green colors

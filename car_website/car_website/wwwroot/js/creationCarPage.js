@@ -1,9 +1,9 @@
-﻿const descriptionLength = document.getElementById("descriptionLength");
-const description = document.getElementById("description");
-const climatControl = document.getElementById("climat-control");
-const airConditioner = document.getElementById("air-conditioner");
-const datePicker = document.getElementById("pick-arrival");
-const dateInput = document.getElementById("arrivalDate");
+﻿const descriptionLength = document.getElementById("descriptionLength"),
+description = document.getElementById("description"),
+climatControl = document.getElementById("climat-control"),
+airConditioner = document.getElementById("air-conditioner"),
+datePicker = document.getElementById("pick-arrival"),
+dateInput = document.getElementById("arrivalDate");
 if (climatControl)
 climatControl.addEventListener('input', () => {
     if (climatControl.checked)
@@ -17,9 +17,8 @@ airConditioner.addEventListener('input', () => {
 description.addEventListener('input', function (event) {
     const maxLength = parseInt(event.target.getAttribute('maxlength'));
     let currentValue = event.target.value;
-    if (currentValue.length > maxLength) {
+    if (currentValue.length > maxLength)
         currentValue = currentValue.slice(0, maxLength);
-    }
     event.target.value = currentValue;
     descriptionLength.innerHTML = `${currentValue.length}/${maxLength}`;
 });
@@ -40,7 +39,6 @@ if (datePicker) {
         const mm = String(date.getMonth() + 1).padStart(2, '0');
         const yyyy = date.getFullYear();
         const resDate = dd + '.' + mm + '.' + yyyy;
-        console.log(resDate);
         dateInput.value = resDate;
     })
 }
