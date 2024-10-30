@@ -883,30 +883,15 @@ header {
 
         span {
             display: block;
-            //transform: skewX(-20deg);
             width: 172px;
             height: 120px;
-            //background-color: $background-secondary;
             filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
             transition: 0.2s;
-            //margin-left: -10px;
-            //overflow: hidden;
             img {
-                // width: 9.75vw;
-                // height: 6.5vw;
                 width: 150px;
                 height: 100px;
                 margin-top: 25px;
             }
-            /*&::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: -30px;
-                width: 130px;
-                height: 100%;
-                background-color: inherit;
-            }*/
         }
     }
 
