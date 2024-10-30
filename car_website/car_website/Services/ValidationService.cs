@@ -1,5 +1,6 @@
-﻿using car_website.Interfaces;
+﻿using car_website.Interfaces.Service;
 using Newtonsoft.Json;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -102,6 +103,13 @@ namespace car_website.Services
                 }
             }
             return false;
+        }
+        public bool IsValidArrivalDate(string arrivalDate)
+        {
+            bool parsed = DateTime.TryParseExact(arrivalDate, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime arrival);
+            if (!parsed)
+                return false;
+            return DateTime.Now.AddDays(-1) <= arrival;
         }
         public bool IsValidName(string name) =>
              name != null && name.Length < NAME_MAX_LENGTH && Regex.IsMatch(name, NAME_PATTERN);

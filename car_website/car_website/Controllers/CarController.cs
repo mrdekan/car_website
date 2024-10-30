@@ -1,8 +1,10 @@
 ﻿using car_website.Data.Enum;
-using car_website.Interfaces;
+using car_website.Interfaces.Repository;
+using car_website.Interfaces.Service;
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
+using car_website.ViewModels.Pages;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -25,7 +27,8 @@ namespace car_website.Controllers
         private readonly IAppSettingsDbRepository _appSettingsDbRepository;
         private readonly IPurchaseRequestRepository _purchaseRequestsRepository;
         private readonly ICarFromBotRepository _carFromBotRepository;
-        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository, IPurchaseRequestRepository purchaseRequestsRepository, ICarFromBotRepository carFromBotRepository) : base(userRepository)
+        private readonly IIncomingCarRepository _incomingCarRepository;
+        public CarController(ICarRepository carRepository, IBrandRepository brandRepository, IImageService imageService, IUserRepository userRepository, IBuyRequestRepository buyRequestRepository, IWaitingCarsRepository waitingCarsRepository, CurrencyUpdater currencyUpdater, IConfiguration configuration, IExpressSaleCarRepository expressSaleCarRepository, IValidationService validationService, IAppSettingsDbRepository appSettingsDbRepository, IPurchaseRequestRepository purchaseRequestsRepository, ICarFromBotRepository carFromBotRepository, IIncomingCarRepository incomingCarRepository) : base(userRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -40,6 +43,7 @@ namespace car_website.Controllers
             _appSettingsDbRepository = appSettingsDbRepository;
             _purchaseRequestsRepository = purchaseRequestsRepository;
             _carFromBotRepository = carFromBotRepository;
+            _incomingCarRepository = incomingCarRepository;
         }
         #endregion
         public async Task<IActionResult> BotDetail(string id)
@@ -74,6 +78,28 @@ namespace car_website.Controllers
         {
             return View();
         }
+        public async Task<IActionResult> IncomingCars()
+        {
+            await IsAdmin();
+            return View();
+        }
+        public async Task<IActionResult> AddIncomingCar()
+        {
+            var user = await GetCurrentUser();
+            if (user == null) return RedirectToAction("Login", "User");
+            if (!user.IsAdmin) return BadRequest();
+            return View(new CreateIncomingCarViewModel(_currencyUpdater));
+        }
+        [HttpGet]
+        public async Task<IActionResult> IncomingCarDetail(string id)
+        {
+            if (!ObjectId.TryParse(id, out ObjectId carId))
+                return RedirectToAction("NotFound", "Home");
+            var car = await _incomingCarRepository.GetByIdAsync(carId);
+            if (car == null)
+                return RedirectToAction("NotFound", "Home");
+            return View(new IncomingCarDetailViewModel(car, _currencyUpdater));
+        }
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {
@@ -95,18 +121,39 @@ namespace car_website.Controllers
         public async Task<IActionResult> ConfirmExpress(string id)
         {
             var user = await GetCurrentUser();
+            bool parsed = ObjectId.TryParse(id, out ObjectId objectId);
+            if (!parsed) return BadRequest();
+            var expressCar = await _expressSaleCarRepository.GetByIdAsync(objectId);
+            if (expressCar == null) return NotFound();
             if (user == null || !user.IsAdmin)
                 return RedirectToAction("NotFound", "Home");
-            TempData["TmpExpressCarId"] = id;
+            TempData[TempIdTypes.ExpressCar] = id;
             return RedirectToAction("Create", "Car");
         }
         [HttpGet]
         public async Task<IActionResult> ConfirmBot(string id)
         {
             var user = await GetCurrentUser();
+            bool parsed = ObjectId.TryParse(id, out ObjectId objectId);
+            if (!parsed) return BadRequest();
+            var botCar = await _carFromBotRepository.GetByIdAsync(objectId);
+            if (botCar == null) return NotFound();
             if (user == null || !user.IsAdmin)
                 return RedirectToAction("NotFound", "Home");
-            TempData["TmpBotCarId"] = id;
+            TempData[TempIdTypes.BotCar] = id;
+            return RedirectToAction("Create", "Car");
+        }
+        [HttpGet]
+        public async Task<IActionResult> ConfirmIncomingCar(string id)
+        {
+            var user = await GetCurrentUser();
+            bool parsed = ObjectId.TryParse(id, out ObjectId objectId);
+            if (!parsed) return BadRequest();
+            var incomingCar = await _incomingCarRepository.GetByIdAsync(objectId);
+            if (incomingCar == null) return NotFound();
+            if (user == null || !user.IsAdmin)
+                return RedirectToAction("NotFound", "Home");
+            TempData[TempIdTypes.IncomingCar] = id;
             return RedirectToAction("Create", "Car");
         }
         [HttpGet]
@@ -211,111 +258,7 @@ namespace car_website.Controllers
                 return View(carEditedVM);
             }
         }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<LiteCarViewModel>>> FindSimilarCars(string id)
-        {
-            try
-            {
-                var car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
-                var cars = await _carRepository.GetAll();
-                var user = await GetCurrentUser();
-                cars = cars.Where(car => car.Priority >= 0);
-                var tasks = new List<Task<Tuple<Car, byte>>>();
-                foreach (var el in cars)
-                {
-                    if (el.Id != car.Id)
-                    {
-                        var task = Task.Run(() => DistanceCoefficient(car, el));
-                        tasks.Add(task);
-                    }
-                }
-                await Task.WhenAll(tasks);
-                var results = tasks.Select(task => task.Result).ToList();
-                var topThree = results.OrderByDescending(tuple => tuple.Item2).Take(3).ToList();
-                var similarCars = topThree.Select(tuple => tuple.Item1).ToList();
-                return Ok(new
-                {
-                    Success = true,
-                    Cars = similarCars.Select(el =>
-                    new CarInListViewModel(el, _currencyUpdater, user != null && user.Favorites.Contains(el.Id))).ToList()
-                });
-            }
-            catch
-            {
-                return Ok(new { Success = false, Cars = new List<LiteCarViewModel>() });
-            }
-        }
-        private static async Task<Tuple<Car, byte>> DistanceCoefficient(Car baseCar, Car compared)
-        {
-            byte score = 0;
-            await Task.Run(() =>
-            {
-                if (baseCar.Brand == compared.Brand)
-                {
-                    score += 4;
-                    if (baseCar.Model == compared.Model)
-                        score += 4;
-                }
-                if (baseCar.Fuel == compared.Fuel)
-                    score += 2;
-                else if (baseCar.Fuel == Data.Enum.TypeFuel.GasAndGasoline
-                && compared.Fuel == Data.Enum.TypeFuel.Gas)
-                    score += 1;
-                else if (baseCar.Fuel == Data.Enum.TypeFuel.Gas
-                && compared.Fuel == Data.Enum.TypeFuel.GasAndGasoline)
-                    score += 1;
-                else if (baseCar.Fuel == Data.Enum.TypeFuel.GasAndGasoline
-                && compared.Fuel == Data.Enum.TypeFuel.Gasoline)
-                    score += 1;
-                else if (baseCar.Fuel == Data.Enum.TypeFuel.Gasoline
-                && compared.Fuel == Data.Enum.TypeFuel.GasAndGasoline)
-                    score += 1;
-                if (compared.Year >= baseCar.Year - 3
-                && compared.Year <= baseCar.Year + 3)
-                    score += 2;
-                else if (compared.Year >= baseCar.Year - 5
-                && compared.Year <= baseCar.Year + 5)
-                    score += 1;
-                if (compared.Price >= (float)baseCar.Price * 0.75f
-                && compared.Price <= (float)baseCar.Price * 1.25f)
-                    score += 4;
-                else if (compared.Price >= (float)baseCar.Price * 0.65f
-                && compared.Price <= (float)baseCar.Price * 1.35f)
-                    score += 2;
-                if (compared.EngineCapacity >= baseCar.EngineCapacity - 0.5
-                && compared.EngineCapacity <= baseCar.EngineCapacity + 0.5)
-                    score += 1;
-                if (baseCar.Body == compared.Body)
-                    score += 5;
-                else if (baseCar.Body == Data.Enum.TypeBody.Sedan
-                && compared.Body == Data.Enum.TypeBody.Coupe)
-                    score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.Coupe
-                && compared.Body == Data.Enum.TypeBody.Sedan)
-                    score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.SUV
-                && compared.Body == Data.Enum.TypeBody.StationWagon)
-                    score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.StationWagon
-                && compared.Body == Data.Enum.TypeBody.SUV)
-                    score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.Coupe
-                && compared.Body == Data.Enum.TypeBody.Convertible)
-                    score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.Convertible
-                && compared.Body == Data.Enum.TypeBody.Coupe)
-                    score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.Sedan
-                && compared.Body == Data.Enum.TypeBody.StationWagon)
-                    score += 2;
-                else if (baseCar.Body == Data.Enum.TypeBody.StationWagon
-                && compared.Body == Data.Enum.TypeBody.Sedan)
-                    score += 2;
-                if (baseCar.CarTransmission == compared.CarTransmission)
-                    score += 3;
-            });
-            return new Tuple<Car, byte>(compared, score);
-        }
+
         [HttpGet]
         public async Task<IActionResult> WaitingCarDetail(string id)
         {
@@ -346,7 +289,7 @@ namespace car_website.Controllers
                 else
                 {
                     Car car = await _carRepository.GetByIdAsync(ObjectId.Parse(id));
-                    if (user.Role != Data.Enum.UserRole.Dev && (car.Priority ?? 0) < 0)
+                    if (user.Role != Data.Enum.UserRole.Dev && (car.Priority) < 0)
                         return Ok(new { SuccessCode = 2 });
                     BuyRequest buyRequest = new()
                     {
@@ -509,36 +452,64 @@ namespace car_website.Controllers
         {
             if (!await IsAuthorized())
                 return RedirectToAction("CreateExpressSaleCar");
-            string id = "";
-            bool botCar = false;
+            string? id = "";
+            int tempCarType = -1; //-1 - none; 0 - express; 1 - bot; 2 - incoming
             try
             {
-                id = TempData["TmpExpressCarId"] as string;
-                TempData["TmpExpressCarId"] = null;
-                if (TempData["TmpBotCarId"] != null)
+                if (TempData[TempIdTypes.IncomingCar] != null)
                 {
-                    id = TempData["TmpBotCarId"] as string;
-                    TempData["TmpBotCarId"] = null;
-                    botCar = true;
+                    id = TempData[TempIdTypes.IncomingCar] as string;
+                    tempCarType = 2;
+                    TempData[TempIdTypes.IncomingCar] = null;
+                }
+                else if (TempData[TempIdTypes.ExpressCar] != null)
+                {
+                    id = TempData[TempIdTypes.ExpressCar] as string;
+                    tempCarType = 0;
+                    TempData[TempIdTypes.ExpressCar] = null;
+                }
+                else if (TempData[TempIdTypes.BotCar] != null)
+                {
+                    id = TempData[TempIdTypes.BotCar] as string;
+                    tempCarType = 1;
+                    TempData[TempIdTypes.BotCar] = null;
                 }
             }
             catch { }
             bool parsed = ObjectId.TryParse(id, out ObjectId objectId);
-            ExpressSaleCar expressCar = null;
-            if (!botCar && parsed)
-                expressCar = await _expressSaleCarRepository.GetByIdAsync(objectId);
-            CarFromBot carFromBot = null;
-            if (botCar && parsed)
-                carFromBot = await _carFromBotRepository.GetByIdAsync(objectId);
-            CreateCarViewModel carModel;
-            if (expressCar != null)
-                carModel = new CreateCarViewModel(expressCar);
-            else if (carFromBot != null)
-                carModel = new CreateCarViewModel(carFromBot);
-            else
-                carModel = new();
+            CreateCarViewModel carModel = null;
+            CarMediaTempData carMediaData = null;
+            if (tempCarType == 0 && parsed)
+            {
+                ExpressSaleCar expressCar = await _expressSaleCarRepository.GetByIdAsync(objectId);
+                if (expressCar != null)
+                {
+                    carMediaData = new(expressCar);
+                    carModel = new CreateCarViewModel(expressCar);
+                }
+            }
+            else if (tempCarType == 1 && parsed)
+            {
+                CarFromBot carFromBot = await _carFromBotRepository.GetByIdAsync(objectId);
+                if (carFromBot != null)
+                {
+                    carMediaData = new(carFromBot);
+                    carModel = new CreateCarViewModel(carFromBot);
+                }
+            }
+            else if (tempCarType == 2 && parsed)
+            {
+                IncomingCar incomingCar = await _incomingCarRepository.GetByIdAsync(objectId);
+                if (incomingCar != null)
+                {
+                    carMediaData = new(incomingCar);
+                    carModel = new CreateCarViewModel(incomingCar);
+                }
+            }
+            carModel ??= new();
+            carMediaData ??= new();
             var currency = _currencyUpdater.CurrentCurrency;
-            return View(new CarCreationPageViewModel() { CreateCarViewModel = carModel, Currency = currency, ExpressCarId = expressCar == null ? null : id, ExpressCarPhotos = expressCar == null ? (carFromBot?.PhotosURL) : expressCar.PhotosURL.ToList(), PreviewURL = carFromBot?.PreviewURL, BotCarId = carFromBot?.Id.ToString() });
+            return View(new CarCreationPageViewModel() { CreateCarViewModel = carModel, Currency = currency, TempId = carMediaData.Id, TempCarPhotos = carMediaData.PhotosURL, PreviewURL = carMediaData.PreviewURL });
         }
         [HttpPost]
         public async Task<IActionResult> Create(CarCreationPageViewModel carVM)
@@ -547,47 +518,57 @@ namespace car_website.Controllers
             // Restoring the values ​​of fields that were reset
 
             if (user == null)
-            {
                 return RedirectToAction("CreateExpressSaleCar");
-            }
+
             carVM.Currency = _currencyUpdater.CurrentCurrency;
-            if (carVM.ExpressCarId != null)
+            ObjectId tempCarObjectId = ObjectId.Empty;
+            bool tempIdParsed = false;
+            ExpressSaleCar expressCar = null;
+            CarFromBot botCar = null;
+            IncomingCar incomingCar = null;
+            if (carVM.TempId != null)
             {
-                bool parsed = ObjectId.TryParse(carVM.ExpressCarId, out ObjectId objectId);
-                if (parsed)
+                string type = carVM.TempId[..3];
+                string id = carVM.TempId[3..];
+                tempIdParsed = ObjectId.TryParse(id, out tempCarObjectId);
+                if (tempIdParsed)
                 {
-                    var expressCar = await _expressSaleCarRepository.GetByIdAsync(objectId);
-                    if (expressCar != null)
-                        carVM.ExpressCarPhotos = expressCar.PhotosURL.ToList();
+                    switch (type)
+                    {
+                        case "exp":
+                            {
+                                expressCar = await _expressSaleCarRepository.GetByIdAsync(tempCarObjectId);
+                                if (expressCar != null)
+                                    carVM.TempCarPhotos = expressCar.PhotosURL.ToList();
+                                break;
+                            }
+                        case "bot":
+                            {
+                                botCar = await _carFromBotRepository.GetByIdAsync(tempCarObjectId);
+                                if (botCar != null)
+                                {
+                                    carVM.TempCarPhotos = botCar.PhotosURL.ToList();
+                                    carVM.PreviewURL = botCar.PreviewURL;
+                                }
+                                break;
+                            }
+                        case "inc":
+                            {
+                                incomingCar = await _incomingCarRepository.GetByIdAsync(tempCarObjectId);
+                                if (incomingCar != null)
+                                {
+                                    carVM.TempCarPhotos = incomingCar.PhotosURL.ToList();
+                                    carVM.PreviewURL = incomingCar.PreviewURL;
+                                }
+                                break;
+                            }
+                    }
                 }
             }
+
             bool additionalValidation = true;
             bool photosIsValid = true;
-            if (carVM.CreateCarViewModel.Photo1 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 1))
-            {
-                ModelState.AddModelError("CreateCarViewModel.Photo1", "Обов'язкове поле");
-                photosIsValid = false;
-            }
-            if (carVM.CreateCarViewModel.Photo2 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 2))
-            {
-                ModelState.AddModelError("CreateCarViewModel.Photo2", "Обов'язкове поле");
-                photosIsValid = false;
-            }
-            if (carVM.CreateCarViewModel.Photo3 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 3))
-            {
-                ModelState.AddModelError("CreateCarViewModel.Photo3", "Обов'язкове поле");
-                photosIsValid = false;
-            }
-            if (carVM.CreateCarViewModel.Photo4 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 4))
-            {
-                ModelState.AddModelError("CreateCarViewModel.Photo4", "Обов'язкове поле");
-                photosIsValid = false;
-            }
-            if (carVM.CreateCarViewModel.Photo5 == null && (carVM.ExpressCarPhotos == null || carVM.ExpressCarPhotos.Count < 5))
-            {
-                ModelState.AddModelError("CreateCarViewModel.Photo5", "Обов'язкове поле");
-                photosIsValid = false;
-            }
+
             if (carVM.CreateCarViewModel.Year > DateTime.Now.Year + 1)
             {
                 ModelState.AddModelError("CreateCarViewModel.Year", "Не продаємо авто з майбутнього :(");
@@ -608,31 +589,23 @@ namespace car_website.Controllers
                 }
                 carVM.CreateCarViewModel.AdditionalPhone = phone.Replace("+", "");
             }
-            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo1))
+
+            //Photos validation
+            var photosArr = new[] { carVM.CreateCarViewModel.Photo1, carVM.CreateCarViewModel.Photo2, carVM.CreateCarViewModel.Photo3, carVM.CreateCarViewModel.Photo4, carVM.CreateCarViewModel.Photo5 };
+            for (int i = 0; i < photosArr.Length; i++)
             {
-                photosIsValid = false;
-                ModelState.AddModelError("CreateCarViewModel.Photo1", $"Не більше {MAX_PHOTO_SIZE}Мб");
+                if (photosArr[i] == null && (carVM.TempCarPhotos == null || carVM.TempCarPhotos.Count < i + 1))
+                {
+                    ModelState.AddModelError("CreateCarViewModel.Photo" + (i + 1), "Обов'язкове поле");
+                    photosIsValid = false;
+                }
+                else if (!_validationService.IsLessThenNMb(photosArr[i]))
+                {
+                    photosIsValid = false;
+                    ModelState.AddModelError("CreateCarViewModel.Photo" + (i + 1), $"Не більше {MAX_PHOTO_SIZE}Мб");
+                }
             }
-            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo2))
-            {
-                photosIsValid = false;
-                ModelState.AddModelError("CreateCarViewModel.Photo2", $"Не більше {MAX_PHOTO_SIZE}Мб");
-            }
-            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo3))
-            {
-                photosIsValid = false;
-                ModelState.AddModelError("CreateCarViewModel.Photo3", $"Не більше {MAX_PHOTO_SIZE}Мб");
-            }
-            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo4))
-            {
-                photosIsValid = false;
-                ModelState.AddModelError("CreateCarViewModel.Photo4", $"Не більше {MAX_PHOTO_SIZE}Мб");
-            }
-            if (!_validationService.IsLessThenNMb(carVM.CreateCarViewModel.Photo5))
-            {
-                photosIsValid = false;
-                ModelState.AddModelError("CreateCarViewModel.Photo5", $"Не більше {MAX_PHOTO_SIZE}Мб");
-            }
+
             string videoId = "";
             if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
             {
@@ -650,30 +623,39 @@ namespace car_website.Controllers
                     newCar.VideoURL = $"https://www.youtube.com/embed/{videoId}";
                 List<string> photosNames = Enumerable.Repeat((string)null, 5).ToList();
 
-                if (carVM.ExpressCarPhotos != null)
+                if (carVM.TempCarPhotos != null)
                 {
-                    for (int i = 0; i < Math.Min(carVM.ExpressCarPhotos.Count, 5); i++)
+                    for (int i = 0; i < Math.Min(carVM.TempCarPhotos.Count, 5); i++)
                     {
-                        photosNames[i] = carVM.ExpressCarPhotos[i];
+                        photosNames[i] = carVM.TempCarPhotos[i];
                     }
                 }
                 List<IFormFile> photos = new() { newCar.Photo1, newCar.Photo2, newCar.Photo3, newCar.Photo4, newCar.Photo5 };
-                photos = photos.Where(photo => photo != null).ToList();
+                //photos = photos.Where(photo => photo != null).ToList();
                 for (int i = 0; i < photos.Count; i++)
                 {
+                    if (photos[i] == null) continue;
                     var photoName = await _imageService.UploadPhotoAsync(photos[i], $"{newCar.Brand}_{newCar.Model}_{newCar.Year}");
                     photosNames[i] = photoName;
                 }
                 photosNames = photosNames.Where(photo => photo != null).ToList();
-                string preview = _imageService.CopyPhoto(photosNames[0]);
-                _imageService.ProcessImage(300, 200, preview);
-                preview = $"/Photos\\{preview}";
+                string preview = string.Empty;
+                if (newCar.Photo1 == null && carVM.PreviewURL != null)
+                    preview = carVM.PreviewURL;
+                else
+                {
+                    preview = _imageService.CopyPhoto(photosNames[0]);
+                    _imageService.ProcessImage(300, 200, preview);
+                    preview = $"/Photos\\{preview}";
+                }
                 Car car = new(newCar, photosNames, user.Id.ToString(), _imageService.GetPhotoAspectRatio(photosNames[0]), preview, user.Role != UserRole.User);
                 if (user.Role != UserRole.User)
                 {
                     if (user.Role == UserRole.Dev) car.Priority = -1;
                     await _brandRepository.AddIfDoesntExist(newCar.Brand, newCar.Model);
                     await _carRepository.Add(car);
+                    if (incomingCar != null)
+                        await _incomingCarRepository.Delete(incomingCar);
                     user.CarsForSell.Add(car.Id);
                     await _userRepository.Update(user);
                     return RedirectToAction("Index", "Home");
@@ -712,5 +694,79 @@ namespace car_website.Controllers
             }
             return Ok(new { Success = false });
         }
+        #region Incoming cars
+        [HttpPost]
+        public async Task<IActionResult> AddIncomingCar(CreateIncomingCarViewModel carVM)
+        {
+            User user = await GetCurrentUser();
+            // Restoring the values ​​of fields that were reset
+
+            if (user == null)
+                return RedirectToAction("CreateExpressSaleCar");
+
+            carVM.Currency = _currencyUpdater.CurrentCurrency;
+
+            bool additionalValidation = true;
+            bool photosIsValid = true;
+
+            if (carVM.Year > DateTime.Now.Year + 1)
+            {
+                ModelState.AddModelError("Year", "Не продаємо авто з майбутнього :(");
+                additionalValidation = false;
+            }
+            if (!_validationService.IsValidArrivalDate(carVM.ArrivalDate))
+            {
+                ModelState.AddModelError("ArrivalDate", "Некоректна дата");
+                additionalValidation = false;
+            }
+
+            //Photos validation
+            var photosArr = new[] { carVM.Photo1, carVM.Photo2, carVM.Photo3, carVM.Photo4, carVM.Photo5 };
+            for (int i = 0; i < photosArr.Length; i++)
+            {
+                if (photosArr[i] == null)
+                {
+                    ModelState.AddModelError("Photo" + (i + 1), "Обов'язкове поле");
+                    photosIsValid = false;
+                }
+                else if (!_validationService.IsLessThenNMb(photosArr[i]))
+                {
+                    photosIsValid = false;
+                    ModelState.AddModelError("Photo" + (i + 1), $"Не більше {MAX_PHOTO_SIZE}Мб");
+                }
+            }
+
+            if (ModelState.IsValid && additionalValidation && photosIsValid)
+            {
+                List<string> photosNames = Enumerable.Repeat((string)null, 5).ToList();
+
+                List<IFormFile> photos = new() { carVM.Photo1, carVM.Photo2, carVM.Photo3, carVM.Photo4, carVM.Photo5 };
+                photos = photos.Where(photo => photo != null).ToList();
+                for (int i = 0; i < photos.Count; i++)
+                {
+                    var photoName = await _imageService.UploadPhotoAsync(photos[i], $"{carVM.Brand}_{carVM.Model}_{carVM.Year}");
+                    photosNames[i] = photoName;
+                }
+                photosNames = photosNames.Where(photo => photo != null).ToList();
+                string preview = _imageService.CopyPhoto(photosNames[0]);
+                _imageService.ProcessImage(300, 200, preview);
+                preview = $"/Photos\\{preview}";
+                IncomingCar car = new(carVM, photosNames, preview, user.Id, user.Role == UserRole.Dev);
+                await _incomingCarRepository.Add(car);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View(carVM);
+            }
+        }
+        #endregion
+    }
+
+    internal static class TempIdTypes
+    {
+        public const string ExpressCar = "TmpExpressCarId";
+        public const string BotCar = "TmpBotCarId";
+        public const string IncomingCar = "TmpIncomingCarId";
     }
 }

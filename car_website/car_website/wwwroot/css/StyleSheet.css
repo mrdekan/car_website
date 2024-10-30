@@ -748,6 +748,17 @@ input[type=number] {
   margin-top: 50px;
 }
 
+.detail-arrive-message {
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+  gap: 5px;
+}
+.detail-arrive-message span {
+  display: block;
+  color: var(--beige-default);
+}
+
 .wrapper_carDetail {
   width: 60vw;
   color: var(--text-default);
@@ -2216,7 +2227,7 @@ body {
   transition: 0.25s;
   color: white;
   font-size: 24px;
-  min-width: 240px;
+  min-width: 300px;
   text-align: center;
 }
 .select-create-btns a:hover {
@@ -2249,6 +2260,18 @@ body {
   width: 36px;
   height: 36px;
   background: url("../img/form.png");
+  background-size: 100%;
+  top: 3px;
+  left: 6px;
+}
+
+.create-button-incoming::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  background: url("../img/time.svg");
   background-size: 100%;
   top: 3px;
   left: 6px;
@@ -2621,6 +2644,40 @@ body {
 }
 .car_container-info {
   padding-left: 30px;
+  position: relative;
+}
+.car_container-info-arrive {
+  position: absolute;
+  left: 298px;
+  bottom: 0;
+  margin-top: 15px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+.car_container-info-arrive-mobile {
+  display: none;
+  font-size: 14px;
+  height: min-content;
+  align-items: center;
+}
+.car_container-info-arrive-mobile span {
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 0 8px 0 -20px;
+  color: var(--beige-default);
+}
+.car_container-info-arrive-mobile span svg {
+  width: 18px;
+  height: 18px;
+}
+.car_container-info-arrive span {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 0 8px 0 -20px;
+  color: var(--beige-default);
 }
 .car_container-info-name {
   color: var(--text-default);
@@ -2816,6 +2873,25 @@ footer a {
   border-radius: 7px;
 }
 
+.incoming-car-notification {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--beige-default);
+  border-radius: 50%;
+  line-height: 20px;
+  text-align: center;
+  display: block;
+  color: white;
+  top: -10px;
+  right: -25px;
+  font-size: 15px;
+}
+
+#incomingCarsCountMob {
+  top: -4px;
+}
+
 header {
   position: sticky;
   top: 0;
@@ -2837,15 +2913,6 @@ header .header_left span {
   height: 120px;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
   transition: 0.2s;
-  /*&::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -30px;
-      width: 130px;
-      height: 100%;
-      background-color: inherit;
-  }*/
 }
 header .header_left span img {
   width: 150px;
@@ -2860,6 +2927,7 @@ header .header_center {
 header .header_center a {
   color: white;
   font-size: 18px;
+  position: relative;
 }
 header .header_right {
   display: flex;
@@ -2976,11 +3044,47 @@ header .header_right-dark-label::before {
   color: var(--gray-default);
 }
 
+.incomingCars {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+.incomingCars .incomingCars-add {
+  padding: 7px 15px;
+  border-radius: 3px;
+  background: var(--green-dark);
+  color: white;
+  text-align: center;
+  font-size: 20px;
+  transition: background 0.2s;
+  margin-bottom: 10px;
+}
+.incomingCars .incomingCars-add:hover {
+  background: var(--green-medium);
+}
+.incomingCars h2 {
+  font-size: 30px;
+  color: var(--text-default);
+  transition: 0.2s;
+  padding-bottom: 15px;
+}
+.incomingCars .incomingCars-info {
+  color: var(--gray-default);
+  transition: 0.2s;
+  font-size: 22px;
+  text-align: center;
+  max-width: 60%;
+  padding-bottom: 15px;
+}
+
 .pages_buttons {
   display: flex;
   gap: 10px;
-  margin: 10px 0;
-  min-height: 32px;
+  padding: 10px 0;
+  margin: 0 auto;
+  width: fit-content;
+  height: fit-content;
 }
 .pages_buttons-space {
   display: block;
@@ -3606,6 +3710,13 @@ header .header_right-dark-label::before {
   }
   .car.mainPageCar .car_container-info {
     align-self: center;
+    padding-left: 0;
+  }
+  .car.mainPageCar .car_container-info-arrive {
+    display: none;
+  }
+  .car.mainPageCar .car_container-info-arrive-mobile {
+    display: flex;
   }
   .car.mainPageCar .car_container-info-name {
     display: none;
@@ -3614,6 +3725,7 @@ header .header_right-dark-label::before {
     margin: 0;
     flex-direction: column;
     gap: 10px;
+    padding-top: 0;
   }
   .car.mainPageCar .car_container-info-parameters.onDetail {
     flex-direction: row;

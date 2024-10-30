@@ -1,0 +1,217 @@
+﻿@model CreateIncomingCarViewModel
+@using System.Security.Claims;
+@using Microsoft.AspNetCore.Http;
+@using car_website.Data.Enum
+@using car_website.ViewModels;
+@{
+    ViewBag.Index = "False";
+    ViewData["Title"] = "Додати авто";
+    string userId = "";
+    if (User != null && User.Identity != null)
+        userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
+    bool isAdmin = !string.IsNullOrEmpty(userId) && ViewContext.HttpContext.Session.GetInt32("Role") != 0;
+}
+<div class="create">
+    <form method="post" asp-action="AddIncomingCar" enctype="multipart/form-data">
+        <div class="create_container">
+            <div class="create_container-left">
+                <div class="form-group">
+                    <label asp-for="Brand">Марка<span class="required"></span></label>
+                    <input asp-for="Brand" type="hidden" id="real-brand-inp" />
+                    <div class="custom-select">
+                        <div class="select-btn" id="brandsButton" large>
+                            <span>Не обрано</span>
+                            <input type="text" id="other-brand-inp" class="other-input" placeholder="Напишіть марку" />
+                            <i class="uil uil-angle-down"></i>
+                        </div>
+                        <div class="content">
+                            <div class="search">
+                                <i class="uil uil-search"></i>
+                                <input spellcheck="false" type="text" placeholder="Пошук" id="searchCar">
+                            </div>
+                            <ul class="options" id="brands"></ul>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Brand" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Model">Модель<span class="required"></span></label>
+                    <input asp-for="Model" type="hidden" id="real-model-inp" />
+                    <div class="custom-select">
+                        <div class="select-btn" id="modelsButton" large>
+                            <span>Не обрано</span>
+                            <input type="text" id="other-model-inp" class="other-input" placeholder="Напишіть модель" />
+                            <i class="uil uil-angle-down"></i>
+                        </div>
+                        <div class="content">
+                            <div class="search">
+                                <i class="uil uil-search"></i>
+                                <input spellcheck="false" type="text" placeholder="Пошук" id="searchModel">
+                            </div>
+                            <ul class="options" id="models"></ul>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Model" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Year">Рік<span class="required"></span></label>
+                    <input class="input" asp-for=Year type="number" id="year" maxlength="4" placeholder="Рік" />
+                    <span asp-validation-for="Year" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" id="price-in-uah" currency="@Model.Currency">Ціна ($)<span class="required"></span></label>
+                    <input asp-for="Price" type="number" class="input" id="price" maxlength="6" placeholder="Ціна" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.CarTransmission">Трансмісія<span class="required"></span></label>
+                    <input asp-for="@Model.CarTransmission" type="hidden" id="real-transmission-inp" />
+                    <div class="custom-select">
+                        <div class="select-btn" id="transmissionsButton" large>
+                            <span>Не обрано</span>
+                            <i class="uil uil-angle-down"></i>
+                        </div>
+                        <div class="content">
+                            <ul class="options" id="transmissions"></ul>
+                        </div>
+                    </div>
+                    <span asp-validation-for="@Model.CarTransmission" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Body">Тип кузову<span class="required"></span></label>
+                    <input asp-for="Body" type="hidden" id="real-body-inp" />
+                    <div class="custom-select">
+                        <div class="select-btn" id="bodiesButton" large>
+                            <span>Не обрано</span>
+                            <i class="uil uil-angle-down"></i>
+                        </div>
+                        <div class="content">
+                            <ul class="options" id="bodies"></ul>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Body" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Fuel">Тип палива<span class="required"></span></label>
+                    <input asp-for="Fuel" type="hidden" id="real-fuel-inp" />
+                    <div class="custom-select">
+                        <div class="select-btn" id="fuelsButton" large>
+                            <span>Не обрано</span>
+                            <i class="uil uil-angle-down"></i>
+                        </div>
+                        <div class="content">
+                            <ul class="options" id="fuels"></ul>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Fuel" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Driveline">Тип приводу<span class="required"></span></label>
+                    <input asp-for="Driveline" type="hidden" id="real-driveline-inp" />
+                    <div class="custom-select">
+                        <div class="select-btn" id="drivelinesButton" large>
+                            <span>Не обрано</span>
+                            <i class="uil uil-angle-down"></i>
+                        </div>
+                        <div class="content">
+                            <ul class="options" id="drivelines"></ul>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Driveline" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EngineCapacity" id="engine-volume-label">Об'єм двигуна (л.)<span class="required"></span></label>
+                    <input asp-for="EngineCapacity" placeholder="Об'єм двигуна" class="input" id="engine-volume" type="text" />
+                    <span asp-validation-for="EngineCapacity" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mileage">Пробіг (тис.км)<span class="required"></span></label>
+                    <input asp-for="Mileage" type="number" placeholder="Пробіг" class="input" id="mileage" maxlength="3" />
+                    <span asp-validation-for="Mileage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ArrivalDate">Приблизна дата прибуття<span class="required"></span></label>
+                    <input asp-for="ArrivalDate" type="hidden" id="arrivalDate"/>
+                    <input type="date" id="pick-arrival" class="input"/>
+                    <span asp-validation-for="ArrivalDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description">За необхідності додайте опис</label>
+                    <textarea id="description" asp-for="Description" placeholder="Додатковий опис" maxlength="500" style="resize: none;"></textarea>
+                    <span id="descriptionLength">0/500</span>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="create_container-right">
+                <div id="photos-select">
+                    <div class="img-upload">
+                        <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
+                        <div class="img-upload-content">
+                            <img alt="Приклад" src="~/img/1pos.png" />
+                            <div class="custom-file-uploader">
+                                <input asp-for="Photo1" id="Photo1" type="file" accept="image/*" class="photoInp">
+                                <div class="custom-file-uploader-btn">+</div>
+                                <img src="" alt="preview" id="Photo1-preview" />
+                            </div>
+                        </div>
+                        <span asp-validation-for="Photo1" class="text-danger"></span>
+                    </div>
+                    <div class="img-upload">
+                        <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
+                        <div class="img-upload-content">
+                            <img alt="Приклад" src="~/img/2pos.png" />
+                            <div class="custom-file-uploader">
+                                <input asp-for="Photo2" id="Photo2" type="file" accept="image/*" class="photoInp">
+                                <div class="custom-file-uploader-btn">+</div>
+                                <img src="" alt="preview" id="Photo2-preview" />
+                            </div>
+                        </div>
+                        <span asp-validation-for="Photo2" class="text-danger"></span>
+                    </div>
+                    <div class="img-upload">
+                        <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
+                        <div class="img-upload-content">
+                            <img alt="Приклад" src="~/img/3pos.png" />
+                            <div class="custom-file-uploader">
+                                <input asp-for="Photo3" id="Photo3" type="file" accept="image/*" class="photoInp">
+                                <div class="custom-file-uploader-btn">+</div>
+                                <img src="" alt="preview" id="Photo3-preview" />
+                            </div>
+                        </div>
+                        <span asp-validation-for="Photo3" class="text-danger"></span>
+                    </div>
+                    <div class="img-upload">
+                        <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
+                        <div class="img-upload-content">
+                            <img alt="Приклад" src="~/img/4pos.png" />
+                            <div class="custom-file-uploader">
+                                <input asp-for="Photo4" id="Photo4" type="file" accept="image/*" class="photoInp">
+                                <div class="custom-file-uploader-btn">+</div>
+                                <img src="" alt="preview" id="Photo4-preview" />
+                            </div>
+                        </div>
+                        <span asp-validation-for="Photo4" class="text-danger"></span>
+                    </div>
+                    <div class="img-upload">
+                        <p>Зробіть фото схоже до прикладу<span class="required"></span></p>
+                        <div class="img-upload-content">
+                            <img alt="Приклад" src="~/img/5pos.png" />
+                            <div class="custom-file-uploader">
+                                <input asp-for="Photo5" id="Photo5" type="file" accept="image/*" class="photoInp">
+                                <div class="custom-file-uploader-btn">+</div>
+                                <img src="" alt="preview" id="Photo5-preview" />
+                            </div>
+                        </div>
+                        <span asp-validation-for="Photo5" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="sell-button">Опублікувати оголошення</button>
+    </form>
+</div>
+<script src="~/js/creationCarPage.js" asp-append-version="true"></script>
+<script src="~/js/imagesPreviews.js" asp-append-version="true"></script>
+<script src="~/js/creationCarPageSelectBoxes.js" asp-append-version="true"></script>
+<script src="~/js/priceInUah.js" type="module" asp-append-version="true"></script>

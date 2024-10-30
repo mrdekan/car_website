@@ -31,7 +31,7 @@ namespace car_website.ViewModels
         public string? Brand { get; set; }
         public string? Model { get; set; }
         public int? MaxPrice { get; set; }
-        public uint? MaxPriceUAH { get; set; }
+        public int? MaxPriceUAH { get; set; }
         public int? Year { get; set; }
         public string? Description { get; set; }
     }

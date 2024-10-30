@@ -4,9 +4,10 @@
 @using Microsoft.AspNetCore.Http;
 @model CarDetailViewModel
 @{
-    ViewData["Title"] = Model.Brand + " " + Model.Model;
     ViewBag.Title = Model.Brand + " " + Model.Model + " " + Model.Year;
     ViewBag.Description = $"{Model.Price}$ · {Model.Body} · {Model.Fuel}, {Model.EngineCapacity}  · {Model.Mileage}тис. км · {Model.Driveline} · {Model.CarTransmission} · {Model.CarColor}";
+    ViewData["DescriptionSearch"] = $"{Model.Price}$ · {Model.Body} · {Model.Fuel}, {Model.EngineCapacity}  · {Model.Mileage}тис. км · {Model.Driveline} · {Model.CarTransmission} · {Model.CarColor}";
+    ViewData["Keywords"] = string.Join(", ", new string[] { Model.Brand, Model.Model, Model.Year.ToString() });
     ViewBag.ImageUrl = Model.PreviewURL;
     string userId = "";
     if (User != null && User.Identity != null)

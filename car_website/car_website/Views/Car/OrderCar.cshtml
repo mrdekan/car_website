@@ -2,6 +2,7 @@
 @model CreatePurchaseRequestViewModel
 @{
     ViewData["Title"] = "Замовити авто";
+    ViewBag.Index = "False";
 }
 <div class="create">
     <form method="post" asp-action="OrderCar" enctype="multipart/form-data">

@@ -1,5 +1,4 @@
 ﻿const sellerBlock = document.getElementById('seller');
-
 fetch(`/api/v1/users/getById/${sellerBlock.getAttribute('sellerId')}`)
     .then(response => response.json())
     .then(data => {
@@ -14,16 +13,5 @@ fetch(`/api/v1/users/getById/${sellerBlock.getAttribute('sellerId')}`)
         }
     })
     .catch(error => console.error("An error occurred while retrieving data:", error));
-
-function roleName(index) {
-    switch (index) {
-        case 0:
-            return 'Користувач';
-        case 1:
-            return 'Адмін';
-        case 2:
-            return 'Розробник';
-        case 3:
-            return 'Модератор';
-    }
-}
+const roleName = (index)=>
+    ['Користувач', 'Адмін', 'Розробник', 'Модератор'][index];

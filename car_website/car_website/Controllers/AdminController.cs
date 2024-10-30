@@ -1,4 +1,5 @@
-﻿using car_website.Interfaces;
+﻿using car_website.Interfaces.Repository;
+using car_website.Interfaces.Service;
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
@@ -326,7 +327,7 @@ namespace car_website.Controllers
                 });
             try
             {
-                var brands = await _brandRepository.GetAll();
+                var brands = await _brandRepository.GetAllNames();
                 brands = brands.OrderBy(brand => brand);
                 int totalItems = brands.Count();
                 int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);

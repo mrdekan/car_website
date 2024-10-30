@@ -63,7 +63,7 @@ if (bodyRealInp.value != 'Any')
     updateBody(createLi(bodies[bodyRealInp.value]));
 if (transmissionRealInp.value != 'Any')
     updateTransmission(createLi(transmissions[transmissionRealInp.value]));
-if (colorRealInp.value != 'Any')
+if (colorRealInp && colorRealInp.value != 'Any')
     updateColor(createLi(colors[+colorRealInp.value + 1]));
 if (fuelRealInp.value != 'Any')
     updateFuel(createLi(getKeyByValue(fuels, + fuelRealInp.value)));
@@ -80,6 +80,7 @@ function getKeyByValue(object, value) {
     return null;
 }
 inps.forEach(inp => {
+    if (inp)
     inp.addEventListener('input', function (event) {
         const maxLength = +event.target.getAttribute('maxlength');
         let currentValue = event.target.value;
@@ -118,7 +119,7 @@ otherBrandInp.addEventListener('input', function () {
 function getModelsOfMark() {
     var brand = selectBrandsBtn.firstElementChild.innerText;
     if (modelsCache[brand] == null) {
-        fetch(`/home/GetModels?brand=${brand}`)
+        fetch(`/api/v1/brands/getModels?brand=${brand}`)
             .then(response => response.json())
             .then(data => {
                 models = ["Не обрано"];
@@ -134,7 +135,7 @@ function getModelsOfMark() {
     }
 }
 function getMarks() {
-    fetch(`/home/GetBrands`)
+    fetch(`/api/v1/brands/getAll`)
         .then(response => response.json())
         .then(data => {
             let prevBrand = brandRealInp.value;
@@ -145,7 +146,7 @@ function getMarks() {
             if (prevBrand.length > 0) {
                 if (brands.includes(prevBrand)) {
                     updateName(createLi(prevBrand));
-                    fetch(`/home/GetModels?brand=${prevBrand}`)
+                    fetch(`/api/v1/brands/getModels?brand=${prevBrand}`)
                         .then(response => response.json())
                         .then(data => {
                             models = ["Не обрано"];
@@ -302,6 +303,7 @@ function addDriveline(selectedDriveline) {
     });
 }
 function addColor(selectedColor) {
+    if (!colorsOptions) return;
     colorsOptions.innerHTML = '';
     colors.forEach(color => {
         let isSelected = color == selectedColor || !selectedColor && color == 'Не обрано' ? "selected" : "";
@@ -500,6 +502,7 @@ selectDrivelinesBtn.addEventListener("click", () => {
     selectDrivelinesBtn.classList.toggle("active");
     drivelinesOptions.scrollTop = 0;
 });
+if (selectColorsBtn)
 selectColorsBtn.addEventListener("click", () => {
     colorsOptions.parentElement.classList.toggle("active");
     selectColorsBtn.classList.toggle("active");
@@ -522,7 +525,7 @@ document.addEventListener('click', function (event) {
         hideFuel();
     if (!selectDrivelinesBtn.parentElement.contains(event.target))
         hideDriveline();
-    if (!selectColorsBtn.parentElement.contains(event.target))
+    if (selectColorsBtn&&!selectColorsBtn.parentElement.contains(event.target))
         hideColor();
 });
 //#endregion

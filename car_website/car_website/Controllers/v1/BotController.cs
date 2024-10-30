@@ -1,5 +1,6 @@
 ﻿using car_website.Data.Enum;
-using car_website.Interfaces;
+using car_website.Interfaces.Repository;
+using car_website.Interfaces.Service;
 using car_website.Models;
 using car_website.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,6 @@ namespace car_website.Controllers.v1
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly IConfiguration _configuration;
         private readonly IExpressSaleCarRepository _expressSaleCarRepository;
-        private readonly ILogger<ApiController> _logger;
         private readonly IUserService _userService;
         private readonly IValidationService _validationService;
         private readonly IAppSettingsDbRepository _appSettingsDbRepository;
@@ -36,7 +36,6 @@ namespace car_website.Controllers.v1
             CurrencyUpdater currencyUpdater,
             IConfiguration configuration,
             IExpressSaleCarRepository expressSaleCarRepository,
-            ILogger<ApiController> logger,
             IUserService userService,
             IValidationService validationService,
             IAppSettingsDbRepository appSettingsDbRepository,
@@ -52,7 +51,6 @@ namespace car_website.Controllers.v1
             _currencyUpdater = currencyUpdater;
             _configuration = configuration;
             _expressSaleCarRepository = expressSaleCarRepository;
-            _logger = logger;
             _userService = userService;
             _validationService = validationService;
             _appSettingsDbRepository = appSettingsDbRepository;
@@ -146,9 +144,8 @@ namespace car_website.Controllers.v1
                     PerPage = _perPage
                 });
             }
-            catch (Exception ex)
+            catch
             {
-                _logger.LogError("Get cars error: {0}", ex.ToString());
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
         }

@@ -1,0 +1,22 @@
+﻿@using System.Security.Claims;
+@using Microsoft.AspNetCore.Http;
+@{
+    string userId = "";
+    if (User != null && User.Identity != null)
+        userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
+    bool isAdmin = !string.IsNullOrEmpty(userId) && ViewContext.HttpContext.Session.GetInt32("Role") != 0;
+}
+<div class="incomingCars">
+    <h2>Авто в дорозі</h2>
+    <p class="incomingCars-info">Можливо, саме Ваш автомобіль уже прямує до нас зі США. Слідкуйте за нашим списком машин, які скоро будуть доступні!</p>
+    @if (isAdmin)
+    {
+        <a asp-action="AddIncomingCar" asp-controller="Car" class="incomingCars-add">Додати</a>
+    }
+<div class="pages_buttons"></div>
+    <div class="wrapper">
+    <div id="cars-list" class="carList"></div>
+</div>
+<div class="pages_buttons"></div>
+</div>
+<script src="~/js/incomingCars.js" type="module" asp-append-version="true"></script>

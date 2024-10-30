@@ -1,8 +1,10 @@
 ﻿using car_website.Data.Enum;
-using car_website.Interfaces;
+using car_website.Interfaces.Repository;
+using car_website.Interfaces.Service;
 using car_website.Models;
 using car_website.Services;
 using car_website.ViewModels;
+using car_website.ViewModels.Response;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -27,11 +29,11 @@ namespace car_website.Controllers.v1
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly IConfiguration _configuration;
         private readonly IExpressSaleCarRepository _expressSaleCarRepository;
-        private readonly ILogger<ApiController> _logger;
         private readonly IUserService _userService;
         private readonly IValidationService _validationService;
         private readonly IAppSettingsDbRepository _appSettingsDbRepository;
         private readonly CarDeleteService _carDeleteService;
+        private readonly IIncomingCarRepository _incomingCarRepository;
         public CarsController(ICarRepository carRepository,
             IBrandRepository brandRepository,
             IImageService imageService,
@@ -41,10 +43,10 @@ namespace car_website.Controllers.v1
             CurrencyUpdater currencyUpdater,
             IConfiguration configuration,
             IExpressSaleCarRepository expressSaleCarRepository,
-            ILogger<ApiController> logger,
             IUserService userService,
             IValidationService validationService,
             IAppSettingsDbRepository appSettingsDbRepository,
+            IIncomingCarRepository incomingCarRepository,
             CarDeleteService carDeleteService) : base(userRepository)
         {
             _carRepository = carRepository;
@@ -56,11 +58,11 @@ namespace car_website.Controllers.v1
             _currencyUpdater = currencyUpdater;
             _configuration = configuration;
             _expressSaleCarRepository = expressSaleCarRepository;
-            _logger = logger;
             _userService = userService;
             _validationService = validationService;
             _appSettingsDbRepository = appSettingsDbRepository;
             _carDeleteService = carDeleteService;
+            _incomingCarRepository = incomingCarRepository;
         }
         #endregion
         [HttpPost("getFiltered")]
@@ -70,26 +72,28 @@ namespace car_website.Controllers.v1
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });
             try
             {
-                IEnumerable<Car> filteredCars = await _carRepository.GetAll();
-                filteredCars = filteredCars.OrderBy(item => !item.IsSold).ToList();
+                IEnumerable<Car> cars = await _carRepository.GetAll();
+                IEnumerable<IncomingCar> incomingCars = await _incomingCarRepository.GetAll();
+                cars = cars.OrderBy(item => !item.IsSold).ToList();
+
                 var user = await GetCurrentUser();
+                List<ExtendedBaseCarWithId> filteredCars = new();
+                filteredCars.AddRange(cars);
+                filteredCars.AddRange(incomingCars);
                 if (user == null || user.Role != UserRole.Dev)
-                    filteredCars = filteredCars.Where(car => car.Priority >= 0);
+                    filteredCars = filteredCars.Where(car => car.Priority >= 0).ToList();
                 if (filter.SortingType == null || filter.SortingType == SortingType.Default)
-                    filteredCars = filteredCars.Reverse();
+                    filteredCars.Reverse();
                 else if (filter.SortingType == SortingType.PriceToLower)
-                    filteredCars = filteredCars.OrderByDescending(car => car.Price);
+                    filteredCars = filteredCars.OrderByDescending(car => car.Price).ToList();
                 else if (filter.SortingType == SortingType.PriceToHigher)
-                    filteredCars = filteredCars.OrderBy(car => car.Price);
-                filteredCars = filteredCars.OrderByDescending(car => (car.Priority ?? 0) < 0 ? 0 : (car.Priority ?? 0)).ToList();
-                filteredCars = filteredCars.OrderBy(car => car.IsSold).ToList();
-                int perPage = filter.Page <= 0 ? filteredCars.Count() : filter.PerPage ?? CARS_PER_PAGE;
+                    filteredCars = filteredCars.OrderBy(car => car.Price).ToList();
+                filteredCars = filteredCars.OrderByDescending(car => (car.Priority) < 0 ? 0 : (car.Priority)).ToList();
+                filteredCars = filteredCars.OrderBy(car => typeof(Car) == car.GetType() && ((Car)car).IsSold).ToList();
+                int perPage = filter.Page <= 0 ? filteredCars.Count : filter.PerPage ?? CARS_PER_PAGE;
                 int page = filter.Page <= 0 ? 1 : filter.Page;
                 filteredCars = filteredCars.Where(car => car.MatchesFilter(filter)).ToList();
-                int totalItems = filteredCars.Count();
-                int totalPages = (int)Math.Ceiling(totalItems / (double)perPage);
-                int skip = (page - 1) * perPage;
-                filteredCars = filteredCars.Skip(skip).Take(perPage);
+                filteredCars = FilterService<ExtendedBaseCarWithId>.FilterPages(filteredCars, page, perPage, out int totalPages);
                 var carsRes = filteredCars
                     .Select(car =>
                         new CarInListViewModel(car, _currencyUpdater, user != null
@@ -104,9 +108,8 @@ namespace car_website.Controllers.v1
                     Page = page
                 });
             }
-            catch (Exception ex)
+            catch
             {
-                _logger.LogError("Get filtered cars error: {0}", ex.ToString());
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
         }
@@ -121,10 +124,7 @@ namespace car_website.Controllers.v1
                 cars = cars.OrderBy(item => !item.IsSold).ToList();
                 int _page = page ?? 1;
                 int _perPage = perPage ?? cars.Count();
-                int totalItems = cars.Count();
-                int totalPages = (int)Math.Ceiling(totalItems / (double)_perPage);
-                int skip = (_page - 1) * _perPage;
-                cars = cars.Skip(skip).Take(_perPage);
+                cars = FilterService<Car>.FilterPages(cars, _page, _perPage, out int totalPages);
                 User user = await GetCurrentUser();
                 var carsRes = cars.Select(car => new CarViewModel(car, _currencyUpdater, user != null && user.Favorites.Contains(car.Id), IsAdmin().Result)).ToList();
                 return Ok(new
@@ -137,9 +137,8 @@ namespace car_website.Controllers.v1
                     PerPage = _perPage
                 });
             }
-            catch (Exception ex)
+            catch
             {
-                _logger.LogError("Get cars error: {0}", ex.ToString());
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
         }
@@ -153,7 +152,7 @@ namespace car_website.Controllers.v1
             if (car == null)
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });
             User user = await GetCurrentUser();
-            if ((user == null || user.Role != UserRole.Dev) && (car.Priority ?? 0) <= 0)
+            if ((user == null || user.Role != UserRole.Dev) && (car.Priority) <= 0)
                 return Ok(new { Status = false, Code = HttpCodes.NotFound });
             return Ok(new
             {
@@ -166,6 +165,43 @@ namespace car_website.Controllers.v1
                     IsAdmin().Result)
             });
         }
+        [HttpGet("findSimilarCars/{id}")]
+        public async Task<ActionResult<IEnumerable<CarInListViewModel>>> FindSimilarCars(string id)
+        {
+            try
+            {
+                bool parsed = ObjectId.TryParse(id, out ObjectId carId);
+                ExtendedBaseCar car = await _carRepository.GetByIdAsync(carId);
+                car ??= await _incomingCarRepository.GetByIdAsync(carId);
+                if (car == null) return Ok(new { Status = false, Code = HttpCodes.NotFound, Cars = new List<LiteCarViewModel>() });
+                var cars = await _carRepository.GetAll();
+                var user = await GetCurrentUser();
+                cars = cars.Where(car => car.Priority >= 0 && !car.IsSold);
+                var tasks = new List<Task<Tuple<Car, byte>>>();
+                foreach (var el in cars)
+                {
+                    if (el.Id != carId)
+                    {
+                        var task = Task.Run(() => FilterService<Car>.DistanceCoefficient(car, el));
+                        tasks.Add(task);
+                    }
+                }
+                await Task.WhenAll(tasks);
+                var results = tasks.Select(task => task.Result).ToList();
+                var topThree = results.OrderByDescending(tuple => tuple.Item2).Take(3).ToList();
+                var similarCars = topThree.Select(tuple => tuple.Item1).ToList();
+                return Ok(new
+                {
+                    Success = true,
+                    Cars = similarCars.Select(el =>
+                    new CarInListViewModel(el, _currencyUpdater, user != null && user.Favorites.Contains(el.Id))).ToList()
+                });
+            }
+            catch
+            {
+                return Ok(new { Success = false, Cars = new List<LiteCarViewModel>() });
+            }
+        }
 
         [HttpGet("getExpressSaleCars")]
         public async Task<ActionResult<IEnumerable<Car>>> GetExpressSaleCars([FromQuery] int? page = null,
@@ -176,10 +212,7 @@ namespace car_website.Controllers.v1
                 IEnumerable<ExpressSaleCar> cars = await _expressSaleCarRepository.GetAll();
                 int _page = page ?? 1;
                 int _perPage = perPage ?? cars.Count();
-                int totalItems = cars.Count();
-                int totalPages = (int)Math.Ceiling(totalItems / (double)_perPage);
-                int skip = (_page - 1) * _perPage;
-                cars = cars.Skip(skip).Take(_perPage);
+                cars = FilterService<ExpressSaleCar>.FilterPages(cars, _page, _perPage, out int totalPages);
                 User user = await GetCurrentUser();
                 var carsRes = cars.Select(car => new ExpressSaleCarViewModel(car, _currencyUpdater, IsAdmin().Result)).ToList();
                 return Ok(new
@@ -192,12 +225,12 @@ namespace car_website.Controllers.v1
                     PerPage = _perPage
                 });
             }
-            catch (Exception ex)
+            catch
             {
-                _logger.LogError("Get express sale cars error: {0}", ex.ToString());
                 return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
             }
         }
+        #region Edit car
 
         [HttpPut("setPriority")]
         public async Task<ActionResult<byte>> SetPriority(string carId, bool cancel)
@@ -207,7 +240,7 @@ namespace car_website.Controllers.v1
             if (!ObjectId.TryParse(carId, out var id))
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });
             Car car = await _carRepository.GetByIdAsync(id);
-            if ((car.Priority ?? 0) < 0)
+            if ((car.Priority) < 0)
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });
             car.Priority = cancel ? 0 : 1;
             await _carRepository.Update(car);
@@ -234,6 +267,7 @@ namespace car_website.Controllers.v1
                 return Ok(new { Status = true, Code = HttpCodes.Success });
             return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
         }
+        #endregion
         #region Buy requests
         [HttpPut("buyRequestLoggedIn")]
         public async Task<ActionResult<byte>> BuyRequest(string carId, bool cancel)
@@ -339,5 +373,40 @@ namespace car_website.Controllers.v1
             }
         }
         #endregion
+        [HttpGet("getIncomingCarsCount")]
+        public ActionResult<long> GetIncomingCarsCount()
+        {
+            long count = _incomingCarRepository.GetCount();
+            return Ok(new { Status = true, Code = HttpCodes.Success, Count = count });
+        }
+        [HttpGet("getIncomingCars")]
+        public async Task<ActionResult<IEnumerable<IncomingCar>>> GetIncomingCars([FromQuery] int? page = null,
+            [FromQuery] int? perPage = null)
+        {
+            try
+            {
+                var user = await GetCurrentUser();
+                IEnumerable<IncomingCar> cars = await _incomingCarRepository.GetAll();
+                if (user == null || user.Role != UserRole.Dev)
+                    cars = cars.Where(car => car.Priority >= 0);
+                int _page = page ?? 1;
+                int _perPage = perPage ?? cars.Count();
+                cars = FilterService<IncomingCar>.FilterPages(cars, _page, _perPage, out int totalPages);
+                var carsRes = cars.Select(car => new LiteIncomingCarViewModel(car, _currencyUpdater)).ToList();
+                return Ok(new
+                {
+                    Status = true,
+                    Code = HttpCodes.Success,
+                    Cars = carsRes,
+                    Pages = totalPages,
+                    Page = _page,
+                    PerPage = _perPage
+                });
+            }
+            catch
+            {
+                return Ok(new { Status = false, Code = HttpCodes.InternalServerError });
+            }
+        }
     }
 }

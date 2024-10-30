@@ -24,7 +24,16 @@
     align-items: center;
     margin-top: 50px;
 }
-
+.detail-arrive-message {
+    display: flex;
+    font-size: 20px;
+    align-items: center;
+    gap: 5px;
+    span {
+        display: block;
+        color: $beige-default;
+    }
+}
 .wrapper_carDetail {
     width: 60vw;
     color: $text-default;

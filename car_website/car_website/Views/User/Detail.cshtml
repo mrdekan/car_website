@@ -3,6 +3,7 @@
 @model User
 @{
     ViewData["Title"] = "Кабінет";
+    ViewBag.Index = "False";
     string userId = "";
     int? userRole = 0;
     if (User != null && User.Identity != null)
@@ -178,7 +179,7 @@
         <div class="pages_buttons"></div>
     </div>
 </div>
-<script src="~/js/profilePage.js" asp-append-version="true"></script>
+<script src="~/js/profilePage.js" type="module" asp-append-version="true"></script>
 @if (isAdmin && !isSelfAccount)
 {
     <script src="~/js/setRemoveAdmin.js" asp-append-version="true"></script>

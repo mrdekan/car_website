@@ -1,5 +1,6 @@
 ﻿using car_website.Data;
-using car_website.Interfaces;
+using car_website.Interfaces.Repository;
+using car_website.Interfaces.Service;
 using car_website.Models;
 using car_website.Repository;
 using car_website.Services;
@@ -32,6 +33,7 @@ builder.Services.AddScoped<IBuyRequestRepository, BuyRequestRepository>();
 builder.Services.AddScoped<IPurchaseRequestRepository, PurchaseRequestRepository>();
 builder.Services.AddScoped<IExpressSaleCarRepository, ExpressSaleCarRepository>();
 builder.Services.AddScoped<ICarFromBotRepository, CarFromBotRepository>();
+builder.Services.AddScoped<IIncomingCarRepository, IncomingCarRepository>();
 builder.Services.AddScoped<IAppSettingsDbRepository, AppSettingsDbRepository>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IUserService, UserService>();

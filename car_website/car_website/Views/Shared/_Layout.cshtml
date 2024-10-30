@@ -8,8 +8,9 @@
     <meta property="og:description" content="@ViewBag.Description">
     <meta property="og:image" content="@ViewBag.ImageUrl">
     <meta name="google-site-verification" content="YwWSNuDzgSVpsDSwKNrHzrxkUBQveIgvZZTUkfmhJ24" />
-    <meta name="keywords" content="придбати авто Чернігів, авто в Чернігові, Чернігів, купити авто, придбати авто, продаж авто Чернігів, купить авто, купить машину в Чернигове, продажа машин, 1auto, 1авто">
-    <meta name="description" content="Ласкаво просимо до 1Auto — вашого надійного партнера у світі автомобілів!" />
+    <meta name="keywords" content="придбати авто Чернігів, авто в Чернігові, Чернігів, купити авто, придбати авто, продаж авто Чернігів, купить авто, купить машину в Чернигове, продажа машин, 1auto, 1авто, @ViewBag.Keywords">
+    <meta name="description" content="@ViewBag.DescriptionSearch" />
+    <meta name="robots" content="@(ViewBag.Index=="False"?"noindex":"index")">
     <title>@ViewData["Title"] - 1Auto</title>
     <link rel="icon" type="image/x-icon" href="/img/logo3.png">
     <link rel="stylesheet" href="~/css/StyleSheet.min.css" asp-append-version="true" />
@@ -36,10 +37,11 @@
             @*<a asp-controller="Car" asp-action="Create">Продати авто</a>*@
             @*<a asp-controller="Car" asp-action="CreateExpressSaleCar">Швидкий викуп</a>*@
             <a asp-controller="Car" asp-action="AutoSelection">Автопідбір</a>
-            <a asp-controller="Car" asp-action="Leasing" class="privacy-btn">Авто в лізинг/кредит</a>
+            @*<a asp-controller="Car" asp-action="Leasing" class="privacy-btn">Авто в лізинг/кредит</a>*@
             @*<a asp-controller="Car" asp-action="ImportingCar">Пригон авто</a>*@
             @*<a asp-controller="Home" asp-action="Privacy" class="privacy-btn">Про нас</a>*@
-            <a asp-controller="Car" asp-action="Orders">Пошук авто</a>
+            @*<a asp-controller="Car" asp-action="Orders">Пошук авто</a>*@
+            <a asp-controller="Car" asp-action="IncomingCars">Авто в дорозі<span class="incoming-car-notification" style="display: none;" id="incomingCarsCount">0</span></a>
         </div>
         <div class="header_right">
             <div class="header_right-theme">
@@ -83,7 +85,8 @@
         <a asp-controller="Car" asp-action="Leasing">Авто в лізинг/кредит</a>
         @*<a asp-controller="Car" asp-action="ImportingCar">Пригон авто</a>*@
         @*<a asp-controller="Home" asp-action="Privacy">Про нас</a>*@
-        <a asp-controller="Car" asp-action="Orders">Пошук авто</a>
+        @*<a asp-controller="Car" asp-action="Orders">Пошук авто</a>*@
+        <a asp-controller="Car" asp-action="IncomingCars" style="position: relative;">Авто в дорозі<span class="incoming-car-notification" style="display: none;" id="incomingCarsCountMob">0</span></a>
         <div class="separator"></div>
         @if (User?.Identity?.IsAuthenticated ?? false)
         {
@@ -94,7 +97,7 @@
             <a asp-controller="User" asp-action="Login" class="header_right-button" id="login-button">Вхід</a>
         }
     </div>
-    <div class="container">
+    <div class="container" id="main-cont" auth=@((User?.Identity?.IsAuthenticated ?? false).ToString())>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -129,7 +132,7 @@
 
     </footer>
     <script src="~/js/changeTheme.js" asp-append-version="true"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" type="module" asp-append-version="true"></script>
     <script src="~/js/copyOnClick.js" type="module" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

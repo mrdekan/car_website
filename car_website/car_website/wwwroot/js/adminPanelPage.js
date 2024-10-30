@@ -1,4 +1,7 @@
-﻿//import { notificationModule } from './notificationModule.js';
+﻿const fuelName = (id) => ["Газ", "Газ/Бензин", "Бензин", "Дизель", "Гібрид", "Електро"][id - 1];
+const transmissionName = (id) => id == 1 ? "Механічна" : "Автомат";
+const drivelineName = (id) => ["Передній", "Задній", "Повний"][id - 1];
+const formatNumberWithThousandsSeparator = (number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 const svgCodes = {
     edit: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_217_311)"><path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"/><path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></g><defs><clipPath id="clip0_217_311"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>`,
     delete: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_217_304)"><path d="M4.5 5V22H19.5V5H4.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 10V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 5H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 5L9.6445 2H14.3885L16 5H8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></g><defs><clipPath id="clip0_217_304"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>`,
@@ -624,7 +627,7 @@ function changeModelToEditMode(button) {
 async function getModelsOfMark(brand, forced = false) {
     brand = brand.replace('_', ' ');
     if (modelsCache[brand] == null || forced) {
-        fetch(`/home/GetModels?brand=${brand}`)
+        fetch(`/api/v1/brands/getModels?brand=${brand}`)
             .then(response => response.json())
             .then(data => {
                 data.models = data.models.filter((n) => { return n != 'Інше' });
@@ -653,51 +656,6 @@ function showModels(brand) {
                     </span></button><button onclick="deleteModel(this)" brand="${brand.replace(' ', '_')}" model="${model.replace(' ', '_')}" class="model_buttons-delete"><span>${svgCodes.delete}
                     </span></button></div></div>`;
     });
-}
-//#endregion
-//#region info displaying
-function fuelName(id) {
-    switch (id) {
-        case 1: {
-            return "Газ";
-        }
-        case 2: {
-            return "Газ/Бензин";
-        }
-        case 3: {
-            return "Бензин";
-        }
-        case 4: {
-            return "Дизель";
-        }
-        case 5: {
-            return "Гібрид";
-        }
-        case 6: {
-            return "Електро";
-        }
-    }
-}
-function transmissionName(id) {
-    switch (id) {
-        case 1:
-            return "Механічна";
-        case 2:
-            return "Автомат";
-    }
-}
-function drivelineName(id) {
-    switch (id) {
-        case 1:
-            return "Передній";
-        case 2:
-            return "Задній";
-        case 3:
-            return "Повний";
-    }
-}
-function formatNumberWithThousandsSeparator(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
 //#endregion
 function showNotification(message, isError = false) {

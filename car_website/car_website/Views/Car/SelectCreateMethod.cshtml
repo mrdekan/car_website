@@ -1,10 +1,21 @@
-﻿@{
+﻿@using System.Security.Claims;
+@using Microsoft.AspNetCore.Http;
+@{
     ViewData["Title"] = "Продати авто";
+    ViewBag.Index = "False";
+    string userId = "";
+    if (User != null && User.Identity != null)
+        userId = ((ClaimsIdentity)User.Identity)?.Claims?.FirstOrDefault()?.Value ?? "";
+    bool isAdmin = !string.IsNullOrEmpty(userId) && ViewContext.HttpContext.Session.GetInt32("Role") != 0;
 }
 
 <div class="select-create-btns">
     <p>Оберіть спосіб внесення інформації</p>
     <a asp-controller="Car" asp-action="Create" class="create-button-form">Форма на сайті</a>
+    @if (isAdmin)
+    {
+        <a asp-controller="Car" asp-action="AddIncomingCar" class="create-button-incoming">Додати авто в дорозі</a>
+    }
     <a @*href="https://t.me/one_auto_cn_bot"*@ class="create-button-tg" title="В розробці">Telegram бот</a>
     <span>Бот знаходиться в розробці</span>
 </div>

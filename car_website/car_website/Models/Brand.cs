@@ -1,9 +1,10 @@
-﻿using MongoDB.Bson;
+﻿using car_website.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace car_website.Models
 {
-    public class Brand
+    public class Brand : IDbStorable
     {
         public Brand(string name)
         {

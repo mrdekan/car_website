@@ -1,4 +1,5 @@
-﻿const svgCodes = {
+﻿import { fuelName, transmissionName, drivelineName, formatNumberWithThousandsSeparator } from './modules/formCar.js';
+const svgCodes = {
     edit: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_217_311)"><path d="M21 13V20C21 20.5523 20.5523 21 20 21H4C3.44771 21 3 20.5523 3 20V4C3 3.44771 3.44771 3 4 3H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 13.36V17H10.6586L21 6.65405L17.3475 3L7 13.36Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></g><defs><clipPath id="clip0_217_311"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>`,
     submit: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_235_308)"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_235_308"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>`,
     cancel: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.4143 12.0002L18.7072 6.70725C19.0982 6.31625 19.0982 5.68425 18.7072 5.29325C18.3162 4.90225 17.6843 4.90225 17.2933 5.29325L12.0002 10.5862L6.70725 5.29325C6.31625 4.90225 5.68425 4.90225 5.29325 5.29325C4.90225 5.68425 4.90225 6.31625 5.29325 6.70725L10.5862 12.0002L5.29325 17.2933C4.90225 17.6843 4.90225 18.3162 5.29325 18.7072C5.48825 18.9022 5.74425 19.0002 6.00025 19.0002C6.25625 19.0002 6.51225 18.9022 6.70725 18.7072L12.0002 13.4143L17.2933 18.7072C17.4883 18.9022 17.7442 19.0002 18.0002 19.0002C18.2562 19.0002 18.5122 18.9022 18.7072 18.7072C19.0982 18.3162 19.0982 17.6843 18.7072 17.2933L13.4143 12.0002Z" fill="currentColor"/></svg>`,
@@ -178,7 +179,8 @@ radioButtons.forEach(function (radio) {
     radio.addEventListener('change', handleRadioChange);
 });
 function updateLikeButtons() {
-    likeButtons = document.getElementsByClassName("car_container-right-like-cars");
+    let likeButtons = document.getElementsByClassName("car_container-right-like-cars");
+    if (likeButtons)
     Array.from(likeButtons).forEach(like => {
         like.addEventListener('change', function (event) {
             fetch(`/car/like?carId=${event.target.getAttribute('carId')}&isLiked=${like.checked}`)
@@ -320,43 +322,6 @@ function formCar(car, waiting) {
                                   </div>
                                   </div>
                                   </a>`;
-}
-function fuelName(id) {
-    switch (id) {
-        case 1:
-            return "Газ";
-        case 2:
-            return "Газ/Бензин";
-        case 3:
-            return "Бензин";
-        case 4:
-            return "Дизель";
-        case 5:
-            return "Гібрид";
-        case 6:
-            return "Електро";
-    }
-}
-function transmissionName(id) {
-    switch (id) {
-        case 1:
-            return "Механічна";
-        case 2:
-            return "Автомат";
-    }
-}
-function drivelineName(id) {
-    switch (id) {
-        case 1:
-            return "Передній";
-        case 2:
-            return "Задній";
-        case 3:
-            return "Повний";
-    }
-}
-function formatNumberWithThousandsSeparator(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
 //#endregion
 function editPhone(button) {

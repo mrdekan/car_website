@@ -1,21 +1,22 @@
-﻿import svgCodes from "./svgCodesConst.js";
-const similarCarsBlock = document.getElementById('similar-cars');
-const similarCarsBlockMobile = document.getElementById('similar-cars-mobile');
-const buyButton = document.getElementById('buy-car');
-const buyButtonNotLogged = document.getElementById('buy-car-notLogged');
-const buyResult = document.getElementById('buy-request-result');
-const sliderNext = document.getElementById('next');
-const sliderPrev = document.getElementById('prev');
-const slides = document.querySelectorAll('.slider_element');
-const popup = document.getElementById('popup');
-const closeButton = document.getElementById('closePopup');
-const sendNotLoggedInRequest = document.getElementById('notLoggedIngRequestSend');
-const buyRequestNameInp = document.getElementById('request-name');
-const buyRequestPhoneInp = document.getElementById('request-phone');
-const imagesFullscreen = document.getElementById('img_full');
-const photos = document.querySelectorAll('.slider_element-image');
-const vin = document.getElementById('vin');
-const photosRadios = document.getElementsByName('radio-btn');
+﻿import svgCodes from "./modules/svgCodesConst.js/index.js";
+import { fuelName, transmissionName, drivelineName, formatNumberWithThousandsSeparator } from './modules/formCar.js';
+const similarCarsBlock = document.getElementById('similar-cars'),
+similarCarsBlockMobile = document.getElementById('similar-cars-mobile'),
+buyButton = document.getElementById('buy-car'),
+buyButtonNotLogged = document.getElementById('buy-car-notLogged'),
+buyResult = document.getElementById('buy-request-result'),
+sliderNext = document.getElementById('next'),
+sliderPrev = document.getElementById('prev'),
+slides = document.querySelectorAll('.slider_element'),
+popup = document.getElementById('popup'),
+closeButton = document.getElementById('closePopup'),
+sendNotLoggedInRequest = document.getElementById('notLoggedIngRequestSend'),
+buyRequestNameInp = document.getElementById('request-name'),
+buyRequestPhoneInp = document.getElementById('request-phone'),
+imagesFullscreen = document.getElementById('img_full'),
+photos = document.querySelectorAll('.slider_element-image'),
+vin = document.getElementById('vin'),
+photosRadios = document.getElementsByName('radio-btn');
 let currentSlide = 0;
 window.addEventListener("keydown", escKeyPress);
 function escKeyPress(event) {
@@ -112,12 +113,8 @@ sendNotLoggedInRequest.addEventListener('click', () => {
     }
 });
 function showSlide() {
-    for (let i = 0; i < photosRadios.length; i++) {
-        if (i == currentSlide)
-            photosRadios[i].checked = true;
-        else
-            photosRadios[i].checked = false;
-    }
+    for (let i = 0; i < photosRadios.length; i++)
+        photosRadios[i].checked = i == currentSlide;
 }
 function getSlide() {
     for (let i = 0; i < photosRadios.length; i++) {
@@ -144,14 +141,9 @@ function disableScrolling() {
     window.onscroll = function () { window.scrollTo(x, y); };
 }
 
-function enableScrolling() {
+const enableScrolling=()=>
     window.onscroll = function () { };
-}
-
 getSimilarCars();
-
-
-
 //#region Ajax requests
 function updateLikeButtons() {
     let likeButtons = document.getElementsByClassName("car_container-right-like-cars");
@@ -171,7 +163,7 @@ function updateLikeButtons() {
 }
 function getSimilarCars() {
     if (!similarCarsBlock && !similarCarsBlockMobile) return;
-    fetch(`/Car/FindSimilarCars/${similarCarsBlock.getAttribute('carId')}`)
+    fetch(`/api/v1/cars/findSimilarCars/${similarCarsBlock.getAttribute('carId')}`)
         .then(response => response.json())
         .then(data => {
             if (data != null && data.success == true) {
@@ -283,9 +275,7 @@ function buyRequest() {
                     <p>Будь ласка, оновіть сторінку або спробуйте пізніше.</p>`;
                 resBlock.classList.add("buy-request-result-error")
             }
-            else if (data.successCode == 2) {
-                window.location.href = '/User/Login';
-            }
+            else if (data.successCode == 2) window.location.href = '/User/Login';
             buyResult.innerHTML = '';
             buyResult.appendChild(resBlock);
             setTimeout(function () {
@@ -306,40 +296,3 @@ function buyRequest() {
         .catch(error => console.error("An error occurred while retrieving data:", error));
 }
 //#endregion
-function fuelName(id) {
-    switch (id) {
-        case 1:
-            return "Газ";
-        case 2:
-            return "Газ/Бензин";
-        case 3:
-            return "Бензин";
-        case 4:
-            return "Дизель";
-        case 5:
-            return "Гібрид";
-        case 6:
-            return "Електро";
-    }
-}
-function transmissionName(id) {
-    switch (id) {
-        case 1:
-            return "Механічна";
-        case 2:
-            return "Автомат";
-    }
-}
-function drivelineName(id) {
-    switch (id) {
-        case 1:
-            return "Передній";
-        case 2:
-            return "Задній";
-        case 3:
-            return "Повний";
-    }
-}
-function formatNumberWithThousandsSeparator(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-}

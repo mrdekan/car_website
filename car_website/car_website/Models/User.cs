@@ -1,6 +1,7 @@
 ﻿using AspNetCore.Identity.MongoDbCore.Models;
 using car_website.Data.Enum;
 using car_website.Interfaces;
+using car_website.Interfaces.Service;
 using car_website.ViewModels;
 using MongoDB.Bson;
 using MongoDbGenericRepository.Attributes;
@@ -8,7 +9,7 @@ using MongoDbGenericRepository.Attributes;
 namespace car_website.Models
 {
     [CollectionName("Users")]
-    public class User : MongoIdentityUser<ObjectId>
+    public class User : MongoIdentityUser<ObjectId>, IDbStorable
     {
         public User()
         {

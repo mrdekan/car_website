@@ -1,5 +1,6 @@
 ﻿using car_website.Data.Enum;
-using car_website.Interfaces;
+using car_website.Interfaces.Repository;
+using car_website.Interfaces.Service;
 using car_website.Services;
 using car_website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +23,10 @@ namespace car_website.Controllers.v1
         private readonly CurrencyUpdater _currencyUpdater;
         private readonly IConfiguration _configuration;
         private readonly IExpressSaleCarRepository _expressSaleCarRepository;
-        private readonly ILogger<ApiController> _logger;
         private readonly IUserService _userService;
         private readonly IAppSettingsDbRepository _appSettingsDbRepository;
         private readonly IPurchaseRequestRepository _purchaseRequestRepository;
+        private readonly IIncomingCarRepository _incomingCarRepository;
         public MainController(ICarRepository carRepository,
             IBrandRepository brandRepository,
             IImageService imageService,
@@ -35,10 +36,10 @@ namespace car_website.Controllers.v1
             CurrencyUpdater currencyUpdater,
             IConfiguration configuration,
             IExpressSaleCarRepository expressSaleCarRepository,
-            ILogger<ApiController> logger,
             IUserService userService,
             IAppSettingsDbRepository appSettingsDbRepository,
-            IPurchaseRequestRepository purchaseRequestRepository) : base(userRepository)
+            IPurchaseRequestRepository purchaseRequestRepository,
+            IIncomingCarRepository incomingCarRepository) : base(userRepository)
         {
             _carRepository = carRepository;
             _imageService = imageService;
@@ -49,10 +50,10 @@ namespace car_website.Controllers.v1
             _currencyUpdater = currencyUpdater;
             _configuration = configuration;
             _expressSaleCarRepository = expressSaleCarRepository;
-            _logger = logger;
             _userService = userService;
             _appSettingsDbRepository = appSettingsDbRepository;
             _purchaseRequestRepository = purchaseRequestRepository;
+            _incomingCarRepository = incomingCarRepository;
         }
         #endregion
         [HttpGet("ping")]
@@ -194,10 +195,16 @@ namespace car_website.Controllers.v1
                     return Ok(new { Status = false, Code = HttpCodes.InsufficientPermissions });
 
                 if (action == "ask")
-                    return Ok(new { Status = true, Code = HttpCodes.Success, Message = $"Не назначено спеціальних операцій" });
-                else if (!isDebug)
+                    return Ok(new { Status = true, Code = HttpCodes.Success, Message = $"Оновити таблицю incoming cars" });
+                else if (isDebug)
                 {
-                    return Ok(new { Status = true, Code = HttpCodes.Success, Message = $"Не виконано спеціальних операцій" });
+                    var cars = await _incomingCarRepository.GetAll();
+                    foreach (var car in cars)
+                    {
+                        car.Priority = -1;
+                        await _incomingCarRepository.Update(car);
+                    }
+                    return Ok(new { Status = true, Code = HttpCodes.Success, Message = $"Успішно виконано" });
                 }
 
                 return Ok(new { Status = false, Code = HttpCodes.BadRequest });

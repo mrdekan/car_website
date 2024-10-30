@@ -1,10 +1,12 @@
 ﻿using car_website.Interfaces;
+using car_website.Interfaces.Repository;
+using car_website.Interfaces.Service;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace car_website.Models
 {
-    public class WaitingCar
+    public class WaitingCar : IDbStorable
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

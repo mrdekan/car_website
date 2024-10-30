@@ -104,7 +104,7 @@ body {
         transition: 0.25s;
         color: white;
         font-size: 24px;
-        min-width: 240px;
+        min-width: 300px;
         text-align: center;
 
         &:hover {
@@ -144,7 +144,16 @@ body {
     left: 6px;
 }
 
-.create-button-form {
+.create-button-incoming::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    background: url('../img/time.svg');
+    background-size: 100%;
+    top: 3px;
+    left: 6px;
 }
 
 .cards {
@@ -571,7 +580,45 @@ body {
 
         &-info {
             padding-left: 30px;
+            position: relative;
             //width: 100%;
+            &-arrive {
+                position: absolute;
+                //width: 100%;
+                left: 298px;
+                bottom: 0;
+                margin-top: 15px;
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+
+                &-mobile {
+                    display: none;
+                    font-size: 14px;
+                    height: min-content;
+                    align-items: center;
+                    span {
+                        display: block;
+                        width: 18px;
+                        height: 18px;
+                        margin: 0 8px 0 -20px;
+                        color: $beige-default;
+
+                        svg {
+                            width: 18px;
+                            height: 18px;
+                        }
+                    }
+                }
+
+                span {
+                    display: block;
+                    width: 24px;
+                    height: 24px;
+                    margin: 0 8px 0 -20px;
+                    color: $beige-default;
+                }
+            }
 
             &-name {
                 color: $text-default;
@@ -802,7 +849,23 @@ footer {
     display: block;
     border-radius: 7px;
 }
-
+.incoming-car-notification {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: $beige-default;
+    border-radius: 50%;
+    line-height: 20px;
+    text-align: center;
+    display: block;
+    color: white;
+    top: -10px;
+    right: -25px;
+    font-size: 15px;
+}
+#incomingCarsCountMob {
+    top: -4px;
+}
 header {
     position: sticky;
     top: 0;
@@ -820,30 +883,15 @@ header {
 
         span {
             display: block;
-            //transform: skewX(-20deg);
             width: 172px;
             height: 120px;
-            //background-color: $background-secondary;
             filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
             transition: 0.2s;
-            //margin-left: -10px;
-            //overflow: hidden;
             img {
-                // width: 9.75vw;
-                // height: 6.5vw;
                 width: 150px;
                 height: 100px;
                 margin-top: 25px;
             }
-            /*&::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: -30px;
-                width: 130px;
-                height: 100%;
-                background-color: inherit;
-            }*/
         }
     }
 
@@ -855,6 +903,7 @@ header {
         a {
             color: white;
             font-size: 18px;
+            position: relative;
         }
     }
 
@@ -988,12 +1037,51 @@ header {
     font-size: 22px;
     color: $gray-default;
 }
+.incomingCars {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
 
+    .incomingCars-add {
+        padding: 7px 15px;
+        border-radius: 3px;
+        background: $green-dark;
+        color: white;
+        text-align: center;
+        font-size: 20px;
+        transition: background 0.2s;
+        margin-bottom: 10px;
+
+        &:hover {
+            background: $green-medium;
+        }
+    }
+
+    h2 {
+        font-size: 30px;
+        color: $text-default;
+        transition: .2s;
+        padding-bottom: 15px;
+    }
+
+    .incomingCars-info {
+        color: $gray-default;
+        transition: .2s;
+        font-size: 22px;
+        text-align: center;
+        max-width: 60%;
+        padding-bottom: 15px;
+    }
+}
 .pages_buttons {
     display: flex;
     gap: 10px;
-    margin: 10px 0;
-    min-height: 32px;
+    padding: 10px 0;
+    margin: 0 auto;
+    width: fit-content;
+    //min-height: 32px;
+    height: fit-content;
 
     &-space {
         display: block;
@@ -1684,7 +1772,13 @@ header {
 
             &-info {
                 align-self: center;
-
+                padding-left: 0;
+                &-arrive{
+                    display: none;
+                    &-mobile{
+                        display: flex;
+                    }
+                }
                 &-name {
                     display: none;
                 }
@@ -1693,7 +1787,7 @@ header {
                     margin: 0;
                     flex-direction: column;
                     gap: 10px;
-
+                    padding-top: 0;
 
                     &.onDetail {
                         flex-direction: row;

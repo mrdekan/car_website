@@ -5,9 +5,8 @@
         public CreateCarViewModel CreateCarViewModel { get; set; }
         public List<string>? CarBrands { get; set; }
         public double Currency { get; set; }
-        public List<string>? ExpressCarPhotos { get; set; }
-        public string? ExpressCarId { get; set; }
-        public string? BotCarId { get; set; }
+        public List<string>? TempCarPhotos { get; set; }
+        public string? TempId { get; set; }
         public string? PreviewURL { get; set; }
     }
 }

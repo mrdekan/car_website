@@ -1,9 +1,10 @@
-﻿using MongoDB.Bson;
+﻿using car_website.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace car_website.Models
 {
-    public class AppSettingsDb
+    public class AppSettingsDb : IDbStorable
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
