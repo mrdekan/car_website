@@ -77,36 +77,6 @@
                 {
             <div class="priceBuy_right">
                     <a asp-controller="Car" asp-action="ConfirmIncomingCar" asp-route-id=@Model.Id class="sell-button">Авто прибуло</a>
-                
-                @*@if (isSelf || isAdmin)
-                {
-                    if (!Model.IsSold)
-                    {
-                        <a class="priceBuy_buy" asp-controller="Car" asp-action="Edit" asp-route-id=@Model.Id>Редагувати</a>
-                    }
-                    <button id="delete" class="priceBuy_buy cancelBuy" cancel @(Model.IsSold ? "delete" : "") carId="@Model.Id">@(Model.IsSold ? "Видалити" : "Продано")</button>
-                    <script src="~/js/deleteCar.js" asp-append-version="true"></script>
-                }*@
-
-
-                @*@if (!isSelf && !Model.IsSold)
-                {
-                    if (!string.IsNullOrEmpty(userId))
-                    {
-                        @if (Model.Requested)
-                        {
-                            <button class="priceBuy_buy cancelBuy" id="buy-car" carId="@Model.Id" cancel>Скасувати запит</button>
-                        }
-                        else
-                        {
-                            <button class="priceBuy_buy" id="buy-car" carId="@Model.Id">Купити</button>
-                        }
-                    }
-                    else
-                    {
-                        <button class="priceBuy_buy" id="buy-car-notLogged">Купити</button>
-                    }
-                }*@
             </div>
                 }
         </div>
@@ -155,24 +125,6 @@
         }
     </div>
 </div>
-@*<div id="popup" class="popup">
-    <div class="popup_content">
-        <span id="closePopup" class="close">&times;</span>
-        <p class="popup_header">Заповніть анкету</p>
-        <div class="form-group">
-            <label>Як до Вас звертатись?</label>
-            <input type="text" class="form-control" id="request-name" placeholder="Ваше ім'я'">
-            <span class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label>Номер тел.</label>
-            <input type="number" class="form-control" placeholder="+380xxxxxxxxx" id="request-phone">
-            <span class="text-danger"></span>
-        </div>
-        <button class="sell-button" id="notLoggedIngRequestSend">Надіслати</button>
-        <div class="log-reg-change"><p>Або <a asp-controller="User" asp-action="Register">зареєструйтесь</a></p></div>
-    </div>
-</div>*@
 
-<script type="module" src="~/js/carDetailPage.js" asp-append-version="true"></script>
+<script src="~/js/carDetailPage.js" asp-append-version="true"></script>
 <script src="~/js/copyOnClick.js" type="module" asp-append-version="true"></script>

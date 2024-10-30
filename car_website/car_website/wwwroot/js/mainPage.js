@@ -464,7 +464,7 @@ function setCarsData(data, filters, filtersString) {
 //#endregion
 function formCar(car) {
     return `
-                                  <a class="car mainPageCar" href="/Car/Detail/${car.id}">
+                                  <a class="car mainPageCar" href="/Car/${car.arriveMessage ? 'IncomingCarDetail': 'Detail'}/${car.id}">
                                   <p class="car_name">${car.brand} ${car.model} ${car.year}</p>
                                   <div class="car_container">
                                        <div class="car_container-img">${car.isSold ? '<div class="car_container-img-sold"></div>' : ''} <div class="car_container-img-landscape"><img alt="${car.brand} ${car.model} ${car.year}" src="https:\\\\1auto.cn.ua${car.previewURL}" /></div></div>

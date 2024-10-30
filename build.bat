@@ -10,7 +10,7 @@ cd "%scriptDir%car_website\car_website" || (
     exit /b 1
 )
 
-dotnet build -c Release
+dotnet publish -c Release
 
 cd "bin\Release\net7.0\publish" || (
     echo Error: Not found: %scriptDir%car_website\car_website\bin\Release\net7.0\publish
