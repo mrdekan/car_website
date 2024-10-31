@@ -185,7 +185,8 @@ namespace car_website.Controllers
         public async Task<IActionResult> Edit(CarEditingViewModel carEditedVM)
         {
             var user = await GetCurrentUser();
-            carEditedVM.MovePhotosToArray();
+            carEditedVM.MovePhotosToArr();
+            //carEditedVM.MovePhotosToArray();
             if (user == null)
                 return RedirectToAction("Login", "User");
             if (!user.IsAdmin && !user.HasCar(carEditedVM.Id))
@@ -202,7 +203,7 @@ namespace car_website.Controllers
                 additionalValidation = false;
             }
             bool photosIsValid = true;
-            for (int i = 0; i < carEditedVM.Photos.Length; i++)
+            for (int i = 0; i < carEditedVM.Photos.Count; i++)
             {
                 if (carEditedVM.Photos[i] != null && !_validationService.IsLessThenNMb(carEditedVM.Photos[i]))
                 {
@@ -219,7 +220,7 @@ namespace car_website.Controllers
                 List<string> photosToDeletion = new();
                 List<string> newPhotos = new();
                 string previewURL = car.PreviewURL ?? car.PhotosURL.FirstOrDefault();
-                for (int i = 0; i < photos.Length; i++)
+                for (int i = 0; i < car.PhotosURL.Length; i++)
                 {
                     if (carEditedVM.Photos[i] != null)
                     {
@@ -622,28 +623,31 @@ namespace car_website.Controllers
                 if (!string.IsNullOrEmpty(carVM.CreateCarViewModel.VideoURL))
                     newCar.VideoURL = $"https://www.youtube.com/embed/{videoId}";
                 List<string> photosNames = Enumerable.Repeat((string)null, 5).ToList();
-
-                if (carVM.TempCarPhotos != null)
-                {
+                if (incomingCar != null)
+                    photosNames = incomingCar.PhotosURL.ToList();
+                else if (carVM.TempCarPhotos != null)
                     for (int i = 0; i < Math.Min(carVM.TempCarPhotos.Count, 5); i++)
-                    {
                         photosNames[i] = carVM.TempCarPhotos[i];
-                    }
-                }
                 List<IFormFile> photos = new() { newCar.Photo1, newCar.Photo2, newCar.Photo3, newCar.Photo4, newCar.Photo5 };
                 //photos = photos.Where(photo => photo != null).ToList();
                 for (int i = 0; i < photos.Count; i++)
                 {
                     if (photos[i] == null) continue;
                     var photoName = await _imageService.UploadPhotoAsync(photos[i], $"{newCar.Brand}_{newCar.Model}_{newCar.Year}");
+                    if (photosNames[i] != null)
+                        _imageService.DeletePhoto(photosNames[i]);
                     photosNames[i] = photoName;
                 }
                 photosNames = photosNames.Where(photo => photo != null).ToList();
+                //if(incomingCar!=null)
+                //photosNames.AddRange(incomingCar.Add)
                 string preview = string.Empty;
                 if (newCar.Photo1 == null && carVM.PreviewURL != null)
                     preview = carVM.PreviewURL;
                 else
                 {
+                    if (carVM.PreviewURL != null)
+                        _imageService.DeletePhoto(carVM.PreviewURL);
                     preview = _imageService.CopyPhoto(photosNames[0]);
                     _imageService.ProcessImage(300, 200, preview);
                     preview = $"/Photos\\{preview}";
@@ -721,8 +725,9 @@ namespace car_website.Controllers
             }
 
             //Photos validation
-            var photosArr = new[] { carVM.Photo1, carVM.Photo2, carVM.Photo3, carVM.Photo4, carVM.Photo5 };
-            for (int i = 0; i < photosArr.Length; i++)
+            var photosArr = new List<IFormFile> { carVM.Photo1, carVM.Photo2, carVM.Photo3, carVM.Photo4, carVM.Photo5 };
+            photosArr.AddRange(carVM.AdditionalPhotos);
+            for (int i = 0; i < photosArr.Count; i++)
             {
                 if (photosArr[i] == null)
                 {
@@ -738,10 +743,11 @@ namespace car_website.Controllers
 
             if (ModelState.IsValid && additionalValidation && photosIsValid)
             {
-                List<string> photosNames = Enumerable.Repeat((string)null, 5).ToList();
 
                 List<IFormFile> photos = new() { carVM.Photo1, carVM.Photo2, carVM.Photo3, carVM.Photo4, carVM.Photo5 };
+                photos.AddRange(carVM.AdditionalPhotos);
                 photos = photos.Where(photo => photo != null).ToList();
+                List<string> photosNames = Enumerable.Repeat((string)null, photos.Count).ToList();
                 for (int i = 0; i < photos.Count; i++)
                 {
                     var photoName = await _imageService.UploadPhotoAsync(photos[i], $"{carVM.Brand}_{carVM.Model}_{carVM.Year}");

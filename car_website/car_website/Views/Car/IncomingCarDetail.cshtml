@@ -76,6 +76,7 @@
                 @if (isAdmin && userId == Model.SellerId)
                 {
             <div class="priceBuy_right">
+                    @*<a class="priceBuy_buy" asp-controller="Car" asp-action="EditIncoming" asp-route-id=@Model.Id>Редагувати</a>*@
                     <a asp-controller="Car" asp-action="ConfirmIncomingCar" asp-route-id=@Model.Id class="sell-button">Авто прибуло</a>
             </div>
                 }

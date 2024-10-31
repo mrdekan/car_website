@@ -41,76 +41,382 @@
         }
         <p>Завантажте нові фото, щоб оновити існуючі</p>
         <div class="create_update-photos">
-            @if (Model.OldData.PhotosURL.Length >= 1)
+
+            @if (Model.OldData.PhotosURL.Count() > 0)
             {
                 <div class="img-upload">
                     <div class="img-upload-content">
                         <div class="custom-file-uploader">
-                            <img src="@Model.OldData.PhotosURL[0]" old alt="preview" id="Photo1-old" />
-                            <input asp-for=@Model.Photo1 id="Photo1" type="file" accept="image/*" class="photoInp">
+                            <img src="@Model.OldData.PhotosURL[0]" alt="preview" old id="Photo1-old" />
+                            <input asp-for="Photo1" id="Photo1" name="Photo1" type="file" accept="image/*" class="photoInp" />
                             <div class="custom-file-uploader-btn">+</div>
                             <img src="" alt="preview" id="Photo1-preview" />
                         </div>
                     </div>
-                    <span asp-validation-for=@Model.Photo1 class="text-danger"></span>
+                    <span asp-validation-for="Photo1" class="text-danger"></span>
                 </div>
             }
-            @if (Model.OldData.PhotosURL.Length >= 2)
+
+            @if (Model.OldData.PhotosURL.Count() > 1)
             {
                 <div class="img-upload">
                     <div class="img-upload-content">
                         <div class="custom-file-uploader">
-                            <img src="@Model.OldData.PhotosURL[1]" old alt="preview" id="Photo2-old" />
-                            <input asp-for=@Model.Photo2 id="Photo2" type="file" accept="image/*" class="photoInp">
+                            <img src="@Model.OldData.PhotosURL[1]" alt="preview" old id="Photo2-old" />
+                            <input asp-for="Photo2" id="Photo2" name="Photo2" type="file" accept="image/*" class="photoInp" />
                             <div class="custom-file-uploader-btn">+</div>
                             <img src="" alt="preview" id="Photo2-preview" />
                         </div>
                     </div>
-                    <span asp-validation-for=@Model.Photo2 class="text-danger"></span>
+                    <span asp-validation-for="Photo2" class="text-danger"></span>
                 </div>
             }
-            @if (Model.OldData.PhotosURL.Length >= 3)
+
+            @if (Model.OldData.PhotosURL.Count() > 2)
             {
                 <div class="img-upload">
                     <div class="img-upload-content">
                         <div class="custom-file-uploader">
-                            <img src="@Model.OldData.PhotosURL[2]" old alt="preview" id="Photo3-old" />
-                            <input asp-for=@Model.Photo3 id="Photo3" type="file" accept="image/*" class="photoInp">
+                            <img src="@Model.OldData.PhotosURL[2]" alt="preview" old id="Photo3-old" />
+                            <input asp-for="Photo3" id="Photo3" name="Photo3" type="file" accept="image/*" class="photoInp" />
                             <div class="custom-file-uploader-btn">+</div>
                             <img src="" alt="preview" id="Photo3-preview" />
                         </div>
                     </div>
-                    <span asp-validation-for=@Model.Photo3 class="text-danger"></span>
+                    <span asp-validation-for="Photo3" class="text-danger"></span>
                 </div>
             }
-            @if (Model.OldData.PhotosURL.Length >= 4)
+
+            @if (Model.OldData.PhotosURL.Count() > 3)
             {
                 <div class="img-upload">
                     <div class="img-upload-content">
                         <div class="custom-file-uploader">
-                            <img src="@Model.OldData.PhotosURL[3]" old alt="preview" id="Photo4-old" />
-                            <input asp-for=@Model.Photo4 id="Photo4" type="file" accept="image/*" class="photoInp">
+                            <img src="@Model.OldData.PhotosURL[3]" alt="preview" old id="Photo4-old" />
+                            <input asp-for="Photo4" id="Photo4" name="Photo4" type="file" accept="image/*" class="photoInp" />
                             <div class="custom-file-uploader-btn">+</div>
                             <img src="" alt="preview" id="Photo4-preview" />
                         </div>
                     </div>
-                    <span asp-validation-for=@Model.Photo4 class="text-danger"></span>
+                    <span asp-validation-for="Photo4" class="text-danger"></span>
                 </div>
             }
-            @if (Model.OldData.PhotosURL.Length >= 5)
+
+            @if (Model.OldData.PhotosURL.Count() > 4)
             {
                 <div class="img-upload">
                     <div class="img-upload-content">
                         <div class="custom-file-uploader">
-                            <img src="@Model.OldData.PhotosURL[4]" old alt="preview" id="Photo5-old" />
-                            <input asp-for=@Model.Photo5 id="Photo5" type="file" accept="image/*" class="photoInp">
+                            <img src="@Model.OldData.PhotosURL[4]" alt="preview" old id="Photo5-old" />
+                            <input asp-for="Photo5" id="Photo5" name="Photo5" type="file" accept="image/*" class="photoInp" />
                             <div class="custom-file-uploader-btn">+</div>
                             <img src="" alt="preview" id="Photo5-preview" />
                         </div>
                     </div>
-                    <span asp-validation-for=@Model.Photo5 class="text-danger"></span>
+                    <span asp-validation-for="Photo5" class="text-danger"></span>
                 </div>
             }
+
+            @if (Model.OldData.PhotosURL.Count() > 5)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[5]" alt="preview" old id="Photo6-old" />
+                            <input asp-for="Photo6" id="Photo6" name="Photo6" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo6-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo6" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 6)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[6]" alt="preview" old id="Photo7-old" />
+                            <input asp-for="Photo7" id="Photo7" name="Photo7" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo7-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo7" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 7)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[7]" alt="preview" old id="Photo8-old" />
+                            <input asp-for="Photo8" id="Photo8" name="Photo8" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo8-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo8" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 8)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[8]" alt="preview" old id="Photo9-old" />
+                            <input asp-for="Photo9" id="Photo9" name="Photo9" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo9-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo9" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 9)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[9]" alt="preview" old id="Photo10-old" />
+                            <input asp-for="Photo10" id="Photo10" name="Photo10" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo10-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo10" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 10)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[10]" alt="preview" old id="Photo11-old" />
+                            <input asp-for="Photo11" id="Photo11" name="Photo11" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo11-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo11" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 11)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[11]" alt="preview" old id="Photo12-old" />
+                            <input asp-for="Photo12" id="Photo12" name="Photo12" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo12-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo12" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 12)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[12]" alt="preview" old id="Photo13-old" />
+                            <input asp-for="Photo13" id="Photo13" name="Photo13" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo13-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo13" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 13)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[13]" alt="preview" old id="Photo14-old" />
+                            <input asp-for="Photo14" id="Photo14" name="Photo14" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo14-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo14" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 14)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[14]" alt="preview" old id="Photo15-old" />
+                            <input asp-for="Photo15" id="Photo15" name="Photo15" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo15-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo15" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 15)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[15]" alt="preview" old id="Photo16-old" />
+                            <input asp-for="Photo16" id="Photo16" name="Photo16" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo16-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo16" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 16)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[16]" alt="preview" old id="Photo17-old" />
+                            <input asp-for="Photo17" id="Photo17" name="Photo17" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo17-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo17" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 17)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[17]" alt="preview" old id="Photo18-old" />
+                            <input asp-for="Photo18" id="Photo18" name="Photo18" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo18-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo18" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 18)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[18]" alt="preview" old id="Photo19-old" />
+                            <input asp-for="Photo19" id="Photo19" name="Photo19" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo19-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo19" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 19)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[19]" alt="preview" old id="Photo20-old" />
+                            <input asp-for="Photo20" id="Photo20" name="Photo20" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo20-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo20" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 20)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[20]" alt="preview" old id="Photo21-old" />
+                            <input asp-for="Photo21" id="Photo21" name="Photo21" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo21-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo21" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 21)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[21]" alt="preview" old id="Photo22-old" />
+                            <input asp-for="Photo22" id="Photo22" name="Photo22" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo22-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo22" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 22)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[22]" alt="preview" old id="Photo23-old" />
+                            <input asp-for="Photo23" id="Photo23" name="Photo23" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo23-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo23" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 23)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[23]" alt="preview" old id="Photo24-old" />
+                            <input asp-for="Photo24" id="Photo24" name="Photo24" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo24-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo24" class="text-danger"></span>
+                </div>
+            }
+
+            @if (Model.OldData.PhotosURL.Count() > 24)
+            {
+                <div class="img-upload">
+                    <div class="img-upload-content">
+                        <div class="custom-file-uploader">
+                            <img src="@Model.OldData.PhotosURL[24]" alt="preview" old id="Photo25-old" />
+                            <input asp-for="Photo25" id="Photo25" name="Photo25" type="file" accept="image/*" class="photoInp" />
+                            <div class="custom-file-uploader-btn">+</div>
+                            <img src="" alt="preview" id="Photo25-preview" />
+                        </div>
+                    </div>
+                    <span asp-validation-for="Photo25" class="text-danger"></span>
+                </div>
+            }
+
         </div>
         <div class="create_section" two>
             <div class="form-group">
@@ -535,4 +841,4 @@
 <script src="~/js/imagesPreviews.js" asp-append-version="true"></script>
 <script src="~/js/creationCarPage.js" asp-append-version="true"></script>
 <script src="~/js/creationCarPageSelectBoxes.js" asp-append-version="true"></script>
-<script src="~/js/priceInUah.js" asp-append-version="true"></script>
+<script src="~/js/priceInUah.js" type="module" asp-append-version="true"></script>

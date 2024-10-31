@@ -205,6 +205,19 @@
                         </div>
                         <span asp-validation-for="Photo5" class="text-danger"></span>
                     </div>
+                    <div class="img-upload" style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                        <p>Додайте ще фото за потреби:</p>
+                        <div class="img-upload-content">
+                            <div class="custom-file-uploader">
+                                <input asp-for="AdditionalPhotos" id="AdditionalPhotos" type="file" multiple accept="image/*" class="photoInp">
+                                <div class="custom-file-uploader-btn">+</div>
+                                <div class="multiple-photos-container">
+                                    <div id="additional-images" class="multiple-photos" ></div>
+                                </div>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Photo5" class="text-danger"></span>
+                    </div>
                 </div>
             </div>
         </div>

@@ -420,6 +420,27 @@
         }
     }
 }
+.multiple-photos-container {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+}
+.multiple-photos {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: fit-content;
+    overflow: hidden;
+    border-radius: 13px;
+}
+.multiple-photos-photo{
+    //width: 100px !important;
+    position: static !important;
+    //height: 100px !important;
+    object-fit: cover !important;
+    display: block !important;
+    border-radius: 0 !important;
+}
 
 @media (max-width: 1510px) {
     .create {
@@ -452,6 +473,10 @@
                 height: 45vw;
             }
         }
+    }
+    .multiple-photos-container {
+        width: 45vw;
+        height: 45vw;
     }
     .custom-file-uploader {
         width: 45vw;

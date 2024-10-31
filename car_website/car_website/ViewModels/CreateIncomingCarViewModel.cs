@@ -16,5 +16,6 @@ namespace car_website.ViewModels
         [Required(ErrorMessage = "Обов'язкове поле")]
         public string ArrivalDate { get; set; }
         public double Currency { get; set; }
+        public List<IFormFile> AdditionalPhotos { get; set; }
     }
 }

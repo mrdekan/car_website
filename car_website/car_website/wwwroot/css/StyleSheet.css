@@ -854,57 +854,202 @@ input[type=number] {
 }
 
 #radio1:checked ~ .slides_wrapper {
-  transform: translate3d(0, 0, 0);
+  transform: translate3d(calc(-0 * 20%), 0, 0);
+}
+
+#radio1:checked ~ .navigation .navigation-btn[for=radio1] {
+  background: var(--beige-default);
 }
 
 #radio2:checked ~ .slides_wrapper {
-  transform: translate3d(-20%, 0, 0);
+  transform: translate3d(calc(-1 * 20%), 0, 0);
+}
+
+#radio2:checked ~ .navigation .navigation-btn[for=radio2] {
+  background: var(--beige-default);
 }
 
 #radio3:checked ~ .slides_wrapper {
-  transform: translate3d(-40%, 0, 0);
+  transform: translate3d(calc(-2 * 20%), 0, 0);
+}
+
+#radio3:checked ~ .navigation .navigation-btn[for=radio3] {
+  background: var(--beige-default);
 }
 
 #radio4:checked ~ .slides_wrapper {
-  transform: translate3d(-60%, 0, 0);
+  transform: translate3d(calc(-3 * 20%), 0, 0);
+}
+
+#radio4:checked ~ .navigation .navigation-btn[for=radio4] {
+  background: var(--beige-default);
 }
 
 #radio5:checked ~ .slides_wrapper {
-  transform: translate3d(-80%, 0, 0);
+  transform: translate3d(calc(-4 * 20%), 0, 0);
+}
+
+#radio5:checked ~ .navigation .navigation-btn[for=radio5] {
+  background: var(--beige-default);
 }
 
 #radio6:checked ~ .slides_wrapper {
-  transform: translate3d(-100%, 0, 0);
+  transform: translate3d(calc(-5 * 20%), 0, 0);
 }
 
-/*#radio1:checked ~ .first {
-    margin-left: 0;
-}
-
-#radio2:checked ~ .first {
-    margin-left: -20%;
-}
-
-#radio3:checked ~ .first {
-    margin-left: -40%;
-}
-
-#radio4:checked ~ .first {
-    margin-left: -60%;
-}
-
-#radio5:checked ~ .first {
-    margin-left: -80%;
-}
-#radio6:checked ~ .first {
-    margin-left: -100%;
-}*/
-#radio1:checked ~ .navigation .navigation-btn[for=radio1],
-#radio2:checked ~ .navigation .navigation-btn[for=radio2],
-#radio3:checked ~ .navigation .navigation-btn[for=radio3],
-#radio4:checked ~ .navigation .navigation-btn[for=radio4],
-#radio5:checked ~ .navigation .navigation-btn[for=radio5],
 #radio6:checked ~ .navigation .navigation-btn[for=radio6] {
+  background: var(--beige-default);
+}
+
+#radio7:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-6 * 20%), 0, 0);
+}
+
+#radio7:checked ~ .navigation .navigation-btn[for=radio7] {
+  background: var(--beige-default);
+}
+
+#radio8:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-7 * 20%), 0, 0);
+}
+
+#radio8:checked ~ .navigation .navigation-btn[for=radio8] {
+  background: var(--beige-default);
+}
+
+#radio9:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-8 * 20%), 0, 0);
+}
+
+#radio9:checked ~ .navigation .navigation-btn[for=radio9] {
+  background: var(--beige-default);
+}
+
+#radio10:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-9 * 20%), 0, 0);
+}
+
+#radio10:checked ~ .navigation .navigation-btn[for=radio10] {
+  background: var(--beige-default);
+}
+
+#radio11:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-10 * 20%), 0, 0);
+}
+
+#radio11:checked ~ .navigation .navigation-btn[for=radio11] {
+  background: var(--beige-default);
+}
+
+#radio12:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-11 * 20%), 0, 0);
+}
+
+#radio12:checked ~ .navigation .navigation-btn[for=radio12] {
+  background: var(--beige-default);
+}
+
+#radio13:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-12 * 20%), 0, 0);
+}
+
+#radio13:checked ~ .navigation .navigation-btn[for=radio13] {
+  background: var(--beige-default);
+}
+
+#radio14:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-13 * 20%), 0, 0);
+}
+
+#radio14:checked ~ .navigation .navigation-btn[for=radio14] {
+  background: var(--beige-default);
+}
+
+#radio15:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-14 * 20%), 0, 0);
+}
+
+#radio15:checked ~ .navigation .navigation-btn[for=radio15] {
+  background: var(--beige-default);
+}
+
+#radio16:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-15 * 20%), 0, 0);
+}
+
+#radio16:checked ~ .navigation .navigation-btn[for=radio16] {
+  background: var(--beige-default);
+}
+
+#radio17:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-16 * 20%), 0, 0);
+}
+
+#radio17:checked ~ .navigation .navigation-btn[for=radio17] {
+  background: var(--beige-default);
+}
+
+#radio18:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-17 * 20%), 0, 0);
+}
+
+#radio18:checked ~ .navigation .navigation-btn[for=radio18] {
+  background: var(--beige-default);
+}
+
+#radio19:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-18 * 20%), 0, 0);
+}
+
+#radio19:checked ~ .navigation .navigation-btn[for=radio19] {
+  background: var(--beige-default);
+}
+
+#radio20:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-19 * 20%), 0, 0);
+}
+
+#radio20:checked ~ .navigation .navigation-btn[for=radio20] {
+  background: var(--beige-default);
+}
+
+#radio21:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-20 * 20%), 0, 0);
+}
+
+#radio21:checked ~ .navigation .navigation-btn[for=radio21] {
+  background: var(--beige-default);
+}
+
+#radio22:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-21 * 20%), 0, 0);
+}
+
+#radio22:checked ~ .navigation .navigation-btn[for=radio22] {
+  background: var(--beige-default);
+}
+
+#radio23:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-22 * 20%), 0, 0);
+}
+
+#radio23:checked ~ .navigation .navigation-btn[for=radio23] {
+  background: var(--beige-default);
+}
+
+#radio24:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-23 * 20%), 0, 0);
+}
+
+#radio24:checked ~ .navigation .navigation-btn[for=radio24] {
+  background: var(--beige-default);
+}
+
+#radio25:checked ~ .slides_wrapper {
+  transform: translate3d(calc(-24 * 20%), 0, 0);
+}
+
+#radio25:checked ~ .navigation .navigation-btn[for=radio25] {
   background: var(--beige-default);
 }
 
@@ -2048,6 +2193,28 @@ h4 {
   border-radius: 18px;
 }
 
+.multiple-photos-container {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+}
+
+.multiple-photos {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: fit-content;
+  overflow: hidden;
+  border-radius: 13px;
+}
+
+.multiple-photos-photo {
+  position: static !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 0 !important;
+}
+
 @media (max-width: 1510px) {
   .create {
     background: var(--background-secondary);
@@ -2071,6 +2238,10 @@ h4 {
     justify-content: space-between;
   }
   .img-upload-content img {
+    width: 45vw;
+    height: 45vw;
+  }
+  .multiple-photos-container {
     width: 45vw;
     height: 45vw;
   }

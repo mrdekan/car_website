@@ -8,7 +8,7 @@ namespace car_website.ViewModels
     {
         public CarEditingViewModel()
         {
-            Photos = new IFormFile[5];
+            //Photos = new IFormFile[25];
         }
         /*public CarEditingViewModel(CarDetailViewModel car, double currencyRate)
         {
@@ -16,7 +16,8 @@ namespace car_website.ViewModels
         public CarEditingViewModel(Car car, double currencyRate)
         {
             OldData = car;
-            Photos = new IFormFile[5];
+            //Photos = Enumerable.Repeat((IFormFile)null, car.PhotosURL.Length).ToList();
+            //Photos = new IFormFile[car.PhotosURL.Length];
             CurrencyRate = currencyRate;
             Id = car.Id.ToString();
             if (car.Options != null)
@@ -29,7 +30,27 @@ namespace car_website.ViewModels
         public IFormFile? Photo3 { get; set; }
         public IFormFile? Photo4 { get; set; }
         public IFormFile? Photo5 { get; set; }
-        public IFormFile[] Photos { get; set; }
+        public IFormFile? Photo6 { get; set; }
+        public IFormFile? Photo7 { get; set; }
+        public IFormFile? Photo8 { get; set; }
+        public IFormFile? Photo9 { get; set; }
+        public IFormFile? Photo10 { get; set; }
+        public IFormFile? Photo11 { get; set; }
+        public IFormFile? Photo12 { get; set; }
+        public IFormFile? Photo13 { get; set; }
+        public IFormFile? Photo14 { get; set; }
+        public IFormFile? Photo15 { get; set; }
+        public IFormFile? Photo16 { get; set; }
+        public IFormFile? Photo17 { get; set; }
+        public IFormFile? Photo18 { get; set; }
+        public IFormFile? Photo19 { get; set; }
+        public IFormFile? Photo20 { get; set; }
+        public IFormFile? Photo21 { get; set; }
+        public IFormFile? Photo22 { get; set; }
+        public IFormFile? Photo23 { get; set; }
+        public IFormFile? Photo24 { get; set; }
+        public IFormFile? Photo25 { get; set; }
+        public List<IFormFile>? Photos { get; set; }
         public Car? OldData { get; set; }
         public string? Brand { get; set; }
         public string? Model { get; set; }
@@ -63,14 +84,15 @@ namespace car_website.ViewModels
         public string EngineCapacity { get; set; }
         [MaxLength(13, ErrorMessage = "Не більше 13 символів")]
         public string? Phone { get; set; }
-        public void MovePhotosToArray()
+        public void MovePhotosToArr()
         {
-            Photos = new IFormFile[5];
-            Photos[0] = Photo1;
-            Photos[1] = Photo2;
-            Photos[2] = Photo3;
-            Photos[3] = Photo4;
-            Photos[4] = Photo5;
+            Photos = new List<IFormFile>{
+            Photo1, Photo2, Photo3, Photo4, Photo5,
+            Photo6, Photo7, Photo8, Photo9, Photo10,
+            Photo11, Photo12, Photo13, Photo14, Photo15,
+            Photo16, Photo17, Photo18, Photo19, Photo20,
+            Photo21, Photo22, Photo23, Photo24, Photo25
+        };
         }
     }
 }

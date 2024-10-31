@@ -134,59 +134,16 @@
     min-width: 100%;
 }
 
-#radio1:checked ~ .slides_wrapper {
-    transform: translate3d(0, 0, 0);
+@for $i from 1 through 25 {
+    #radio#{$i}:checked ~ .slides_wrapper {
+        transform: translate3d(calc(-#{$i - 1} * 20%), 0, 0);
+    }
+
+    #radio#{$i}:checked ~ .navigation .navigation-btn[for='radio#{$i}'] {
+        background: $beige-default;
+    }
 }
 
-#radio2:checked ~ .slides_wrapper {
-    transform: translate3d(-20%, 0, 0);
-}
-
-#radio3:checked ~ .slides_wrapper {
-    transform: translate3d(-40%, 0, 0);
-}
-
-#radio4:checked ~ .slides_wrapper {
-    transform: translate3d(-60%, 0, 0);
-}
-
-#radio5:checked ~ .slides_wrapper {
-    transform: translate3d(-80%, 0, 0);
-}
-
-#radio6:checked ~ .slides_wrapper {
-    transform: translate3d(-100%, 0, 0);
-}
-/*#radio1:checked ~ .first {
-    margin-left: 0;
-}
-
-#radio2:checked ~ .first {
-    margin-left: -20%;
-}
-
-#radio3:checked ~ .first {
-    margin-left: -40%;
-}
-
-#radio4:checked ~ .first {
-    margin-left: -60%;
-}
-
-#radio5:checked ~ .first {
-    margin-left: -80%;
-}
-#radio6:checked ~ .first {
-    margin-left: -100%;
-}*/
-#radio1:checked ~ .navigation .navigation-btn[for='radio1'],
-#radio2:checked ~ .navigation .navigation-btn[for='radio2'],
-#radio3:checked ~ .navigation .navigation-btn[for='radio3'],
-#radio4:checked ~ .navigation .navigation-btn[for='radio4'],
-#radio5:checked ~ .navigation .navigation-btn[for='radio5'],
-#radio6:checked ~ .navigation .navigation-btn[for='radio6'] {
-    background: $beige-default;
-}
 
 .additional-phone{
     padding: 20px 0;
